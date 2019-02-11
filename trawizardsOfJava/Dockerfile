@@ -11,4 +11,4 @@ COPY wait-for-it.sh .
 COPY --from=build /app/build/libs/*.jar app.jar
 
 # CMD java -jar app.jar
-CMD ./wait-for-it.sh persondb:5432 --timeout=0 -- java -jar app.jar
+CMD ./wait-for-it.sh datenbank:3306 --timeout=0 -- java -jar app.jar

@@ -1,0 +1,38 @@
+{
+"repository": "https://github.com/hhu-propra2/abschlussprojekt-trawizards-of-java",
+"people": [
+{
+"name": "Luca Kutzner",
+"github-name": "Drakq"
+},
+{
+"name": "Aydin Seven",
+"github-name": "lordvader89a"
+},
+{
+"name": "Sherin Schneider",
+"github-name": "SherinSchneider"
+},
+{
+"name": "Dirk Eisterhues",
+"github-name": "Ocramir"
+},
+{
+"name": "Bernd van Teeffelen",
+"github-name": "berndvanteeffelen"
+},
+{
+"name": "Marc Bengsch",
+"github-name": "Mb3n"
+},
+{
+"name": "Kevin Ochudlo",
+"github-name": "Kev-Och"
+},
+{
+"name": "Jeevan Kuttinal",
+"github-name": "JeevDeveloper"
+}
+],
+"isNotebookGroup": true
+}

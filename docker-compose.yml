@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  person:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+    
+
+  persondb:
+    image: postgres
+    #ports:
+    #  - "5432:5432"
+    environment:
+      
+    volumes:
+    

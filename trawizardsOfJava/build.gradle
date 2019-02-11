@@ -36,6 +36,8 @@ dependencies {
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	annotationProcessor('org.projectlombok:lombok')
+	compile('org.projectlombok:lombok')
 }
 
 tasks.withType(com.github.spotbugs.SpotBugsTask) {

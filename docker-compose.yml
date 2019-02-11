@@ -3,9 +3,7 @@ services:
   anwendung:
     build: ./trawizardsOfJava
     ports:
-      - "8080:8080"
-    environment:
-    
+      - "8080:8080"  
 
   datenbank:
     image: mariadb
@@ -16,5 +14,5 @@ services:
       MYSQL_PASSWORD: root
       MYSQL_DATABASE: datenbank
       MYSQL_ROOT_PASSWORD: root
-  volumes:
-    - ./data:/src/main/resources/mysql
+    volumes:
+      - ./trawizardsOfJava/data:/src/main/resources/mysql

@@ -3,9 +3,7 @@ services:
   anwendung:
     build: ./trawizardsOfJava
     ports:
-      - "8080:8080"
-    environment:
-    
+      - "8080:8080"  
 
   datenbank:
     image: mariadb

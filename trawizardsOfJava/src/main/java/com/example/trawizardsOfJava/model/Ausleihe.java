@@ -20,4 +20,23 @@ public class Ausleihe {
 
     private Zeitraum zeitraum;
 
+
+    public void accept(){
+        //Artikel nicht mehr verfügbar
+        //Kaution wird gezahlt
+        //Zahlungsprozess beginnt
+        //Anfragender wird benachrichtigt
+    }
+
+    public void decline(){
+        //Anfrage wird entfernt
+        //Anfragender wird benachrichtigt
+    }
+
+    public void giveBack(){
+        //Artikel wieder verfügbar
+        //Zahlungsprozess endet
+        //über Kaution entschieden
+        //Ausleihender wird benachrichtigt
+    }
 }

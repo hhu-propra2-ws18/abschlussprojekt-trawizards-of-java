@@ -2,9 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Accountverwaltung</title>
 </head>
 <body>
-
+<h1>Bitte geben sie die veränderten Daten an!</h1>
+<form method="post" th:object="${person}">
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" th:field="*{name}"></td>
+        </tr>
+        <tr>
+            <td>Benutzername:</td>
+            <td><input type="text" th:field="*{benutzername}"></td>
+        </tr>
+        <tr>
+            <td>E-Mail:</td>
+            <td><input type="text" th:field="*{email}"></td>
+        </tr>
+    </table>
+    <button type="submit">Bestätigen</button>
+</form>
 </body>
 </html>

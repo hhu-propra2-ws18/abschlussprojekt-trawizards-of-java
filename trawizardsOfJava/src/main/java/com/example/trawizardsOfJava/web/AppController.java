@@ -21,6 +21,12 @@ public class AppController {
 		return "Benutzerverwaltung";
 	}
 
+	@PostMapping("/benutzerverwaltung/{benutzername}")
+	public String speicherAenderung(Person person){
+		benutzerRepository.save((person));
+		return "Benutzerverwaltung";
+	}
+
 	@GetMapping("/registrierung")
 	public String registrierung(Model model){
 		model.addAttribute("person", new Person());
@@ -30,6 +36,6 @@ public class AppController {
 	@PostMapping("/registrierung")
 	public String speicherePerson(Person person){
 		benutzerRepository.save((person));
-		return "Benutzerverwaltung";
+		return "BackToTheFuture";
 	}
 }

@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   #anwendung:
-  #  build: ./trawizardsOfJava
+  #  build: .
   #  ports:
   #    - "8080:8080"  
 
@@ -15,4 +15,4 @@ services:
       MYSQL_DATABASE: datenbank
       MYSQL_ROOT_PASSWORD: root
     volumes:
-      - ./trawizardsOfJava/data:/src/main/resources/mysql
+      - ./data:/src/main/resources/mysql

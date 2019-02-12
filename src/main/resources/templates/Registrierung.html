@@ -22,15 +22,15 @@
         <table>
             <tr>
                 <td>Benutzername:</td>
-                <td><input type="text" th:field="*{benutzername}"></td>
+                <td><input type="text" th:field="*{benutzername}"> required</td>
             </tr>
             <tr>
                 <td>Name:</td>
-                <td><input type="text" th:field="*{name}"></td>
+                <td><input type="text" th:field="*{name}" required></td>
             </tr>
             <tr>
                 <td>E-Mail:</td>
-                <td><input type="text" th:field="*{email}"></td>
+                <td><input type="text" th:field="*{email}" required></td>
             </tr>
         </table>
         <button type="submit">Registrieren</button>

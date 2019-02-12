@@ -4,10 +4,12 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.sql.rowset.serial.SerialArray;
+import java.io.Serializable;
 
 @Data
 @Entity
-public class Person {
+public class Person implements Serializable {
 	private String name;
 	@Id
 	private String benutzername;

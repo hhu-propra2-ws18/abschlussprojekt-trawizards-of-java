@@ -96,7 +96,7 @@ public class AppController {
 
     @GetMapping("/Benutzer/Items")
     private String ansichtItems(Model model) {
-        artikelRepository.findByVerleiher("Udo"); //TODO
+        artikelRepository.findByverleiherName("Udo"); //TODO
         return "ansicht";
     }
 }

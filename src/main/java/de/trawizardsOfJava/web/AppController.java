@@ -68,12 +68,12 @@ public class AppController {
 
     @PostMapping("/artikel/{id}/anfrage")
     public String speichereAnfrage(@PathVariable("id") Long id, @RequestParam LocalDate startdate, @RequestParam LocalDate enddate) {
-        Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit();
-        verfuegbarkeit.setStartDate(startdate);
-        verfuegbarkeit.setEndDate(enddate);
-        Ausleihe ausleihe = new Ausleihe();
-        ausleihe.setVerfuegbarkeit(verfuegbarkeit);
-        ausleihe.setArtikel(artikelRepository.findById(id).get());
+        //Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit();
+        //verfuegbarkeit.setStartDate(startdate);
+        //verfuegbarkeit.setEndDate(enddate);
+        //Ausleihe ausleihe = new Ausleihe();
+        //ausleihe.setVerfuegbarkeit(verfuegbarkeit);
+        //ausleihe.setArtikel(artikelRepository.findById(id).get());
         //ausleihe.setAusleihender();
         return "/artikel/uebersicht";
     }

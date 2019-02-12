@@ -1,4 +1,4 @@
-package com.example.trawizardsOfJava;
+package de.trawizardsOfJava;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

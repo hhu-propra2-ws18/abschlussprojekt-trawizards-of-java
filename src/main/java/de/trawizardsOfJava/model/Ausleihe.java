@@ -1,10 +1,14 @@
 package de.trawizardsOfJava.model;
 
 import lombok.Data;
+import org.springframework.boot.autoconfigure.web.ResourceProperties;
+import org.springframework.cglib.core.GeneratorStrategy;
+import sun.util.resources.Bundles;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import java.io.Serializable;
 
 @Entity
@@ -16,7 +20,7 @@ public class Ausleihe {
     private Long id;
 
     private String ausleihender;
-
+    @OneToOne
     private Artikel artikel;
 
     private Verfuegbarkeit verfuegbarkeit;

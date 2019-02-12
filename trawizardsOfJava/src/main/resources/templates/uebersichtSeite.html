@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+
+ <h1 class="col-md-4"> Artikel </h1>
+
+ <div class="col-md-4">
+     <tr th:each="a: ${artikel}">
+         <dl class="dl-horizontal">
+             <dt th:text="'Artikel: ' +${a.artikelName}"></dt>
+             <dd th:text="'Verliehen von: ' +${a.verleiherName}"></dd>
+             <div class="col-md-4">
+                 <button type="button" class="btn btn-primary" >Details</button>
+             </div>
+         </dl>
+     </tr>
+ </div>
+
+</body>
+</html>

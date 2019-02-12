@@ -8,16 +8,22 @@
 </head>
 <body>
 
- <h1 class="col-md-4"> Artikel </h1>
+ <h1 class="text-center"> Willkommen - Übersicht der Artikel: </h1>
+ <div class="col-md-12">
+     <h3 class="text-right"><a href='http://localhost:8080/registrierung'>Anmelden</a></h3>
+ </div>
 
- <div class="col-md-4">
+ <hr>
+
+ <div class="col-md-8">
      <tr th:each="a: ${artikel}">
          <dl class="dl-horizontal">
              <dt th:text="'Artikel: ' +${a.artikelName}"></dt>
              <dd th:text="'Verliehen von: ' +${a.verleiherName}"></dd>
-             <div class="col-md-4">
+             <div class="col-sm-10">
                  <button type="button" class="btn btn-primary" >Details</button>
              </div>
+             <hr>
          </dl>
      </tr>
  </div>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import java.time.LocalDate;
 
 @Component
 public class DatabaseInitializr implements ServletContextInitializer {
@@ -18,7 +19,7 @@ public class DatabaseInitializr implements ServletContextInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         System.out.println("Populating the database");
-        
+
     }
 
 }

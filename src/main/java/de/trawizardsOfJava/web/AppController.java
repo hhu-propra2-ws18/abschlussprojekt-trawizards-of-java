@@ -17,6 +17,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Controller
 public class AppController {
@@ -35,6 +36,17 @@ public class AppController {
         model.addAttribute("artikel", alleArtikel);
 
         return "uebersichtSeite";
+    }
+
+    @GetMapping("/detail/{id}")
+    public String detail(Model model, @PathVariable Long id) {
+
+        Optional<Artikel> artikel = artikelRepository.findById(id);
+
+
+        model.addAttribute("artikelDetail", artikel.get());
+
+        return "artikelDetail";
     }
 
     @GetMapping("/benutzerverwaltung/{benutzername}")

@@ -13,6 +13,4 @@ public class Person {
 	private String benutzername;
 	private String email;
 	private boolean admin;
-	//private ArrayList<Gegenstand> gegenstaende;
-	//ProPay
 }

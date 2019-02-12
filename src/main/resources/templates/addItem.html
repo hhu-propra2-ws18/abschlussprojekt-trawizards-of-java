@@ -31,7 +31,7 @@
         <p>Kaution:</p>
         <input type="number" th:field="*{kaution}" placeholder="Kaution" required /><br>
         <p>Verfügbarkeitszeitraum:</p>
-        <input type="text" name="daterange" value="02/01/2018 - 05/31/2019" /> <br>
+        <input id="date" type="text" name="daterange" value="" /> <br>
 
         <input type="hidden" th:field="*{id}">
         <input type="submit" value="Submit"/>

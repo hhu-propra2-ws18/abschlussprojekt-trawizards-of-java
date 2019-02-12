@@ -11,13 +11,14 @@ import javax.persistence.Id;
 @Data
 @Entity
 public class Artikel {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    private String artikelName;
-
-    private String verleiherName;
+    Long id;
+    String verleiherName; //TODO
+    String artikelName;
+    String beschreibung;
+    String standort;
+    int preis;
+    int kaution;
+    Verfuegbarkeit verfuegbarkeit;
 }

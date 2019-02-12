@@ -18,7 +18,7 @@ public class Ausleihe {
 
     private Artikel artikel;
 
-    private Zeitraum zeitraum;
+    private Verfuegbarkeit verfuegbarkeit;
 
 /*
     public void accept(){

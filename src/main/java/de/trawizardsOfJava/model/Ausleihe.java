@@ -1,8 +1,6 @@
 package de.trawizardsOfJava.model;
 
 import lombok.Data;
-import org.springframework.boot.autoconfigure.web.ResourceProperties;
-import org.springframework.cglib.core.GeneratorStrategy;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,4 +21,12 @@ public class Ausleihe {
 
     private Verfuegbarkeit verfuegbarkeit;
 
+    private Person verleiherName;
+
+    private boolean accepted = false;
+
+    public void setArtikel(Artikel artikel){
+        this.artikel = artikel;
+        verleiherName = artikel.getVerleiherName();
+    }
 }

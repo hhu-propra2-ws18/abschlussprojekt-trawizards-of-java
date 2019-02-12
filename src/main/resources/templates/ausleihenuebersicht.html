@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Ausleihenübersicht</title>
+</head>
+<body>
+<div th:each="ausleihe : ${ausleihen}" align="center" margin="5">
+    <div th:if="${ausleihe.accepted=false}">
+        <ul>
+            <li th:text="${ausleihe.artikel.artikelName}">Artikelname</li>
+            <li th:text="${ausleihe.ausleihender}">Ausleihender</li>
+            <li th:date="${ausleihe.verfuegbarkeit.startDate}">Startdatum</li>
+            <li th:date="${ausleihe.verfuegbarkeit.endDate}">Enddatum</li>
+            <button>
+                <a th:href="@{/ausleihen/{id}(id=${ausleihen.id})}">Annehmen</a>
+            </button>
+        </ul>
+    </div>
+</div>
+<div th:each="ausleihe : ${ausleihen}" align="center" margin="5">
+    <div th:if="${ausleihe.accepted}">
+        <ul>
+            <li th:text="${ausleihe.artikel.artikelName}">Artikelname</li>
+            <li th:text="${ausleihe.ausleihender}">Ausleihender</li>
+            <li th:date="${ausleihe.verfuegbarkeit.startDate}">Startdatum</li>
+            <li th:date="${ausleihe.verfuegbarkeit.endDate}">Enddatum</li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

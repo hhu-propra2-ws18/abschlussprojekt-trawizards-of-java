@@ -1,6 +1,7 @@
 package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.ArtikelRepository;
+import de.trawizardsOfJava.data.AusleiheRepository;
 import de.trawizardsOfJava.data.BenutzerRepository;
 import de.trawizardsOfJava.model.Artikel;
 import de.trawizardsOfJava.model.Person;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -26,6 +29,9 @@ public class AppController {
 
     @Autowired
     ArtikelRepository artikelRepository;
+
+    @Autowired
+    AusleiheRepository ausleiheRepository;
 
     @GetMapping("/")
     public String uebersicht(Model model) {
@@ -99,4 +105,13 @@ public class AppController {
         artikelRepository.findByverleiherName("Udo"); //TODO
         return "ansicht";
     }
+
+    @GetMapping("Benutzer/ausleihenuebersicht")
+    public String ausleihenuebersicht(Model model){
+        ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByverleiherName(new Person());
+        model.addAttribute("ausleihen",ausleihen);
+        return "ausleiheuebersicht";
+    }
+
+    //boolean in ausleihe ändern
 }

@@ -19,9 +19,11 @@
      <tr th:each="a: ${artikel}">
          <dl class="dl-horizontal">
              <dt th:text="'Artikel: ' +${a.artikelName}"></dt>
-             <dd th:text="'Verliehen von: ' +${a.verleiherName}"></dd>
+             <dd th:text="'Verliehen von: ' +${a.verleiherName.name}"></dd>
              <div class="col-sm-10">
-                 <button type="button" class="btn btn-primary" >Details</button>
+                 <a th:href="@{/detail/{id} (id=${a.id})}">
+                     <button type="button" class="btn btn-primary" >Details</button>
+                 </a>
              </div>
              <hr>
          </dl>

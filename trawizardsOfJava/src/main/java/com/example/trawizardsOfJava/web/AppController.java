@@ -73,7 +73,7 @@ public class AppController {
         Zeitraum zeitraum = new Zeitraum(startdate,enddate);
         Ausleihe ausleihe = new Ausleihe();
         ausleihe.setZeitraum(zeitraum);
-        ausleihe.setArtikel(artikelRepository.findById(id));
+        ausleihe.setArtikel(artikelRepository.findById(id).get());
         //ausleihe.setAusleihender();
         return "/artikel/uebersicht";
     }

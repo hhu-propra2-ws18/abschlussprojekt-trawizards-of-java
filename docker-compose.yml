@@ -14,5 +14,5 @@ services:
       MYSQL_PASSWORD: root
       MYSQL_DATABASE: datenbank
       MYSQL_ROOT_PASSWORD: root
-  volumes:
-    - ./trawizardsOfJava/data:/src/main/resources/mysql
+    volumes:
+      - ./trawizardsOfJava/data:/src/main/resources/mysql

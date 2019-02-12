@@ -1,4 +1,4 @@
-package com.example.trawizardsOfJava;
+package de.trawizardsOfJava;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

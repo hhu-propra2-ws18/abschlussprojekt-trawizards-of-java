@@ -1,4 +1,4 @@
-package com.example.trawizardsOfJava.model;
+package de.trawizardsOfJava.model;
 
 import lombok.Data;
 

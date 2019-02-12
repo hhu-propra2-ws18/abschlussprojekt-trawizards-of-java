@@ -1,11 +1,11 @@
-package com.example.trawizardsOfJava.web;
+package de.trawizardsOfJava.web;
 
-import com.example.trawizardsOfJava.data.ArtikelRepository;
-import com.example.trawizardsOfJava.data.BenutzerRepository;
-import com.example.trawizardsOfJava.model.Artikel;
-import com.example.trawizardsOfJava.model.Person;
-import com.example.trawizardsOfJava.model.Ausleihe;
-import com.example.trawizardsOfJava.model.Verfuegbarkeit;
+import de.trawizardsOfJava.data.ArtikelRepository;
+import de.trawizardsOfJava.data.BenutzerRepository;
+import de.trawizardsOfJava.model.Artikel;
+import de.trawizardsOfJava.model.Person;
+import de.trawizardsOfJava.model.Ausleihe;
+import de.trawizardsOfJava.model.Verfuegbarkeit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

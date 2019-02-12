@@ -1,6 +1,6 @@
-package com.example.trawizardsOfJava.data;
+package de.trawizardsOfJava.data;
 
-import com.example.trawizardsOfJava.model.Artikel;
+import de.trawizardsOfJava.model.Artikel;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.ArrayList;

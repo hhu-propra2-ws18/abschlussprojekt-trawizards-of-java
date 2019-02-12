@@ -1,4 +1,4 @@
-package com.example.trawizardsOfJava.model;
+package de.trawizardsOfJava.model;
 
 
 import lombok.Data;
@@ -15,7 +15,7 @@ public class Artikel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
-    Person verleiherName; //TODO
+    de.trawizardsOfJava.model.Person verleiherName; //TODO
     String artikelName;
     String beschreibung;
     String standort;

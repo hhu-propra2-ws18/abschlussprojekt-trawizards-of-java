@@ -1,0 +1,49 @@
+<html xmlns:th="http://www.thymeleaf.com">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Anfrage</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+
+</head>
+
+<form method="post">
+    <body>
+    <div align="center">
+        <p>Für welchen Zeitraum möchten sie den Artikel ausleihen?</p>
+        <p>Von:</p>
+        <input type="date" th:name="startdate">
+        <p>Bis:</p>
+        <input type="date" th:name="enddate">
+        <br>
+        <br>
+        <button>
+        <a href="/artikel/{id}/anfrage">Bestätigen</a>
+        </button>
+        <button>
+        <a href="/artikel/{id}">Abbrechen</a>
+        </button>
+    </div>
+    </body>
+</form>
+<!--form action="#" th:action="@{/artikel/erstellen}" th:object="${Ausleihe}" method="post">
+
+    <body>
+    <div align="center">
+        <h1></h1>
+        <p>Für welchen Zeitraum möchten sie den Artikel ausleihen?</p>
+        <p>Von:</p>
+        <ul><input type="date" th:field="*{startdate}" required><br></ul>
+        <p>Bis:</p>
+        <ul><input type="date" th:field="*{enddate}" required><br></ul>
+        <input type="hidden" th:field="*{id}">
+        <input type="submit" value="Bestätigen"/>
+        <a href="/artikel">Abbrechen</a>
+    </div>
+    </body>
+</form-->
+</html>

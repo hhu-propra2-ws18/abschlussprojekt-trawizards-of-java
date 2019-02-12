@@ -20,7 +20,7 @@ public class Ausleihe {
 
     private Zeitraum zeitraum;
 
-
+/*
     public void accept(){
         //Artikel nicht mehr verfügbar
         //Kaution wird gezahlt
@@ -39,4 +39,5 @@ public class Ausleihe {
         //über Kaution entschieden
         //Ausleihender wird benachrichtigt
     }
+*/
 }

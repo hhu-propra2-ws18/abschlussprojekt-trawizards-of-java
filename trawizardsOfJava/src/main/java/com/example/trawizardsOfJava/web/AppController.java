@@ -60,8 +60,6 @@ public class AppController {
 		benutzerRepository.save((person));
 		return "BackToTheFuture";
 	}
-}
-
 
     @GetMapping("/artikel/{id}/anfrage")
     public String neueAnfrage(){

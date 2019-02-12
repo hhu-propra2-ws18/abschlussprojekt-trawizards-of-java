@@ -1,38 +1,40 @@
 <html xmlns:th="http://www.thymeleaf.com">
 <html lang="en">
 <head>
-    <title>Accountverwaltung</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <style>
-        tr:hover {
-            background-color: whitesmoke;
-        }
-        th, td {
-            padding-right: 50px;
-        }
-    </style>
+	<title>Accountverwaltung</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+		  integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+	<style>
+		tr:hover {
+			background-color: whitesmoke;
+		}
+		th, td {
+			padding-right: 50px;
+		}
+	</style>
 </head>
 <body>
-<h1>Bitte geben sie die veränderten Daten an!</h1>
-<form method="post" th:object="${person}">
-    <table>
-        <tr>
-            <td>Benutzername:</td>
-            <td><input type="text" th:field="*{benutzername}"></td>
-        </tr>
-        <tr>
-            <td>Name:</td>
-            <td><input type="text" th:field="*{name}"></td>
-        </tr>
-        <tr>
-            <td>E-Mail:</td>
-            <td><input type="text" th:field="*{email}"></td>
-        </tr>
-    </table>
-    <button type="submit">Bestätigen</button>
-</form>
+<div align="center">
+	<h1>Bitte geben sie die veränderten Daten an!</h1>
+	<form method="post" th:object="${person}">
+		<table align="center">
+			<tr>
+				<td>Benutzername:</td>
+				<td><input type="text" th:field="*{benutzername}"></td>
+			</tr>
+			<tr>
+				<td>Name:</td>
+				<td><input type="text" th:field="*{name}"></td>
+			</tr>
+			<tr>
+				<td>E-Mail:</td>
+				<td><input type="text" th:field="*{email}"></td>
+			</tr>
+		</table>
+		<button type="submit">Bestätigen</button>
+	</form>
+</div>
 </body>
 </html>

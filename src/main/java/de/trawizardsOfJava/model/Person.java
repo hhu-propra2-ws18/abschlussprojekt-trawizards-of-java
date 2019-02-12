@@ -15,4 +15,5 @@ public class Person implements Serializable {
 	private String benutzername;
 	private String email;
 	private String rolle;
+	private String passwort;
 }

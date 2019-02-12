@@ -3,7 +3,6 @@ package de.trawizardsOfJava.model;
 import lombok.Data;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.cglib.core.GeneratorStrategy;
-import sun.util.resources.Bundles;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -14,5 +14,5 @@ public class Person implements Serializable {
 	@Id
 	private String benutzername;
 	private String email;
-	private boolean admin;
+	private String rolle;
 }

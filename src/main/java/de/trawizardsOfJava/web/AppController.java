@@ -35,7 +35,9 @@ public class AppController {
 		List<Artikel> alleArtikel = artikelRepository.findAll();
 
 		model.addAttribute("artikel", alleArtikel);
-		model.addAttribute("name", principal.getName());
+		if(principal != null){
+			model.addAttribute("name", principal.getName());
+		}
 
 		return "uebersichtSeite";
 	}
@@ -47,7 +49,9 @@ public class AppController {
 
 
 		model.addAttribute("artikelDetail", artikel.get());
-        model.addAttribute("name", principal.getName());
+		if(principal != null){
+			model.addAttribute("name", principal.getName());
+		}
 
 		return "artikelDetail";
 	}

@@ -41,9 +41,9 @@ public class DatabaseInitializr implements ServletContextInitializer {
         benutzerRepository.save(person1);
 
         Person person2 = new Person();
-        person2.setBenutzername("joe");
+        person2.setBenutzername("Joe");
         person2.setEmail("joe@mail.com");
-        person2.setName("joe");
+        person2.setName("Joe");
         person2.setPasswort(bCryptPasswordEncoder.encode("1234"));
         person2.setRolle("ROLE_USER");
         benutzerRepository.save(person2);

@@ -34,8 +34,10 @@
         <input id="date" type="text" name="daterange" value="" /> <br>
 
         <input type="hidden" th:field="*{id}">
-        <input type="submit" value="Submit"/>
-        <a href="/Benutzer/Items">Cancel</a>
+        <input type="submit" value="Submit" class="btn btn-success"/>
+        <a href="/Benutzer/Items">
+            <button name="button" class="btn btn-danger"> Abbrechen</button>
+        </a>
     </div>
 
     <script type="text/javascript">

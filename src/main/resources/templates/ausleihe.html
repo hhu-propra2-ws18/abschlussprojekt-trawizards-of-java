@@ -17,15 +17,15 @@
 <form method="post">
     <body>
     <div align="center">
-        <p>Für welchen Zeitraum möchten sie den Artikel ausleihen?</p>
+        <h2>Für welchen Zeitraum möchten sie den Artikel ausleihen?</h2>
         <input id="date" type="text" name="daterange" value="" /> <br>
         <br>
         <br>
         <input type="hidden" th:field="*{id}">
-        <input type="submit" value="Submit"/>
-        <button>
-        <a th:href="@{/detail/__${id}__}">Abbrechen</a>
-        </button>
+        <input type="submit" value="Submit" class="btn btn-success"/>
+        <a th:href="@{/detail/__${id}__}">
+            <button name="button" class="btn btn-danger">Abbrechen</button>
+        </a>
     </div>
     <script>
         $(function() {

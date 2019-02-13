@@ -32,8 +32,8 @@ public class AppController {
 	@Autowired
 	ArtikelRepository artikelRepository;
 
-  @Autowired
-  AusleiheRepository ausleiheRepository;
+    @Autowired
+    AusleiheRepository ausleiheRepository;
 
 	@GetMapping("/")
 	public String uebersicht(Model model, Principal principal) {
@@ -138,9 +138,8 @@ public class AppController {
 		ausleihe.setArtikel(artikel);
 		ausleihe.setAusleihender(principal.getName());
 		ausleiheRepository.save(ausleihe);
-		System.out.println(ausleihe);
-		model.addAttribute("artikelDetail", artikel);
-		return "artikelDetail";
+		model.addAttribute("artikel", artikelRepository.findAll());
+		return "uebersichtSeite";
 	}
 
 

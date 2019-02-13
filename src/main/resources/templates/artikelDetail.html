@@ -8,23 +8,44 @@
 </head>
 <body>
 
-    <h1 class="text-center"><a href='/'> Willkommen bei Leih24</a></h1>
-    <div class="col-md-12">
-        <a href='/login'>
-            <button type="button" class="btn btn-outline-primary" >Anmelden</button>
-        </a>
-        <a href='/registrierung'>
-            <button type="button" class="btn btn-outline-primary" >Registieren</button>
-        </a>
-        <a th:href="@{/account/{benutzername} (benutzername=${name})}">
-            <button type="button" class="btn btn-outline-primary" >Profil</button>
-        </a>
-        <a href='/logout'>
-            <button type="button" class="btn btn-outline-primary" >Logout</button>
-        </a>
-    </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-<hr>
+    <a class="navbar-brand" href='/'>Leih24</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href='/'>Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href='/login'>
+                    Anmelden
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href='/registrierung'>
+                    Registieren
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/account/{benutzername} (benutzername=${name})}">
+                    Profil
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href='/logout'>
+                    Logout
+                </a>
+            </li>
+            <hr>
+        </ul>
+    </div>
+</nav>
+
 
     <div class="col-md-4">
         <p th:text="'Artikelname: ' +${artikelDetail.artikelName}"></p>
@@ -36,9 +57,9 @@
         <p th:text="'Verfügbar von: ' +${artikelDetail.verfuegbarkeit.startDate}"></p>
         <p th:text="'Verfügbar bis: ' +${artikelDetail.verfuegbarkeit.endDate}"></p>
         <a href='/'>
-        <button type="button" class="btn btn-danger" >Zurück</button>
+        <button type="button" class="btn btn-outline-danger" >Zurück</button>
         </a>
-        <button type="button" class="btn btn-success" >Ausleihen</button>
+        <button type="button" class="btn btn-outline-success" >Ausleihen</button>
     </div>
 
 </body>

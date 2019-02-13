@@ -37,9 +37,9 @@ public class DatabaseInitializr implements ServletContextInitializer {
         benutzerRepository.save(person1);
 
         Person person2 = new Person();
-        person2.setBenutzername("joe");
+        person2.setBenutzername("Joe");
         person2.setEmail("joe@mail.com");
-        person2.setName("joe");
+        person2.setName("Joe");
         person2.setPasswort(bCryptPasswordEncoder.encode("1234"));
         person2.setRolle("ROLE_USER");
         benutzerRepository.save(person2);
@@ -56,6 +56,19 @@ public class DatabaseInitializr implements ServletContextInitializer {
         verfuegbarkeit.toVerfuegbarkeit(s);
         artikel.setVerfuegbarkeit(verfuegbarkeit);
         artikelRepository.save(artikel);
+
+        Artikel artikel1 = new Artikel();
+        artikel1.setVerleiherBenutzername(person2.getBenutzername());
+        artikel1.setArtikelName("Hexler");
+        artikel1.setBeschreibung("Dies ist ein Super-Hexer");
+        artikel1.setKaution(10000);
+        artikel1.setPreis(1);
+        artikel1.setStandort("Stuttgart");
+        String p = "01/01/2019 - 01/02/2019";
+        Verfuegbarkeit verfuegbarkeit1 = new Verfuegbarkeit();
+        verfuegbarkeit1.toVerfuegbarkeit(p);
+        artikel1.setVerfuegbarkeit(verfuegbarkeit1);
+        artikelRepository.save(artikel1);
     }
 
 }

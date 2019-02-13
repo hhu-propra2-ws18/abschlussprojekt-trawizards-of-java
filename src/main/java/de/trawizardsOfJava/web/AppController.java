@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.security.Principal;
 import java.util.List;
@@ -153,16 +152,19 @@ public class AppController {
         return "ausleihenuebersicht";
     }
 
-    @GetMapping("/ausleihen/{id}")
-    public String ausleihebestaetigt(@PathVariable Long id){
+    @GetMapping("/annahme/{id}")
+    public String ausleihebestaetigt(@PathVariable Long id, Model model, Principal principal){
         Ausleihe ausleihe = ausleiheRepository.findById(id).get();
         ausleihe.setAccepted(true);
-        return "";
+        ausleiheRepository.save(ausleihe);
+        model.addAttribute("ausleihen", ausleiheRepository.findByverleiherName(principal.getName()));
+        return "ausleihenuebersicht";
     }
 
     @GetMapping("/remove/{id}")
-    public String ausleiheabgelehnt(@PathVariable Long id){
+    public String ausleiheabgelehnt(@PathVariable Long id, Model model, Principal principal){
         ausleiheRepository.delete(ausleiheRepository.findById(id).get());
+		model.addAttribute("ausleihen", ausleiheRepository.findByverleiherName(principal.getName()));
         return "ausleihenuebersicht";
     }
 }

@@ -9,6 +9,7 @@
 
 </head>
 <body>
+<h1 align="center">Ausleihenübersicht</h1>
 <div th:each="ausleihe : ${ausleihen}" align="center" margin="5">
     <div th:if="${ausleihe.accepted==false}">
         <ul>
@@ -16,8 +17,12 @@
             <li th:text="${ausleihe.ausleihender}">Ausleihender</li>
             <li th:text="${ausleihe.verfuegbarkeit.startDate}">Startdatum</li>
             <li th:text="${ausleihe.verfuegbarkeit.endDate}">Enddatum</li>
-            <button name="button" onClick="confirmation(' + ${ausleihe} + ')">Annehmen</button>
-            <button name="button" th:onClick="@{/remove/__${ausleihe.id}__}">Ablehnen</button>
+            <a th:href="@{/annahme/__${ausleihe.id}__}">
+                <button name="button" onClick="confirmation(' + ${ausleihe} + ')">Annehmen</button>
+            </a>
+            <a th:href="@{/remove/__${ausleihe.id}__}">
+                <button name="button">Ablehnen</button>
+            </a>
         </ul>
     </div>
 </div>

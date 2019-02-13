@@ -139,7 +139,7 @@ public class AppController {
 		ausleihe.setAusleihender(principal.getName());
 		ausleiheRepository.save(ausleihe);
 		model.addAttribute("artikel", artikelRepository.findAll());
-		return "uebersichtSeite";
+		return "BackTOTheFuture";
 	}
 
 

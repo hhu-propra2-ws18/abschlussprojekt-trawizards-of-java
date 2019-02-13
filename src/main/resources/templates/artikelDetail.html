@@ -59,7 +59,7 @@
         <a href='/'>
         <button type="button" class="btn btn-outline-danger" >Zurück</button>
         </a>
-        <a th:href="@{/artikel/__${artikelDetail.id}__/anfrage}">
+        <a th:href="@{/artikel/{id}/anfrage (id=${artikelDetail.id})}">
             <button type="button" class="btn btn-success">Ausleihen</button>
         </a>
     </div>

@@ -23,7 +23,7 @@
         <br>
         <input type="hidden" th:field="*{id}">
         <input type="submit" value="Submit" class="btn btn-success"/>
-        <a th:href="@{/detail/__${id}__}">
+        <a th:href="@{/detail/{id} (id=${artikel.id})}">
             <button name="button" class="btn btn-danger">Abbrechen</button>
         </a>
     </div>

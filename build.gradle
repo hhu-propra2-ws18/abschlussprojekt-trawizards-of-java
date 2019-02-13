@@ -36,9 +36,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'mysql:mysql-connector-java'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	annotationProcessor('org.projectlombok:lombok')
 	compile('org.projectlombok:lombok')
+	annotationProcessor('org.projectlombok:lombok')
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation('org.springframework.security:spring-security-test')
 }
 

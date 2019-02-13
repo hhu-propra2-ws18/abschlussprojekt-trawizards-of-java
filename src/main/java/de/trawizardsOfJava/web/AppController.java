@@ -7,6 +7,7 @@ import de.trawizardsOfJava.model.Person;
 import de.trawizardsOfJava.model.Ausleihe;
 import de.trawizardsOfJava.model.Verfuegbarkeit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,6 +58,9 @@ public class AppController {
 
     @PostMapping("/registrierung")
     public String speicherePerson(Person person) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        person.setPasswort(bCryptPasswordEncoder.encode(person.getPasswort()));
+        person.setRolle("ROLE_USER");
         benutzerRepository.save((person));
         return "BackToTheFuture";
     }

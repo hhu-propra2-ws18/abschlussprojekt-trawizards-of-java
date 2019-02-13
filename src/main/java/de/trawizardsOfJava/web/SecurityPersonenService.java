@@ -1,6 +1,7 @@
-package de.trawizardsOfJava.model;
+package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.BenutzerRepository;
+import de.trawizardsOfJava.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,22 +12,23 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class Personendetails implements UserDetailsService {
-
+public class SecurityPersonenService implements UserDetailsService {
+	
 	@Autowired
-	private BenutzerRepository users;
-
+	private BenutzerRepository personen;
+	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<Person> user = users.findByBenutzername(username);
-		if (user.isPresent()) {
+	public UserDetails loadUserByUsername(String benutzername) throws UsernameNotFoundException {
+		Optional<Person> user = personen.findByBenutzername(benutzername);
+		if(user.isPresent()) {
 			Person u = user.get();
-			UserDetails userdetails = User.builder()
-					.username(u.getBenutzername())
-					.password(u.getPasswort())
-					.build();
-			return userdetails;
+			return User.builder()
+				.username(u.getBenutzername())
+				.password(u.getPasswort())
+				.authorities(u.getRolle())
+				.build();
 		}
 		throw new UsernameNotFoundException("Invalid Username");
 	}
+	
 }

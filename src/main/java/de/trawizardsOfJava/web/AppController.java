@@ -30,22 +30,24 @@ public class AppController {
 	ArtikelRepository artikelRepository;
 
 	@GetMapping("/")
-	public String uebersicht(Model model) {
+	public String uebersicht(Model model, Principal principal) {
 
 		List<Artikel> alleArtikel = artikelRepository.findAll();
 
 		model.addAttribute("artikel", alleArtikel);
+		model.addAttribute("name", principal.getName());
 
 		return "uebersichtSeite";
 	}
 
 	@GetMapping("/detail/{id}")
-	public String detail(Model model, @PathVariable Long id) {
+	public String detail(Model model, @PathVariable Long id, Principal principal) {
 
 		Optional<Artikel> artikel = artikelRepository.findById(id);
 
 
 		model.addAttribute("artikelDetail", artikel.get());
+        model.addAttribute("name", principal.getName());
 
 		return "artikelDetail";
 	}

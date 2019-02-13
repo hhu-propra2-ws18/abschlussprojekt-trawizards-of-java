@@ -38,7 +38,9 @@
         <a href='/'>
         <button type="button" class="btn btn-danger" >Zurück</button>
         </a>
-        <button type="button" class="btn btn-success" >Ausleihen</button>
+        <a th:href="@{/artikel/__${artikelDetail.id}__/anfrage}">
+            <button type="button" class="btn btn-success">Ausleihen</button>
+        </a>
     </div>
 
 </body>

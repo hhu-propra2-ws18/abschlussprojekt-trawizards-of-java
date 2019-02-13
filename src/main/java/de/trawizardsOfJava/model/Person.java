@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.sql.rowset.serial.SerialArray;
 import java.io.Serializable;
 
 @Data
@@ -17,3 +16,5 @@ public class Person implements Serializable {
 	private String rolle;
 	private String passwort;
 }
+
+

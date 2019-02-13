@@ -8,42 +8,34 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 </head>
 
 <form method="post">
     <body>
     <div align="center">
         <p>Für welchen Zeitraum möchten sie den Artikel ausleihen?</p>
-        <p>Von:</p>
-        <input type="date" th:name="startdate">
-        <p>Bis:</p>
-        <input type="date" th:name="enddate">
+        <input id="date" type="text" name="daterange" value="" /> <br>
         <br>
         <br>
+        <input type="hidden" th:field="*{id}">
+        <input type="submit" value="Submit"/>
         <button>
-        <a href="/artikel/{id}/anfrage">Bestätigen</a>
-        </button>
-        <button>
-        <a href="/artikel/{id}">Abbrechen</a>
+        <a th:href="@{/detail/__${id}__}">Abbrechen</a>
         </button>
     </div>
+    <script>
+        $(function() {
+            $('input[name="daterange"]').daterangepicker({
+                opens: 'left'
+            }, function(start, end, label) {
+                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+            });
+        });
+    </script>
     </body>
 </form>
-<!--form action="#" th:action="@{/artikel/erstellen}" th:object="${Ausleihe}" method="post">
-
-    <body>
-    <div align="center">
-        <h1></h1>
-        <p>Für welchen Zeitraum möchten sie den Artikel ausleihen?</p>
-        <p>Von:</p>
-        <ul><input type="date" th:field="*{startdate}" required><br></ul>
-        <p>Bis:</p>
-        <ul><input type="date" th:field="*{enddate}" required><br></ul>
-        <input type="hidden" th:field="*{id}">
-        <input type="submit" value="Bestätigen"/>
-        <a href="/artikel">Abbrechen</a>
-    </div>
-    </body>
-</form-->
 </html>

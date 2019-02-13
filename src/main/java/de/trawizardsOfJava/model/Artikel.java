@@ -15,7 +15,7 @@ public class Artikel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
-    de.trawizardsOfJava.model.Person verleiherName; //TODO
+    Person verleiherName;
     String artikelName;
     String beschreibung;
     String standort;

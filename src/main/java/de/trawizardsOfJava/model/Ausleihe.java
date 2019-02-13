@@ -21,12 +21,12 @@ public class Ausleihe {
 
     private Verfuegbarkeit verfuegbarkeit;
 
-    private Person verleiherName;
+    private String verleiherName;
 
     private boolean accepted = false;
 
     public void setArtikel(Artikel artikel){
         this.artikel = artikel;
-        verleiherName = artikel.getVerleiherName();
+        verleiherName = artikel.getVerleiherBenutzername();
     }
 }

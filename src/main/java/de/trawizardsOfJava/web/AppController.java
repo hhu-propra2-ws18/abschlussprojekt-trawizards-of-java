@@ -4,6 +4,7 @@ import de.trawizardsOfJava.data.ArtikelRepository;
 import de.trawizardsOfJava.data.AusleiheRepository;
 import de.trawizardsOfJava.data.BenutzerRepository;
 import de.trawizardsOfJava.model.Artikel;
+import de.trawizardsOfJava.model.Ausleihe;
 import de.trawizardsOfJava.model.Person;
 import de.trawizardsOfJava.model.Verfuegbarkeit;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,29 +124,26 @@ public class AppController {
 	}
 
 	@PostMapping("/artikel/{id}/anfrage")
-	public String speichereAnfrage(@PathVariable Long id, @RequestParam String daterange, Model model) {
+	public String speichereAnfrage(@PathVariable Long id, @RequestParam String daterange, Model model, Principal principal) {
 		Artikel artikel = artikelRepository.findById(id).get();
 		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit();
 		verfuegbarkeit.toVerfuegbarkeit(daterange);
-		artikel.setVerfuegbarkeit(verfuegbarkeit);
-		System.out.println(artikel);
-		//Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit();
-		//verfuegbarkeit.setStartDate(startdate);
-		//verfuegbarkeit.setEndDate(enddate);
-		//Ausleihe ausleihe = new Ausleihe();
-		//ausleihe.setVerfuegbarkeit(verfuegbarkeit);
-		//ausleihe.setArtikel(artikelRepository.findById(id).get());
-		//ausleihe.setAusleihender();
+		Ausleihe ausleihe = new Ausleihe();
+		ausleihe.setVerfuegbarkeit(verfuegbarkeit);
+		ausleihe.setArtikel(artikel);
+		ausleihe.setAusleihender(principal.getName());
+		ausleiheRepository.save(ausleihe);
+		System.out.println(ausleihe);
 		model.addAttribute("artikelDetail", artikel);
 		return "artikelDetail";
 	}
 
 
     @GetMapping("Benutzer/ausleihenuebersicht")
-    public String ausleihenuebersicht(Model model){
-        ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByverleiherName("Ocramir");//User einfügen
+    public String ausleihenuebersicht(Model model, Principal principal){
+        ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByverleiherName(principal.getName());
         model.addAttribute("ausleihen",ausleihen);
-        return "ausleiheuebersicht";
+        return "ausleihenuebersicht";
     }
 
     @GetMapping("/ausleihen/{id}")

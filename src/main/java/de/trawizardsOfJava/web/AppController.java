@@ -37,22 +37,28 @@ public class AppController {
   AusleiheRepository ausleiheRepository;
 
 	@GetMapping("/")
-	public String uebersicht(Model model) {
+	public String uebersicht(Model model, Principal principal) {
 
 		List<Artikel> alleArtikel = artikelRepository.findAll();
 
 		model.addAttribute("artikel", alleArtikel);
+		if(principal != null){
+			model.addAttribute("name", principal.getName());
+		}
 
 		return "uebersichtSeite";
 	}
 
 	@GetMapping("/detail/{id}")
-	public String detail(Model model, @PathVariable Long id) {
+	public String detail(Model model, @PathVariable Long id, Principal principal) {
 
 		Optional<Artikel> artikel = artikelRepository.findById(id);
 
 
 		model.addAttribute("artikelDetail", artikel.get());
+		if(principal != null){
+			model.addAttribute("name", principal.getName());
+		}
 
 		return "artikelDetail";
 	}
@@ -108,17 +114,17 @@ public class AppController {
 	}
 
 	@PostMapping("/account/{benutzername}/addItem")
-	public String postAddItem(Artikel artikel, @RequestParam String daterange, @PathVariable String benutzername) {
+	public String postAddItem(Artikel artikel, @PathVariable String benutzername, @RequestParam String daterange) {
 		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit();
 		verfuegbarkeit.toVerfuegbarkeit(daterange);
 		artikel.setVerfuegbarkeit(verfuegbarkeit);
 		artikel.setVerleiherBenutzername(benutzername);
 		artikelRepository.save(artikel);
-		return "UebersichtsSeite";
+		return "BackToTheFuture";
 	}
 
 	@GetMapping("/artikel/{id}/anfrage")
-	public String neueAnfrage(@PathVariable Long id, Model model) {
+	public String neueAnfrage(Model model, @PathVariable Long id) {
 		model.addAttribute("id", id);
 		return "ausleihe";
 	}

@@ -18,6 +18,13 @@
 <body>
 <div>
 <h1 th:text="'Alle Artikel von '+${person.benutzername}"></h1>
+    <a th:href="@{/account/{benutzername}/bearbeitung (benutzername=${person.name})}">
+        <button type="button" class="btn btn-primary" >Profil bearbeiten</button>
+    </a>
+	<a th:href="@{/account/{benutzername}/addItem (benutzername=${person.name})}">
+		<button type="button" class="btn btn-primary" >Neuen Artikel erstellen</button>
+	</a>
+    <hr>
     <tr th:each="a: ${artikel}">
         <dl class="dl-horizontal">
             <dt th:text="'Artikel: ' +${a.artikelName}"></dt>

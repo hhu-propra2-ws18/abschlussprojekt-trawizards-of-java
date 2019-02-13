@@ -2,6 +2,7 @@ package de.trawizardsOfJava.data;
 
 
 import de.trawizardsOfJava.model.Artikel;
+import de.trawizardsOfJava.model.Ausleihe;
 import de.trawizardsOfJava.model.Person;
 import de.trawizardsOfJava.model.Verfuegbarkeit;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class DatabaseInitializr implements ServletContextInitializer {
 
     @Autowired
     BenutzerRepository benutzerRepository;
+
+    @Autowired
+    AusleiheRepository ausleiheRepository;
 
 
     @Override
@@ -56,6 +60,14 @@ public class DatabaseInitializr implements ServletContextInitializer {
         verfuegbarkeit.toVerfuegbarkeit(s);
         artikel.setVerfuegbarkeit(verfuegbarkeit);
         artikelRepository.save(artikel);
+
+        Ausleihe ausleihe = new Ausleihe();
+        ausleihe.setArtikel(artikel);
+        ausleihe.setAusleihender(person2.getBenutzername());
+        Verfuegbarkeit neues = new Verfuegbarkeit();
+        neues.toVerfuegbarkeit("02/14/2019 - 02/16/2019");
+        ausleihe.setVerfuegbarkeit(neues);
+        ausleiheRepository.save(ausleihe);
     }
 
 }

@@ -139,9 +139,10 @@ public class AppController {
 	}
 
 
-    @GetMapping("Benutzer/ausleihenuebersicht")
+    @GetMapping("/account/{Benutzername}/ausleihenuebersicht")
     public String ausleihenuebersicht(Model model, Principal principal){
         ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByverleiherName(principal.getName());
+		System.out.println(ausleihen);
         model.addAttribute("ausleihen",ausleihen);
         return "ausleihenuebersicht";
     }

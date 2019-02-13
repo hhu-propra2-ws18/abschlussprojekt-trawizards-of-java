@@ -6,6 +6,7 @@ import de.trawizardsOfJava.model.Person;
 import de.trawizardsOfJava.model.Verfuegbarkeit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletContext;
@@ -27,11 +28,21 @@ public class DatabaseInitializr implements ServletContextInitializer {
         System.out.println("Populating the database");
 
         Person person1 = new Person();
-        person1.setBenutzername("Ocramir");
-        person1.setAdmin(true);
-        person1.setEmail("deineMum@HOTMail.com");
-        person1.setName("DörtyDirk");
+        person1.setBenutzername("root");
+        person1.setEmail("root@mail.com");
+        person1.setName("root");
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        person1.setPasswort(bCryptPasswordEncoder.encode("1234"));
+        person1.setRolle("ROLE_ADMIN");
         benutzerRepository.save(person1);
+
+        Person person2 = new Person();
+        person2.setBenutzername("joe");
+        person2.setEmail("joe@mail.com");
+        person2.setName("joe");
+        person2.setPasswort(bCryptPasswordEncoder.encode("1234"));
+        person2.setRolle("ROLE_USER");
+        benutzerRepository.save(person2);
 
         Artikel artikel = new Artikel();
         artikel.setVerleiherName(person1);

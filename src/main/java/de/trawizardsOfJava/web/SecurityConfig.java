@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.formLogin().permitAll();
 		http.logout().permitAll();
 		http.csrf().disable();		//Das Erlaubt POSTS (von der Deutschen Post)
-		//TODO: Auf Das Profil eines Accounts, darf nur der Account und ein Admin zugreifen.
+		//http.authorizeRequests().antMatchers("/account/{\\d+}/bearbeitung").access("hasAnyAuthority('ROLE_TOKENSAVED')");
 		http.authorizeRequests().anyRequest().authenticated();
 		http.userDetailsService(userDetailsService);
 	}

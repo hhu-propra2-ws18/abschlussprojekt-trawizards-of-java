@@ -72,16 +72,33 @@ public class AppController {
         return "Benutzeransicht";
     }
 
-    @GetMapping("/benutzerverwaltung/{benutzername}")
+    @GetMapping("/account/{benutzername}/bearbeitung")
     public String benutzerverwaltung(Model model, @PathVariable String benutzername) {
         model.addAttribute("person", benutzerRepository.findByBenutzername(benutzername).get());
         return "Benutzerverwaltung";
     }
 
-    @PostMapping("/benutzerverwaltung/{benutzername}")
+    @PostMapping("/account/{benutzername}/bearbeitung")
     public String speicherAenderung(Person person) {
         benutzerRepository.save((person));
         return "Benutzerverwaltung";
+    }
+
+    @GetMapping("/account/{benutzername}/addItem")
+    public String addItem(Model model) {
+        Artikel newArtikel = new Artikel();
+        model.addAttribute("artikel", newArtikel);
+        return "addItem";
+    }
+
+    @PostMapping("/account/{benutzername}/addItem")
+    public String postAddItem(Artikel artikel, @RequestParam String daterange, @PathVariable String benutzername) {
+        Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit();
+        verfuegbarkeit.toVerfuegbarkeit(daterange);
+        artikel.setVerfuegbarkeit(verfuegbarkeit);
+        artikel.setVerleiherBenutzername(benutzername);
+        artikelRepository.save(artikel);
+        return "UebersichtsSeite";
     }
 
     @GetMapping("/artikel/{id}/anfrage")
@@ -106,23 +123,6 @@ public class AppController {
         //ausleihe.setAusleihender();
         model.addAttribute("artikelDetail", artikel);
         return "artikelDetail";
-    }
-
-    @GetMapping("/Benutzer/addItem")
-    public String addItem(Model model) {
-        Artikel newArtikel = new Artikel();
-        model.addAttribute("artikel", newArtikel);
-        return "addItem";
-    }
-
-    @PostMapping("/Benutzer/addItem")
-    public String postAddItem(Model model, Artikel artikel, @RequestParam String daterange) {
-        Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit();
-        verfuegbarkeit.toVerfuegbarkeit(daterange);
-        artikel.setVerfuegbarkeit(verfuegbarkeit);
-        artikel.setVerleiherBenutzername(benutzerRepository.findByBenutzername("Ocramir").get().getBenutzername());
-        artikelRepository.save(artikel);
-        return "UebersichtsSeite";
     }
 
 }

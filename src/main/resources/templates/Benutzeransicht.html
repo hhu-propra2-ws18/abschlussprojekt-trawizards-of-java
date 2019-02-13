@@ -51,7 +51,9 @@
 	<a th:href="@{/account/{benutzername}/addItem (benutzername=${person.name})}">
 		<button type="button" class="btn btn-outline-dark" >Neuen Artikel erstellen</button>
 	</a>
-</div>
+    <a th:href="@{/account/{benutzername}/ausleihenuebersicht}">
+        <button type="button" class="btn btn-primary" >Anfragen ansehen</button>
+    </a>
     <hr>
     <div class="col-md-12">
     <tr th:each="a: ${artikel}">

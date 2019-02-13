@@ -45,7 +45,7 @@ public class DatabaseInitializr implements ServletContextInitializer {
         benutzerRepository.save(person2);
 
         Artikel artikel = new Artikel();
-        artikel.setVerleiherName(person1);
+        artikel.setVerleiherBenutzername(person1.getBenutzername());
         artikel.setArtikelName("Bagger");
         artikel.setBeschreibung("Dies ist ein Schaufelbagger");
         artikel.setKaution(2999);

@@ -101,7 +101,7 @@ public class AppController {
 	}
 
 	@PostMapping("/account/{benutzername}/addItem")
-	public String postAddItem(Artikel artikel, @RequestParam String daterange, @PathVariable String benutzername) {
+	public String postAddItem(Artikel artikel, @PathVariable String benutzername, @RequestParam String daterange) {
 		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit();
 		verfuegbarkeit.toVerfuegbarkeit(daterange);
 		artikel.setVerfuegbarkeit(verfuegbarkeit);
@@ -111,13 +111,13 @@ public class AppController {
 	}
 
 	@GetMapping("/artikel/{id}/anfrage")
-	public String neueAnfrage(@PathVariable Long id, Model model) {
+	public String neueAnfrage(Model model, @PathVariable Long id) {
 		model.addAttribute("id", id);
 		return "ausleihe";
 	}
 
 	@PostMapping("/artikel/{id}/anfrage")
-	public String speichereAnfrage(@PathVariable Long id, @RequestParam String daterange, Model model) {
+	public String speichereAnfrage(Model model, @PathVariable Long id, @RequestParam String daterange) {
 		Artikel artikel = artikelRepository.findById(id).get();
 		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit();
 		verfuegbarkeit.toVerfuegbarkeit(daterange);

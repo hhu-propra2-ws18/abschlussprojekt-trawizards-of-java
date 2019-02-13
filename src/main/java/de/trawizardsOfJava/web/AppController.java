@@ -4,7 +4,6 @@ import de.trawizardsOfJava.data.ArtikelRepository;
 import de.trawizardsOfJava.data.BenutzerRepository;
 import de.trawizardsOfJava.model.Artikel;
 import de.trawizardsOfJava.model.Person;
-import de.trawizardsOfJava.model.Ausleihe;
 import de.trawizardsOfJava.model.Verfuegbarkeit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 @Controller
@@ -50,18 +48,6 @@ public class AppController {
         return "artikelDetail";
     }
 
-    @GetMapping("/benutzerverwaltung/{benutzername}")
-    public String benutzerverwaltung(Model model, @PathVariable String benutzername) {
-        model.addAttribute("person", benutzerRepository.findByBenutzername(benutzername).get());
-        return "Benutzerverwaltung";
-    }
-
-    @PostMapping("/benutzerverwaltung/{benutzername}")
-    public String speicherAenderung(Person person) {
-        benutzerRepository.save((person));
-        return "Benutzerverwaltung";
-    }
-
     @GetMapping("/registrierung")
     public String registrierung(Model model) {
         model.addAttribute("person", new Person());
@@ -75,6 +61,27 @@ public class AppController {
         person.setRolle("ROLE_USER");
         benutzerRepository.save((person));
         return "BackToTheFuture";
+    }
+
+    @GetMapping("/account/{benutzername}")
+    public String accountansicht(Model model, @PathVariable String benutzername){
+        Person person = benutzerRepository.findByBenutzername(benutzername).get();
+        model.addAttribute("person", person);
+        model.addAttribute("artikel", artikelRepository.findByVerleiherBenutzername(person.getBenutzername()));
+        System.out.println(artikelRepository.findAll());
+        return "Benutzeransicht";
+    }
+
+    @GetMapping("/benutzerverwaltung/{benutzername}")
+    public String benutzerverwaltung(Model model, @PathVariable String benutzername) {
+        model.addAttribute("person", benutzerRepository.findByBenutzername(benutzername).get());
+        return "Benutzerverwaltung";
+    }
+
+    @PostMapping("/benutzerverwaltung/{benutzername}")
+    public String speicherAenderung(Person person) {
+        benutzerRepository.save((person));
+        return "Benutzerverwaltung";
     }
 
     @GetMapping("/artikel/{id}/anfrage")
@@ -113,14 +120,9 @@ public class AppController {
         Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit();
         verfuegbarkeit.toVerfuegbarkeit(daterange);
         artikel.setVerfuegbarkeit(verfuegbarkeit);
-        artikel.setVerleiherName(benutzerRepository.findByBenutzername("Ocramir").get()); //TODO Verleiher
+        artikel.setVerleiherBenutzername(benutzerRepository.findByBenutzername("Ocramir").get().getBenutzername());
         artikelRepository.save(artikel);
-        return ansichtItems(model);
+        return "UebersichtsSeite";
     }
 
-    @GetMapping("/Benutzer/Items")
-    private String ansichtItems(Model model) {
-        artikelRepository.findByverleiherName(benutzerRepository.findByBenutzername("Ocramir").get()); //TODO
-        return uebersicht(model);
-    }
 }

@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.com">
+<html lang="en">
+<head>
+    <title th:text ="${person.benutzername}"> Benutzer</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <style>
+        tr:hover {
+            background-color: whitesmoke;
+        }
+        th, td {
+            padding-right: 50px;
+        }
+    </style>
+</head>
+<body>
+<div>
+<h1 th:text="'Alle Artikel von '+${person.benutzername}"></h1>
+    <tr th:each="a: ${artikel}">
+        <dl class="dl-horizontal">
+            <dt th:text="'Artikel: ' +${a.artikelName}"></dt>
+            <dd th:text="'Verliehen von: ' +${a.verleiherBenutzername}"></dd>
+            <div class="col-sm-10">
+                <a th:href="@{/detail/{id} (id=${a.id})}">
+                    <button type="button" class="btn btn-primary" >Details</button>
+                </a>
+            </div>
+            <hr>
+        </dl>
+    </tr>
+</div>
+</body>
+</html>

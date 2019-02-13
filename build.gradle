@@ -28,6 +28,7 @@ repositories {
 
 dependencies {
 	compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.3.0'
+	implementation('org.springframework.boot:spring-boot-starter-security')
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
@@ -35,9 +36,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'mysql:mysql-connector-java'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	annotationProcessor('org.projectlombok:lombok')
 	compile('org.projectlombok:lombok')
+	annotationProcessor('org.projectlombok:lombok')
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation('org.springframework.security:spring-security-test')
 }
 
 tasks.withType(com.github.spotbugs.SpotBugsTask) {

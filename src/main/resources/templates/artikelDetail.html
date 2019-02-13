@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Details</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+
+    <h1 class="text-center"><a href='/'> Willkommen bei Leih24</a></h1>
+    <div class="col-md-12">
+        <a href='/anmelden'>
+            <button type="button" class="btn btn-outline-primary" >Anmelden</button>
+        </a>
+        <a href='/registrierung'>
+            <button type="button" class="btn btn-outline-primary" >Registieren</button>
+        </a>
+        <a href='/anmelden'>
+            <button type="button" class="btn btn-outline-primary" >Profil</button>
+        </a>
+        <a href='/registrierung'>
+            <button type="button" class="btn btn-outline-primary" >Logout</button>
+        </a>
+    </div>
+
+<hr>
+
+    <div class="col-md-4">
+        <p th:text="'Artikelname: ' +${artikelDetail.artikelName}"></p>
+        <p th:text="'Verleihername: ' +${artikelDetail.verleiherName.name}"></p>
+        <p th:text="'Beschreibung: ' +${artikelDetail.beschreibung}"></p>
+        <p th:text="'Standort: ' +${artikelDetail.standort}"></p>
+        <p th:text="'Preis: ' +${artikelDetail.preis}"></p>
+        <p th:text="'Kaution: ' +${artikelDetail.kaution}"></p>
+        <p th:text="'Verfügbar von: ' +${artikelDetail.verfuegbarkeit.startDate}"></p>
+        <p th:text="'Verfügbar bis: ' +${artikelDetail.verfuegbarkeit.endDate}"></p>
+        <a href='/'>
+        <button type="button" class="btn btn-danger" >Zurück</button>
+        </a>
+        <button type="button" class="btn btn-success" >Ausleihen</button>
+    </div>
+
+</body>
+</html>

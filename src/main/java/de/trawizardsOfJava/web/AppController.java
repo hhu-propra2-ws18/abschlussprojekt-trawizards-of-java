@@ -8,6 +8,7 @@ import de.trawizardsOfJava.model.Person;
 import de.trawizardsOfJava.model.Ausleihe;
 import de.trawizardsOfJava.model.Verfuegbarkeit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Controller
 public class AppController {
@@ -43,6 +45,17 @@ public class AppController {
         return "uebersichtSeite";
     }
 
+    @GetMapping("/detail/{id}")
+    public String detail(Model model, @PathVariable Long id) {
+
+        Optional<Artikel> artikel = artikelRepository.findById(id);
+
+
+        model.addAttribute("artikelDetail", artikel.get());
+
+        return "artikelDetail";
+    }
+
     @GetMapping("/benutzerverwaltung/{benutzername}")
     public String benutzerverwaltung(Model model, @PathVariable String benutzername) {
         model.addAttribute("person", benutzerRepository.findByBenutzername(benutzername).get());
@@ -63,17 +76,26 @@ public class AppController {
 
     @PostMapping("/registrierung")
     public String speicherePerson(Person person) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        person.setPasswort(bCryptPasswordEncoder.encode(person.getPasswort()));
+        person.setRolle("ROLE_USER");
         benutzerRepository.save((person));
         return "BackToTheFuture";
     }
 
     @GetMapping("/artikel/{id}/anfrage")
-    public String neueAnfrage() {
+    public String neueAnfrage(@PathVariable Long id, Model model) {
+        model.addAttribute("id", id);
         return "ausleihe";
     }
 
     @PostMapping("/artikel/{id}/anfrage")
-    public String speichereAnfrage(@PathVariable("id") Long id, @RequestParam LocalDate startdate, @RequestParam LocalDate enddate) {
+    public String speichereAnfrage(@PathVariable Long id, @RequestParam String daterange, Model model) {
+        Artikel artikel = artikelRepository.findById(id).get();
+        Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit();
+        verfuegbarkeit.toVerfuegbarkeit(daterange);
+        artikel.setVerfuegbarkeit(verfuegbarkeit);
+        System.out.println(artikel);
         //Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit();
         //verfuegbarkeit.setStartDate(startdate);
         //verfuegbarkeit.setEndDate(enddate);
@@ -81,29 +103,31 @@ public class AppController {
         //ausleihe.setVerfuegbarkeit(verfuegbarkeit);
         //ausleihe.setArtikel(artikelRepository.findById(id).get());
         //ausleihe.setAusleihender();
-        return "/artikel/uebersicht";
+        model.addAttribute("artikelDetail", artikel);
+        return "artikelDetail";
     }
 
     @GetMapping("/Benutzer/addItem")
     public String addItem(Model model) {
         Artikel newArtikel = new Artikel();
-        Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit();
-        newArtikel.setVerfuegbarkeit(verfuegbarkeit);
         model.addAttribute("artikel", newArtikel);
         return "addItem";
     }
 
     @PostMapping("/Benutzer/addItem")
-    public String postAddItem(Model model, Artikel artikel, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
-
+    public String postAddItem(Model model, Artikel artikel, @RequestParam String daterange) {
+        Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit();
+        verfuegbarkeit.toVerfuegbarkeit(daterange);
+        artikel.setVerfuegbarkeit(verfuegbarkeit);
+        artikel.setVerleiherName(benutzerRepository.findByBenutzername("Ocramir").get()); //TODO Verleiher
         artikelRepository.save(artikel);
         return ansichtItems(model);
     }
 
     @GetMapping("/Benutzer/Items")
     private String ansichtItems(Model model) {
-        artikelRepository.findByverleiherName("Udo"); //TODO
-        return "ansicht";
+        artikelRepository.findByverleiherName(benutzerRepository.findByBenutzername("Ocramir").get()); //TODO
+        return uebersicht(model);
     }
 
     @GetMapping("Benutzer/ausleihenuebersicht")

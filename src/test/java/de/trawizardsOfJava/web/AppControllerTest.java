@@ -1,6 +1,7 @@
 package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.ArtikelRepository;
+import de.trawizardsOfJava.data.AusleiheRepository;
 import de.trawizardsOfJava.data.BenutzerRepository;
 import de.trawizardsOfJava.model.Person;
 import org.junit.Assert;
@@ -32,6 +33,9 @@ public class AppControllerTest {
 
 	@Autowired
 	MockMvc mvc;
+
+	@MockBean
+	AusleiheRepository ausleiheRepository;
 
 	@MockBean
 	BenutzerRepository benutzerRepository;

@@ -113,7 +113,7 @@ public class AppController {
 		artikel.setVerfuegbarkeit(verfuegbarkeit);
 		artikel.setVerleiherBenutzername(benutzername);
 		artikelRepository.save(artikel);
-		return "UebersichtsSeite";
+		return "BackToTheFuture";
 	}
 
 	@GetMapping("/artikel/{id}/anfrage")

@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Ausleihenübersicht</title>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
 </head>
 <body>
 <div th:each="ausleihe : ${ausleihen}" align="center" margin="5">
@@ -12,9 +16,8 @@
             <li th:text="${ausleihe.ausleihender}">Ausleihender</li>
             <li th:date="${ausleihe.verfuegbarkeit.startDate}">Startdatum</li>
             <li th:date="${ausleihe.verfuegbarkeit.endDate}">Enddatum</li>
-            <button>
-                <a th:href="@{/ausleihen/{id}(id=${ausleihen.id})}">Annehmen</a>
-            </button>
+            <button name="button" onClick="confirmation(ausleihe)">Annehmen</button>
+            <button name="button" th:onClick="@{/remove/__${ausleihe.id}__}">Ablehnen</button>
         </ul>
     </div>
 </div>
@@ -28,5 +31,12 @@
         </ul>
     </div>
 </div>
+<script>
+    function confirmation(ausleihe){
+        alert("Anfrage angenommen!");
+        ausleihe.setAccepted(true);
+        location.reload();
+    }
+</script>
 </body>
 </html>

@@ -108,10 +108,21 @@ public class AppController {
 
     @GetMapping("Benutzer/ausleihenuebersicht")
     public String ausleihenuebersicht(Model model){
-        ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByverleiherName(new Person());
+        ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByverleiherName("Ocramir");//User einfügen
         model.addAttribute("ausleihen",ausleihen);
         return "ausleiheuebersicht";
     }
 
-    //boolean in ausleihe ändern
+    @GetMapping("/ausleihen/{id}")
+    public String ausleihebestaetigt(@PathVariable Long id){
+        Ausleihe ausleihe = ausleiheRepository.findById(id).get();
+        ausleihe.setAccepted(true);
+        return "";
+    }
+
+    @GetMapping("/remove/{id}")
+    public String ausleiheabgelehnt(@PathVariable Long id){
+        ausleiheRepository.delete(ausleiheRepository.findById(id).get());
+        return "ausleihenuebersicht";
+    }
 }

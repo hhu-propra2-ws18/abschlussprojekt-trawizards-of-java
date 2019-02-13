@@ -16,7 +16,7 @@
         <a href='/registrierung'>
             <button type="button" class="btn btn-outline-primary" >Registieren</button>
         </a>
-        <a href='/anmelden'>
+        <a th:href="@{/account/{benutzername} (benutzername=${name})}">
             <button type="button" class="btn btn-outline-primary" >Profil</button>
         </a>
         <a href='/logout'>
@@ -28,7 +28,7 @@
 
     <div class="col-md-4">
         <p th:text="'Artikelname: ' +${artikelDetail.artikelName}"></p>
-        <p th:text="'Verleihername: ' +${artikelDetail.verleiherName.name}"></p>
+        <p th:text="'Verleihername: ' +${artikelDetail.verleiherBenutzername}"></p>
         <p th:text="'Beschreibung: ' +${artikelDetail.beschreibung}"></p>
         <p th:text="'Standort: ' +${artikelDetail.standort}"></p>
         <p th:text="'Preis: ' +${artikelDetail.preis}"></p>

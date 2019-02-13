@@ -16,7 +16,7 @@
         <a href='/registrierung'>
             <button type="button" class="btn btn-outline-primary" >Registieren</button>
         </a>
-        <a href='/anmelden'>
+        <a th:href="@{/account/{benutzername} (benutzername=${name})}">
             <button type="button" class="btn btn-outline-primary" >Profil</button>
         </a>
         <a href='/logout'>

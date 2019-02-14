@@ -40,28 +40,21 @@ public class AppController {
 
 	@GetMapping("/")
 	public String uebersicht(Model model, Principal principal) {
-
 		List<Artikel> alleArtikel = artikelRepository.findAll();
-
 		model.addAttribute("artikel", alleArtikel);
 		if(principal != null){
 			model.addAttribute("name", principal.getName());
 		}
-
 		return "uebersichtSeite";
 	}
 
 	@GetMapping("/detail/{id}")
 	public String detail(Model model, @PathVariable Long id, Principal principal) {
-
 		Optional<Artikel> artikel = artikelRepository.findById(id);
-
-
 		model.addAttribute("artikelDetail", artikel.get());
 		if(principal != null){
 			model.addAttribute("name", principal.getName());
 		}
-
 		return "artikelDetail";
 	}
 
@@ -73,7 +66,7 @@ public class AppController {
 
 	@PostMapping("/registrierung")
 	public String speicherePerson(Person person) {
-		person.setPasswort(securityConfig.encoder().encode(person.getPasswort()));
+		person.setPasswort(SecurityConfig.encoder().encode(person.getPasswort()));
 		person.setRolle("ROLE_USER");
 		benutzerRepository.save((person));
 		return "BackToTheFuture";

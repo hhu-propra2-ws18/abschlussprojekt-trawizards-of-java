@@ -5,6 +5,7 @@ import de.trawizardsOfJava.model.Artikel;
 import de.trawizardsOfJava.model.Ausleihe;
 import de.trawizardsOfJava.model.Person;
 import de.trawizardsOfJava.model.Verfuegbarkeit;
+import de.trawizardsOfJava.web.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,8 +36,7 @@ public class DatabaseInitializr implements ServletContextInitializer {
         person1.setBenutzername("root");
         person1.setEmail("root@mail.com");
         person1.setName("root");
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        person1.setPasswort(bCryptPasswordEncoder.encode("1234"));
+        person1.setPasswort(SecurityConfig.encoder().encode("1234"));
         person1.setRolle("ROLE_ADMIN");
         benutzerRepository.save(person1);
 
@@ -44,7 +44,7 @@ public class DatabaseInitializr implements ServletContextInitializer {
         person2.setBenutzername("Joe");
         person2.setEmail("joe@mail.com");
         person2.setName("Joe");
-        person2.setPasswort(bCryptPasswordEncoder.encode("1234"));
+        person2.setPasswort(SecurityConfig.encoder().encode("1234"));
         person2.setRolle("ROLE_USER");
         benutzerRepository.save(person2);
 

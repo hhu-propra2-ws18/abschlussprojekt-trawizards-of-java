@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.security.Principal;
 import java.util.List;
@@ -135,6 +137,16 @@ public class AppController {
 	@GetMapping("/artikel/{id}/anfrage")
 	public String neueAnfrage(Model model, @PathVariable Long id) {
 		model.addAttribute("id", id);
+		Artikel artikel =  artikelRepository.findById(id).get();
+		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByArtikel(artikel);
+		ArrayList<Verfuegbarkeit> verbuebarkeiten = new ArrayList<>();
+		System.out.println(ausleihen.size());
+		for (Ausleihe ausleihe: ausleihen){
+			System.out.println(ausleihe.getVerfuegbarkeit());
+			verbuebarkeiten.add(ausleihe.getVerfuegbarkeit());
+		}
+		System.out.println(verbuebarkeiten);
+		model.addAttribute("daten", verbuebarkeiten);
 		return "ausleihe";
 	}
 

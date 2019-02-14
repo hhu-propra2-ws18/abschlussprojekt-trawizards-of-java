@@ -1,5 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.com">
-<html lang="en">
+<html lang="de" xmlns:th="http://www.thymeleaf.com">
 <head>
     <title th:text ="${person.benutzername}"> Benutzer</title>
     <meta charset="UTF-8">
@@ -43,7 +42,7 @@
             </ul>
         </div>
     </nav>
-    
+
 <div class="col-md-4">
     <a th:href="@{/account/{benutzername}/bearbeitung (benutzername=${person.name})}">
         <button type="button" class="btn btn-outline-dark" >Profil bearbeiten</button>

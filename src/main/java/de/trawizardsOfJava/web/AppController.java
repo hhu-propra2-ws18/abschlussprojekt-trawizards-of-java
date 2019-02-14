@@ -34,7 +34,7 @@ public class AppController {
 
     @Autowired
     private AusleiheRepository ausleiheRepository;
-	
+
     @Autowired
 	private SecurityConfig securityConfig;
 
@@ -133,12 +133,14 @@ public class AppController {
 		ausleihe.setArtikel(artikel);
 		ausleihe.setAusleihender(principal.getName());
 		ausleiheRepository.save(ausleihe);
-		return "BackToTheFuture";
+		return "BackTOTheFuture";
 	}
 
+
     @GetMapping("/account/{benutzername}/ausleihenuebersicht")
-    public String ausleihenuebersicht(Model model, Principal principal){
-        ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByverleiherName(principal.getName());
+    public String ausleihenuebersicht(Model model, Principal principal, @PathVariable String benutzername){
+        ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByverleiherName(benutzername);
+		System.out.println(ausleihen);
         model.addAttribute("ausleihen",ausleihen);
         return "ausleihenuebersicht";
     }

@@ -70,7 +70,6 @@ public class AppController {
 	@PostMapping("/registrierung")
 	public String speicherePerson(Model model, Person person) {
 		if (benutzerRepository.findByBenutzername(person.getBenutzername()).isPresent()){
-			//model.addAttribute("person", new Person());
 			model.addAttribute("error", true);
 			return "registrierung";
 		}

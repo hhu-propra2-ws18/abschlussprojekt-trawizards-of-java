@@ -13,4 +13,5 @@ public interface AusleiheRepository extends CrudRepository<Ausleihe,Long> {
     ArrayList<Ausleihe> findByverleiherName(String verleiherName);
 
     ArrayList<Ausleihe> findByAusleihender(String ausleihender);
+  
 }

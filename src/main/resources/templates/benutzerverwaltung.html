@@ -1,5 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.com">
-<html lang="en">
+<html lang="de" xmlns:th="http://www.thymeleaf.com">
 <head>
 	<title>Accountverwaltung</title>
 	<meta charset="UTF-8">
@@ -48,7 +47,7 @@
 		<table align="center">
 			<tr>
 				<td>Benutzername:</td>
-				<td><input type="text" th:field="*{benutzername}"></td>
+				<td><input disabled type="text" th:field="*{benutzername}"></td>
 			</tr>
 			<tr>
 				<td>Name:</td>
@@ -59,7 +58,8 @@
 				<td><input type="text" th:field="*{email}"></td>
 			</tr>
 		</table>
-		<button type="submit">Bestätigen</button>
+		<br>
+		<button type="submit" class="btn btn-outline-success">Bestätigen</button>
 	</form>
 </div>
 </body>

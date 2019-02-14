@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="de" xmlns:th="http://www.thymeleaf.com">
 <head>
     <title>Details</title>
     <meta charset="UTF-8">
@@ -22,24 +22,32 @@
                 <a class="nav-link" href='/'>Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href='/login'>
-                    Anmelden
-                </a>
+                <div th:if="${disableThirdButton}">
+                    <a class="nav-link" href='/login'>
+                        Anmelden
+                    </a>
+                </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href='/registrierung'>
-                    Registieren
-                </a>
+                <div th:if="${disableThirdButton}">
+                    <a class="nav-link" href='/registrierung'>
+                        Registieren
+                    </a>
+                </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/account/{benutzername} (benutzername=${name})}">
-                    Profil
-                </a>
+                <div th:if="${disableSecondButton}">
+                    <a class="nav-link" th:href="@{/account/{benutzername} (benutzername=${name})}">
+                        Profil
+                    </a>
+                </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href='/logout'>
-                    Logout
-                </a>
+                <div th:if="${disableSecondButton}">
+                    <a class="nav-link" href='/logout'>
+                        Logout
+                    </a>
+                </div>
             </li>
             <hr>
         </ul>
@@ -47,7 +55,7 @@
 </nav>
 
 
-    <div class="col-md-4">
+    <div class="col-md-4" align="center">
         <p th:text="'Artikelname: ' +${artikelDetail.artikelName}"></p>
         <p th:text="'Verleihername: ' +${artikelDetail.verleiherBenutzername}"></p>
         <p th:text="'Beschreibung: ' +${artikelDetail.beschreibung}"></p>
@@ -59,7 +67,7 @@
         <a href='/'>
         <button type="button" class="btn btn-outline-danger" >Zurück</button>
         </a>
-        <a th:href="@{/artikel/__${artikelDetail.id}__/anfrage}">
+        <a th:href="@{/artikel/{id}/anfrage (id=${artikelDetail.id})}">
             <button type="button" class="btn btn-outline-success">Ausleihen</button>
         </a>
     </div>

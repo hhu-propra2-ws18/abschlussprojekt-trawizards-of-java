@@ -1,4 +1,5 @@
-<html xmlns:th="http://www.thymeleaf.com">
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.com">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -44,14 +45,15 @@
     </nav>
 
     <div align="center">
+        <h2>Für welchen Zeitraum möchten Sie den Artikel ausleihen?</h2>
         <input id="date" type="text" name="daterange" value="" /> <br>
         <br>
         <br>
-        <a href='/'>
-            <button type="button" class="btn btn-outline-danger" >Abbrechen</button>
-        </a>
         <input type="hidden" th:field="*{id}">
-        <input type="submit" value="Ausleihen" class="btn btn-outline-success"/>
+        <input type="submit" value="Submit" class="btn btn-outline-success"/>
+        <a href='/'>
+            <button name="button" class="btn btn-outline-danger">Abbrechen</button>
+        </a>
     </div>
     <script>
         $(function() {

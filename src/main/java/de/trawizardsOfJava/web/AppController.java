@@ -27,13 +27,16 @@ import java.util.Optional;
 public class AppController {
 
 	@Autowired
-	BenutzerRepository benutzerRepository;
+	private BenutzerRepository benutzerRepository;
 
 	@Autowired
-	ArtikelRepository artikelRepository;
+	private ArtikelRepository artikelRepository;
 
     @Autowired
-    AusleiheRepository ausleiheRepository;
+    private AusleiheRepository ausleiheRepository;
+	
+    @Autowired
+	private SecurityConfig securityConfig;
 
 	@GetMapping("/")
 	public String uebersicht(Model model, Principal principal) {
@@ -70,8 +73,7 @@ public class AppController {
 
 	@PostMapping("/registrierung")
 	public String speicherePerson(Person person) {
-		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-		person.setPasswort(bCryptPasswordEncoder.encode(person.getPasswort()));
+		person.setPasswort(securityConfig.encoder().encode(person.getPasswort()));
 		person.setRolle("ROLE_USER");
 		benutzerRepository.save((person));
 		return "BackToTheFuture";
@@ -138,15 +140,12 @@ public class AppController {
 		ausleihe.setArtikel(artikel);
 		ausleihe.setAusleihender(principal.getName());
 		ausleiheRepository.save(ausleihe);
-		model.addAttribute("artikel", artikelRepository.findAll());
-		return "uebersichtSeite";
+		return "BackToTheFuture";
 	}
 
-
-    @GetMapping("/account/{Benutzername}/ausleihenuebersicht")
+    @GetMapping("/account/{benutzername}/ausleihenuebersicht")
     public String ausleihenuebersicht(Model model, Principal principal){
         ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByverleiherName(principal.getName());
-		System.out.println(ausleihen);
         model.addAttribute("ausleihen",ausleihen);
         return "ausleihenuebersicht";
     }

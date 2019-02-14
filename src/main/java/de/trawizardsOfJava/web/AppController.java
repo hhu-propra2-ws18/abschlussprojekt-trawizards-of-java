@@ -64,14 +64,13 @@ public class AppController {
 	@GetMapping("/registrierung")
 	public String registrierung(Model model) {
 		model.addAttribute("person", new Person());
-		model.addAttribute("error", false);
 		return "registrierung";
 	}
 
 	@PostMapping("/registrierung")
 	public String speicherePerson(Model model, Person person) {
 		if (benutzerRepository.findByBenutzername(person.getBenutzername()).isPresent()){
-			model.addAttribute("person", new Person());
+			//model.addAttribute("person", new Person());
 			model.addAttribute("error", true);
 			return "registrierung";
 		}

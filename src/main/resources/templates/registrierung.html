@@ -38,7 +38,7 @@
 </nav>
 
 <div align="center">
-    <p th:if ="${error}" th:text="Dieser Benutzername existeriert bereits!"></p>
+    <p th:if ="${error}">Dieser Benutzername existeriert bereits!</p>
     <form method="post" th:object="${person}">
         <table>
             <tr>

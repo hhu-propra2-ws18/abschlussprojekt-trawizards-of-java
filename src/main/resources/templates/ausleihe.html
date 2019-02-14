@@ -16,16 +16,42 @@
 
 <form method="post">
     <body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+        <a class="navbar-brand" href='/'>Leih24</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href='/'>Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href='/logout'>
+                        Logout
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" th:text="'Für welchen Zeitraum möchten sie den Artikel ausleihen?'"></a>
+                </li>
+                <hr>
+            </ul>
+        </div>
+    </nav>
+
     <div align="center">
-        <h2>Für welchen Zeitraum möchten sie den Artikel ausleihen?</h2>
         <input id="date" type="text" name="daterange" value="" /> <br>
         <br>
         <br>
-        <input type="hidden" th:field="*{id}">
-        <input type="submit" value="Submit" class="btn btn-success"/>
-        <a th:href="@{/detail/__${id}__}">
-            <button name="button" class="btn btn-danger">Abbrechen</button>
+        <a href='/'>
+            <button type="button" class="btn btn-outline-danger" >Abbrechen</button>
         </a>
+        <input type="hidden" th:field="*{id}">
+        <input type="submit" value="Ausleihen" class="btn btn-outline-success"/>
     </div>
     <script>
         $(function() {

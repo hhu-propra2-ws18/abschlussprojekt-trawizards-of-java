@@ -25,9 +25,9 @@
     <a th:href="@{/rueckgabe/akzeptiert/{id} (id=${ausleihe.id})}">
         <button name="button" class="btn btn-success" onClick="confirmation()">Akzeptieren</button>
     </a>
-    <!--<a th:href="@{/rueckgabe/akzeptiert/{id} (id=${ausleihe.id})}">
+    <<a th:href="@{/send/{id} (id=${ausleihe.id})}">
         <button name="button" class="btn btn-danger" onClick="denied()">Mangelhafter Zustand</button>
-    </a>-->
+    </a>
 </div>
 <script>
     function confirmation(){

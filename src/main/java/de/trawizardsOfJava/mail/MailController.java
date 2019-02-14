@@ -17,14 +17,14 @@ public class MailController {
     BenutzerRepository benutzerRepository;
 
     @GetMapping("/send/{id}")
-    @ResponseBody
     public String home(@PathVariable Long id,  Principal principal){
         try {
             iMailService.sendEmailToKonfliktLoeseStelle(principal.getName(), id);
-            return "Email erfolgreich gesendet!";
         }
         catch(MailException e){
-            return "Email konnte nicht gesendet werden\n" + e.getMessage();
+            // Exception Handling
+            System.out.println("Email konnte nicht gesendet werden\n" + e.getMessage());
         }
+        return "zurueckgegebeneartikel";
     }
 }

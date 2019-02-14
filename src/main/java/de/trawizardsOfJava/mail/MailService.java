@@ -25,8 +25,8 @@ public class MailService implements IMailService{
         //mail.setTo(benutzerRepository.findByBenutzername(name).get().getEmail());
         mail.setFrom("propra.leihe24@gmail.com");
         mail.setTo("propra.leihe24@gmail.com");
-        mail.setText("Sehr geehrte Damen und Herren," + "%n%n" + "wir bitten um Auflösung des Konfliktes" +
-                "der ID " + id + "%n%n" + "Vielen Dank.");
+        mail.setText("Sehr geehrte Damen und Herren," + "\n\n" + "wir bitten um Auflösung des Konfliktes" +
+                " der ID " + id + "\n\n" + "Vielen Dank.");
         mail.setSubject("Konflikt bei Ausleihe " + id);
         javaMailSender.send(mail);
     }

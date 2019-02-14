@@ -1,43 +1,35 @@
 package de.trawizardsOfJava.mail;
 
 import de.trawizardsOfJava.data.BenutzerRepository;
+import de.trawizardsOfJava.data.RueckgabeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.internet.MimeMessage;
+import java.security.Principal;
 
 @Controller
 public class MailController {
 
     @Autowired
-    JavaMailSender sender;
+    IMailService iMailService;
 
     @Autowired
     BenutzerRepository benutzerRepository;
 
-    @GetMapping("/send")
+    @GetMapping("/send/{id}")
     @ResponseBody
-    public String home(){
+    public String home(@PathVariable Long id,  Principal principal){
         try {
-            sendEmail();
-            return "Email gesendet!";
+            iMailService.sendEmailToKonfliktLoeseStelle(principal.getName(), id);
+            return "Email erfolgreich gesendet!";
         }
-        catch(Exception e){
-            return "Email konnte nicht gesendet werden";
+        catch(MailException e){
+            return "Email konnte nicht gesendet werden\n" + e.getMessage();
         }
-    }
-
-    private void sendEmail() throws Exception{
-        MimeMessage message = sender.createMimeMessage();
-        MimeMessageHelper messageHelper = new MimeMessageHelper(message);
-
-        messageHelper.setTo(benutzerRepository.findByBenutzername("root").get().getEmail());
-        messageHelper.setText("Hi");
-        messageHelper.setSubject("Wilkommen bei Leih24!");
-        sender.send(message);
     }
 }

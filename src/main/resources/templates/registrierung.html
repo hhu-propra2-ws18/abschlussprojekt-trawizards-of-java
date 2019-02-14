@@ -38,6 +38,7 @@
 </nav>
 
 <div align="center">
+    <p th:if ="${error}">Dieser Benutzername existeriert bereits!</p>
     <form method="post" th:object="${person}">
         <table>
             <tr>
@@ -46,7 +47,7 @@
             </tr>
             <tr>
                 <td>Name:</td>
-                <td><input type="text" th:field="*{name}" required></td>
+                <td><input type="text" th:field="*{name}"></td>
             </tr>
             <tr>
                 <td>E-Mail:</td>
@@ -54,7 +55,7 @@
             </tr>
             <tr>
                 <td>Passwort:</td>
-                <td><input type="text" th:field="*{passwort}"></td>
+                <td><input type="text" th:field="*{passwort}" required></td>
             </tr>
         </table>
         <br>

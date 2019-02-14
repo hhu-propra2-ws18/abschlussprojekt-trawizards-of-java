@@ -115,6 +115,7 @@ public class AppController {
 		if (principal.getName().equals(benutzername)) {
 			Artikel newArtikel = new Artikel();
 			model.addAttribute("artikel", newArtikel);
+			model.addAttribute("name", principal.getName());
 			return "addItem";
 		} else {
 			return "permissionDenied";
@@ -156,6 +157,7 @@ public class AppController {
 		if (benutzername.equals(principal.getName())) {
 			ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByVerleiherName(benutzername);
 			model.addAttribute("ausleihen", ausleihen);
+			model.addAttribute("name", principal.getName());
 			return "ausleihenuebersicht";
 		}
 		else {

@@ -72,11 +72,17 @@ public class AppController {
 	}
 
 	@PostMapping("/registrierung")
-	public String speicherePerson(Person person) {
-		person.setPasswort(SecurityConfig.encoder().encode(person.getPasswort()));
-		person.setRolle("ROLE_USER");
-		benutzerRepository.save((person));
-		return "backToTheFuture";
+	public String speicherePerson(Model model, Person person) {
+		if (benutzerRepository.findByBenutzername(person.getBenutzername()).isPresent()){
+			model.addAttribute("error", true);
+			return "registrierung";
+		}
+		else {
+			person.setPasswort(SecurityConfig.encoder().encode(person.getPasswort()));
+			person.setRolle("ROLE_USER");
+			benutzerRepository.save((person));
+			return "backToTheFuture";
+		}
 	}
 
 	@GetMapping("/account/{benutzername}")

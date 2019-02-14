@@ -8,7 +8,6 @@ import de.trawizardsOfJava.model.Ausleihe;
 import de.trawizardsOfJava.model.Person;
 import de.trawizardsOfJava.model.Verfuegbarkeit;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,9 +34,6 @@ public class AppController {
     @Autowired
     private AusleiheRepository ausleiheRepository;
 
-    @Autowired
-	private SecurityConfig securityConfig;
-
 	@GetMapping("/")
 	public String uebersicht(Model model, Principal principal) {
 		List<Artikel> alleArtikel = artikelRepository.findAll();
@@ -61,7 +57,7 @@ public class AppController {
 	@GetMapping("/registrierung")
 	public String registrierung(Model model) {
 		model.addAttribute("person", new Person());
-		return "Registrierung";
+		return "registrierung";
 	}
 
 	@PostMapping("/registrierung")
@@ -69,7 +65,7 @@ public class AppController {
 		person.setPasswort(SecurityConfig.encoder().encode(person.getPasswort()));
 		person.setRolle("ROLE_USER");
 		benutzerRepository.save((person));
-		return "BackToTheFuture";
+		return "backToTheFuture";
 	}
 
 	@GetMapping("/account/{benutzername}")
@@ -77,23 +73,23 @@ public class AppController {
 		Person person = benutzerRepository.findByBenutzername(benutzername).get();
 		model.addAttribute("person", person);
 		model.addAttribute("artikel", artikelRepository.findByVerleiherBenutzername(person.getBenutzername()));
-		return "Benutzeransicht";
+		return "benutzeransicht";
 	}
 
 	@GetMapping("/account/{benutzername}/bearbeitung")
 	public String benutzerverwaltung(Model model, @PathVariable String benutzername, Principal principal) {
 		if (principal.getName().equals(benutzername)) {
 			model.addAttribute("person", benutzerRepository.findByBenutzername(benutzername).get());
-			return "Benutzerverwaltung";
+			return "benutzerverwaltung";
 		} else {
-			return "PermissionDenied";
+			return "permissionDenied";
 		}
 	}
 
 	@PostMapping("/account/{benutzername}/bearbeitung")
 	public String speicherAenderung(Person person) {
 		benutzerRepository.save((person));
-		return "Benutzerverwaltung";
+		return "benutzerverwaltung";
 	}
 
 	@GetMapping("/account/{benutzername}/addItem")
@@ -103,7 +99,7 @@ public class AppController {
 			model.addAttribute("artikel", newArtikel);
 			return "addItem";
 		} else {
-			return "PermissionDenied";
+			return "permissionDenied";
 		}
 	}
 
@@ -114,7 +110,7 @@ public class AppController {
 		artikel.setVerfuegbarkeit(verfuegbarkeit);
 		artikel.setVerleiherBenutzername(benutzername);
 		artikelRepository.save(artikel);
-		return "BackToTheFuture";
+		return "backToTheFuture";
 	}
 
 	@GetMapping("/artikel/{id}/anfrage")
@@ -124,7 +120,7 @@ public class AppController {
 	}
 
 	@PostMapping("/artikel/{id}/anfrage")
-	public String speichereAnfrage(@PathVariable Long id, @RequestParam String daterange, Model model, Principal principal) {
+	public String speichereAnfrage(@PathVariable Long id, @RequestParam String daterange, Principal principal) {
 		Artikel artikel = artikelRepository.findById(id).get();
 		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit();
 		verfuegbarkeit.toVerfuegbarkeit(daterange);
@@ -133,13 +129,13 @@ public class AppController {
 		ausleihe.setArtikel(artikel);
 		ausleihe.setAusleihender(principal.getName());
 		ausleiheRepository.save(ausleihe);
-		return "BackTOTheFuture";
+		return "backToTheFuture";
 	}
 
 
     @GetMapping("/account/{benutzername}/ausleihenuebersicht")
-    public String ausleihenuebersicht(Model model, Principal principal, @PathVariable String benutzername){
-        ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByverleiherName(benutzername);
+    public String ausleihenuebersicht(Model model, @PathVariable String benutzername, Principal principal){
+        ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByVerleiherName(benutzername);
 		System.out.println(ausleihen);
         model.addAttribute("ausleihen",ausleihen);
         return "ausleihenuebersicht";
@@ -150,14 +146,14 @@ public class AppController {
         Ausleihe ausleihe = ausleiheRepository.findById(id).get();
         ausleihe.setAccepted(true);
         ausleiheRepository.save(ausleihe);
-        model.addAttribute("ausleihen", ausleiheRepository.findByverleiherName(principal.getName()));
+        model.addAttribute("ausleihen", ausleiheRepository.findByVerleiherName(principal.getName()));
         return "ausleihenuebersicht";
     }
 
     @GetMapping("/remove/{id}")
     public String ausleiheabgelehnt(@PathVariable Long id, Model model, Principal principal){
         ausleiheRepository.delete(ausleiheRepository.findById(id).get());
-		model.addAttribute("ausleihen", ausleiheRepository.findByverleiherName(principal.getName()));
+		model.addAttribute("ausleihen", ausleiheRepository.findByVerleiherName(principal.getName()));
         return "ausleihenuebersicht";
     }
 }

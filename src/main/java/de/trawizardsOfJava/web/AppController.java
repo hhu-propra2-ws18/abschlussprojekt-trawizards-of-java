@@ -1,9 +1,6 @@
 package de.trawizardsOfJava.web;
 
-import de.trawizardsOfJava.data.ArtikelRepository;
-import de.trawizardsOfJava.data.AusleiheRepository;
-import de.trawizardsOfJava.data.BenutzerRepository;
-import de.trawizardsOfJava.data.RueckgabeRepository;
+import de.trawizardsOfJava.data.*;
 import de.trawizardsOfJava.mail.Message;
 import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.*;
@@ -39,6 +36,9 @@ public class AppController {
 
   	@Autowired
   	private RueckgabeRepository rueckgabeRepository;
+
+  	@Autowired
+	private KonfliktRepository konfliktRepository;
 
 	@Autowired
 	private SecurityConfig securityConfig;
@@ -216,13 +216,29 @@ public class AppController {
 	@GetMapping("/account/{benutzername}/nachrichten")
 	public String nachrichtenUebersicht(Model model, @PathVariable String benutzername, Principal principal){
 		if (benutzername.equals(principal.getName())) {
-			ArrayList<Message> message = messageRepository.findByBenutzername(benutzername);
-			model.addAttribute("ausleihen", message);
-			return "";
+			ArrayList<Message> messages = messageRepository.findByBenutzername(benutzername);
+			model.addAttribute("messages", messages);
+			return "nachrichtenUebersicht";
 		}
 		else {
 			return "permissionDenied";
 		}
+	}
+
+	@PostMapping("/konflikt/send")
+	public String konfliktAbsenden(Konflikt konflikt, Principal principal){
+		konfliktRepository.save(konflikt);
+		Message message = new Message();
+		message.setNachricht(konflikt.getBeschreibung());
+		message.setAbsender(principal.getName());
+		message.setEmpfaenger("");
+		return "benutzeransicht";
+	}
+
+	@GetMapping("/nachricht/delete/{id}")
+	private String messageDelete(@PathVariable Long id){
+		messageRepository.delete(messageRepository.findById(id).get());
+		return "nachrichtenUebersicht";
 	}
 
 }

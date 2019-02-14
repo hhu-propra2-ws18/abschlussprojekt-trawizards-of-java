@@ -21,9 +21,9 @@ public class MailController {
 
     @GetMapping("/send")
     @ResponseBody
-    public String home(){
+    public String hello(){
         try {
-            sendEmail();
+            sendWilkommensEmail();
             return "Email gesendet!";
         }
         catch(Exception e){
@@ -31,7 +31,7 @@ public class MailController {
         }
     }
 
-    private void sendEmail() throws Exception{
+    private void sendWilkommensEmail() throws Exception{
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(message);
 
@@ -39,5 +39,11 @@ public class MailController {
         messageHelper.setText("Hi");
         messageHelper.setSubject("Wilkommen bei Leih24!");
         sender.send(message);
+    }
+
+    @GetMapping("/send/konflikt/")
+    @ResponseBody
+    private String konfliktAbschicken(){
+        return "";
     }
 }

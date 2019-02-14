@@ -56,6 +56,9 @@
         <a th:href="@{/remove/{id} (id=${ausleihe.id})}">
             <button name="button" class="btn btn-outline-danger">Ablehnen</button>
         </a>
+        <a th:href="@{/annahme/__${ausleihe.id}__}">
+            <button name="button" class="btn btn-outline-success" onClick="confirmation()">Annehmen</button>
+        </a>
     </div>
 </div>
 <h2 align="center">Angenommene Anfragen:</h2>

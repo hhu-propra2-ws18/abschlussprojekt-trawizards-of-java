@@ -163,7 +163,6 @@ public class AppController {
 		return "backToTheFuture";
 	}
 
-
     @GetMapping("/account/{benutzername}/ausleihenuebersicht")
     public String ausleihenuebersicht(Model model, @PathVariable String benutzername, Principal principal){
 		if (benutzername.equals(principal.getName())) {
@@ -225,7 +224,4 @@ public class AppController {
 		model.addAttribute("ausleihen", rueckgabeRepository.findByVerleiherName(principal.getName()));
 		return "zurueckgegebeneartikel";
 	}
-
-
-
 }

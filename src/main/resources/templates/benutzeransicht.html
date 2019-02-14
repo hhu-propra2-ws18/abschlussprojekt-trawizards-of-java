@@ -43,8 +43,7 @@
         </div>
     </nav>
 
-<div class="col-md-4" align="center">
-    <div class="row">
+<div class="col-md-12" align="center">
         <p th:if = "${isUser}">
             <a th:href="@{/account/{benutzername}/bearbeitung (benutzername=${person.name})}">
                 <button type="button" class="btn btn-outline-dark" >Profil bearbeiten</button>
@@ -56,9 +55,8 @@
                 <button type="button" class="btn btn-outline-dark" >Anfragen ansehen</button>
             </a>
         </p>
-    </div>
     <hr>
-    <div class="col-md-12" align="center">
+    <div class="col-md-12">
     <tr th:each="a: ${artikel}">
         <dl class="dl-horizontal">
             <dt th:text="'Artikel: ' +${a.artikelName}"></dt>

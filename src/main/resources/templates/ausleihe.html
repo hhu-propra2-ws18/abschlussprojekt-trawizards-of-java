@@ -39,6 +39,11 @@
                     <a class="nav-link" href='/'>Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
+                        <a class="nav-link" th:href="@{/account/{benutzername} (benutzername=${name})}">
+                            Profil
+                        </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href='/logout'>
                         Logout
                     </a>
@@ -52,7 +57,6 @@
     </nav>
 
     <div align="center">
-        <h2>Für welchen Zeitraum möchten sie den Artikel ausleihen?</h2>
         <input id="date" type="text" name="daterange" value="" min="#today"/> <br>
         <br>
         <br>

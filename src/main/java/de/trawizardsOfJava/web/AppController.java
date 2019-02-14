@@ -138,14 +138,13 @@ public class AppController {
 		ausleihe.setArtikel(artikel);
 		ausleihe.setAusleihender(principal.getName());
 		ausleiheRepository.save(ausleihe);
-		model.addAttribute("artikel", artikelRepository.findAll());
 		return "BackTOTheFuture";
 	}
 
 
-    @GetMapping("/account/{Benutzername}/ausleihenuebersicht")
-    public String ausleihenuebersicht(Model model, Principal principal){
-        ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByverleiherName(principal.getName());
+    @GetMapping("/account/{benutzername}/ausleihenuebersicht")
+    public String ausleihenuebersicht(Model model, Principal principal, @PathVariable String benutzername){
+        ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByverleiherName(benutzername);
 		System.out.println(ausleihen);
         model.addAttribute("ausleihen",ausleihen);
         return "ausleihenuebersicht";

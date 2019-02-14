@@ -69,10 +69,11 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}")
-	public String accountansicht(Model model, @PathVariable String benutzername) {
+	public String accountansicht(Model model, @PathVariable String benutzername, Principal principal) {
 		Person person = benutzerRepository.findByBenutzername(benutzername).get();
 		model.addAttribute("person", person);
 		model.addAttribute("artikel", artikelRepository.findByVerleiherBenutzername(person.getBenutzername()));
+		model.addAttribute("isUser", benutzername.equals(principal.getName()));
 		return "benutzeransicht";
 	}
 
@@ -135,10 +136,15 @@ public class AppController {
 
     @GetMapping("/account/{benutzername}/ausleihenuebersicht")
     public String ausleihenuebersicht(Model model, @PathVariable String benutzername, Principal principal){
-        ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByVerleiherName(benutzername);
-		System.out.println(ausleihen);
-        model.addAttribute("ausleihen",ausleihen);
-        return "ausleihenuebersicht";
+		if (benutzername.equals(principal.getName())) {
+			ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByVerleiherName(benutzername);
+			System.out.println(ausleihen);
+			model.addAttribute("ausleihen", ausleihen);
+			return "ausleihenuebersicht";
+		}
+		else {
+			return "permissionDenied";
+		}
     }
 
     @GetMapping("/annahme/{id}")

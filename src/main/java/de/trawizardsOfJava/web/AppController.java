@@ -152,6 +152,11 @@ public class AppController {
 		ausleihe.setArtikel(artikel);
 		ausleihe.setAusleihender(principal.getName());
 		ausleiheRepository.save(ausleihe);
+		Message message = new Message();
+		message.setAbsender(principal.getName());
+		message.setEmpfaenger(artikel.getVerleiherBenutzername());
+		message.setNachricht("Anfrage für " + artikel.getArtikelName());
+		messageRepository.save(message);
 		return "backToTheFuture";
 	}
 
@@ -173,13 +178,24 @@ public class AppController {
         Ausleihe ausleihe = ausleiheRepository.findById(id).get();
         ausleihe.setAccepted(true);
         ausleiheRepository.save(ausleihe);
+		Message message = new Message();
+		message.setAbsender(principal.getName());
+		message.setEmpfaenger(ausleihe.getAusleihender());
+		message.setNachricht("Anfrage für " + ausleihe.getArtikel().getArtikelName() + " angenommen");
+		messageRepository.save(message);
         model.addAttribute("ausleihen", ausleiheRepository.findByVerleiherName(principal.getName()));
         return "ausleihenuebersicht";
     }
 
     @GetMapping("/remove/{id}")
     public String ausleiheabgelehnt(@PathVariable Long id, Model model, Principal principal){
-        ausleiheRepository.delete(ausleiheRepository.findById(id).get());
+		Ausleihe ausleihe = ausleiheRepository.findById(id).get();
+        ausleiheRepository.delete(ausleihe);
+		Message message = new Message();
+		message.setAbsender(principal.getName());
+		message.setEmpfaenger(ausleihe.getAusleihender());
+		message.setNachricht("Anfrage für " + ausleihe.getArtikel().getArtikelName() + " abgelehnt");
+		messageRepository.save(message);
 		model.addAttribute("ausleihen", ausleiheRepository.findByVerleiherName(principal.getName()));
         return "ausleihenuebersicht";
     }
@@ -193,7 +209,13 @@ public class AppController {
 
 	@GetMapping("/rueckgabe/{id}")
 	public String zurueckgegeben(@PathVariable Long id, Model model, Principal principal){
-		rueckgabeRepository.save(ausleiheRepository.findById(id).get().convertToRueckgabe());
+		Ausleihe ausleihe = ausleiheRepository.findById(id).get();
+		rueckgabeRepository.save(ausleihe.convertToRueckgabe());
+		Message message = new Message();
+		message.setAbsender(principal.getName());
+		message.setEmpfaenger(ausleihe.getVerleiherName());
+		message.setNachricht(ausleihe.getArtikel().getArtikelName() + " zurückgegeben");
+		messageRepository.save(message);
 		ausleiheRepository.delete(ausleiheRepository.findById(id).get());
 		model.addAttribute("ausleihen", ausleiheRepository.findByAusleihender(principal.getName()));
 		return "ausgelieheneuebersicht";
@@ -208,7 +230,13 @@ public class AppController {
 
 	@GetMapping("/rueckgabe/akzeptiert/{id}")
 	public String rueckgabeakzeptiert(@PathVariable Long id, Model model, Principal principal){
-		rueckgabeRepository.delete(rueckgabeRepository.findById(id).get());
+		Rueckgabe rueckgabe= rueckgabeRepository.findById(id).get();
+		Message message = new Message();
+		message.setAbsender(principal.getName());
+		message.setEmpfaenger(rueckgabe.getVerleiherName());
+		message.setNachricht("Rückgabe von " + rueckgabe.getArtikel().getArtikelName() + " akzeptiert");
+		messageRepository.save(message);
+		rueckgabeRepository.delete(rueckgabe);
 		model.addAttribute("ausleihen", rueckgabeRepository.findByVerleiherName(principal.getName()));
 		return "zurueckgegebeneartikel";
 	}
@@ -216,7 +244,7 @@ public class AppController {
 	@GetMapping("/account/{benutzername}/nachrichten")
 	public String nachrichtenUebersicht(Model model, @PathVariable String benutzername, Principal principal){
 		if (benutzername.equals(principal.getName())) {
-			ArrayList<Message> messages = messageRepository.findByBenutzername(benutzername);
+			ArrayList<Message> messages = messageRepository.findByEmpfaenger(benutzername);
 			model.addAttribute("messages", messages);
 			return "nachrichtenUebersicht";
 		}
@@ -229,15 +257,16 @@ public class AppController {
 	public String konfliktAbsenden(Konflikt konflikt, Principal principal){
 		konfliktRepository.save(konflikt);
 		Message message = new Message();
-		message.setNachricht(konflikt.getBeschreibung());
+		//message.setNachricht(konflikt.getBeschreibung());
 		message.setAbsender(principal.getName());
 		message.setEmpfaenger("");
 		return "benutzeransicht";
 	}
 
 	@GetMapping("/nachricht/delete/{id}")
-	private String messageDelete(@PathVariable Long id){
+	private String messageDelete(@PathVariable Long id, Model model, Principal principal){
 		messageRepository.delete(messageRepository.findById(id).get());
+		model.addAttribute("messages",messageRepository.findByEmpfaenger(principal.getName()));
 		return "nachrichtenUebersicht";
 	}
 

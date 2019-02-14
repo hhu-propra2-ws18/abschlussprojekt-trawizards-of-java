@@ -51,10 +51,10 @@
         <p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
         <p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
         <a th:href="@{/annahme/{id} (id=${ausleihe.id})}">
-            <button name="button" class="btn btn-success" onClick="confirmation()">Annehmen</button>
+            <button name="button" class="btn btn-outline-success" onClick="confirmation()">Annehmen</button>
         </a>
         <a th:href="@{/remove/{id} (id=${ausleihe.id})}">
-            <button name="button" class="btn btn-danger">Ablehnen</button>
+            <button name="button" class="btn btn-outline-danger">Ablehnen</button>
         </a>
     </div>
 </div>

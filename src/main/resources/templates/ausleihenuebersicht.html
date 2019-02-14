@@ -54,7 +54,7 @@
             <button name="button" class="btn btn-success" onClick="confirmation()">Annehmen</button>
         </a>
         <a th:href="@{/remove/__${ausleihe.id}__}">
-            <button name="button" class="btn btn-danger">Ablehnen</button>
+            <button name="button" class="btn btn-danger" onclick="denied()">Ablehnen</button>
         </a>
     </div>
 </div>
@@ -70,6 +70,9 @@
 <script>
     function confirmation(){
         alert("Anfrage angenommen!");
+    }
+    function denied() {
+        alert("Anfrage abgelehnt!")
     }
 </script>
 </body>

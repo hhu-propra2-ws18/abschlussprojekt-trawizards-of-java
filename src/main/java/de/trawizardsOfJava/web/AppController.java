@@ -8,7 +8,6 @@ import de.trawizardsOfJava.model.Ausleihe;
 import de.trawizardsOfJava.model.Person;
 import de.trawizardsOfJava.model.Verfuegbarkeit;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +33,9 @@ public class AppController {
 
     @Autowired
     private AusleiheRepository ausleiheRepository;
+
+    @Autowired
+    private AusleiheRepository rueckgabeRepository;
 	
     @Autowired
 	private SecurityConfig securityConfig;
@@ -165,4 +167,19 @@ public class AppController {
 		model.addAttribute("ausleihen", ausleiheRepository.findByverleiherName(principal.getName()));
         return "ausleihenuebersicht";
     }
+
+	@GetMapping("/account/{benutzername}/ausgelieheneuebersicht")
+	public String leihenuebersicht(Model model, Principal principal){
+		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByAusleihender(principal.getName());
+		model.addAttribute("ausleihen",ausleihen);
+		return "ausgelieheneuebersicht";
+	}
+
+	@GetMapping("/rueckgabe/{id}")
+	public String zurueckgegeben(@PathVariable Long id, Model model, Principal principal){
+		rueckgabeRepository.save(ausleiheRepository.findById(id).get());
+		ausleiheRepository.delete(ausleiheRepository.findById(id).get());
+		model.addAttribute("ausleihen", ausleiheRepository.findByAusleihender(principal.getName()));
+		return "ausgelieheneuebersicht";
+	}
 }

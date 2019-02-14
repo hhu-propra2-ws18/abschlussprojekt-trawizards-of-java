@@ -45,15 +45,17 @@
 
 <div class="col-md-4" align="center">
     <div class="row">
-        <a th:href="@{/account/{benutzername}/bearbeitung (benutzername=${person.name})}">
-            <button type="button" class="btn btn-outline-dark" >Profil bearbeiten</button>
-        </a>
-        <a th:href="@{/account/{benutzername}/addItem (benutzername=${person.name})}">
-            <button type="button" class="btn btn-outline-dark" >Neuen Artikel erstellen</button>
-        </a>
-        <a th:href="@{/account/{benutzername}/ausleihenuebersicht (benutzername=${person.name})}">
-            <button type="button" class="btn btn-outline-dark" >Anfragen ansehen</button>
-        </a>
+        <p th:if = "${isUser}">
+            <a th:href="@{/account/{benutzername}/bearbeitung (benutzername=${person.name})}">
+                <button type="button" class="btn btn-outline-dark" >Profil bearbeiten</button>
+            </a>
+        	<a th:href="@{/account/{benutzername}/addItem (benutzername=${person.name})}">
+        		<button type="button" class="btn btn-outline-dark" >Neuen Artikel erstellen</button>
+        	</a>
+            <a th:href="@{/account/{benutzername}/ausleihenuebersicht (benutzername=${person.name})}">
+                <button type="button" class="btn btn-outline-dark" >Anfragen ansehen</button>
+            </a>
+        </p>
     </div>
     <hr>
     <div class="col-md-12" align="center">

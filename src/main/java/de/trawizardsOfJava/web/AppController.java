@@ -27,13 +27,16 @@ import java.util.Optional;
 public class AppController {
 
 	@Autowired
-	BenutzerRepository benutzerRepository;
+	private BenutzerRepository benutzerRepository;
 
 	@Autowired
-	ArtikelRepository artikelRepository;
+	private ArtikelRepository artikelRepository;
 
     @Autowired
-    AusleiheRepository ausleiheRepository;
+    private AusleiheRepository ausleiheRepository;
+
+    @Autowired
+	private SecurityConfig securityConfig;
 
 	@GetMapping("/")
 	public String uebersicht(Model model, Principal principal) {
@@ -70,8 +73,7 @@ public class AppController {
 
 	@PostMapping("/registrierung")
 	public String speicherePerson(Person person) {
-		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-		person.setPasswort(bCryptPasswordEncoder.encode(person.getPasswort()));
+		person.setPasswort(securityConfig.encoder().encode(person.getPasswort()));
 		person.setRolle("ROLE_USER");
 		benutzerRepository.save((person));
 		return "BackToTheFuture";

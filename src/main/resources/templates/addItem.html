@@ -18,8 +18,34 @@
 <form method="post" th:object="${artikel}">
 
     <body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+        <a class="navbar-brand" href='/'>Leih24</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href='/'>Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href='/logout'>
+                        Logout
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" th:text="'Artikel hinzufügen'"></a>
+                </li>
+                <hr>
+            </ul>
+        </div>
+    </nav>
+
     <div align="center">
-        <h1>Artikel hinzufügen</h1>
         <p>Name:</p>
         <input type="text" th:field="*{artikelName}" placeholder="Artikelname" required><br>
         <p>Beschreibung:</p>
@@ -36,8 +62,10 @@
         <input type="hidden" th:field="*{id}">
         <input type="submit" value="Submit" class="btn btn-success"/>
         <a href='/'>
-            <button name="button" class="btn btn-danger" value="Cancel" formnovalidate> Abbrechen</button>
+            <button name="button" class="btn btn-outline-danger"> Abbrechen</button>
         </a>
+        <input type="hidden" th:field="*{id}">
+        <input type="submit" value="Aktzeptieren" class="btn btn-outline-success"/>
     </div>
 
     <script type="text/javascript">

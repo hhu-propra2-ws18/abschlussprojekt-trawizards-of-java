@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.security.Principal;
 import java.util.List;
@@ -122,6 +124,7 @@ public class AppController {
 		if (principal.getName().equals(benutzername)) {
 			Artikel newArtikel = new Artikel();
 			model.addAttribute("artikel", newArtikel);
+			model.addAttribute("name", principal.getName());
 			return "addItem";
 		} else {
 			return "permissionDenied";
@@ -139,8 +142,16 @@ public class AppController {
 	}
 
 	@GetMapping("/artikel/{id}/anfrage")
-	public String neueAnfrage(Model model, @PathVariable Long id) {
+	public String neueAnfrage(Model model, @PathVariable Long id, Principal principal) {
 		model.addAttribute("id", id);
+		Artikel artikel =  artikelRepository.findById(id).get();
+		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByArtikel(artikel);
+		ArrayList<Verfuegbarkeit> verbuebarkeiten = new ArrayList<>();
+		for (Ausleihe ausleihe: ausleihen){
+			verbuebarkeiten.add(ausleihe.getVerfuegbarkeit());
+		}
+		model.addAttribute("daten", verbuebarkeiten);
+		model.addAttribute("name", principal.getName());
 		return "ausleihe";
 	}
 
@@ -163,6 +174,7 @@ public class AppController {
 		if (benutzername.equals(principal.getName())) {
 			ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByVerleiherName(benutzername);
 			model.addAttribute("ausleihen", ausleihen);
+			model.addAttribute("name", principal.getName());
 			return "ausleihenuebersicht";
 		}
 		else {
@@ -176,6 +188,7 @@ public class AppController {
         ausleihe.setAccepted(true);
         ausleiheRepository.save(ausleihe);
         model.addAttribute("ausleihen", ausleiheRepository.findByVerleiherName(principal.getName()));
+		model.addAttribute("name", principal.getName());
         return "ausleihenuebersicht";
     }
 
@@ -183,12 +196,14 @@ public class AppController {
     public String ausleiheabgelehnt(@PathVariable Long id, Model model, Principal principal){
         ausleiheRepository.delete(ausleiheRepository.findById(id).get());
 		model.addAttribute("ausleihen", ausleiheRepository.findByVerleiherName(principal.getName()));
+		model.addAttribute("name", principal.getName());
         return "ausleihenuebersicht";
     }
 
 	@GetMapping("/account/{benutzername}/ausgelieheneuebersicht")
 	public String leihenuebersicht(Model model, Principal principal){
 		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByAusleihender(principal.getName());
+		model.addAttribute("name", principal.getName());
 		model.addAttribute("ausleihen",ausleihen);
 		return "ausgelieheneuebersicht";
 	}
@@ -205,6 +220,7 @@ public class AppController {
 	public String rueckgabenuebersicht(Model model, Principal principal){
 		ArrayList<Rueckgabe> ausleihen = rueckgabeRepository.findByVerleiherName(principal.getName());
 		model.addAttribute("ausleihen",ausleihen);
+		model.addAttribute("name", principal.getName());
 		return "zurueckgegebeneartikel";
 	}
 

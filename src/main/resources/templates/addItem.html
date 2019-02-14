@@ -4,7 +4,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Gegenstand Hinzufügen</title>
+    <title>Artikel erstellen</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
@@ -30,6 +30,11 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href='/'>Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/account/{benutzername} (benutzername=${name})}">
+                        Profil
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href='/logout'>
@@ -60,7 +65,7 @@
             <input id="date" type="text" name="daterange" value="" /> <br>
 
             <input type="hidden" th:field="*{id}">
-            <input type="submit" value="Submit" class="btn btn-outline-success"/>
+            <input type="submit" value="Bestätigen" class="btn btn-outline-success"/>
         </form>
         <a href='/'>
             <button name="button" class="btn btn-outline-danger"> Abbrechen</button>

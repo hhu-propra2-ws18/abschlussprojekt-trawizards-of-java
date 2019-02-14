@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.security.Principal;
 import java.util.List;
@@ -36,9 +34,6 @@ public class AppController {
 
   	@Autowired
   	private RueckgabeRepository rueckgabeRepository;
-
-	@Autowired
-	private SecurityConfig securityConfig;
 
 	@GetMapping("/")
 	public String uebersicht(Model model, Principal principal) {

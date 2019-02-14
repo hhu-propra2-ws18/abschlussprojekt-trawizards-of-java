@@ -44,6 +44,7 @@
     </nav>
 
 <div class="col-md-4">
+    <p th:if = "${isUser}">
     <a th:href="@{/account/{benutzername}/bearbeitung (benutzername=${person.name})}">
         <button type="button" class="btn btn-outline-dark" >Profil bearbeiten</button>
     </a>
@@ -53,6 +54,7 @@
     <a th:href="@{/account/{benutzername}/ausleihenuebersicht (benutzername=${person.name})}">
         <button type="button" class="btn btn-outline-dark" >Anfragen ansehen</button>
     </a>
+    </p>
     <hr>
     <div class="col-md-12">
     <tr th:each="a: ${artikel}">

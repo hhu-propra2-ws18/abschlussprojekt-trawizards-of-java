@@ -13,6 +13,13 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+    <style>
+        #dateDiv{
+            padding-top: 25px;
+        }
+    </style>
+
 </head>
 
 <form method="post">
@@ -44,8 +51,7 @@
         </div>
     </nav>
 
-    <div align="center">
-        <h2>Für welchen Zeitraum möchten Sie den Artikel ausleihen?</h2>
+    <div align="center" id="dateDiv">
         <input id="date" type="text" name="daterange" value="" /> <br>
         <br>
         <br>

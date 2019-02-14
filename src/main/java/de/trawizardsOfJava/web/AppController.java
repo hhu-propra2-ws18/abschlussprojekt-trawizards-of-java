@@ -64,15 +64,23 @@ public class AppController {
 	@GetMapping("/registrierung")
 	public String registrierung(Model model) {
 		model.addAttribute("person", new Person());
+		model.addAttribute("error", false);
 		return "registrierung";
 	}
 
 	@PostMapping("/registrierung")
-	public String speicherePerson(Person person) {
-		person.setPasswort(SecurityConfig.encoder().encode(person.getPasswort()));
-		person.setRolle("ROLE_USER");
-		benutzerRepository.save((person));
-		return "backToTheFuture";
+	public String speicherePerson(Model model, Person person) {
+		if (benutzerRepository.findByBenutzername(person.getBenutzername()).isPresent()){
+			model.addAttribute("person", new Person());
+			model.addAttribute("error", true);
+			return "registrierung";
+		}
+		else {
+			person.setPasswort(SecurityConfig.encoder().encode(person.getPasswort()));
+			person.setRolle("ROLE_USER");
+			benutzerRepository.save((person));
+			return "backToTheFuture";
+		}
 	}
 
 	@GetMapping("/account/{benutzername}")

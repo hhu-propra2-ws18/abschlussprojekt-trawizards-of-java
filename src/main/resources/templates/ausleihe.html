@@ -45,8 +45,8 @@
     </nav>
 
     <div align="center">
-        <h2>Für welchen Zeitraum möchten Sie den Artikel ausleihen?</h2>
-        <input id="date" type="text" name="daterange" value="" /> <br>
+        <h2>Für welchen Zeitraum möchten sie den Artikel ausleihen?</h2>
+        <input id="date" type="text" name="daterange" value="" min="#today"/> <br>
         <br>
         <br>
         <input type="hidden" th:field="*{id}">
@@ -55,13 +55,28 @@
             <button name="button" class="btn btn-outline-danger">Abbrechen</button>
         </a>
     </div>
-    <script>
+    <script  th:inline="javascript">
         $(function() {
             $('input[name="daterange"]').daterangepicker({
-                opens: 'left'
-            }, function(start, end, label) {
-                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-            });
+                "autoApply": true,
+                minDate: 0,
+                disabledDates: [moment('19/02/2019', 'DD/MM/YYYY')],
+                locale: {
+                    format: 'DD/MM/YYYY'
+                },
+                isInvalidDate: function(date) {
+                    /*<![CDATA[*/
+
+                    /*[# th:each="datum : ${daten}"]*/
+                    var von = moment(/*[[${datum.startDate.toString()}]]*/, 'YYYY/MM/DD');
+                    var bis = moment(/*[[${datum.endDate.toString()}]]*/, 'YYYY/MM/DD');
+                    if (date.isBefore(moment(new Date())) || date.isSame(von) || date.isAfter(von) && date.isBefore(bis) || date.isSame(bis)) return true;
+                    /*[/]*/
+
+                    /*]]>*/
+                    return false
+                }
+            })
         });
     </script>
     </body>

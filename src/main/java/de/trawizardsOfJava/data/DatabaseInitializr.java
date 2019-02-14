@@ -53,7 +53,7 @@ public class DatabaseInitializr implements ServletContextInitializer {
         artikel.setKaution(2999);
         artikel.setPreis(149);
         artikel.setStandort("Mainz");
-        String s = "02/01/2018 - 05/31/2019";
+        String s = "01/02/2018 - 31/05/2019";
         Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit();
         verfuegbarkeit.toVerfuegbarkeit(s);
         artikel.setVerfuegbarkeit(verfuegbarkeit);
@@ -63,9 +63,17 @@ public class DatabaseInitializr implements ServletContextInitializer {
         ausleihe.setArtikel(artikel);
         ausleihe.setAusleihender(person2.getBenutzername());
         Verfuegbarkeit neues = new Verfuegbarkeit();
-        neues.toVerfuegbarkeit("02/14/2019 - 02/16/2019");
+        neues.toVerfuegbarkeit("14/02/2019 - 16/02/2019");
         ausleihe.setVerfuegbarkeit(neues);
         ausleiheRepository.save(ausleihe);
+
+        Ausleihe ausleihe1 = new Ausleihe();
+        ausleihe1.setArtikel(artikel);
+        ausleihe1.setAusleihender(person2.getBenutzername());
+        Verfuegbarkeit neues1 = new Verfuegbarkeit();
+        neues1.toVerfuegbarkeit("10/03/2019 - 16/02/2020");
+        ausleihe1.setVerfuegbarkeit(neues1);
+        ausleiheRepository.save(ausleihe1);
     }
 
 }

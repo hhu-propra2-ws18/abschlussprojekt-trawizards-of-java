@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Nachrichtenübersicht</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+</head>
+<body>
+<h1 align="center">Nachrichtenübersicht</h1>
+<div th:each="message : ${messages}" align="center" margin="5">
+    <p th:text="|Absender: ${message.absender}|">Absender</p>
+    <p th:text="|Nachricht: ${message.nachricht}|">Nachricht</p>
+    <a th:href="@{/nachricht/delete/{id} (id=${message.id})}">
+        <button name="button" class="btn btn-danger" onClick="confirmation()">Löschen</button>
+    </a>
+</div>
+<script>
+    function confirmation(){
+        alert("Nachricht gelöscht!");
+    }
+</script>
+</body>
+</html>

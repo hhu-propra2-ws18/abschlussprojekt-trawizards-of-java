@@ -23,6 +23,7 @@ public class MailController {
 
     @GetMapping("/send/{id}")
     @ResponseBody
+
     public String home(@PathVariable Long id,  Principal principal){
         try {
             iMailService.sendEmailToKonfliktLoeseStelle(principal.getName(), id);

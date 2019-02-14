@@ -1,13 +1,14 @@
 package de.trawizardsOfJava.mail;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
+@Controller
 public interface MessageRepository extends CrudRepository<Message, Long> {
 
-    ArrayList<Message> findByBenutzername(String benutzername);
+    ArrayList<Message> findByEmpfaenger(String empfaenger);
 
     ArrayList<Message> findById();
 

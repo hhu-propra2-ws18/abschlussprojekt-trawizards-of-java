@@ -23,9 +23,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/").permitAll();
 		http.authorizeRequests().antMatchers("/registrierung").permitAll();
+		http.authorizeRequests().antMatchers("/detail/{id}").permitAll();
 		http.formLogin().permitAll();
 		http.logout().permitAll();
-		http.csrf().disable();		//Das Erlaubt POSTS (von der Deutschen Post)
+		http.csrf().disable();
 		http.authorizeRequests().anyRequest().authenticated();
 		http.userDetailsService(userDetailsService);
 	}

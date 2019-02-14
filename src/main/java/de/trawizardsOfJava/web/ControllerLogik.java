@@ -24,13 +24,11 @@ public class ControllerLogik {
 
 	public static void setAmount(String benutzername, int amount){
 		try {
-			final Mono<ProPay> mono = WebClient
-					.create("localhost:8888/account/" + benutzername + "?amount=" + amount)
-					.post()
-					.accept(MediaType.APPLICATION_JSON_UTF8)
-					.retrieve()
-					.bodyToMono(ProPay.class);
-			mono.block();
+			WebClient.create("localhost:8888/account/" + benutzername + "?amount=" + amount)
+				.post()
+				.retrieve()
+				.bodyToMono(Object.class)
+				.block();
 		}catch (Exception e){
 			System.err.println("ERROR" + e);
 		}

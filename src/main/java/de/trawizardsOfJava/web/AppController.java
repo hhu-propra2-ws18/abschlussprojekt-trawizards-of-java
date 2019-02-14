@@ -140,12 +140,9 @@ public class AppController {
 		Artikel artikel =  artikelRepository.findById(id).get();
 		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByArtikel(artikel);
 		ArrayList<Verfuegbarkeit> verbuebarkeiten = new ArrayList<>();
-		System.out.println(ausleihen.size());
 		for (Ausleihe ausleihe: ausleihen){
-			System.out.println(ausleihe.getVerfuegbarkeit());
 			verbuebarkeiten.add(ausleihe.getVerfuegbarkeit());
 		}
-		System.out.println(verbuebarkeiten);
 		model.addAttribute("daten", verbuebarkeiten);
 		return "ausleihe";
 	}

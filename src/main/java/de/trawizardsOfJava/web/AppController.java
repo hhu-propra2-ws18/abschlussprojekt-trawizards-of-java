@@ -188,6 +188,7 @@ public class AppController {
     public String ausleiheabgelehnt(@PathVariable Long id, Model model, Principal principal){
         ausleiheRepository.delete(ausleiheRepository.findById(id).get());
 		model.addAttribute("ausleihen", ausleiheRepository.findByVerleiherName(principal.getName()));
+		model.addAttribute("name", principal.getName());
         return "ausleihenuebersicht";
     }
 

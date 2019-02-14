@@ -49,26 +49,26 @@
     </nav>
 </div>
 <div class="col-md-12" align="center">
-    <div class="col-md-4" id="topButton">
-        <p th:if = "${isUser}">
+    <div class="col-md-4" id="topButton" th:if="${isUser}">
+        <p>
             <a th:href="@{/account/{benutzername}/bearbeitung (benutzername=${person.name})}">
                 <button type="button" class="btn btn-outline-dark" >Profil bearbeiten</button>
             </a>
         	<a th:href="@{/account/{benutzername}/addItem (benutzername=${person.name})}">
         		<button type="button" class="btn btn-outline-dark" >Neuen Artikel erstellen</button>
             </a>
+		</p>
+		<p>
             <a th:href="@{/account/{benutzername}/ausleihenuebersicht (benutzername=${person.name})}">
                 <button type="button" class="btn btn-outline-dark" >Anfragen ansehen</button>
             </a>
-    </div>
-    <div class="col-md-4" id="buttonTop">
-                <a th:href="@{/account/{benutzername}/ausgelieheneuebersicht (benutzername=${person.name})}">
-                    <button type="button" class="btn btn-outline-dark" >Ausgeliehene Artikel ansehen</button>
-                </a>
-                <a th:href="@{/account/{benutzername}/zurueckgegebeneartikel (benutzername=${person.name})}">
-                    <button type="button" class="btn btn-outline-dark" >Rückgaben ansehen</button>
-                </a>
-        </p>
+            <a th:href="@{/account/{benutzername}/ausgelieheneuebersicht (benutzername=${person.name})}">
+                <button type="button" class="btn btn-outline-dark" >Ausgeliehene Artikel ansehen</button>
+            </a>
+            <a th:href="@{/account/{benutzername}/zurueckgegebeneartikel (benutzername=${person.name})}">
+                <button type="button" class="btn btn-outline-dark" >Rückgaben ansehen</button>
+            </a>
+		</p>
     </div>
     <hr>
     <div class="col-md-12">

@@ -3,10 +3,8 @@ package de.trawizardsOfJava.web;
 import de.trawizardsOfJava.data.ArtikelRepository;
 import de.trawizardsOfJava.data.AusleiheRepository;
 import de.trawizardsOfJava.data.BenutzerRepository;
-import de.trawizardsOfJava.model.Artikel;
-import de.trawizardsOfJava.model.Ausleihe;
-import de.trawizardsOfJava.model.Person;
-import de.trawizardsOfJava.model.Verfuegbarkeit;
+import de.trawizardsOfJava.data.RueckgabeRepository;
+import de.trawizardsOfJava.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,8 +29,14 @@ public class AppController {
 	@Autowired
 	private ArtikelRepository artikelRepository;
 
-    @Autowired
-    private AusleiheRepository ausleiheRepository;
+  	@Autowired
+  	private AusleiheRepository ausleiheRepository;
+
+  	@Autowired
+  	private RueckgabeRepository rueckgabeRepository;
+
+	@Autowired
+	private SecurityConfig securityConfig;
 
 	@GetMapping("/")
 	public String uebersicht(Model model, Principal principal) {
@@ -174,4 +178,36 @@ public class AppController {
 		model.addAttribute("ausleihen", ausleiheRepository.findByVerleiherName(principal.getName()));
         return "ausleihenuebersicht";
     }
+
+	@GetMapping("/account/{benutzername}/ausgelieheneuebersicht")
+	public String leihenuebersicht(Model model, Principal principal){
+		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByAusleihender(principal.getName());
+		model.addAttribute("ausleihen",ausleihen);
+		return "ausgelieheneuebersicht";
+	}
+
+	@GetMapping("/rueckgabe/{id}")
+	public String zurueckgegeben(@PathVariable Long id, Model model, Principal principal){
+		rueckgabeRepository.save(ausleiheRepository.findById(id).get().convertToRueckgabe());
+		ausleiheRepository.delete(ausleiheRepository.findById(id).get());
+		model.addAttribute("ausleihen", ausleiheRepository.findByAusleihender(principal.getName()));
+		return "ausgelieheneuebersicht";
+	}
+
+	@GetMapping("/account/{benutzername}/zurueckgegebeneartikel")
+	public String rueckgabenuebersicht(Model model, Principal principal){
+		ArrayList<Rueckgabe> ausleihen = rueckgabeRepository.findByVerleiherName(principal.getName());
+		model.addAttribute("ausleihen",ausleihen);
+		return "zurueckgegebeneartikel";
+	}
+
+	@GetMapping("/rueckgabe/akzeptiert/{id}")
+	public String rueckgabeakzeptiert(@PathVariable Long id, Model model, Principal principal){
+		rueckgabeRepository.delete(rueckgabeRepository.findById(id).get());
+		model.addAttribute("ausleihen", rueckgabeRepository.findByVerleiherName(principal.getName()));
+		return "zurueckgegebeneartikel";
+	}
+
+
+
 }

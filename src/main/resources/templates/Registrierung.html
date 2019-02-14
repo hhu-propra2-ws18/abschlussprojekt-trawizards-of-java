@@ -42,7 +42,7 @@
         <table>
             <tr>
                 <td>Benutzername:</td>
-                <td><input type="text" th:field="*{benutzername}"> required</td>
+                <td><input type="text" th:field="*{benutzername}" required></td>
             </tr>
             <tr>
                 <td>Name:</td>
@@ -57,7 +57,8 @@
                 <td><input type="text" th:field="*{passwort}"></td>
             </tr>
         </table>
-        <button type="submit">Registrieren</button>
+        <br>
+        <button type="submit" class="btn btn-outline-success">Registrieren</button>
     </form>
 </div>
 </body>

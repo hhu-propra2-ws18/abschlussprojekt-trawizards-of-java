@@ -15,7 +15,6 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 </head>
-<form method="post" th:object="${artikel}">
 
     <body>
 
@@ -46,21 +45,23 @@
     </nav>
 
     <div align="center">
-        <p>Name:</p>
-        <input type="text" th:field="*{artikelName}" placeholder="Artikelname" required><br>
-        <p>Beschreibung:</p>
-        <textarea class="autoExpand" cols="50" maxlength="255" type="text" th:field="*{beschreibung}" placeholder="Beschreibung" }></textarea>
-        <p>Abholort:</p>
-        <input type="text" th:field="*{standort}" placeholder="Abholort" required /><br>
-        <p>Preis:</p>
-        <input type="number" th:field="*{preis}" placeholder="Preis" required /><br>
-        <p>Kaution:</p>
-        <input type="number" th:field="*{kaution}" placeholder="Kaution" required /><br>
-        <p>Verfügbarkeitszeitraum:</p>
-        <input id="date" type="text" name="daterange" value="" /> <br>
+        <form method="post" th:object="${artikel}">
+            <p>Name:</p>
+            <input type="text" th:field="*{artikelName}" placeholder="Artikelname" required><br>
+            <p>Beschreibung:</p>
+            <textarea class="autoExpand" cols="50" maxlength="255" type="text" th:field="*{beschreibung}" placeholder="Beschreibung" }></textarea>
+            <p>Abholort:</p>
+            <input type="text" th:field="*{standort}" placeholder="Abholort" required /><br>
+            <p>Preis:</p>
+            <input type="number" th:field="*{preis}" placeholder="Preis" required /><br>
+            <p>Kaution:</p>
+            <input type="number" th:field="*{kaution}" placeholder="Kaution" required /><br>
+            <p>Verfügbarkeitszeitraum:</p>
+            <input id="date" type="text" name="daterange" value="" /> <br>
 
-        <input type="hidden" th:field="*{id}">
-        <input type="submit" value="Submit" class="btn btn-outline-success"/>
+            <input type="hidden" th:field="*{id}">
+            <input type="submit" value="Submit" class="btn btn-outline-success"/>
+        </form>
         <a href='/'>
             <button name="button" class="btn btn-outline-danger"> Abbrechen</button>
         </a>
@@ -90,5 +91,4 @@
         });
     </script>
     </body>
-</form>
 </html>

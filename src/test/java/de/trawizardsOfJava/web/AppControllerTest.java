@@ -4,6 +4,7 @@ import de.trawizardsOfJava.data.ArtikelRepository;
 import de.trawizardsOfJava.data.AusleiheRepository;
 import de.trawizardsOfJava.data.BenutzerRepository;
 import de.trawizardsOfJava.data.RueckgabeRepository;
+import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.Person;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,6 +43,9 @@ public class AppControllerTest {
 
 	@MockBean
 	RueckgabeRepository rueckgabeRepository;
+
+	@MockBean
+	MessageRepository messageRepository;
 
 	@Test
 	public void isOk() throws Exception {

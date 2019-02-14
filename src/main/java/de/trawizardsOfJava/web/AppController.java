@@ -4,6 +4,8 @@ import de.trawizardsOfJava.data.ArtikelRepository;
 import de.trawizardsOfJava.data.AusleiheRepository;
 import de.trawizardsOfJava.data.BenutzerRepository;
 import de.trawizardsOfJava.data.RueckgabeRepository;
+import de.trawizardsOfJava.mail.Message;
+import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +33,9 @@ public class AppController {
 
   	@Autowired
   	private AusleiheRepository ausleiheRepository;
+
+  	@Autowired
+	private MessageRepository messageRepository;
 
   	@Autowired
   	private RueckgabeRepository rueckgabeRepository;
@@ -208,6 +213,16 @@ public class AppController {
 		return "zurueckgegebeneartikel";
 	}
 
-
+	@GetMapping("/account/{benutzername}/nachrichten")
+	public String nachrichtenUebersicht(Model model, @PathVariable String benutzername, Principal principal){
+		if (benutzername.equals(principal.getName())) {
+			ArrayList<Message> message = messageRepository.findByBenutzername(benutzername);
+			model.addAttribute("ausleihen", message);
+			return "";
+		}
+		else {
+			return "permissionDenied";
+		}
+	}
 
 }

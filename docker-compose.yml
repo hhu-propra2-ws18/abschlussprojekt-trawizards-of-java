@@ -16,3 +16,11 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - ./data:/src/main/resources/mysql
+
+  propay:
+    image: propra/propay
+    ports:
+      - "8888:8888"
+    # Optional
+    volumes:
+      - ./data:/code/data

@@ -44,8 +44,12 @@ public class AppController {
 		List<Artikel> alleArtikel = artikelRepository.findAll();
 
 		model.addAttribute("artikel", alleArtikel);
+
 		if(principal != null){
 			model.addAttribute("name", principal.getName());
+			model.addAttribute("disableSecondButton", true);
+		}else{
+			model.addAttribute("disableThirdButton", true);
 		}
 
 		return "uebersichtSeite";
@@ -60,6 +64,9 @@ public class AppController {
 		model.addAttribute("artikelDetail", artikel.get());
 		if(principal != null){
 			model.addAttribute("name", principal.getName());
+			model.addAttribute("disableSecondButton", true);
+		}else{
+			model.addAttribute("disableThirdButton", true);
 		}
 
 		return "artikelDetail";

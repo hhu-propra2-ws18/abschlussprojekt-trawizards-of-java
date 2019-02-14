@@ -135,7 +135,7 @@ public class AppController {
 	}
 
 	@GetMapping("/artikel/{id}/anfrage")
-	public String neueAnfrage(Model model, @PathVariable Long id) {
+	public String neueAnfrage(Model model, @PathVariable Long id, Principal principal) {
 		model.addAttribute("id", id);
 		Artikel artikel =  artikelRepository.findById(id).get();
 		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByArtikel(artikel);
@@ -144,6 +144,7 @@ public class AppController {
 			verbuebarkeiten.add(ausleihe.getVerfuegbarkeit());
 		}
 		model.addAttribute("daten", verbuebarkeiten);
+		model.addAttribute("name", principal.getName());
 		return "ausleihe";
 	}
 

@@ -182,6 +182,7 @@ public class AppController {
 	@GetMapping("/account/{benutzername}/ausgelieheneuebersicht")
 	public String leihenuebersicht(Model model, Principal principal){
 		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByAusleihender(principal.getName());
+		model.addAttribute("name", principal.getName());
 		model.addAttribute("ausleihen",ausleihen);
 		return "ausgelieheneuebersicht";
 	}
@@ -198,6 +199,7 @@ public class AppController {
 	public String rueckgabenuebersicht(Model model, Principal principal){
 		ArrayList<Rueckgabe> ausleihen = rueckgabeRepository.findByVerleiherName(principal.getName());
 		model.addAttribute("ausleihen",ausleihen);
+		model.addAttribute("name", principal.getName());
 		return "zurueckgegebeneartikel";
 	}
 

@@ -48,6 +48,16 @@
 <div class="col-md-12" align="center">
     <div class="col-md-4" id="topButton">
         <p th:if = "${isUser}">
+            <p th:text="'Dein aktueller ProPay-Kontostand: '+${proPay.amount}"></p>
+            <p th:if="${! #lists.isEmpty(proPay.reservations)}"> Deine aktuellen Reservierungen:
+                <ul th:each="reservierung : ${proPay.reservations}">
+                <li th:text="reservierung"></li>
+                </ul>
+            </p>
+            <form method = "post">
+                <input type="number" name="amount">
+                <button type = submit class="btn btn-outline-success">Bestätigen</button>
+            </form>
             <a th:href="@{/account/{benutzername}/bearbeitung (benutzername=${person.name})}">
                 <button type="button" class="btn btn-outline-dark" >Profil bearbeiten</button>
             </a>

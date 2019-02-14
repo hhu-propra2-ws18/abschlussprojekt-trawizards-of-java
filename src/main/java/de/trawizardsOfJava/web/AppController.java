@@ -91,7 +91,14 @@ public class AppController {
 		model.addAttribute("person", person);
 		model.addAttribute("artikel", artikelRepository.findByVerleiherBenutzername(person.getBenutzername()));
 		model.addAttribute("isUser", benutzername.equals(principal.getName()));
+		model.addAttribute("proPay", ControllerLogik.getEntity(benutzername));
 		return "benutzeransicht";
+	}
+
+	@PostMapping("/account/{benutzername}")
+	public String kontoAufladen(@PathVariable String benutzername, int amount) {
+		ControllerLogik.setAmount(benutzername, amount);
+		return "backToTheFuture";
 	}
 
 	@GetMapping("/account/{benutzername}/bearbeitung")

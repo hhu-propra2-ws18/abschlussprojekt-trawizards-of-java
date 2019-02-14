@@ -145,7 +145,6 @@ public class AppController {
     public String ausleihenuebersicht(Model model, @PathVariable String benutzername, Principal principal){
 		if (benutzername.equals(principal.getName())) {
 			ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByVerleiherName(benutzername);
-			System.out.println(ausleihen);
 			model.addAttribute("ausleihen", ausleihen);
 			return "ausleihenuebersicht";
 		}

@@ -29,4 +29,14 @@ public class Ausleihe {
         this.artikel = artikel;
         verleiherName = artikel.getVerleiherBenutzername();
     }
+
+    public Rueckgabe convertToRueckgabe(){
+        Rueckgabe rueckgabe = new Rueckgabe();
+        rueckgabe.setId(this.id);
+        rueckgabe.setAusleihender(this.ausleihender);
+        rueckgabe.setArtikel(this.artikel);
+        rueckgabe.setVerfuegbarkeit(this.verfuegbarkeit);
+        rueckgabe.setVerleiherName(this.verleiherName);
+        return rueckgabe;
+    }
 }

@@ -183,6 +183,7 @@ public class AppController {
         ausleihe.setAccepted(true);
         ausleiheRepository.save(ausleihe);
         model.addAttribute("ausleihen", ausleiheRepository.findByVerleiherName(principal.getName()));
+		model.addAttribute("name", principal.getName());
         return "ausleihenuebersicht";
     }
 

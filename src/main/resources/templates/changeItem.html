@@ -1,0 +1,105 @@
+<html lang="de" xmlns:th="http://www.thymeleaf.com">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Artikel erstellen</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <a class="navbar-brand" href='/'>
+        <img src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png" height="25"/>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href='/'>Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/account/{benutzername} (benutzername=${name})}">
+                    Profil
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href='/logout'>
+                    Logout
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" th:text="'Artikel bearbeiten'"></a>
+            </li>
+            <hr>
+        </ul>
+    </div>
+</nav>
+
+<div align="center">
+    <form method="post" th:action="@{/account/changeItem/{id} (id=${id})}" th:object="${artikel}">
+        <p>Name:</p>
+        <input type="text" th:field="*{artikelName}" placeholder="Artikelname" required><br>
+        <p>Beschreibung:</p>
+        <textarea class="autoExpand" cols="50" maxlength="255" type="text" th:field="*{beschreibung}" placeholder="Beschreibung" }></textarea>
+        <p>Abholort:</p>
+        <input type="text" th:field="*{standort}" placeholder="Abholort" required /><br>
+        <p>Preis:</p>
+        <input type="number" th:field="*{preis}" placeholder="Preis" required /><br>
+        <p>Kaution:</p>
+        <input type="number" th:field="*{kaution}" placeholder="Kaution" required /><br>
+        <p>Verfügbarkeitszeitraum:</p>
+        <input id="date" type="text" name="daterange" value="" /> <br>
+
+        <input type="hidden" th:field="*{verleiherBenutzername}">
+        <input type="hidden" th:field="*{id}">
+        <input type="submit" value="Bestätigen" class="btn btn-outline-success"/>
+    </form>
+    <a href='/'>
+        <button name="button" class="btn btn-outline-danger"> Abbrechen</button>
+    </a>
+</div>
+
+<script type="text/javascript">
+    $(document)
+        .one('focus.autoExpand', 'textarea.autoExpand', function(){
+            var savedValue = this.value;
+            this.value = '';
+            this.baseScrollHeight = this.scrollHeight;
+            this.value = savedValue;
+        })
+        .on('input.autoExpand', 'textarea.autoExpand', function(){
+            var minRows = this.getAttribute('data-min-rows')|0, rows;
+            this.rows = minRows;
+            rows = Math.ceil((this.scrollHeight - this.baseScrollHeight) / 16);
+            this.rows = minRows + rows;
+        });
+
+    $(function() {
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'left',
+            locale: {
+                format: 'DD/MM/YYYY'
+            }
+        }, function(start, end, label) {
+            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+        });
+    });
+</script>
+</body>
+</html>

@@ -89,12 +89,20 @@ public class AppController {
 		model.addAttribute("artikel", artikelRepository.findByVerleiherBenutzername(person.getBenutzername()));
 		model.addAttribute("isUser", benutzername.equals(principal.getName()));
 		model.addAttribute("proPay", ControllerLogik.getEntity(benutzername));
+		if(benutzername.equals(principal.getName())){
+			model.addAttribute("sameAsLoggedIn", true);
+			model.addAttribute("loggedInUserName", principal.getName());
+		}else{
+			model.addAttribute("sameAsLoggedIn", false);
+		}
+
 		return "benutzeransicht";
 	}
 
 	@PostMapping("/account/{benutzername}")
-	public String kontoAufladen(@PathVariable String benutzername, int amount) {
+	public String kontoAufladen(@PathVariable String benutzername, int amount, Principal principal, Model model) {
 		ControllerLogik.setAmount(benutzername, amount);
+
 		return "backToTheFuture";
 	}
 
@@ -126,12 +134,34 @@ public class AppController {
 		}
 	}
 
+
 	@PostMapping("/account/{benutzername}/addItem")
 	public String postAddItem(Artikel artikel, @PathVariable String benutzername, @RequestParam String daterange) {
 		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit();
 		verfuegbarkeit.toVerfuegbarkeit(daterange);
 		artikel.setVerfuegbarkeit(verfuegbarkeit);
 		artikel.setVerleiherBenutzername(benutzername);
+		artikelRepository.save(artikel);
+		return "backToTheFuture";
+	}
+
+	@GetMapping("/account/changeItem/{id}")
+	public String changeItem(Model model, @PathVariable Long id, Principal principal){
+
+		Optional<Artikel> artikelWithID = artikelRepository.findById(id);
+
+		model.addAttribute("artikel", artikelWithID.get());
+		model.addAttribute("name", principal.getName());
+		return "changeItem";
+	}
+
+
+	@PostMapping("/account/changeItem/{id}")
+	public String postChangeItem(Artikel artikel, @PathVariable Long id, @RequestParam String daterange) {
+		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit();
+		verfuegbarkeit.toVerfuegbarkeit(daterange);
+		artikel.setVerfuegbarkeit(verfuegbarkeit);
+		artikel.setVerleiherBenutzername(artikel.getVerleiherBenutzername());
 		artikelRepository.save(artikel);
 		return "backToTheFuture";
 	}

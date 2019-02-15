@@ -20,7 +20,9 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-        <a class="navbar-brand" href='/'>Leih24</a>
+        <a class="navbar-brand" href='/'>
+            <img src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png" height="25"/>
+        </a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -42,7 +44,7 @@
                     </a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" th:text="'Artikel hinzufügen'"></a>
+                    <a class="nav-link" th:text="'Artikel erstellen'"></a>
                 </li>
                 <hr>
             </ul>
@@ -89,7 +91,10 @@
 
         $(function() {
             $('input[name="daterange"]').daterangepicker({
-                opens: 'left'
+                opens: 'left',
+                locale: {
+                    format: 'DD/MM/YYYY'
+                }
             }, function(start, end, label) {
                 console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
             });

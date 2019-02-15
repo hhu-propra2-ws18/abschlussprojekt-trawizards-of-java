@@ -11,4 +11,6 @@ public interface ArtikelRepository extends CrudRepository<Artikel, Long> {
     List<Artikel> findAll();
     //TODO
     ArrayList<Artikel> findByVerleiherBenutzername(String benutzername);
+
+    ArrayList<Artikel> findAllByArtikelNameContaining(String artikelName);
 }

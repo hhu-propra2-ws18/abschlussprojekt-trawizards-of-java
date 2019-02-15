@@ -66,14 +66,6 @@ public class DatabaseInitializr implements ServletContextInitializer {
         neues.toVerfuegbarkeit("14/02/2019 - 16/02/2019");
         ausleihe.setVerfuegbarkeit(neues);
         ausleiheRepository.save(ausleihe);
-
-        Ausleihe ausleihe1 = new Ausleihe();
-        ausleihe1.setArtikel(artikel);
-        ausleihe1.setAusleihender(person2.getBenutzername());
-        Verfuegbarkeit neues1 = new Verfuegbarkeit();
-        neues1.toVerfuegbarkeit("10/03/2019 - 16/02/2020");
-        ausleihe1.setVerfuegbarkeit(neues1);
-        ausleiheRepository.save(ausleihe1);
     }
 
 }

@@ -23,4 +23,6 @@ public class Rueckgabe{
 
     private String verleiherName;
 
+    int proPayID;
+
 }

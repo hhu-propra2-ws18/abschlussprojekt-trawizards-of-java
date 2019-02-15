@@ -25,6 +25,8 @@ public class Ausleihe {
 
     private boolean accepted = false;
 
+    int proPayID;
+
     public void setArtikel(Artikel artikel){
         this.artikel = artikel;
         verleiherName = artikel.getVerleiherBenutzername();
@@ -37,6 +39,7 @@ public class Ausleihe {
         rueckgabe.setArtikel(this.artikel);
         rueckgabe.setVerfuegbarkeit(this.verfuegbarkeit);
         rueckgabe.setVerleiherName(this.verleiherName);
+        rueckgabe.setProPayID(this.proPayID);
         return rueckgabe;
     }
 }

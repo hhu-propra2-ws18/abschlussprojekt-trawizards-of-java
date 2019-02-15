@@ -97,6 +97,13 @@ public class AppController {
 		model.addAttribute("artikel", artikelRepository.findByVerleiherBenutzername(person.getBenutzername()));
 		model.addAttribute("isUser", benutzername.equals(principal.getName()));
 		model.addAttribute("proPay", ControllerLogik.getEntity(benutzername));
+		if(benutzername.equals(principal.getName())){
+			model.addAttribute("sameAsLoggedIn", true);
+			model.addAttribute("loggedInUserName", principal.getName());
+		}else{
+			model.addAttribute("sameAsLoggedIn", false);
+		}
+
 		return "benutzeransicht";
 	}
 
@@ -133,6 +140,28 @@ public class AppController {
 			return "permissionDenied";
 		}
 	}
+
+    @GetMapping("/account/changeItem/{id}")
+    public String changeItem(Model model, @PathVariable Long id, Principal principal){
+
+        Optional<Artikel> artikelWithID = artikelRepository.findById(id);
+
+        model.addAttribute("artikel", artikelWithID.get());
+        model.addAttribute("name", principal.getName());
+        return "changeItem";
+    }
+
+
+    @PostMapping("/account/changeItem/{id}")
+    public String postChangeItem(Artikel artikel, @PathVariable Long id, @RequestParam String daterange) {
+        Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit();
+        verfuegbarkeit.toVerfuegbarkeit(daterange);
+        artikel.setVerfuegbarkeit(verfuegbarkeit);
+        artikel.setVerleiherBenutzername(artikel.getVerleiherBenutzername());
+        artikelRepository.save(artikel);
+        return "backToTheFuture";
+    }
+
 
 	@PostMapping("/account/{benutzername}/addItem")
 	public String postAddItem(Artikel artikel, @PathVariable String benutzername, @RequestParam String daterange) {
@@ -215,6 +244,9 @@ public class AppController {
 			long tage = DAYS.between(ausleihe.getVerfuegbarkeit().getStartDate(), ausleihe.getVerfuegbarkeit().getEndDate());
 			ControllerLogik.post("account/" +  ausleihe.getAusleihender() + "/transfer/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getPreis() * tage);
 			ControllerLogik.post("reservation/reserve/" + ausleihe.getAusleihender() + "/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getKaution());
+			List<Reservierung> reservierungen = ControllerLogik.getEntity(ausleihe.getAusleihender()).getReservations();
+			ausleihe.setProPayID(reservierungen.get(reservierungen.size() - 1).getId());
+			ausleiheRepository.save(ausleihe);
 			return "ausleihenuebersicht";
 		}
         else {
@@ -299,6 +331,7 @@ public class AppController {
 			rueckgabeRepository.delete(rueckgabe);
 			model.addAttribute("name", principal.getName());
 			model.addAttribute("ausleihen", rueckgabeRepository.findByVerleiherName(principal.getName()));
+			ControllerLogik.post("reservation/release/" + rueckgabe.getAusleihender() + "?reservationId=" + rueckgabe.getProPayID());
 			return "zurueckgegebeneartikel";
 		}
 		else {

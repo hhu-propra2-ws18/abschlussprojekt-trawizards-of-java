@@ -212,6 +212,7 @@ public class AppController {
 			messageRepository.save(message);
 			model.addAttribute("ausleihen", ausleiheRepository.findByVerleiherName(principal.getName()));
 			model.addAttribute("name", principal.getName());
+			long tage = DAYS.between(ausleihe.getVerfuegbarkeit().getStartDate(), ausleihe.getVerfuegbarkeit().getEndDate());
 			ControllerLogik.post("account/" +  ausleihe.getAusleihender() + "/transfer/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getPreis() * tage);
 			ControllerLogik.post("reservation/reserve/" + ausleihe.getAusleihender() + "/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getKaution());
 			return "ausleihenuebersicht";

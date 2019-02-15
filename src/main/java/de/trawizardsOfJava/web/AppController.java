@@ -40,9 +40,6 @@ public class AppController {
   	@Autowired
 	private KonfliktRepository konfliktRepository;
 
-	@Autowired
-	private SecurityConfig securityConfig;
-
 	@GetMapping("/")
 	public String uebersicht(Model model, Principal principal) {
 		List<Artikel> alleArtikel = artikelRepository.findAll();
@@ -332,9 +329,10 @@ public class AppController {
 		if (principal.getName().equals(benutzername)) {
 			konfliktRepository.save(konflikt);
 			Message message = new Message();
-			//message.setNachricht(konflikt.getBeschreibung());
+			message.setNachricht(konflikt.getBeschreibung());
 			message.setAbsender(principal.getName());
 			message.setEmpfaenger("");
+			messageRepository.save(message);
 			return "benutzeransicht";
 		}
 		else {

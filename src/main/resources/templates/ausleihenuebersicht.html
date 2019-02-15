@@ -58,7 +58,7 @@
         <a th:href="@{/account/{benutzername}/annahme/{id} (id=${ausleihe.id},benutzername=${name})}">
             <button name="button" class="btn btn-outline-success" onClick="confirmation()">Annehmen</button>
         </a>
-        <a th:href="@{/remove/{id} (id=${ausleihe.id})}">
+        <a th:href="@{/account/{benutzername}/remove/{id} (id=${ausleihe.id}),benutzername=${name}}">
             <button name="button" class="btn btn-outline-danger">Ablehnen</button>
         </a>
     </div>

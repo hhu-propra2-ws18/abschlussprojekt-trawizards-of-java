@@ -314,7 +314,7 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/konflikt/send/{id}")
-	public String konfliktAnnehmen(Model model, @PathVariable("benutzername") String benutzername, Principal principal, @PathVariable("id") Long id) {
+	public String konfliktErstellen(Model model, @PathVariable("benutzername") String benutzername, Principal principal, @PathVariable("id") Long id) {
 		if (principal.getName().equals(benutzername)) {
 			Konflikt konflikt = new Konflikt();
 			konflikt.setRueckgabe(rueckgabeRepository.findById(id).get());
@@ -327,8 +327,8 @@ public class AppController {
 		}
 	}
 
-	@PostMapping("/account/{benutzername}/konflikt/send")
-	public String konfliktAbsenden(Konflikt konflikt, @PathVariable String benutzername, Principal principal){
+	@PostMapping("/account/{benutzername}/konflikt/send/{id}")
+	public String konfliktAbsenden(Konflikt konflikt, @PathVariable("benutzername") String benutzername, @PathVariable("id") Long id, Principal principal){
 		if (principal.getName().equals(benutzername)) {
 			konfliktRepository.save(konflikt);
 			Message message = new Message();

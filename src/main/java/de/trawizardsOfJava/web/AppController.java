@@ -224,4 +224,19 @@ public class AppController {
 		model.addAttribute("ausleihen", rueckgabeRepository.findByVerleiherName(principal.getName()));
 		return "zurueckgegebeneartikel";
 	}
+
+	@GetMapping("/search")
+	public String search(@RequestParam final String q, final Model model, Principal principal) {
+		model.addAttribute("artikel",
+				this.artikelRepository
+						.findAllByArtikelNameContaining(q));
+		model.addAttribute("query", q);
+		if(principal != null){
+			model.addAttribute("name", principal.getName());
+			model.addAttribute("disableSecondButton", true);
+		}else{
+			model.addAttribute("disableThirdButton", true);
+		}
+		return "search";
+	}
 }

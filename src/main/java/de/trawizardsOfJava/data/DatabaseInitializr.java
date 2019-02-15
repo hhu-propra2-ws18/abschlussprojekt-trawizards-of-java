@@ -5,6 +5,7 @@ import de.trawizardsOfJava.model.Artikel;
 import de.trawizardsOfJava.model.Ausleihe;
 import de.trawizardsOfJava.model.Person;
 import de.trawizardsOfJava.model.Verfuegbarkeit;
+import de.trawizardsOfJava.web.ControllerLogik;
 import de.trawizardsOfJava.web.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
@@ -44,6 +45,7 @@ public class DatabaseInitializr implements ServletContextInitializer {
         person2.setName("Joe");
         person2.setPasswort(SecurityConfig.encoder().encode("1234"));
         person2.setRolle("ROLE_USER");
+        ControllerLogik.post("account/Joe?amount=3297");
         benutzerRepository.save(person2);
 
         Artikel artikel = new Artikel();

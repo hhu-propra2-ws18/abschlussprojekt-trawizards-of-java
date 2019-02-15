@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="de" xmlns:th="http://www.thymeleaf.com">
+<!doctype html>
+<html lang="de" layout:decorate="~{base}" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Leih24</title>
-    <meta charset="UTF-8">
+    <title>Search Results</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
 </head>
 <body>
 
@@ -40,7 +39,7 @@
             </li>
             <li class="nav-item">
                 <div th:if="${disableSecondButton}">
-                    <a class="nav-link"  th:href="@{/account/{benutzername} (benutzername=${name})}">
+                    <a class="nav-link" th:href="@{/account/{benutzername} (benutzername=${name})}">
                         Profil
                     </a>
                 </div>
@@ -52,14 +51,14 @@
                     </a>
                 </div>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link" th:text= "'Suchergebnis: ' +${query}"></a>
+            </li>
+            <hr>
         </ul>
     </div>
-        <form method="get" action="/search" class="form-inline">
-            <input class="form-control mr-sm-2" type="search" name="q"/>
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Suche</button>
-        </form>
-        <hr>
 </nav>
+
 <div class="col-md-12" align="center">
     <tr th:each="a: ${artikel}">
         <dl class="dl-horizontal">
@@ -74,6 +73,5 @@
         </dl>
     </tr>
 </div>
-
 </body>
 </html>

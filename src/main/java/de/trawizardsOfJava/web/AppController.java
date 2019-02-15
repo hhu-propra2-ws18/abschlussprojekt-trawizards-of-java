@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.security.Principal;
 import java.util.List;
@@ -36,9 +34,6 @@ public class AppController {
 
   	@Autowired
   	private RueckgabeRepository rueckgabeRepository;
-
-	@Autowired
-	private SecurityConfig securityConfig;
 
 	@GetMapping("/")
 	public String uebersicht(Model model, Principal principal) {
@@ -93,7 +88,14 @@ public class AppController {
 		model.addAttribute("person", person);
 		model.addAttribute("artikel", artikelRepository.findByVerleiherBenutzername(person.getBenutzername()));
 		model.addAttribute("isUser", benutzername.equals(principal.getName()));
+		model.addAttribute("proPay", ControllerLogik.getEntity(benutzername));
 		return "benutzeransicht";
+	}
+
+	@PostMapping("/account/{benutzername}")
+	public String kontoAufladen(@PathVariable String benutzername, int amount) {
+		ControllerLogik.setAmount(benutzername, amount);
+		return "backToTheFuture";
 	}
 
 	@GetMapping("/account/{benutzername}/bearbeitung")
@@ -135,7 +137,7 @@ public class AppController {
 	}
 
 	@GetMapping("/artikel/{id}/anfrage")
-	public String neueAnfrage(Model model, @PathVariable Long id) {
+	public String neueAnfrage(Model model, @PathVariable Long id, Principal principal) {
 		model.addAttribute("id", id);
 		Artikel artikel =  artikelRepository.findById(id).get();
 		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByArtikel(artikel);
@@ -144,6 +146,7 @@ public class AppController {
 			verbuebarkeiten.add(ausleihe.getVerfuegbarkeit());
 		}
 		model.addAttribute("daten", verbuebarkeiten);
+		model.addAttribute("name", principal.getName());
 		return "ausleihe";
 	}
 
@@ -159,7 +162,6 @@ public class AppController {
 		ausleiheRepository.save(ausleihe);
 		return "backToTheFuture";
 	}
-
 
     @GetMapping("/account/{benutzername}/ausleihenuebersicht")
     public String ausleihenuebersicht(Model model, @PathVariable String benutzername, Principal principal){
@@ -188,6 +190,7 @@ public class AppController {
     public String ausleiheabgelehnt(@PathVariable Long id, Model model, Principal principal){
         ausleiheRepository.delete(ausleiheRepository.findById(id).get());
 		model.addAttribute("ausleihen", ausleiheRepository.findByVerleiherName(principal.getName()));
+		model.addAttribute("name", principal.getName());
         return "ausleihenuebersicht";
     }
 
@@ -221,7 +224,4 @@ public class AppController {
 		model.addAttribute("ausleihen", rueckgabeRepository.findByVerleiherName(principal.getName()));
 		return "zurueckgegebeneartikel";
 	}
-
-
-
 }

@@ -10,7 +10,9 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-    <a class="navbar-brand" href='/'>Leih24</a>
+    <a class="navbar-brand" href='/'>
+        <img src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png" height="25"/>
+    </a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -60,8 +62,8 @@
         <p th:text="'Verleihername: ' +${artikelDetail.verleiherBenutzername}"></p>
         <p th:text="'Beschreibung: ' +${artikelDetail.beschreibung}"></p>
         <p th:text="'Standort: ' +${artikelDetail.standort}"></p>
-        <p th:text="'Preis: ' +${artikelDetail.preis}"></p>
-        <p th:text="'Kaution: ' +${artikelDetail.kaution}"></p>
+        <p th:text="'Preis: ' +${artikelDetail.preis} + '&euro;'"></p>
+        <p th:text="'Kaution: ' +${artikelDetail.kaution} + '&euro;'"></p>
         <p th:text="'Verfügbar von: ' +${artikelDetail.verfuegbarkeit.startDate}"></p>
         <p th:text="'Verfügbar bis: ' +${artikelDetail.verfuegbarkeit.endDate}"></p>
         <a href='/'>

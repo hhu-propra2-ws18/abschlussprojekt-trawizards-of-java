@@ -8,8 +8,8 @@ import java.util.ArrayList;
 @Controller
 public interface MessageRepository extends CrudRepository<Message, Long> {
 
+    ArrayList<Message> findAll();
+    
     ArrayList<Message> findByEmpfaenger(String empfaenger);
-
-    ArrayList<Message> findById();
 
 }

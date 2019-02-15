@@ -7,5 +7,5 @@ import java.util.ArrayList;
 
 public interface KonfliktRepository extends CrudRepository<Konflikt, Long> {
 
-    ArrayList<Konflikt> findById();
+    ArrayList<Konflikt> findAll();
 }

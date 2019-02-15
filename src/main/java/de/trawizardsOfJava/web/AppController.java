@@ -94,12 +94,20 @@ public class AppController {
 		model.addAttribute("artikel", artikelRepository.findByVerleiherBenutzername(person.getBenutzername()));
 		model.addAttribute("isUser", benutzername.equals(principal.getName()));
 		model.addAttribute("proPay", ControllerLogik.getEntity(benutzername));
+		if(benutzername.equals(principal.getName())){
+			model.addAttribute("sameAsLoggedIn", true);
+			model.addAttribute("loggedInUserName", principal.getName());
+		}else{
+			model.addAttribute("sameAsLoggedIn", false);
+		}
+
 		return "benutzeransicht";
 	}
 
 	@PostMapping("/account/{benutzername}")
-	public String kontoAufladen(@PathVariable String benutzername, int amount) {
+	public String kontoAufladen(@PathVariable String benutzername, int amount, Principal principal, Model model) {
 		ControllerLogik.setAmount(benutzername, amount);
+
 		return "backToTheFuture";
 	}
 
@@ -130,6 +138,7 @@ public class AppController {
 			return "permissionDenied";
 		}
 	}
+
 
 	@PostMapping("/account/{benutzername}/addItem")
 	public String postAddItem(Artikel artikel, @PathVariable String benutzername, @RequestParam String daterange) {

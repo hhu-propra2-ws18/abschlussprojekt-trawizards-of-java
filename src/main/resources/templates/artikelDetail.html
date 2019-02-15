@@ -34,7 +34,7 @@
             </li>
             <li class="nav-item">
                 <div th:if="${disableThirdButton}">
-                    <a class="nav-link" href='/login'>
+                    <a class="nav-link" href='/anmeldung'>
                         Anmelden
                     </a>
                 </div>
@@ -86,7 +86,10 @@
         <a href='/'>
         <button type="button" class="btn btn-outline-danger" >Zurück</button>
         </a>
-        <a th:href="@{/account/{benutzername}/artikel/{id}/anfrage (id=${artikelDetail.id},benutzername=${name})}">
+        <a th:unless="${disableSecondButton}" th:href="@{/anmeldung}">
+            <button type="button" class="btn btn-outline-success">Ausleihen</button>
+        </a>
+        <a th:if="${disableSecondButton}" th:href="@{/account/{benutzername}/artikel/{id}/anfrage (id=${artikelDetail.id},benutzername=${name})}">
             <button type="button" class="btn btn-outline-success">Ausleihen</button>
         </a>
     </div>

@@ -90,6 +90,11 @@ public class AppController {
 		}
 	}
 
+	@GetMapping("/anmeldung")
+	public String anmelden(){
+		return "anmeldung";
+	}
+
 	@GetMapping("/account/{benutzername}")
 	public String accountansicht(Model model, @PathVariable String benutzername, Principal principal) {
 		Person person = benutzerRepository.findByBenutzername(benutzername).get();

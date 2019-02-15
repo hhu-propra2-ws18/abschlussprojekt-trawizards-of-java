@@ -23,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/").permitAll();
 		http.authorizeRequests().antMatchers("/registrierung").permitAll();
-		http.authorizeRequests().antMatchers("/detail/{id}").permitAll();
+		//http.authorizeRequests().antMatchers("/detail/{id}").permitAll();
 		http.authorizeRequests().antMatchers("/search").permitAll();
 		http.formLogin().permitAll();
 		http.logout().permitAll();

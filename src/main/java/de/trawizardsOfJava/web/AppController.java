@@ -417,7 +417,10 @@ public class AppController {
 	public String konfliktAusleihender(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal){
 		if (principal.getName().equals(benutzername)) {
 			//Kaution zurück an Ausleihenden
-			konfliktRepository.findById(id).get().setInBearbeitung("geschlossen");
+			Konflikt konflikt = konfliktRepository.findById(id).get();
+			konflikt.setInBearbeitung("geschlossen");
+			konflikt.setBearbeitender("");
+			konfliktRepository.save(konflikt);
 			model.addAttribute("konflikte", konfliktRepository.findAllByInBearbeitung("offen"));
 			model.addAttribute("konflikte1", konfliktRepository.findAllByBearbeitender(benutzername));
 			model.addAttribute("name", benutzername);
@@ -440,7 +443,10 @@ public class AppController {
 	@GetMapping("/account/{benutzername}/nachricht/konflikte/verleiher/{id}")
 	public String konfliktVerleiher(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal){
 		if (principal.getName().equals(benutzername)) {
-			konfliktRepository.findById(id).get().setInBearbeitung("geschlossen");
+			Konflikt konflikt = konfliktRepository.findById(id).get();
+			konflikt.setInBearbeitung("geschlossen");
+			konflikt.setBearbeitender("");
+			konfliktRepository.save(konflikt);
 			model.addAttribute("konflikte", konfliktRepository.findAllByInBearbeitung("offen"));
 			model.addAttribute("konflikte1", konfliktRepository.findAllByBearbeitender(benutzername));
 			model.addAttribute("name", benutzername);

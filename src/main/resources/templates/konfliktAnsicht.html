@@ -26,13 +26,13 @@
         <button name="button" class="btn btn-outline-success" onClick="confirmation()">Annehmen</button>
     </a>
 </div>
-<h2>In Bearbeitung</h2>
+<h2 align="center">In Bearbeitung</h2>
 <div th:each="konflikt1 : ${konflikte1}" align="center" margin="5">
     <p th:text="|Absender: ${konflikt1.rueckgabe.verleiherName.benutzername} (${konflikt1.rueckgabe.verleiherName.email})|"></p>
     <p th:text="|Verursacher: ${konflikt1.rueckgabe.ausleihender.benutzername} (${konflikt1.rueckgabe.ausleihender.email})|"></p>
     <p th:text="|beschreibung: ${konflikt1.beschreibung}|"></p>
     <p th:text="|Artikel: ${konflikt1.rueckgabe.artikel.artikelName}|"></p>
-    <a th:href="@{/account/{benutzername}/nachricht/konflikte/ausleihender{id} (id=${konflikt1.id},benutzername=${name})}">
+    <a th:href="@{/account/{benutzername}/nachricht/konflikte/ausleihender/{id} (id=${konflikt1.id},benutzername=${name})}">
         <button name="button" class="btn btn-outline-dark" onClick="confirmation1()">Ausleihender</button>
     </a>
     <a th:href="@{/account/{benutzername}/nachricht/konflikte/verleiher/{id} (id=${konflikt1.id},benutzername=${name})}">

@@ -1,6 +1,7 @@
 package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.*;
+import de.trawizardsOfJava.mail.IMailService;
 import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.Person;
 import org.junit.Test;
@@ -47,6 +48,9 @@ public class AppControllerTest {
 
 	@MockBean
 	KonfliktRepository konfliktRepository;
+
+	@MockBean
+	IMailService iMailService;
 
 	@Test
 	public void isOk() throws Exception {

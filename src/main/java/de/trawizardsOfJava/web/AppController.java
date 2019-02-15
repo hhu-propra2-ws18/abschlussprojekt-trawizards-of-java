@@ -1,6 +1,7 @@
 package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.*;
+import de.trawizardsOfJava.mail.IMailService;
 import de.trawizardsOfJava.mail.Message;
 import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.*;
@@ -39,6 +40,9 @@ public class AppController {
 
   	@Autowired
 	private KonfliktRepository konfliktRepository;
+
+  	@Autowired
+	private IMailService iMailService;
 
 	@GetMapping("/")
 	public String uebersicht(Model model, Principal principal) {
@@ -344,6 +348,7 @@ public class AppController {
 			message.setAbsender(principal.getName());
 			message.setEmpfaenger("");
 			messageRepository.save(message);
+			iMailService.sendEmailToKonfliktLoeseStelle(benutzername,konflikt.getBeschreibung(),id);
 			return "backToTheFuture2";
 		}
 		else {

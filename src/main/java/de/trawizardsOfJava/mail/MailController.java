@@ -19,7 +19,7 @@ public class MailController {
     @GetMapping("/send/{id}")
     public String home(@PathVariable Long id,  Principal principal){
         try {
-            iMailService.sendEmailToKonfliktLoeseStelle(principal.getName(), id);
+            //iMailService.sendEmailToKonfliktLoeseStelle(principal.getName(), id);
         }
         catch(MailException e){
             // Exception Handling

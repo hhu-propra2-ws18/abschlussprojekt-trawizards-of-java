@@ -20,5 +20,7 @@ public class Konflikt {
     @OneToOne
     private Rueckgabe rueckgabe;
 
-    private String inBearbeitung;
+    private String inBearbeitung = "offen";
+
+    private String bearbeitender;
 }

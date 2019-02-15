@@ -10,4 +10,6 @@ public interface KonfliktRepository extends CrudRepository<Konflikt, Long> {
     ArrayList<Konflikt> findAll();
 
     ArrayList<Konflikt> findAllByInBearbeitung(String zustand);
+
+    ArrayList<Konflikt> findAllByBearbeitender(String bearbeitender);
 }

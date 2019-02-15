@@ -17,6 +17,9 @@
 </head>
 <body>
 <h1 align="center">Nachrichtenübersicht</h1>
+<a th:href="@{/account/{benutzername}/nachricht/konflikte (benutzername=${name})}">
+    <button>Konflikte</button>
+</a>
 <div th:each="message : ${messages}" align="center" margin="5">
     <p th:text="|Absender: ${message.absender}|">Absender</p>
     <p th:text="|Nachricht: ${message.nachricht}|">Nachricht</p>

@@ -303,6 +303,10 @@ public class AppController {
 	@GetMapping("/account/{benutzername}/nachrichten")
 	public String nachrichtenUebersicht(Model model, @PathVariable String benutzername, Principal principal){
 		if (benutzername.equals(principal.getName())) {
+			if(benutzerRepository.findByBenutzername(benutzername).get().getRolle().equals("ADMIN")){
+				model.addAttribute("admin",true);
+			}
+			else model.addAttribute("admin",false);
 			ArrayList<Message> messages = messageRepository.findByEmpfaenger(benutzername);
 			model.addAttribute("messages", messages);
 			model.addAttribute("name", principal.getName());
@@ -336,7 +340,7 @@ public class AppController {
 			message.setAbsender(principal.getName());
 			message.setEmpfaenger("");
 			messageRepository.save(message);
-			return "benutzeransicht";
+			return "backToTheFuture";
 		}
 		else {
 			return "permissionDenied";
@@ -368,5 +372,79 @@ public class AppController {
 			model.addAttribute("disableThirdButton", true);
 		}
 		return "search";
+	}
+
+	@GetMapping("/account/{benutzername}/nachricht/konflikte")
+	public String konfliktUebersicht(@PathVariable String benutzername, Model model, Principal principal){
+		if (principal.getName().equals(benutzername)) {
+			model.addAttribute("konflikte", konfliktRepository.findAllByInBearbeitung("offen"));
+			model.addAttribute("konflikte1", konfliktRepository.findAllByBearbeitender(benutzername));
+			model.addAttribute("name", benutzername);
+			return "konfliktAnsicht";
+		}
+		else {
+			return "permissionDenied";
+		}
+	}
+
+	@GetMapping("/account/{benutzername}/nachricht/konflikte/{id}")
+	public String konfliktUebernehmen(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal){
+		if (principal.getName().equals(benutzername)) {
+			konfliktRepository.findById(id).get().setInBearbeitung("inBearbeitung");
+			model.addAttribute("konflikte", konfliktRepository.findAllByInBearbeitung("offen"));
+			model.addAttribute("konflikte1", konfliktRepository.findAllByBearbeitender(benutzername));
+			model.addAttribute("name", benutzername);
+			return "konfliktAnsicht";
+		}
+		else {
+			return "permissionDenied";
+		}
+	}
+
+	@GetMapping("/account/{benutzername}/nachricht/konflikte/ausleihender/{id}")
+	public String konfliktAusleihender(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal){
+		if (principal.getName().equals(benutzername)) {
+			//Kaution zurück an Ausleihenden
+			konfliktRepository.findById(id).get().setInBearbeitung("geschlossen");
+			model.addAttribute("konflikte", konfliktRepository.findAllByInBearbeitung("offen"));
+			model.addAttribute("konflikte1", konfliktRepository.findAllByBearbeitender(benutzername));
+			model.addAttribute("name", benutzername);
+			Message message = new Message();
+			message.setNachricht("Der Ausleihende erhält die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + "zurück");
+			message.setEmpfaenger(konfliktRepository.findById(id).get().getRueckgabe().getVerleiherName());
+			message.setAbsender(benutzername);
+			messageRepository.save(message);
+			message.setNachricht("Sie erhalten die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + "zurück");
+			message.setEmpfaenger(konfliktRepository.findById(id).get().getRueckgabe().getAusleihender());
+			message.setAbsender(benutzername);
+			messageRepository.save(message);
+			return "konfliktAnsicht";
+		}
+		else {
+			return "permissionDenied";
+		}
+	}
+
+	@GetMapping("/account/{benutzername}/nachricht/konflikte/verleiher/{id}")
+	public String konfliktVerleiher(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal){
+		if (principal.getName().equals(benutzername)) {
+			konfliktRepository.findById(id).get().setInBearbeitung("geschlossen");
+			model.addAttribute("konflikte", konfliktRepository.findAllByInBearbeitung("offen"));
+			model.addAttribute("konflikte1", konfliktRepository.findAllByBearbeitender(benutzername));
+			model.addAttribute("name", benutzername);
+			Message message = new Message();
+			message.setNachricht("Sie behalten die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName());
+			message.setEmpfaenger(konfliktRepository.findById(id).get().getRueckgabe().getVerleiherName());
+			message.setAbsender(benutzername);
+			messageRepository.save(message);
+			message.setNachricht("Der Verleiher behält die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName());
+			message.setEmpfaenger(konfliktRepository.findById(id).get().getRueckgabe().getAusleihender());
+			message.setAbsender(benutzername);
+			messageRepository.save(message);
+			return "konfliktAnsicht";
+		}
+		else {
+			return "permissionDenied";
+		}
 	}
 }

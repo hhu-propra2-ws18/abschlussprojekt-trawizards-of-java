@@ -5,6 +5,15 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <style>
+        .toptext {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -49,6 +58,9 @@
                     </a>
                 </div>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link" th:text= "'Artikel: '+${artikelDetail.artikelName}"></a>
+            </li>
             <hr>
         </ul>
     </div>
@@ -57,7 +69,12 @@
 
     <div class="col-md-12" align="center">
         <p th:text="'Artikelname: ' +${artikelDetail.artikelName}"></p>
-        <p th:text="'Verleihername: ' +${artikelDetail.verleiherBenutzername}"></p>
+        <div class="toptext">
+            <p>Verleihername:&nbsp;</p>
+            <a th:href="@{/account/{benutzername} (benutzername=${artikelDetail.verleiherBenutzername})}">
+                <p th:text="${artikelDetail.verleiherBenutzername}"></p>
+            </a>
+        </div>
         <p th:text="'Beschreibung: ' +${artikelDetail.beschreibung}"></p>
         <p th:text="'Standort: ' +${artikelDetail.standort}"></p>
         <p th:text="'Preis: ' +${artikelDetail.preis}"></p>

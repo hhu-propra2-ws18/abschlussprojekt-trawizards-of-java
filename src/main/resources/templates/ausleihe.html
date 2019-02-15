@@ -74,8 +74,9 @@
         </div>
     </nav>
 
-    <div align="center">
-        <input id="date" type="text" name="daterange" value="" min="#today"/> <br>
+    <div class="col-md-12" align="center">
+        <div class="col-md-4">
+        <input id="date" type="text" class="form-control" name="daterange" value="" min="#today"/> <br>
         <br>
         <br>
         <a href='/'>
@@ -83,6 +84,7 @@
         </a>
         <input type="hidden" th:field="*{id}">
         <input type="submit" value="Bestätigen" class="btn btn-outline-success" onclick="confirmation()"/>
+        </div>
     </div>
     <script  th:inline="javascript">
         $(function() {

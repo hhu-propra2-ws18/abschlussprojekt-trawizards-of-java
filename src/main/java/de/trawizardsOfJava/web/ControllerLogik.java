@@ -22,9 +22,9 @@ public class ControllerLogik {
 		}
 	}
 
-	public static void setAmount(String benutzername, int amount){
+	public static void post(String url){
 		try {
-			WebClient.create("localhost:8888/account/" + benutzername + "?amount=" + amount)
+			WebClient.create("localhost:8888/" + url)
 				.post()
 				.retrieve()
 				.bodyToMono(Object.class)

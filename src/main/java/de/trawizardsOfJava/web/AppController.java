@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.security.Principal;
 import java.util.List;
@@ -19,6 +20,8 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Controller
 public class AppController {
@@ -94,7 +97,7 @@ public class AppController {
 
 	@PostMapping("/account/{benutzername}")
 	public String kontoAufladen(@PathVariable String benutzername, int amount) {
-		ControllerLogik.setAmount(benutzername, amount);
+		ControllerLogik.post("account/" + benutzername + "?amount=" + amount);
 		return "backToTheFuture";
 	}
 
@@ -111,7 +114,7 @@ public class AppController {
 	@PostMapping("/account/{benutzername}/bearbeitung")
 	public String speicherAenderung(Person person) {
 		benutzerRepository.save((person));
-		return "benutzerverwaltung";
+		return "backToTheFuture";
 	}
 
 	@GetMapping("/account/{benutzername}/addItem")
@@ -183,6 +186,9 @@ public class AppController {
         ausleiheRepository.save(ausleihe);
         model.addAttribute("ausleihen", ausleiheRepository.findByVerleiherName(principal.getName()));
 		model.addAttribute("name", principal.getName());
+		long tage = DAYS.between(ausleihe.getVerfuegbarkeit().getStartDate(), ausleihe.getVerfuegbarkeit().getEndDate());
+		ControllerLogik.post("account/" +  ausleihe.getAusleihender() + "/transfer/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getPreis() * tage);
+		ControllerLogik.post("reservation/reserve/" + ausleihe.getAusleihender() + "/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getKaution());
         return "ausleihenuebersicht";
     }
 

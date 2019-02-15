@@ -1,12 +1,9 @@
 package de.trawizardsOfJava.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.Data;
 
+@Data
 public class Reservierung {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int Id;
-	//int amount;
+	int id;
+	int amount;
 }

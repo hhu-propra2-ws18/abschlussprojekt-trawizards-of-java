@@ -20,14 +20,15 @@ public class MailService implements IMailService{
         this.javaMailSender = javaMailSender;
     }
 
-    public void sendEmailToKonfliktLoeseStelle(String name, Long id) throws MailException{
+    public void sendEmailToKonfliktLoeseStelle(String name, String beschreibung, Long id) throws MailException{
         SimpleMailMessage mail = new SimpleMailMessage();
         //mail.setTo(benutzerRepository.findByBenutzername(name).get().getEmail());
         mail.setFrom("propra.leihe24@gmail.com");
         mail.setTo("propra.leihe24@gmail.com");
         mail.setText("Sehr geehrte Damen und Herren," + "\n\n" + "wir bitten um Auflösung des Konfliktes" +
-                " der ID " + id + "\n\n" + "Vielen Dank.");
-        mail.setSubject("Konflikt bei Ausleihe " + id);
+                " der ID: " + id + "\n\n" + "Die Beschreibung des Geschädigten ist:\n\n" + beschreibung +
+                "\nWir bitten um zügige Bearbeitung. \nVielen Dank.");
+        mail.setSubject("Konflikt bei Ausleihe: " + id);
         javaMailSender.send(mail);
     }
 }

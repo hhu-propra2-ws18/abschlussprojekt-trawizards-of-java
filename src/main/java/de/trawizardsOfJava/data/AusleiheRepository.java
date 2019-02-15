@@ -1,5 +1,6 @@
 package de.trawizardsOfJava.data;
 
+import de.trawizardsOfJava.model.Artikel;
 import de.trawizardsOfJava.model.Ausleihe;
 import org.springframework.data.repository.CrudRepository;
 
@@ -12,6 +13,7 @@ public interface AusleiheRepository extends CrudRepository<Ausleihe,Long> {
 
     ArrayList<Ausleihe> findByVerleiherName(String verleiherName);
 
-    ArrayList<Ausleihe> findByAusleihender(String ausleihender);
-  
+    ArrayList<Ausleihe> findByArtikel(Artikel artikel);
+
+    ArrayList<Ausleihe> findByAusleihender(String name);
 }

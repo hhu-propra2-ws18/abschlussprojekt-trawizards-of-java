@@ -15,6 +15,9 @@
         #topButton{
             padding-top: 25px;
         }
+        #buttonTop{
+            padding-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -46,14 +49,25 @@
     </nav>
 </div>
 <div class="col-md-12" align="center">
-    <div class="col-md-4" id="topButton">
-        <p th:if = "${isUser}">
+    <div class="col-md-4" id="topButton" th:if="${isUser}">
+        <p th:text="'Dein aktueller ProPay-Kontostand: '+${proPay.amount}"></p>
+        <p th:if="${! #lists.isEmpty(proPay.reservations)}">Deine aktuellen Reservierungen:</p>
+        <ul th:each="reservierung : ${proPay.reservations}">
+            <li th:text="reservierung"></li>
+        </ul>
+        <form method = "post">
+            <input type="number" name="amount">
+            <button type = submit class="btn btn-outline-success">Bestätigen</button>
+        </form>
+        <p>
             <a th:href="@{/account/{benutzername}/bearbeitung (benutzername=${person.name})}">
                 <button type="button" class="btn btn-outline-dark" >Profil bearbeiten</button>
             </a>
         	<a th:href="@{/account/{benutzername}/addItem (benutzername=${person.name})}">
         		<button type="button" class="btn btn-outline-dark" >Neuen Artikel erstellen</button>
             </a>
+		</p>
+		<p>
             <a th:href="@{/account/{benutzername}/ausleihenuebersicht (benutzername=${person.name})}">
                 <button type="button" class="btn btn-outline-dark" >Anfragen ansehen</button>
             </a>

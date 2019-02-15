@@ -96,7 +96,14 @@ public class AppController {
 		model.addAttribute("person", person);
 		model.addAttribute("artikel", artikelRepository.findByVerleiherBenutzername(person.getBenutzername()));
 		model.addAttribute("isUser", benutzername.equals(principal.getName()));
+		model.addAttribute("proPay", ControllerLogik.getEntity(benutzername));
 		return "benutzeransicht";
+	}
+
+	@PostMapping("/account/{benutzername}")
+	public String kontoAufladen(@PathVariable String benutzername, int amount) {
+		ControllerLogik.setAmount(benutzername, amount);
+		return "backToTheFuture";
 	}
 
 	@GetMapping("/account/{benutzername}/bearbeitung")
@@ -120,6 +127,7 @@ public class AppController {
 		if (principal.getName().equals(benutzername)) {
 			Artikel newArtikel = new Artikel();
 			model.addAttribute("artikel", newArtikel);
+			model.addAttribute("name", principal.getName());
 			return "addItem";
 		} else {
 			return "permissionDenied";
@@ -137,8 +145,16 @@ public class AppController {
 	}
 
 	@GetMapping("/artikel/{id}/anfrage")
-	public String neueAnfrage(Model model, @PathVariable Long id) {
+	public String neueAnfrage(Model model, @PathVariable Long id, Principal principal) {
 		model.addAttribute("id", id);
+		Artikel artikel =  artikelRepository.findById(id).get();
+		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByArtikel(artikel);
+		ArrayList<Verfuegbarkeit> verbuebarkeiten = new ArrayList<>();
+		for (Ausleihe ausleihe: ausleihen){
+			verbuebarkeiten.add(ausleihe.getVerfuegbarkeit());
+		}
+		model.addAttribute("daten", verbuebarkeiten);
+		model.addAttribute("name", principal.getName());
 		return "ausleihe";
 	}
 
@@ -160,12 +176,12 @@ public class AppController {
 		return "backToTheFuture";
 	}
 
-
     @GetMapping("/account/{benutzername}/ausleihenuebersicht")
     public String ausleihenuebersicht(Model model, @PathVariable String benutzername, Principal principal){
 		if (benutzername.equals(principal.getName())) {
 			ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByVerleiherName(benutzername);
 			model.addAttribute("ausleihen", ausleihen);
+			model.addAttribute("name", principal.getName());
 			return "ausleihenuebersicht";
 		}
 		else {
@@ -184,6 +200,7 @@ public class AppController {
 		message.setNachricht("Anfrage für " + ausleihe.getArtikel().getArtikelName() + " angenommen");
 		messageRepository.save(message);
         model.addAttribute("ausleihen", ausleiheRepository.findByVerleiherName(principal.getName()));
+		model.addAttribute("name", principal.getName());
         return "ausleihenuebersicht";
     }
 
@@ -197,12 +214,14 @@ public class AppController {
 		message.setNachricht("Anfrage für " + ausleihe.getArtikel().getArtikelName() + " abgelehnt");
 		messageRepository.save(message);
 		model.addAttribute("ausleihen", ausleiheRepository.findByVerleiherName(principal.getName()));
+		model.addAttribute("name", principal.getName());
         return "ausleihenuebersicht";
     }
 
 	@GetMapping("/account/{benutzername}/ausgelieheneuebersicht")
 	public String leihenuebersicht(Model model, Principal principal){
 		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByAusleihender(principal.getName());
+		model.addAttribute("name", principal.getName());
 		model.addAttribute("ausleihen",ausleihen);
 		return "ausgelieheneuebersicht";
 	}
@@ -225,6 +244,7 @@ public class AppController {
 	public String rueckgabenuebersicht(Model model, Principal principal){
 		ArrayList<Rueckgabe> ausleihen = rueckgabeRepository.findByVerleiherName(principal.getName());
 		model.addAttribute("ausleihen",ausleihen);
+		model.addAttribute("name", principal.getName());
 		return "zurueckgegebeneartikel";
 	}
 

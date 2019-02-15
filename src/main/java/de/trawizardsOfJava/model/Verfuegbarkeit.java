@@ -5,7 +5,6 @@ import lombok.Data;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 
 @Data
 public class Verfuegbarkeit implements Serializable {
@@ -14,7 +13,7 @@ public class Verfuegbarkeit implements Serializable {
 
     public void toVerfuegbarkeit(String s){
         String[] arr = s.split("-");
-        DateTimeFormatter  formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        DateTimeFormatter  formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         this.startDate = LocalDate.parse(arr[0].trim(), formatter);
         this.endDate = LocalDate.parse(arr[1].trim(), formatter);
     }

@@ -252,7 +252,10 @@ public class AppController {
 	public String zurueckgegeben(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal){
 		if (benutzername.equals(principal.getName())) {
 			Ausleihe ausleihe = ausleiheRepository.findById(id).get();
-			rueckgabeRepository.save(ausleihe.convertToRueckgabe());
+			rueckgabeRepository.save(ausleihe.convertToRueckgabe(
+					benutzerRepository.findByBenutzername(
+							ausleihe.getAusleihender()).get(),
+					benutzerRepository.findByBenutzername(ausleihe.getVerleiherName()).get()));
 			Message message = new Message();
 			message.setAbsender(principal.getName());
 			message.setEmpfaenger(ausleihe.getVerleiherName());
@@ -271,7 +274,7 @@ public class AppController {
 	@GetMapping("/account/{benutzername}/zurueckgegebeneartikel")
 	public String rueckgabenuebersicht(Model model, @PathVariable String benutzername, Principal principal){
 		if (benutzername.equals(principal.getName())) {
-			ArrayList<Rueckgabe> ausleihen = rueckgabeRepository.findByVerleiherName(principal.getName());
+			ArrayList<Rueckgabe> ausleihen = rueckgabeRepository.findByVerleiherName(benutzerRepository.findByBenutzername(principal.getName()).get());
 			model.addAttribute("ausleihen", ausleihen);
 			model.addAttribute("name", principal.getName());
 			return "zurueckgegebeneartikel";
@@ -287,12 +290,12 @@ public class AppController {
 			Rueckgabe rueckgabe = rueckgabeRepository.findById(id).get();
 			Message message = new Message();
 			message.setAbsender(principal.getName());
-			message.setEmpfaenger(rueckgabe.getVerleiherName());
+			message.setEmpfaenger(rueckgabe.getVerleiherName().getBenutzername());
 			message.setNachricht("Rückgabe von " + rueckgabe.getArtikel().getArtikelName() + " akzeptiert");
 			messageRepository.save(message);
 			rueckgabeRepository.delete(rueckgabe);
 			model.addAttribute("name", principal.getName());
-			model.addAttribute("ausleihen", rueckgabeRepository.findByVerleiherName(principal.getName()));
+			model.addAttribute("ausleihen", rueckgabeRepository.findByVerleiherName(benutzerRepository.findByBenutzername(principal.getName()).get()));
 			return "zurueckgegebeneartikel";
 		}
 		else {
@@ -334,13 +337,14 @@ public class AppController {
 	@PostMapping("/account/{benutzername}/konflikt/send/{id}")
 	public String konfliktAbsenden(Konflikt konflikt, @PathVariable("benutzername") String benutzername, @PathVariable("id") Long id, Principal principal){
 		if (principal.getName().equals(benutzername)) {
+
 			konfliktRepository.save(konflikt);
 			Message message = new Message();
 			message.setNachricht(konflikt.getBeschreibung());
 			message.setAbsender(principal.getName());
 			message.setEmpfaenger("");
 			messageRepository.save(message);
-			return "backToTheFuture";
+			return "backToTheFuture2";
 		}
 		else {
 			return "permissionDenied";
@@ -390,7 +394,10 @@ public class AppController {
 	@GetMapping("/account/{benutzername}/nachricht/konflikte/{id}")
 	public String konfliktUebernehmen(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal){
 		if (principal.getName().equals(benutzername)) {
-			konfliktRepository.findById(id).get().setInBearbeitung("inBearbeitung");
+			Konflikt konflikt = konfliktRepository.findById(id).get();
+			konflikt.setInBearbeitung("inBearbeitung");
+			konflikt.setBearbeitender(benutzername);
+			konfliktRepository.save(konflikt);
 			model.addAttribute("konflikte", konfliktRepository.findAllByInBearbeitung("offen"));
 			model.addAttribute("konflikte1", konfliktRepository.findAllByBearbeitender(benutzername));
 			model.addAttribute("name", benutzername);
@@ -411,11 +418,11 @@ public class AppController {
 			model.addAttribute("name", benutzername);
 			Message message = new Message();
 			message.setNachricht("Der Ausleihende erhält die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + "zurück");
-			message.setEmpfaenger(konfliktRepository.findById(id).get().getRueckgabe().getVerleiherName());
+			message.setEmpfaenger(konfliktRepository.findById(id).get().getRueckgabe().getVerleiherName().getBenutzername());
 			message.setAbsender(benutzername);
 			messageRepository.save(message);
 			message.setNachricht("Sie erhalten die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + "zurück");
-			message.setEmpfaenger(konfliktRepository.findById(id).get().getRueckgabe().getAusleihender());
+			message.setEmpfaenger(konfliktRepository.findById(id).get().getRueckgabe().getAusleihender().getBenutzername());
 			message.setAbsender(benutzername);
 			messageRepository.save(message);
 			return "konfliktAnsicht";
@@ -434,11 +441,11 @@ public class AppController {
 			model.addAttribute("name", benutzername);
 			Message message = new Message();
 			message.setNachricht("Sie behalten die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName());
-			message.setEmpfaenger(konfliktRepository.findById(id).get().getRueckgabe().getVerleiherName());
+			message.setEmpfaenger(konfliktRepository.findById(id).get().getRueckgabe().getVerleiherName().getBenutzername());
 			message.setAbsender(benutzername);
 			messageRepository.save(message);
 			message.setNachricht("Der Verleiher behält die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName());
-			message.setEmpfaenger(konfliktRepository.findById(id).get().getRueckgabe().getAusleihender());
+			message.setEmpfaenger(konfliktRepository.findById(id).get().getRueckgabe().getAusleihender().getBenutzername());
 			message.setAbsender(benutzername);
 			messageRepository.save(message);
 			return "konfliktAnsicht";

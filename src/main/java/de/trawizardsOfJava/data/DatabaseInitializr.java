@@ -70,7 +70,7 @@ public class DatabaseInitializr implements ServletContextInitializer {
         ausleihe.setVerfuegbarkeit(neues);
         ausleiheRepository.save(ausleihe);
 
-        Rueckgabe rueckgabe = ausleihe.convertToRueckgabe();
+        Rueckgabe rueckgabe = ausleihe.convertToRueckgabe(person1,person2);
         rueckgabeRepository.save(rueckgabe);
 
         Konflikt konflikt = new Konflikt();

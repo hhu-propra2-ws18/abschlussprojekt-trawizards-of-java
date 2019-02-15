@@ -30,13 +30,13 @@ public class Ausleihe {
         verleiherName = artikel.getVerleiherBenutzername();
     }
 
-    public Rueckgabe convertToRueckgabe(){
+    public Rueckgabe convertToRueckgabe(Person ausleihender, Person verleiher){
         Rueckgabe rueckgabe = new Rueckgabe();
         rueckgabe.setId(this.id);
-        rueckgabe.setAusleihender(this.ausleihender);
+        rueckgabe.setAusleihender(ausleihender);
         rueckgabe.setArtikel(this.artikel);
         rueckgabe.setVerfuegbarkeit(this.verfuegbarkeit);
-        rueckgabe.setVerleiherName(this.verleiherName);
+        rueckgabe.setVerleiherName(verleiher);
         return rueckgabe;
     }
 }

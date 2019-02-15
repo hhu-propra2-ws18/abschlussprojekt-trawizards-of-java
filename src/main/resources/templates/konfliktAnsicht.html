@@ -18,8 +18,8 @@
 <body>
 <h2 align="center">Offene Konflikte</h2>
 <div th:each="konflikt : ${konflikte}" align="center" margin="5">
-    <p th:text="|Absender: ${konflikt.rueckgabe.verleiherName}|"></p>
-    <p th:text="|Verursacher: ${konflikt.rueckgabe.ausleihender}|"></p>
+    <p th:text="|Absender: ${konflikt.rueckgabe.verleiherName.benutzername}|"></p>
+    <p th:text="|Verursacher: ${konflikt.rueckgabe.ausleihender.benutzername}|"></p>
     <p th:text="|beschreibung: ${konflikt.beschreibung}|"></p>
     <p th:text="|Artikel: ${konflikt.rueckgabe.artikel.artikelName}|"></p>
     <a th:href="@{/account/{benutzername}/nachricht/konflikte/{id} (id=${konflikt.id},benutzername=${name})}">
@@ -28,15 +28,15 @@
 </div>
 <h2>In Bearbeitung</h2>
 <div th:each="konflikt1 : ${konflikte1}" align="center" margin="5">
-    <p th:text="|Absender: ${konflikt1.rueckgabe.verleiherName}|"></p>
-    <p th:text="|Verursacher: ${konflikt1.rueckgabe.ausleihender}|"></p>
+    <p th:text="|Absender: ${konflikt1.rueckgabe.verleiherName.benutzername} (${konflikt1.rueckgabe.verleiherName.email})|"></p>
+    <p th:text="|Verursacher: ${konflikt1.rueckgabe.ausleihender.benutzername} (${konflikt1.rueckgabe.ausleihender.email})|"></p>
     <p th:text="|beschreibung: ${konflikt1.beschreibung}|"></p>
     <p th:text="|Artikel: ${konflikt1.rueckgabe.artikel.artikelName}|"></p>
     <a th:href="@{/account/{benutzername}/nachricht/konflikte/ausleihender{id} (id=${konflikt1.id},benutzername=${name})}">
-        <button name="button" class="btn btn-outline-success" onClick="confirmation1()">Ausleihender</button>
+        <button name="button" class="btn btn-outline-dark" onClick="confirmation1()">Ausleihender</button>
     </a>
     <a th:href="@{/account/{benutzername}/nachricht/konflikte/verleiher/{id} (id=${konflikt1.id},benutzername=${name})}">
-        <button name="button" class="btn btn-outline-success" onClick="confirmation2()">Verleiher</button>
+        <button name="button" class="btn btn-outline-dark" onClick="confirmation2()">Verleiher</button>
     </a>
 </div>
 <script>

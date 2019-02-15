@@ -19,4 +19,6 @@ public class Konflikt {
 
     @OneToOne
     private Rueckgabe rueckgabe;
+
+    private String inBearbeitung;
 }

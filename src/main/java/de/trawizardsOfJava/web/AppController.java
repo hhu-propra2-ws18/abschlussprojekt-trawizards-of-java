@@ -142,7 +142,7 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/artikel/{id}/anfrage")
-	public String neueAnfrage(Model model, @PathVariable String benutzername, @PathVariable Long id, Principal principal) {
+	public String neueAnfrage(Model model, @PathVariable("benutzername") String benutzername, @PathVariable("id") Long id, Principal principal) {
 		if (benutzername.equals(principal.getName())) {
 			model.addAttribute("id", id);
 			Artikel artikel = artikelRepository.findById(id).get();
@@ -161,7 +161,7 @@ public class AppController {
 	}
 
 	@PostMapping("/account/{benutzername}/artikel/{id}/anfrage")
-	public String speichereAnfrage(@PathVariable Long id, @PathVariable String benutzername,@RequestParam String daterange, Principal principal) {
+	public String speichereAnfrage(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername,@RequestParam String daterange, Principal principal) {
 		if (benutzername.equals(principal.getName())) {
 			Artikel artikel = artikelRepository.findById(id).get();
 			Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit();
@@ -197,7 +197,7 @@ public class AppController {
     }
 
     @GetMapping("/account/{benutzername}/annahme/{id}")
-    public String ausleihebestaetigt(@PathVariable Long id, @PathVariable String benutzername, Model model, Principal principal){
+    public String ausleihebestaetigt(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal){
 		if (benutzername.equals(principal.getName())) {
 			Ausleihe ausleihe = ausleiheRepository.findById(id).get();
 			ausleihe.setAccepted(true);
@@ -217,7 +217,7 @@ public class AppController {
     }
 
     @GetMapping("/account/{benutzername}/remove/{id}")
-    public String ausleiheabgelehnt(@PathVariable Long id, Model model, @PathVariable String benutzername, Principal principal){
+    public String ausleiheabgelehnt(@PathVariable("id") Long id, Model model, @PathVariable("benutzername") String benutzername, Principal principal){
 		if (benutzername.equals(principal.getName())) {
 			Ausleihe ausleihe = ausleiheRepository.findById(id).get();
 			ausleiheRepository.delete(ausleihe);
@@ -249,7 +249,7 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/rueckgabe/{id}")
-	public String zurueckgegeben(@PathVariable Long id, @PathVariable String benutzername, Model model, Principal principal){
+	public String zurueckgegeben(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal){
 		if (benutzername.equals(principal.getName())) {
 			Ausleihe ausleihe = ausleiheRepository.findById(id).get();
 			rueckgabeRepository.save(ausleihe.convertToRueckgabe());
@@ -282,7 +282,7 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/rueckgabe/akzeptiert/{id}")
-	public String rueckgabeakzeptiert(@PathVariable Long id, @PathVariable String benutzername, Model model, Principal principal){
+	public String rueckgabeakzeptiert(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal){
 		if (benutzername.equals(principal.getName())) {
 			Rueckgabe rueckgabe = rueckgabeRepository.findById(id).get();
 			Message message = new Message();
@@ -314,7 +314,7 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/konflikt/send/{id}")
-	public String konfliktAnnehmen(Model model, @PathVariable String benutzername, Principal principal, @PathVariable Long id) {
+	public String konfliktAnnehmen(Model model, @PathVariable("benutzername") String benutzername, Principal principal, @PathVariable("id") Long id) {
 		if (principal.getName().equals(benutzername)) {
 			Konflikt konflikt = new Konflikt();
 			konflikt.setRueckgabe(rueckgabeRepository.findById(id).get());
@@ -344,7 +344,7 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/nachricht/delete/{id}")
-	private String messageDelete(@PathVariable Long id, @PathVariable String benutzername, Model model, Principal principal){
+	private String messageDelete(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal){
 		if (principal.getName().equals(benutzername)) {
 			messageRepository.delete(messageRepository.findById(id).get());
 			model.addAttribute("messages", messageRepository.findByEmpfaenger(principal.getName()));

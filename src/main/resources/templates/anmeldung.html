@@ -1,28 +1,64 @@
-<!DOCTYPE html>
 <html lang="de" xmlns:th="http://www.thymeleaf.com">
 <head>
-    <title>Anmeldung</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
+	<title>Anmelden</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+		  integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 </head>
 <body>
-<h1>Anmeldung:</h1>
-<form name="f" method="post">
-    <table>
-        <tr>
-            <td>Benutzername:</td>
-            <td><input type="text" name="username"></td>
-        </tr>
-        <tr>
-            <td>Passwort:</td>
-            <td><input type="password" name="password"></td>
-        </tr>
-        <tr>
-            <td><button type="submit">Bestätigen</button></td>
-        </tr>
-    </table>
-</form>
+
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+	
+	<a class="navbar-brand" href='/'>
+		<img
+			src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png"
+			height="25"/>
+	</a>
+	
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item active">
+				<a class="nav-link" href='/'>Home <span class="sr-only">(current)</span></a>
+			</li>
+			<li class="nav-item active">
+				<a class="nav-link">Bitte geben Sie Ihre Daten ein </a>
+			</li>
+			<hr>
+		</ul>
+	</div>
+</nav>
+
+<div align="center">
+	<h1>Anmeldung:</h1>
+	<form name="f" method="post">
+		<table>
+			<div th:if="${param.error}" class="alert alert-error">
+				Ungültiger Benutzername oder ungültiges Passwort!
+			</div>
+			<div th:if="${param.logout}" class="alert alert-success">
+				Auf Wiedersehen!
+			</div>
+			<tr>
+				<td>Benutzername:</td>
+				<td><input type="text" name="username"></td>
+			</tr>
+			<tr>
+				<td>Passwort:</td>
+				<td><input type="password" name="password"></td>
+			</tr>
+			<tr>
+				<td>
+					<button type="submit" class="btn btn-outline-success">Bestätigen</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
 </body>
 </html>

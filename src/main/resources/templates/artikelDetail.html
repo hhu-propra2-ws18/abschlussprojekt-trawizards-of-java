@@ -86,7 +86,7 @@
         <a href='/'>
         <button type="button" class="btn btn-outline-danger" >Zurück</button>
         </a>
-        <a th:href="@{/account/{benutzername}/artikel/{id}/anfrage (id=${artikelDetail.id}),benutzername=${name}}">
+        <a th:href="@{/account/{benutzername}/artikel/{id}/anfrage (id=${artikelDetail.id},benutzername=${name})}">
             <button type="button" class="btn btn-outline-success">Ausleihen</button>
         </a>
     </div>

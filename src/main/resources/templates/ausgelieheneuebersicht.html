@@ -54,7 +54,7 @@
         <p th:text="|Verleiher: ${ausleihe.verleiherName}|">Verleiher</p>
         <p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
         <p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
-        <a th:href="@{/rueckgabe/{id} (id=${ausleihe.id})}">
+        <a th:href="@{/account/{benutzername}/rueckgabe/{id} (id=${ausleihe.id}) (benutzername=${name})}">
             <button name="button" class="btn btn-success" onClick="confirmation()">Zurückgeben</button>
         </a>
     </div>

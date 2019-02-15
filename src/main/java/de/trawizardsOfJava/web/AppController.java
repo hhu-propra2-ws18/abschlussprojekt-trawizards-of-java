@@ -248,7 +248,7 @@ public class AppController {
 		}
 	}
 
-	@GetMapping("/rueckgabe/{id}")
+	@GetMapping("/account/{benutzername}/rueckgabe/{id}")
 	public String zurueckgegeben(@PathVariable Long id, @PathVariable String benutzername, Model model, Principal principal){
 		if (benutzername.equals(principal.getName())) {
 			Ausleihe ausleihe = ausleiheRepository.findById(id).get();
@@ -259,6 +259,7 @@ public class AppController {
 			message.setNachricht(ausleihe.getArtikel().getArtikelName() + " zurückgegeben");
 			messageRepository.save(message);
 			ausleiheRepository.delete(ausleiheRepository.findById(id).get());
+			model.addAttribute("name", principal.getName());
 			model.addAttribute("ausleihen", ausleiheRepository.findByAusleihender(principal.getName()));
 			return "ausgelieheneuebersicht";
 		}
@@ -290,6 +291,7 @@ public class AppController {
 			message.setNachricht("Rückgabe von " + rueckgabe.getArtikel().getArtikelName() + " akzeptiert");
 			messageRepository.save(message);
 			rueckgabeRepository.delete(rueckgabe);
+			model.addAttribute("name", principal.getName());
 			model.addAttribute("ausleihen", rueckgabeRepository.findByVerleiherName(principal.getName()));
 			return "zurueckgegebeneartikel";
 		}
@@ -303,6 +305,7 @@ public class AppController {
 		if (benutzername.equals(principal.getName())) {
 			ArrayList<Message> messages = messageRepository.findByEmpfaenger(benutzername);
 			model.addAttribute("messages", messages);
+			model.addAttribute("name", principal.getName());
 			return "nachrichtenUebersicht";
 		}
 		else {

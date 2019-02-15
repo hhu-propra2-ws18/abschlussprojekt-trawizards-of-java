@@ -59,15 +59,13 @@
             <input type="number" name="amount">
             <button type = submit class="btn btn-outline-success">Bestätigen</button>
         </form>
-        <p>
+
             <a th:href="@{/account/{benutzername}/bearbeitung (benutzername=${person.name})}">
                 <button type="button" class="btn btn-outline-dark" >Profil bearbeiten</button>
             </a>
         	<a th:href="@{/account/{benutzername}/addItem (benutzername=${person.name})}">
         		<button type="button" class="btn btn-outline-dark" >Neuen Artikel erstellen</button>
             </a>
-		</p>
-		<p>
             <a th:href="@{/account/{benutzername}/ausleihenuebersicht (benutzername=${person.name})}">
                 <button type="button" class="btn btn-outline-dark" >Anfragen ansehen</button>
             </a>
@@ -80,7 +78,7 @@
             <a th:href="@{/account/{benutzername}/nachrichten (benutzername=${person.name})}">
                 <button type="button" class="btn btn-outline-dark" >Nachrichten ansehen</button>
             </a>
-        </p>
+
     </div>
     <hr>
     <div class="col-md-12">

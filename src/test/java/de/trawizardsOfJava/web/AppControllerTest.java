@@ -3,6 +3,8 @@ package de.trawizardsOfJava.web;
 import de.trawizardsOfJava.data.*;
 import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.Person;
+import de.trawizardsOfJava.security.SecurityConfig;
+import de.trawizardsOfJava.security.SecurityPersonenService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +38,6 @@ public class AppControllerTest {
 	ArtikelRepository artikelRepository;
 
 	@MockBean
-	SecurityPersonenService securityPersonenService;
-
-	@MockBean
 	RueckgabeRepository rueckgabeRepository;
 
 	@MockBean
@@ -46,6 +45,9 @@ public class AppControllerTest {
 
 	@MockBean
 	KonfliktRepository konfliktRepository;
+	
+	@MockBean
+	SecurityPersonenService securityPersonenService;
 
 	@Test
 	public void isOk() throws Exception {

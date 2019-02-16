@@ -9,9 +9,6 @@
 		tr:hover {
 			background-color: whitesmoke;
 		}
-		th, td {
-			padding-right: 50px;
-		}
 	</style>
 </head>
 <body>
@@ -37,7 +34,7 @@
 				</a>
 			</li>
 			<li class="nav-item active">
-				<a class="nav-link">Bitte geben Sie die veränderten Daten an </a>
+				<a class="nav-link">Profil bearbeiten</a>
 			</li>
 			<hr>
 		</ul>
@@ -45,6 +42,7 @@
 </nav>
 
 <div align="center">
+	<h1>Bitte geben Sie Ihre neuen Daten an:</h1>
 	<form method="post" th:object="${person}">
 		<table align="center">
 			<tr>

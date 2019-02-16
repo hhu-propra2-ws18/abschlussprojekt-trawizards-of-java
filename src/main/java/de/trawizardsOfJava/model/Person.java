@@ -9,12 +9,10 @@ import java.io.Serializable;
 @Data
 @Entity
 public class Person implements Serializable {
-	private String name;
 	@Id
 	private String benutzername;
+	private String name;
 	private String email;
 	private String rolle;
 	private String passwort;
 }
-
-

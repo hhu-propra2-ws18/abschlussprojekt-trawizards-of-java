@@ -6,12 +6,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <style>
-        tr:hover {
-            background-color: whitesmoke;
-        }
-        th, td {
-            padding-right: 50px;
-        }
         #topButton{
             padding-top: 25px;
         }
@@ -52,16 +46,16 @@
 </div>
 <div class="col-md-12" align="center">
     <div class="col-md-4" id="topButton" th:if="${isUser}">
-        <p th:text="'Dein aktueller ProPay-Kontostand: '+${proPay.amount}"></p>
-        <p th:if="${! #lists.isEmpty(proPay.reservations)}">Deine aktuellen Reservierungen:</p>
+        <p th:text="'Ihr aktueller ProPay-Kontostand: '+${proPay.amount}"></p>
+        <p th:if="${! #lists.isEmpty(proPay.reservations)}">Ihre aktuellen Reservierungen:</p>
         <ul th:each="reservierung : ${proPay.reservations}">
             <li th:text="${reservierung.amount}"></li>
         </ul>
+        <p>Hier können Sie Ihr Konto aufladen:</p>
         <form method = "post">
             <input type="number" name="amount">
             <button type = submit class="btn btn-outline-success">Bestätigen</button>
         </form>
-
             <a th:href="@{/account/{benutzername}/bearbeitung (benutzername=${person.name})}">
                 <button type="button" class="btn btn-outline-dark" >Profil bearbeiten</button>
             </a>
@@ -80,7 +74,6 @@
             <a th:href="@{/account/{benutzername}/nachrichten (benutzername=${person.name})}">
                 <button type="button" class="btn btn-outline-dark" >Nachrichten ansehen</button>
             </a>
-
     </div>
     <hr>
     <div class="col-md-12">
@@ -93,7 +86,7 @@
                     <button type="button" class="btn btn-outline-dark" >Details</button>
                 </a>
                 <div th:if="${sameAsLoggedIn}">
-                    <a th:href="@{/account/changeItem/{id} (id=${a.id})}">
+                    <a th:href="@{/detail/{id}/changeItem (id=${a.id})}">
                         <button type="button" class="btn btn-outline-dark" >Artikel bearbeiten</button>
                     </a>
                 </div>

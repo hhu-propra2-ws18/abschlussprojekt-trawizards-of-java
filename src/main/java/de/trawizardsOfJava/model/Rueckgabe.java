@@ -2,27 +2,27 @@ package de.trawizardsOfJava.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 @Data
-public class Rueckgabe{
+public class Rueckgabe {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String ausleihender;
+	@OneToOne
+	private Artikel artikel;
+	private Verfuegbarkeit verfuegbarkeit;
+	private String verleiherName;
+	private int proPayId;
 
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    private String ausleihender;
-    @OneToOne
-    private Artikel artikel;
-
-    private Verfuegbarkeit verfuegbarkeit;
-
-    private String verleiherName;
-
-    int proPayID;
-
+	public Rueckgabe(Ausleihe ausleihe) {
+		this.id = ausleihe.getId();
+		this.ausleihender = ausleihe.getAusleihender();
+		this.artikel = ausleihe.getArtikel();
+		this.verfuegbarkeit = ausleihe.getVerfuegbarkeit();
+		this.verleiherName = ausleihe.getVerleiherName();
+		this.proPayId = ausleihe.getProPayId();
+	}
 }

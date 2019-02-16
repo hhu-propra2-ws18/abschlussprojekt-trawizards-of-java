@@ -1,6 +1,5 @@
 package de.trawizardsOfJava.model;
 
-
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -12,14 +11,18 @@ import java.io.Serializable;
 @Data
 @Entity
 public class Artikel implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
-    String verleiherBenutzername;
-    String artikelName;
-    String beschreibung;
-    String standort;
-    int preis;
-    int kaution;
-    Verfuegbarkeit verfuegbarkeit;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String verleiherBenutzername;
+	private String artikelName;
+	private String beschreibung;
+	private String standort;
+	private int preis;
+	private int kaution;
+	private Verfuegbarkeit verfuegbarkeit;
+	
+	public int berechneGesamtPreis() {
+		return this.kaution + (this.verfuegbarkeit.berechneZwischenTage() * this.preis);
+	}
 }

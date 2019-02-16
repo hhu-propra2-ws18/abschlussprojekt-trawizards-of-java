@@ -1,0 +1,15 @@
+# Leih24
+
+Roses are red, +
+Violets are blue, +
+We know, you want to leih something, +
+and so do you.
+
+## Funktionsweise
+
+Funktioniert besser, als alle anderen!
+
+### Klassen
+Diese Skizze sollte wohl am besten veranschaulichen können, wie die Klassen zusammenhängen:
+
+image::Klassen.png[Klassen]

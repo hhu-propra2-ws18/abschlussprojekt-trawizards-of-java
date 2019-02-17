@@ -67,7 +67,7 @@
                     </a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" th:text="'Für welchen Zeitraum möchten Sie den Artikel ausleihen?'"></a>
+                    <a class="nav-link">Artikel ausleihen</a>
                 </li>
                 <hr>
             </ul>
@@ -76,14 +76,13 @@
 
     <div class="col-md-12" align="center">
         <div class="col-md-4">
-        <input id="date" type="text" class="form-control" name="daterange" value="" min="#today"/> <br>
-        <br>
-        <br>
-        <a href='/'>
-            <button name="button" class="btn btn-outline-danger">Abbrechen</button>
-        </a>
-        <input type="hidden" th:field="*{id}">
-        <input type="submit" value="Bestätigen" class="btn btn-outline-success" onclick="confirmation()"/>
+            <h1>Für welchen Zeitraum möchten Sie den Artikel ausleihen?</h1>
+            <input type="text" class="form-control" name="daterange" min="#today"/> <br>
+            <br>
+            <a href='/'>
+                <button name="button" class="btn btn-outline-danger">Abbrechen</button>
+            </a>
+            <input type="submit" value="Bestätigen" class="btn btn-outline-success" onclick="confirmation()"/>
         </div>
     </div>
     <script  th:inline="javascript">
@@ -110,7 +109,7 @@
             })
         });
         function confirmation() {
-            alert("Artikel ausgeliehen!");
+            alert("Anfrage gestellt!");
         }
     </script>
     </body>

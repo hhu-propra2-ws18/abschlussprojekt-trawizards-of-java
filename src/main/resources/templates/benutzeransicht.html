@@ -85,7 +85,7 @@
                 <a th:href="@{/detail/{id} (id=${a.id})}">
                     <button type="button" class="btn btn-outline-dark" >Details</button>
                 </a>
-                <div th:if="${sameAsLoggedIn}">
+                <div th:if="${isUser}">
                     <a th:href="@{/detail/{id}/changeItem (id=${a.id})}">
                         <button type="button" class="btn btn-outline-dark" >Artikel bearbeiten</button>
                     </a>

@@ -10,10 +10,7 @@ import de.trawizardsOfJava.security.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.security.Principal;
@@ -39,6 +36,13 @@ public class AppController {
 
   	@Autowired
 	private KonfliktRepository konfliktRepository;
+	
+	@ModelAttribute
+	public void benutzername(Model model, Principal principal) {
+		if(principal != null) {
+			model.addAttribute("name", principal.getName());
+		}
+	}
 
 	@GetMapping("/")
 	public String uebersicht(Model model, Principal principal) {
@@ -46,7 +50,6 @@ public class AppController {
 		model.addAttribute("artikel", alleArtikel);
 
 		if(principal != null){
-			model.addAttribute("name", principal.getName());
 			model.addAttribute("disableSecondButton", true);
 		}else{
 			model.addAttribute("disableThirdButton", true);
@@ -59,7 +62,6 @@ public class AppController {
 		Optional<Artikel> artikel = artikelRepository.findById(id);
 		model.addAttribute("artikelDetail", artikel.get());
 		if(principal != null){
-			model.addAttribute("name", principal.getName());
 			model.addAttribute("disableSecondButton", true);
 		}else{
 			model.addAttribute("disableThirdButton", true);
@@ -74,7 +76,6 @@ public class AppController {
 			return "permissionDenied";
 		}
 		model.addAttribute("artikel", artikel);
-		model.addAttribute("name", principal.getName());
 		return "changeItem";
 	}
 
@@ -117,12 +118,6 @@ public class AppController {
 		model.addAttribute("artikel", artikelRepository.findByVerleiherBenutzername(person.getBenutzername()));
 		model.addAttribute("isUser", benutzername.equals(principal.getName()));
 		model.addAttribute("proPay", ProPaySchnittstelle.getEntity(benutzername));
-		if(benutzername.equals(principal.getName())){
-			model.addAttribute("sameAsLoggedIn", true);
-			model.addAttribute("loggedInUserName", principal.getName());
-		}else{
-			model.addAttribute("sameAsLoggedIn", false);
-		}
 		return "benutzeransicht";
 	}
 
@@ -154,7 +149,6 @@ public class AppController {
 		}
 		Artikel newArtikel = new Artikel();
 		model.addAttribute("artikel", newArtikel);
-		model.addAttribute("name", principal.getName());
 		return "addItem";
 	}
 
@@ -172,20 +166,19 @@ public class AppController {
 		if (!principal.getName().equals(benutzername)) {
 			return "permissionDenied";
 		}
-		model.addAttribute("id", id);
 		Artikel artikel = artikelRepository.findById(id).get();
 		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByArtikel(artikel);
-		ArrayList<Verfuegbarkeit> verbuebarkeiten = new ArrayList<>();
+		ArrayList<Verfuegbarkeit> verfuegbarkeiten = new ArrayList<>();
 		for (Ausleihe ausleihe : ausleihen) {
-			verbuebarkeiten.add(ausleihe.getVerfuegbarkeit());
+			verfuegbarkeiten.add(ausleihe.getVerfuegbarkeit());
 		}
-		model.addAttribute("daten", verbuebarkeiten);
-		model.addAttribute("name", principal.getName());
+		model.addAttribute("daten", verfuegbarkeiten);
 		return "ausleihe";
 	}
 
 	@PostMapping("/account/{benutzername}/artikel/{id}/anfrage")
-	public String speichereAnfrage(@PathVariable Long id, @RequestParam String daterange, Principal principal) {
+	public String speichereAnfrage(@PathVariable Long id, String daterange, Principal principal) {
+		//ToDo: Überprüfung ob Geld ausreicht
 		Artikel artikel = artikelRepository.findById(id).get();
 		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit(daterange);
 		Ausleihe ausleihe = new Ausleihe();
@@ -209,7 +202,6 @@ public class AppController {
 		}
 		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByVerleiherName(benutzername);
 		model.addAttribute("ausleihen", ausleihen);
-		model.addAttribute("name", principal.getName());
 		return "ausleihenuebersicht";
     }
 
@@ -227,7 +219,6 @@ public class AppController {
 		message.setNachricht("Anfrage für " + ausleihe.getArtikel().getArtikelName() + " angenommen");
 		messageRepository.save(message);
 		model.addAttribute("ausleihen", ausleiheRepository.findByVerleiherName(principal.getName()));
-		model.addAttribute("name", principal.getName());
 		int tage = ausleihe.getVerfuegbarkeit().berechneZwischenTage();
 		ProPaySchnittstelle.post("account/" +  ausleihe.getAusleihender() + "/transfer/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getPreis() * tage);
 		ProPaySchnittstelle.post("reservation/reserve/" + ausleihe.getAusleihender() + "/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getKaution());
@@ -250,7 +241,6 @@ public class AppController {
 		message.setNachricht("Anfrage für " + ausleihe.getArtikel().getArtikelName() + " abgelehnt");
 		messageRepository.save(message);
 		model.addAttribute("ausleihen", ausleiheRepository.findByVerleiherName(principal.getName()));
-		model.addAttribute("name", principal.getName());
 		return "ausleihenuebersicht";
     }
 
@@ -260,7 +250,6 @@ public class AppController {
 			return "permissionDenied";
 		}
 		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByAusleihender(principal.getName());
-		model.addAttribute("name", principal.getName());
 		model.addAttribute("ausleihen", ausleihen);
 		return "ausgelieheneuebersicht";
 	}
@@ -278,7 +267,6 @@ public class AppController {
 		message.setNachricht(rueckgabe.getArtikel().getArtikelName() + " zurückgegeben");
 		messageRepository.save(message);
 		ausleiheRepository.delete(ausleiheRepository.findById(id).get());
-		model.addAttribute("name", principal.getName());
 		model.addAttribute("ausleihen", ausleiheRepository.findByAusleihender(principal.getName()));
 		return "ausgelieheneuebersicht";
 	}
@@ -290,7 +278,6 @@ public class AppController {
 		}
 		ArrayList<Rueckgabe> ausleihen = rueckgabeRepository.findByVerleiherName(principal.getName());
 		model.addAttribute("ausleihen", ausleihen);
-		model.addAttribute("name", principal.getName());
 		return "zurueckgegebeneartikel";
 	}
 
@@ -306,7 +293,6 @@ public class AppController {
 		message.setNachricht("Rückgabe von " + rueckgabe.getArtikel().getArtikelName() + " akzeptiert");
 		messageRepository.save(message);
 		rueckgabeRepository.delete(rueckgabe);
-		model.addAttribute("name", principal.getName());
 		model.addAttribute("ausleihen", rueckgabeRepository.findByVerleiherName(principal.getName()));
 		ProPaySchnittstelle.post("reservation/release/" + rueckgabe.getAusleihender() + "?reservationId=" + rueckgabe.getProPayId());
 		return "zurueckgegebeneartikel";
@@ -319,7 +305,6 @@ public class AppController {
 		}
 		ArrayList<Message> messages = messageRepository.findByEmpfaenger(benutzername);
 		model.addAttribute("messages", messages);
-		model.addAttribute("name", principal.getName());
 		return "nachrichtenUebersicht";
 	}
 
@@ -331,7 +316,6 @@ public class AppController {
 		Konflikt konflikt = new Konflikt();
 		konflikt.setRueckgabe(rueckgabeRepository.findById(id).get());
 		model.addAttribute("konflikt", konflikt);
-		model.addAttribute("name", principal.getName());
 		return "konfliktErstellung";
 	}
 
@@ -343,7 +327,7 @@ public class AppController {
 		message.setAbsender(principal.getName());
 		message.setEmpfaenger("");
 		messageRepository.save(message);
-		return "benutzeransicht";
+		return "backToTheFuture";
 	}
 
 	@GetMapping("/account/{benutzername}/nachricht/delete/{id}")
@@ -361,7 +345,6 @@ public class AppController {
 		model.addAttribute("artikel",this.artikelRepository.findAllByArtikelNameContaining(q));
 		model.addAttribute("query", q);
 		if(principal != null){
-			model.addAttribute("name", principal.getName());
 			model.addAttribute("disableSecondButton", true);
 		}else{
 			model.addAttribute("disableThirdButton", true);

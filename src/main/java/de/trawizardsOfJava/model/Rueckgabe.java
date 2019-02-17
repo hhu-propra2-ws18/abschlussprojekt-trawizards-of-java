@@ -25,4 +25,6 @@ public class Rueckgabe {
 		this.verleiherName = ausleihe.getVerleiherName();
 		this.proPayId = ausleihe.getProPayId();
 	}
+	
+	public Rueckgabe(){}
 }

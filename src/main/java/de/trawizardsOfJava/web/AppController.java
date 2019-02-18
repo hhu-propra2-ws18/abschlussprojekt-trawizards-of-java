@@ -273,7 +273,7 @@ public class AppController {
 			return "permissionDenied";
 		}
 		Ausleihe ausleihe = ausleiheRepository.findById(id).get();
-		rueckgabeRepository.save(ausleihe.convertToRueckgabe());
+		rueckgabeRepository.save(new Rueckgabe(ausleihe));
 		Message message = new Message(principal.getName(), ausleihe.getVerleiherName(), ausleihe.getArtikel().getArtikelName() + " wurde zurückgegeben");
 		messageRepository.save(message);
 		ausleiheRepository.delete(ausleiheRepository.findById(id).get());

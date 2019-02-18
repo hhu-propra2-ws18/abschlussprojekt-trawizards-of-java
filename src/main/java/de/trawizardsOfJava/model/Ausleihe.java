@@ -30,16 +30,6 @@ public class Ausleihe {
         verleiherName = artikel.getVerleiherBenutzername();
     }
 
-    public Rueckgabe convertToRueckgabe(){
-        Rueckgabe rueckgabe = new Rueckgabe();
-        rueckgabe.setId(this.id);
-        rueckgabe.setAusleihender(this.ausleihender);
-        rueckgabe.setArtikel(this.artikel);
-        rueckgabe.setVerfuegbarkeit(this.verfuegbarkeit);
-        rueckgabe.setVerleiherName(this.verleiherName);
-        return rueckgabe;
-    }
-
     public int berechneGesamtPreis() {
       return this.artikel.getKaution() + (this.verfuegbarkeit.berechneZwischenTage() * this.artikel.getPreis());
     }

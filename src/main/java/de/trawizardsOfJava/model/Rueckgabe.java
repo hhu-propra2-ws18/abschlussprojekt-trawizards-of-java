@@ -23,4 +23,14 @@ public class Rueckgabe{
 
     private boolean angenommen = false;
 
+    public Rueckgabe(){
+
+	}
+
+	public Rueckgabe(Ausleihe ausleihe){
+    	this.ausleihender = ausleihe.getAusleihender();
+    	this.artikel = ausleihe.getArtikel();
+    	this.verfuegbarkeit = ausleihe.getVerfuegbarkeit();
+    	this.verleiherName = ausleihe.getVerleiherName();
+	}
 }

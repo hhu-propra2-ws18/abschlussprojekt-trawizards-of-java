@@ -389,7 +389,7 @@ public class AppController {
 		konflikt.setInBearbeitung("inBearbeitung");
 		konflikt.setBearbeitender(benutzername);
 		konfliktRepository.save(konflikt);
-		model.addAttribute("link", "account/" + benutzername + "/konflikte");
+		model.addAttribute("link", "account/" + benutzername + "/nachricht/konflikte");
 		return "backToTheFuture";
 	}
 
@@ -412,7 +412,7 @@ public class AppController {
 		rueckgabe.setAngenommen(true);
 		rueckgabeRepository.save(rueckgabe);
 
-		model.addAttribute("link", "account/" + benutzername + "/konflikte");
+		model.addAttribute("link", "account/" + benutzername + "/nachricht/konflikte");
 		return "backToTheFuture";
 	}
 
@@ -435,7 +435,7 @@ public class AppController {
 		rueckgabe.setAngenommen(true);
 		rueckgabeRepository.save(rueckgabe);
 
-		model.addAttribute("link", "account/" + benutzername + "/konflikte");
+		model.addAttribute("link", "account/" + benutzername + "/nachricht/konflikte");
 		return "backToTheFuture";
 	}
 

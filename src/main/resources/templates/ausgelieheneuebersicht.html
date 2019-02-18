@@ -49,9 +49,10 @@
     </div>
 </nav>
 
-
-<div th:each="ausleihe : ${ausleihen}" align="center" margin="5">
-    <div  th:if="${ausleihe.accepted==true}">
+<div align="center" margin="5"></div>
+<p th:if="${#lists.isEmpty(ausleihen)}">Keine Artikel vorhanden!</p>
+<div th:each="ausleihe : ${ausleihen}">
+    <div th:if="${ausleihe.accepted}">
         <p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
         <p th:text="|Verleiher: ${ausleihe.verleiherName}|">Verleiher</p>
         <p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>

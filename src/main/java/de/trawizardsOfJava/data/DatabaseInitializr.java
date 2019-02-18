@@ -3,7 +3,7 @@ package de.trawizardsOfJava.data;
 
 
 import de.trawizardsOfJava.model.*;
-import de.trawizardsOfJava.web.SecurityConfig;
+import de.trawizardsOfJava.security.SecurityConfig;
 
 import de.trawizardsOfJava.proPay.ProPaySchnittstelle;
 
@@ -12,22 +12,10 @@ import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 @Component
 public class DatabaseInitializr implements ServletContextInitializer {
-	@Autowired
-	ArtikelRepository artikelRepository;
-
-	@Autowired
-	BenutzerRepository benutzerRepository;
-
-	@Autowired
-	AusleiheRepository ausleiheRepository;
-
-	@Override
-	public void onStartup(ServletContext servletContext) {
-		System.out.println("Populating the database");
-
     @Autowired
     ArtikelRepository artikelRepository;
 
@@ -42,7 +30,6 @@ public class DatabaseInitializr implements ServletContextInitializer {
 
     @Autowired
     RueckgabeRepository rueckgabeRepository;
-
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
@@ -65,11 +52,23 @@ public class DatabaseInitializr implements ServletContextInitializer {
 		ProPaySchnittstelle.post("account/Joe?amount=3297");
 		benutzerRepository.save(person2);
 
+		Artikel artikel = new Artikel();
+        artikel.setVerleiherBenutzername(person1.getBenutzername());
+        artikel.setArtikelName("Bagger");
+        artikel.setBeschreibung("Dies ist ein Schaufelbagger");
+        artikel.setKaution(2999);
+        artikel.setPreis(149);
+        artikel.setStandort("Mainz");
+        String s = "01/02/2018 - 31/05/2019";
+        Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit(s);
+        artikel.setVerfuegbarkeit(verfuegbarkeit);
+        artikelRepository.save(artikel);
+
+
         Ausleihe ausleihe = new Ausleihe();
         ausleihe.setArtikel(artikel);
         ausleihe.setAusleihender(person2.getBenutzername());
-        Verfuegbarkeit neues = new Verfuegbarkeit();
-        neues.toVerfuegbarkeit("14/02/2019 - 16/02/2019");
+        Verfuegbarkeit neues = new Verfuegbarkeit("14/02/2019 - 16/02/2019");
         ausleihe.setVerfuegbarkeit(neues);
         ausleiheRepository.save(ausleihe);
 

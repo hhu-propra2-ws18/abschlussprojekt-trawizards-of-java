@@ -51,16 +51,18 @@
 </nav>
 
 <div th:each="ausleihe : ${ausleihen}" align="center" margin="5">
-    <p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
-    <p th:text="|Ausleihender: ${ausleihe.ausleihender}|">Ausleihender</p>
-    <p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
-    <p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
-    <a th:href="@{/account/{benutzername}/rueckgabe/akzeptiert/{id} (id=${ausleihe.id},benutzername=${name})}">
-        <button name="button" class="btn btn-outline-success" onClick="confirmation()">Akzeptieren</button>
-    </a>
-    <a th:href="@{/account/{benutzername}/konflikt/send/{id} (id=${ausleihe.id},benutzername=${name})}">
-        <button name="button" class="btn btn-outline-danger" onClick="denied()">Mangelhafter Zustand</button>
-    </a>
+    <div th:if="${ausleihe.angenommen} == false">
+        <p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
+        <p th:text="|Ausleihender: ${ausleihe.ausleihender.benutzername}|">Ausleihender</p>
+        <p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
+        <p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
+        <a th:href="@{/account/{benutzername}/rueckgabe/akzeptiert/{id} (id=${ausleihe.id},benutzername=${name})}">
+            <button name="button" class="btn btn-outline-success" onClick="confirmation()">Akzeptieren</button>
+        </a>
+        <a th:href="@{/account/{benutzername}/konflikt/send/{id} (id=${ausleihe.id},benutzername=${name})}">
+            <button name="button" class="btn btn-outline-danger" onClick="denied()">Mangelhafter Zustand</button>
+        </a>
+    </div>
 </div>
 <script>
     function confirmation(){

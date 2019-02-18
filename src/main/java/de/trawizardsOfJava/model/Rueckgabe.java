@@ -23,4 +23,6 @@ public class Rueckgabe{
     @OneToOne
     private Person verleiherName;
 
+    private boolean angenommen = false;
+
 }

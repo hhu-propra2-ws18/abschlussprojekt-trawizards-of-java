@@ -301,7 +301,8 @@ public class AppController {
 		message.setEmpfaenger(rueckgabe.getVerleiherName().getBenutzername());
 		message.setNachricht("Rückgabe von " + rueckgabe.getArtikel().getArtikelName() + " akzeptiert");
 		messageRepository.save(message);
-		rueckgabeRepository.delete(rueckgabe);
+		rueckgabe.setAngenommen(true);
+		rueckgabeRepository.save(rueckgabe);
 		model.addAttribute("name", principal.getName());
 		model.addAttribute("ausleihen", rueckgabeRepository.findByVerleiherName(benutzerRepository.findByBenutzername(principal.getName()).get()));
 		return "zurueckgegebeneartikel";
@@ -334,7 +335,7 @@ public class AppController {
 	}
 
 	@PostMapping("/account/{benutzername}/konflikt/send/{id}")
-	public String konfliktAbsenden(Konflikt konflikt, @PathVariable("benutzername") String benutzername, @PathVariable("id") Long id, Principal principal){
+	public String konfliktAbsenden(Konflikt konflikt, @PathVariable("benutzername") String benutzername, @PathVariable("id") Long id, Principal principal, Model model){
 		if (!principal.getName().equals(benutzername)) {
 			return "permissionDenied";
 		}
@@ -345,6 +346,7 @@ public class AppController {
 		message.setEmpfaenger("");
 		messageRepository.save(message);
 		iMailService.sendEmailToKonfliktLoeseStelle(benutzername,konflikt.getBeschreibung(),id);
+		model.addAttribute("name", benutzername);
 		return "backToTheFuture2";
 	}
 
@@ -406,9 +408,6 @@ public class AppController {
 		konflikt.setInBearbeitung("geschlossen");
 		konflikt.setBearbeitender("");
 		konfliktRepository.save(konflikt);
-		model.addAttribute("konflikte", konfliktRepository.findAllByInBearbeitung("offen"));
-		model.addAttribute("konflikte1", konfliktRepository.findAllByBearbeitender(benutzername));
-		model.addAttribute("name", benutzername);
 		Message message = new Message();
 		message.setNachricht("Der Ausleihende erhält die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + "zurück");
 		message.setEmpfaenger(konfliktRepository.findById(id).get().getRueckgabe().getVerleiherName().getBenutzername());
@@ -418,6 +417,14 @@ public class AppController {
 		message.setEmpfaenger(konfliktRepository.findById(id).get().getRueckgabe().getAusleihender().getBenutzername());
 		message.setAbsender(benutzername);
 		messageRepository.save(message);
+
+		Rueckgabe rueckgabe = konflikt.getRueckgabe();
+		rueckgabe.setAngenommen(true);
+		rueckgabeRepository.save(rueckgabe);
+
+		model.addAttribute("konflikte", konfliktRepository.findAllByInBearbeitung("offen"));
+		model.addAttribute("konflikte1", konfliktRepository.findAllByBearbeitender(benutzername));
+		model.addAttribute("name", benutzername);
 		return "konfliktAnsicht";
 	}
 
@@ -430,9 +437,6 @@ public class AppController {
 		konflikt.setInBearbeitung("geschlossen");
 		konflikt.setBearbeitender("");
 		konfliktRepository.save(konflikt);
-		model.addAttribute("konflikte", konfliktRepository.findAllByInBearbeitung("offen"));
-		model.addAttribute("konflikte1", konfliktRepository.findAllByBearbeitender(benutzername));
-		model.addAttribute("name", benutzername);
 		Message message = new Message();
 		message.setNachricht("Sie behalten die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName());
 		message.setEmpfaenger(konfliktRepository.findById(id).get().getRueckgabe().getVerleiherName().getBenutzername());
@@ -442,6 +446,14 @@ public class AppController {
 		message.setEmpfaenger(konfliktRepository.findById(id).get().getRueckgabe().getAusleihender().getBenutzername());
 		message.setAbsender(benutzername);
 		messageRepository.save(message);
+
+		Rueckgabe rueckgabe = konflikt.getRueckgabe();
+		rueckgabe.setAngenommen(true);
+		rueckgabeRepository.save(rueckgabe);
+
+		model.addAttribute("konflikte", konfliktRepository.findAllByInBearbeitung("offen"));
+		model.addAttribute("konflikte1", konfliktRepository.findAllByBearbeitender(benutzername));
+		model.addAttribute("name", benutzername);
 		return "konfliktAnsicht";
 	}
 }

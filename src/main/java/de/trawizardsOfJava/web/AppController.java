@@ -80,11 +80,12 @@ public class AppController {
 	}
 
 	@PostMapping("/detail/{id}/changeItem")
-	public String postChangeItem(Artikel artikel, @RequestParam String daterange) {
+	public String postChangeItem(Model model, Artikel artikel, @RequestParam String daterange) {
 		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit(daterange);
 		artikel.setVerfuegbarkeit(verfuegbarkeit);
 		artikel.setVerleiherBenutzername(artikel.getVerleiherBenutzername());
 		artikelRepository.save(artikel);
+		model.addAttribute("link", "/detail/" + artikel.getId());
 		return "backToTheFuture";
 	}
 
@@ -139,8 +140,9 @@ public class AppController {
 	}
 
 	@PostMapping("/account/{benutzername}/bearbeitung")
-	public String speicherAenderung(Person person) {
+	public String speicherAenderung(Model model, Person person) {
 		benutzerRepository.save((person));
+		model.addAttribute("link", "account/" + person.getBenutzername());
 		return "backToTheFuture";
 	}
 
@@ -155,11 +157,12 @@ public class AppController {
 	}
 
 	@PostMapping("/account/{benutzername}/addItem")
-	public String postAddItem(Artikel artikel, @PathVariable String benutzername, @RequestParam String daterange) {
+	public String postAddItem(Model model, Artikel artikel, @PathVariable String benutzername, @RequestParam String daterange) {
 		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit(daterange);
 		artikel.setVerfuegbarkeit(verfuegbarkeit);
 		artikel.setVerleiherBenutzername(benutzername);
 		artikelRepository.save(artikel);
+		model.addAttribute("link", "account/" + benutzername);
 		return "backToTheFuture";
 	}
 
@@ -209,6 +212,7 @@ public class AppController {
 		anfrage.setEmpfaenger(principal.getName());
 		anfrage.setNachricht("Anfrage für " + artikel.getArtikelName() + " erfolgreich gestellt!");
 		messageRepository.save(anfrage);
+		model.addAttribute("link", "account/" + benutzername + "/nachrichten");
 		return "backToTheFuture";
 	}
 
@@ -337,13 +341,14 @@ public class AppController {
 	}
 
 	@PostMapping("/account/{benutzername}/konflikt/send/{id}")
-	public String konfliktAbsenden(@PathVariable String benutzername, Konflikt konflikt, Principal principal){
+	public String konfliktAbsenden(Model model, @PathVariable String benutzername, Konflikt konflikt, Principal principal){
 		konfliktRepository.save(konflikt);
 		Message message = new Message();
 		message.setNachricht(konflikt.getBeschreibung());
 		message.setAbsender(principal.getName());
 		message.setEmpfaenger("");
 		messageRepository.save(message);
+		model.addAttribute("link", "account/" + benutzername + "/konflikte");
 		return "backToTheFuture";
 	}
 

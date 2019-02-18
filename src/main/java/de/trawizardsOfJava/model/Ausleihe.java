@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class Ausleihe {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String ausleihender;

@@ -234,14 +234,14 @@ public class AppController {
 		ausleiheRepository.save(ausleihe);
 		Message message = new Message(principal.getName(), ausleihe.getAusleihender(), "Anfrage für " + ausleihe.getArtikel().getArtikelName() + " angenommen");
 		messageRepository.save(message);
-		model.addAttribute("ausleihen", ausleiheRepository.findByVerleiherName(principal.getName()));
 		int tage = ausleihe.getVerfuegbarkeit().berechneZwischenTage();
 		ProPaySchnittstelle.post("account/" +  ausleihe.getAusleihender() + "/transfer/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getPreis() * tage);
 		ProPaySchnittstelle.post("reservation/reserve/" + ausleihe.getAusleihender() + "/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getKaution());
 		List<Reservierung> reservierungen = ProPaySchnittstelle.getEntity(ausleihe.getAusleihender()).getReservations();
 		ausleihe.setProPayId(reservierungen.get(reservierungen.size() - 1).getId());
 		ausleiheRepository.save(ausleihe);
-		return "ausleihenuebersicht";
+		model.addAttribute("link", "account/" + benutzername + "/ausleihenuebersicht");
+		return "backToTheFuture";
     }
 
     @GetMapping("/account/{benutzername}/remove/{id}")
@@ -251,10 +251,10 @@ public class AppController {
 		}
 		Ausleihe ausleihe = ausleiheRepository.findById(id).get();
 		ausleiheRepository.delete(ausleihe);
-		Message message = new Message(principal.getName(), ausleihe.getAusleihender(), "Anfrage für " + ausleihe.getArtikel().getArtikelName() + " abgelehnt");
+		Message message = new Message(principal.getName(), ausleihe.getAusleihender(), "Anfrage für " + ausleihe.getArtikel().getArtikelName() + " wurde abgelehnt");
 		messageRepository.save(message);
-		model.addAttribute("ausleihen", ausleiheRepository.findByVerleiherName(principal.getName()));
-		return "ausleihenuebersicht";
+		model.addAttribute("link", "account/" + benutzername + "/ausleihenuebersicht");
+		return "backToTheFuture";
     }
 
 	@GetMapping("/account/{benutzername}/ausgelieheneuebersicht")
@@ -274,12 +274,11 @@ public class AppController {
 		}
 		Ausleihe ausleihe = ausleiheRepository.findById(id).get();
 		rueckgabeRepository.save(ausleihe.convertToRueckgabe());
-		Message message = new Message(principal.getName(), ausleihe.getVerleiherName(), ausleihe.getArtikel().getArtikelName() + " zurückgegeben");
+		Message message = new Message(principal.getName(), ausleihe.getVerleiherName(), ausleihe.getArtikel().getArtikelName() + " wurde zurückgegeben");
 		messageRepository.save(message);
 		ausleiheRepository.delete(ausleiheRepository.findById(id).get());
-		model.addAttribute("name", principal.getName());
-		model.addAttribute("ausleihen", ausleiheRepository.findByAusleihender(principal.getName()));
-		return "ausgelieheneuebersicht";
+		model.addAttribute("link", "account/" + benutzername + "/ausgeliehenuebersicht");
+		return "backToTheFuture";
 	}
 
 	@GetMapping("/account/{benutzername}/zurueckgegebeneartikel")
@@ -303,9 +302,8 @@ public class AppController {
 		messageRepository.save(message);
 		rueckgabe.setAngenommen(true);
 		rueckgabeRepository.save(rueckgabe);
-		model.addAttribute("name", principal.getName());
-		model.addAttribute("ausleihen", rueckgabeRepository.findByVerleiherName(principal.getName()));
-		return "zurueckgegebeneartikel";
+		model.addAttribute("link", "account/" + benutzername + "/zurueckgegebeneartikel");
+		return "backToTheFuture";
 	}
 
 	@GetMapping("/account/{benutzername}/nachrichten")
@@ -317,8 +315,8 @@ public class AppController {
 			model.addAttribute("admin",true);
 		}
 		else model.addAttribute("admin",false);
-		ArrayList<Message> messages = messageRepository.findByEmpfaenger(benutzername);
-		model.addAttribute("messages", messages);
+
+		model.addAttribute("messages", messageRepository.findByEmpfaenger(benutzername));
 		model.addAttribute("name", principal.getName());
 		return "nachrichtenUebersicht";
 	}
@@ -355,8 +353,8 @@ public class AppController {
 			return "permissionDenied";
 		}
 		messageRepository.delete(messageRepository.findById(id).get());
-		model.addAttribute("messages", messageRepository.findByEmpfaenger(principal.getName()));
-		return "nachrichtenUebersicht";
+		model.addAttribute("link", "account/" + benutzername + "/nachrichten");
+		return "backToTheFuture";
 	}
 
 	@GetMapping("/search")
@@ -429,9 +427,8 @@ public class AppController {
 		konfliktRepository.save(konflikt);
 		Message message = new Message(benutzername, konfliktRepository.findById(id).get().getRueckgabe().getVerleiherName(), "Sie behalten die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName());
 		messageRepository.save(message);
-		message.setNachricht("Der Verleiher behält die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName());
-		message.setEmpfaenger(konfliktRepository.findById(id).get().getRueckgabe().getAusleihender());
-		message.setAbsender(benutzername);
+		Message message1 = new Message(benutzername, konfliktRepository.findById(id).get().getRueckgabe().getAusleihender(), "Der Verleiher behält die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName());
+		messageRepository.save(message1);
 		messageRepository.save(message);
 
 		Rueckgabe rueckgabe = konflikt.getRueckgabe();

@@ -275,8 +275,6 @@ public class AppController {
 			return "permissionDenied";
 		}
 		Rueckgabe rueckgabe = new Rueckgabe(ausleiheRepository.findById(id).get());
-		rueckgabe.setRueckgabe(true);
-		System.out.println("Rückgabe set to true");
 		rueckgabeRepository.save(rueckgabe);
 		Message message = new Message();
 		message.setAbsender(principal.getName());

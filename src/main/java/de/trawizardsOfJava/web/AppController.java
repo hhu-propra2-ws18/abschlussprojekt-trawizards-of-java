@@ -205,7 +205,7 @@ public class AppController {
 		Message anfrage = new Message();
 		anfrage.setAbsender("System");
 		anfrage.setEmpfaenger(principal.getName());
-		anfrage.setNachricht("Anfrage für" + artikel.getArtikelName() + "erfolgreich gestellt!");
+		anfrage.setNachricht("Anfrage für " + artikel.getArtikelName() + " erfolgreich gestellt!");
 		messageRepository.save(anfrage);
 		return "backToTheFuture";
 	}

@@ -16,10 +16,40 @@
 
 </head>
 <body>
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+
+    <a class="navbar-brand" href='/'>Leih24</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href='/'>Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/account/{benutzername} (benutzername=${name})}">
+                    Profil
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href='/logout'>
+                    Logout
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link">Konflikte</a>
+            </li>
+            <hr>
+        </ul>
+    </div>
+</nav>
 <h2 align="center">Offene Konflikte</h2>
 <div th:each="konflikt : ${konflikte}" align="center" margin="5">
-    <p th:text="|Absender: ${konflikt.rueckgabe.verleiherName.benutzername}|"></p>
-    <p th:text="|Verursacher: ${konflikt.rueckgabe.ausleihender.benutzername}|"></p>
+    <!--<p th:text="|Absender: ${konflikt.rueckgabe.verleiherName}|"></p>-->
+    <p th:text="|Verursacher: ${konflikt.rueckgabe.ausleihender}|"></p>
     <p th:text="|beschreibung: ${konflikt.beschreibung}|"></p>
     <p th:text="|Artikel: ${konflikt.rueckgabe.artikel.artikelName}|"></p>
     <a th:href="@{/account/{benutzername}/nachricht/konflikte/{id} (id=${konflikt.id},benutzername=${name})}">
@@ -28,8 +58,8 @@
 </div>
 <h2 align="center">In Bearbeitung</h2>
 <div th:each="konflikt1 : ${konflikte1}" align="center" margin="5">
-    <p th:text="|Absender: ${konflikt1.rueckgabe.verleiherName.benutzername} (${konflikt1.rueckgabe.verleiherName.email})|"></p>
-    <p th:text="|Verursacher: ${konflikt1.rueckgabe.ausleihender.benutzername} (${konflikt1.rueckgabe.ausleihender.email})|"></p>
+    <p th:text="|Absender: ${konflikt1.rueckgabe.verleiherName} (${konflikt1.absenderMail})|"></p>
+    <p th:text="|Verursacher: ${konflikt1.rueckgabe.ausleihender} (${konflikt1.verursacherMail})|"></p>
     <p th:text="|beschreibung: ${konflikt1.beschreibung}|"></p>
     <p th:text="|Artikel: ${konflikt1.rueckgabe.artikel.artikelName}|"></p>
     <a th:href="@{/account/{benutzername}/nachricht/konflikte/ausleihender/{id} (id=${konflikt1.id},benutzername=${name})}">

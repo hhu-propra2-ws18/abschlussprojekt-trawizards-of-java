@@ -17,6 +17,10 @@ public class Konflikt {
     @OneToOne
     private Rueckgabe rueckgabe;
 
+    private String verursacherMail;
+
+    private String absenderMail;
+
     private String inBearbeitung = "offen";
 
     private String bearbeitender;

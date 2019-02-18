@@ -10,6 +10,6 @@ public interface RueckgabeRepository extends CrudRepository<Rueckgabe,Long> {
 
     ArrayList<Rueckgabe> findAll();
 
-    ArrayList<Rueckgabe> findByVerleiherName(Person verleiherName);
+    ArrayList<Rueckgabe> findByVerleiherName(String verleiherName);
 
 }

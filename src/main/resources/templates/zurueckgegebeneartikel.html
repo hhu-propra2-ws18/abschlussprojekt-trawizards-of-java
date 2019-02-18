@@ -53,7 +53,7 @@
 <div th:each="ausleihe : ${ausleihen}" align="center" margin="5">
     <div th:if="${ausleihe.angenommen} == false">
         <p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
-        <p th:text="|Ausleihender: ${ausleihe.ausleihender.benutzername}|">Ausleihender</p>
+        <p th:text="|Ausleihender: ${ausleihe.ausleihender}|">Ausleihender</p>
         <p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
         <p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
         <a th:href="@{/account/{benutzername}/rueckgabe/akzeptiert/{id} (id=${ausleihe.id},benutzername=${name})}">

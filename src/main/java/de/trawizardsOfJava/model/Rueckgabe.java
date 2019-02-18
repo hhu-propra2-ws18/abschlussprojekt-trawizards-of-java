@@ -12,16 +12,14 @@ public class Rueckgabe{
     @GeneratedValue
     private Long id;
 
-    @OneToOne
-    private Person ausleihender;
+    private String ausleihender;
 
     @OneToOne
     private Artikel artikel;
 
     private Verfuegbarkeit verfuegbarkeit;
 
-    @OneToOne
-    private Person verleiherName;
+    private String verleiherName;
 
     private boolean angenommen = false;
 

@@ -13,6 +13,7 @@ public class Ausleihe {
     private Long id;
 
     private String ausleihender;
+
     @OneToOne
     private Artikel artikel;
 
@@ -29,13 +30,13 @@ public class Ausleihe {
         verleiherName = artikel.getVerleiherBenutzername();
     }
 
-    public Rueckgabe convertToRueckgabe(Person ausleihender, Person verleiher){
+    public Rueckgabe convertToRueckgabe(){
         Rueckgabe rueckgabe = new Rueckgabe();
         rueckgabe.setId(this.id);
-        rueckgabe.setAusleihender(ausleihender);
+        rueckgabe.setAusleihender(this.ausleihender);
         rueckgabe.setArtikel(this.artikel);
         rueckgabe.setVerfuegbarkeit(this.verfuegbarkeit);
-        rueckgabe.setVerleiherName(verleiher);
+        rueckgabe.setVerleiherName(this.verleiherName);
         return rueckgabe;
     }
 }

@@ -343,7 +343,7 @@ public class AppController {
 		Message message = new Message(principal.getName(), "", konflikt.getBeschreibung());
 		messageRepository.save(message);
 		//iMailService.sendEmailToKonfliktLoeseStelle(benutzername,konflikt.getBeschreibung(),id);
-		model.addAttribute("link", "account/" + benutzername + "/konflikte");
+		model.addAttribute("link", "account/" + benutzername + "/nachricht/konflikte");
 		return "backToTheFuture";
 	}
 

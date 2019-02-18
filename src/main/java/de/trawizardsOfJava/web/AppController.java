@@ -84,11 +84,12 @@ public class AppController {
 	}
 
 	@PostMapping("/detail/{id}/changeItem")
-	public String postChangeItem(Artikel artikel, @RequestParam String daterange) {
+	public String postChangeItem(Model model, Artikel artikel, @RequestParam String daterange) {
 		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit(daterange);
 		artikel.setVerfuegbarkeit(verfuegbarkeit);
 		artikel.setVerleiherBenutzername(artikel.getVerleiherBenutzername());
 		artikelRepository.save(artikel);
+		model.addAttribute("link", "/detail/" + artikel.getId());
 		return "backToTheFuture";
 	}
 
@@ -107,6 +108,7 @@ public class AppController {
 		person.setPasswort(SecurityConfig.encoder().encode(person.getPasswort()));
 		person.setRolle("ROLE_USER");
 		benutzerRepository.save((person));
+		model.addAttribute("link", "");
 		return "backToTheFuture";
 	}
 
@@ -126,8 +128,9 @@ public class AppController {
 	}
 
 	@PostMapping("/account/{benutzername}")
-	public String kontoAufladen(@PathVariable String benutzername, int amount) {
+	public String kontoAufladen(Model model, @PathVariable String benutzername, int amount) {
 		ProPaySchnittstelle.post("account/" + benutzername + "?amount=" + amount);
+		model.addAttribute("link", "account/" + benutzername);
 		return "backToTheFuture";
 	}
 
@@ -141,8 +144,9 @@ public class AppController {
 	}
 
 	@PostMapping("/account/{benutzername}/bearbeitung")
-	public String speicherAenderung(Person person) {
+	public String speicherAenderung(Model model, Person person) {
 		benutzerRepository.save((person));
+		model.addAttribute("link", "account/" + person.getBenutzername());
 		return "backToTheFuture";
 	}
 
@@ -157,11 +161,12 @@ public class AppController {
 	}
 
 	@PostMapping("/account/{benutzername}/addItem")
-	public String postAddItem(Artikel artikel, @PathVariable String benutzername, @RequestParam String daterange) {
+	public String postAddItem(Model model, Artikel artikel, @PathVariable String benutzername, @RequestParam String daterange) {
 		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit(daterange);
 		artikel.setVerfuegbarkeit(verfuegbarkeit);
 		artikel.setVerleiherBenutzername(benutzername);
 		artikelRepository.save(artikel);
+		model.addAttribute("link", "account/" + benutzername);
 		return "backToTheFuture";
 	}
 
@@ -181,7 +186,7 @@ public class AppController {
 	}
 
 	@PostMapping("/account/{benutzername}/artikel/{id}/anfrage")
-	public String speichereAnfrage(@PathVariable Long id, String daterange, Principal principal) {
+	public String speichereAnfrage(Model model, @PathVariable String benutzername, @PathVariable Long id, String daterange, Principal principal) {
 		//ToDo: Überprüfung ob Geld ausreicht
 		Artikel artikel = artikelRepository.findById(id).get();
 		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit(daterange);
@@ -190,12 +195,28 @@ public class AppController {
 		ausleihe.setArtikel(artikel);
 		ausleihe.setVerleiherName(artikel.getVerleiherBenutzername());
 		ausleihe.setAusleihender(principal.getName());
+		int verfuegbaresGeld = ProPaySchnittstelle.getEntity(principal.getName()).berechneVerfuegbaresGeld();
+		int gebrauchtesGeld = ausleihe.berechneGesamtPreis();
+		ArrayList<Ausleihe> anfragen = ausleiheRepository.findByAusleihenderAndAccepted(principal.getName(), false);
+		for (Ausleihe anfrage : anfragen) {
+			gebrauchtesGeld += anfrage.berechneGesamtPreis();
+		}
+		if (!(verfuegbaresGeld >= gebrauchtesGeld)){
+			model.addAttribute("error", true);
+			return neueAnfrage(model, benutzername, id, principal);
+		}
 		ausleiheRepository.save(ausleihe);
 		Message message = new Message();
 		message.setAbsender(principal.getName());
 		message.setEmpfaenger(artikel.getVerleiherBenutzername());
 		message.setNachricht("Anfrage für " + artikel.getArtikelName());
 		messageRepository.save(message);
+		Message anfrage = new Message();
+		anfrage.setAbsender("System");
+		anfrage.setEmpfaenger(principal.getName());
+		anfrage.setNachricht("Anfrage für " + artikel.getArtikelName() + " erfolgreich gestellt!");
+		messageRepository.save(anfrage);
+		model.addAttribute("link", "account/" + benutzername + "/nachrichten");
 		return "backToTheFuture";
 	}
 
@@ -345,6 +366,7 @@ public class AppController {
 		message.setEmpfaenger("");
 		messageRepository.save(message);
 		//iMailService.sendEmailToKonfliktLoeseStelle(benutzername,konflikt.getBeschreibung(),id);
+		model.addAttribute("link", "account/" + benutzername + "/konflikte");
 		return "backToTheFuture";
 	}
 
@@ -453,5 +475,16 @@ public class AppController {
 		model.addAttribute("konflikte1", konfliktRepository.findAllByBearbeitender(benutzername));
 		model.addAttribute("name", benutzername);
 		return "konfliktAnsicht";
+	}
+
+	@GetMapping("/account/{benutzername}/transaktionUebersicht")
+	public String transaktionen(@PathVariable String benutzername, Principal principal, Model model) {
+
+		model.addAttribute("name", principal.getName());
+
+		model.addAttribute("artikel", rueckgabeRepository.findByVerleiherName(principal.getName()));
+		model.addAttribute("artikelAusgeliehen", rueckgabeRepository.findByAusleihender(principal.getName()));
+
+		return "transaktionenUebersicht";
 	}
 }

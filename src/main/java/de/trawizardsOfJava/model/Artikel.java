@@ -21,8 +21,4 @@ public class Artikel implements Serializable {
 	private int preis;
 	private int kaution;
 	private Verfuegbarkeit verfuegbarkeit;
-	
-	public int berechneGesamtPreis() {
-		return this.kaution + (this.verfuegbarkeit.berechneZwischenTage() * this.preis);
-	}
 }

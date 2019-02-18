@@ -8,4 +8,12 @@ import java.util.List;
 public class ProPay {
 	private int amount;
 	private List<Reservierung> reservations;
+
+	public int berechneVerfuegbaresGeld(){
+		int reservierungsgeld = 0;
+		for (Reservierung reservation : reservations) {
+			reservierungsgeld += reservation.getAmount();
+		}
+		return amount - reservierungsgeld;
+	}
 }

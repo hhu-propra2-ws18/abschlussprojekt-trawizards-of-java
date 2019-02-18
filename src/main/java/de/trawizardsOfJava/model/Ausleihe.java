@@ -39,4 +39,8 @@ public class Ausleihe {
         rueckgabe.setVerleiherName(this.verleiherName);
         return rueckgabe;
     }
+
+    public int berechneGesamtPreis() {
+      return this.artikel.getKaution() + (this.verfuegbarkeit.berechneZwischenTage() * this.artikel.getPreis());
+    }
 }

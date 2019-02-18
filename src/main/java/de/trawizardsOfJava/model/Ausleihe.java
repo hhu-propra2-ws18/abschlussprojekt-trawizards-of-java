@@ -17,4 +17,8 @@ public class Ausleihe {
 	private String verleiherName;
 	private boolean accepted = false;
 	private int proPayId;
+
+	public int berechneGesamtPreis() {
+		return this.artikel.getKaution() + (this.verfuegbarkeit.berechneZwischenTage() * this.artikel.getPreis());
+	}
 }

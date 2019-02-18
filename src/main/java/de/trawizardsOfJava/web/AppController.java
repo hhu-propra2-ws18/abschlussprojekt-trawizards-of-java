@@ -177,7 +177,7 @@ public class AppController {
 	}
 
 	@PostMapping("/account/{benutzername}/artikel/{id}/anfrage")
-	public String speichereAnfrage(@PathVariable Long id, String daterange, Principal principal) {
+	public String speichereAnfrage(Model model, @PathVariable String benutzername, @PathVariable Long id, String daterange, Principal principal) {
 		//ToDo: Überprüfung ob Geld ausreicht
 		Artikel artikel = artikelRepository.findById(id).get();
 		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit(daterange);
@@ -186,6 +186,12 @@ public class AppController {
 		ausleihe.setArtikel(artikel);
 		ausleihe.setVerleiherName(artikel.getVerleiherBenutzername());
 		ausleihe.setAusleihender(principal.getName());
+		int verfuegbaresGeld = ProPaySchnittstelle.getEntity(principal.getName()).berechneVerfuegbaresGeld();
+		int gebrauchtesGeld = ausleihe.berechneGesamtPreis();
+		if (!(verfuegbaresGeld >= gebrauchtesGeld)){
+			model.addAttribute("error", true);
+			return neueAnfrage(model, benutzername, id, principal);
+		}
 		ausleiheRepository.save(ausleihe);
 		Message message = new Message();
 		message.setAbsender(principal.getName());

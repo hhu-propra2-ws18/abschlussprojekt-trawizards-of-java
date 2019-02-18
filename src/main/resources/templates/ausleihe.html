@@ -77,6 +77,7 @@
     <div class="col-md-12" align="center">
         <div class="col-md-4">
             <h1>Für welchen Zeitraum möchten Sie den Artikel ausleihen?</h1>
+            <p th:if ="${error}">Sie haben nicht genügend Geld auf Ihrem ProPay-Konto!</p>
             <input type="text" class="form-control" name="daterange" min="#today"/> <br>
             <br>
             <a href='/'>

@@ -48,7 +48,7 @@
 </nav>
 <h2 align="center">Offene Konflikte</h2>
 <div th:each="konflikt : ${konflikte}" align="center" margin="5">
-    <!--<p th:text="|Absender: ${konflikt.rueckgabe.verleiherName}|"></p>-->
+    <p th:text="|Absender: ${konflikt.rueckgabe.verleiherName}|"></p>
     <p th:text="|Verursacher: ${konflikt.rueckgabe.ausleihender}|"></p>
     <p th:text="|beschreibung: ${konflikt.beschreibung}|"></p>
     <p th:text="|Artikel: ${konflikt.rueckgabe.artikel.artikelName}|"></p>

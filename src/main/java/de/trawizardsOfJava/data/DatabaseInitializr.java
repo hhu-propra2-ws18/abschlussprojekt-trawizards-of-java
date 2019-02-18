@@ -76,6 +76,8 @@ public class DatabaseInitializr implements ServletContextInitializer {
         rueckgabeRepository.save(rueckgabe);
 
         Konflikt konflikt = new Konflikt();
+        konflikt.setAbsenderMail(person1.getEmail());
+        konflikt.setVerursacherMail(person2.getEmail());
         konflikt.setRueckgabe(rueckgabeRepository.findByVerleiherName("root").get(0));
         konflikt.setBeschreibung("kaputt");
         konfliktRepository.save(konflikt);

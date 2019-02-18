@@ -326,7 +326,6 @@ public class AppController {
 			return "permissionDenied";
 		}
 		Konflikt konflikt = new Konflikt();
-		konflikt.setRueckgabe(rueckgabeRepository.findById(id).get());
 		model.addAttribute("konflikt", konflikt);
 		return "konfliktErstellung";
 	}
@@ -338,13 +337,14 @@ public class AppController {
 		}
 		konflikt.setAbsenderMail(benutzerRepository.findByBenutzername(benutzername).get().getEmail());
 		konflikt.setVerursacherMail(benutzerRepository.findByBenutzername(rueckgabeRepository.findById(id).get().getAusleihender()).get().getEmail());
+		konflikt.setRueckgabe(rueckgabeRepository.findById(id).get());
 		konfliktRepository.save(konflikt);
 		Message message = new Message();
 		message.setNachricht(konflikt.getBeschreibung());
 		message.setAbsender(principal.getName());
 		message.setEmpfaenger("");
 		messageRepository.save(message);
-		iMailService.sendEmailToKonfliktLoeseStelle(benutzername,konflikt.getBeschreibung(),id);
+		//iMailService.sendEmailToKonfliktLoeseStelle(benutzername,konflikt.getBeschreibung(),id);
 		return "backToTheFuture";
 	}
 

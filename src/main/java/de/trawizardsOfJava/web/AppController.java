@@ -320,6 +320,10 @@ public class AppController {
 		message.setNachricht("Rückgabe von " + rueckgabe.getArtikel().getArtikelName() + " akzeptiert");
 		messageRepository.save(message);
 		rueckgabe.setAngenommen(true);
+
+		rueckgabe.setRueckgabeAkzeptiert("true");
+
+
 		rueckgabeRepository.save(rueckgabe);
 		model.addAttribute("name", principal.getName());
 		model.addAttribute("ausleihen", rueckgabeRepository.findByVerleiherName(principal.getName()));
@@ -482,8 +486,13 @@ public class AppController {
 
 		model.addAttribute("name", principal.getName());
 
-		model.addAttribute("artikel", rueckgabeRepository.findByVerleiherName(principal.getName()));
-		model.addAttribute("artikelAusgeliehen", rueckgabeRepository.findByAusleihender(principal.getName()));
+
+		for(Rueckgabe rueckgabe: rueckgabeRepository.findAll()){
+			if(rueckgabe.getRueckgabeAkzeptiert().equals("true")){
+				model.addAttribute("artikel", rueckgabeRepository.findByVerleiherName(principal.getName()));
+				model.addAttribute("artikelAusgeliehen", rueckgabeRepository.findByAusleihender(principal.getName()));
+			}
+		}
 
 		return "transaktionenUebersicht";
 	}

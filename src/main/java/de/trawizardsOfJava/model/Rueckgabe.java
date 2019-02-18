@@ -23,4 +23,6 @@ public class Rueckgabe{
 
     private boolean angenommen = false;
 
+    private String rueckgabeAkzeptiert = "false";
+
 }

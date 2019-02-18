@@ -50,7 +50,7 @@
 <div th:each="konflikt : ${konflikte}" align="center" margin="5">
     <p th:text="|Absender: ${konflikt.rueckgabe.verleiherName}|"></p>
     <p th:text="|Verursacher: ${konflikt.rueckgabe.ausleihender}|"></p>
-    <p th:text="|beschreibung: ${konflikt.beschreibung}|"></p>
+    <p th:text="|Beschreibung: ${konflikt.beschreibung}|"></p>
     <p th:text="|Artikel: ${konflikt.rueckgabe.artikel.artikelName}|"></p>
     <a th:href="@{/account/{benutzername}/nachricht/konflikte/{id} (id=${konflikt.id},benutzername=${name})}">
         <button name="button" class="btn btn-outline-success" onClick="confirmation()">Annehmen</button>
@@ -60,7 +60,7 @@
 <div th:each="konflikt1 : ${konflikte1}" align="center" margin="5">
     <p th:text="|Absender: ${konflikt1.rueckgabe.verleiherName} (${konflikt1.absenderMail})|"></p>
     <p th:text="|Verursacher: ${konflikt1.rueckgabe.ausleihender} (${konflikt1.verursacherMail})|"></p>
-    <p th:text="|beschreibung: ${konflikt1.beschreibung}|"></p>
+    <p th:text="|Beschreibung: ${konflikt1.beschreibung}|"></p>
     <p th:text="|Artikel: ${konflikt1.rueckgabe.artikel.artikelName}|"></p>
     <a th:href="@{/account/{benutzername}/nachricht/konflikte/ausleihender/{id} (id=${konflikt1.id},benutzername=${name})}">
         <button name="button" class="btn btn-outline-dark" onClick="confirmation1()">Ausleihender</button>

@@ -429,7 +429,6 @@ public class AppController {
 		messageRepository.save(message);
 		Message message1 = new Message(benutzername, konfliktRepository.findById(id).get().getRueckgabe().getAusleihender(), "Der Verleiher behält die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName());
 		messageRepository.save(message1);
-		messageRepository.save(message);
 
 		Rueckgabe rueckgabe = konflikt.getRueckgabe();
 		rueckgabe.setAngenommen(true);

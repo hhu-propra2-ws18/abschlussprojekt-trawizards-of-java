@@ -80,6 +80,7 @@
     </div>
     <hr>
     <div class="col-md-12">
+        <p th:if="${#lists.isEmpty(artikel)}">Keine Artikel vorhanden!</p>
     <tr th:each="a: ${artikel}">
         <dl class="dl-horizontal">
             <dt th:text="'Artikel: ' +${a.artikelName}"></dt>

@@ -54,6 +54,8 @@
 			<dt th:text="'Artikel: ' +${a.artikel.artikelName}"></dt>
 			<p th:text="'Ausgeliehen an: ' +${a.ausleihender}"></p>
 			<p th:text="'Beschreibung: ' +${a.artikel.beschreibung}"></p>
+			<p th:text="'Von: ' +${a.verfuegbarkeit.startDate}"></p>
+			<p th:text="'Bis: ' +${a.verfuegbarkeit.endDate}"></p>
 			<hr>
 		</dl>
 	</tr>
@@ -65,6 +67,8 @@
 			<dt th:text="'Artikel: ' +${a.artikel.artikelName}"></dt>
 			<p th:text="'Verliehen von: ' +${a.verleiherName}"></p>
 			<p th:text="'Beschreibung: ' +${a.artikel.beschreibung}"></p>
+			<p th:text="'Von: ' +${a.verfuegbarkeit.startDate}"></p>
+			<p th:text="'Bis: ' +${a.verfuegbarkeit.endDate}"></p>
 			<hr>
 		</dl>
 	</tr>

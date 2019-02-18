@@ -277,7 +277,7 @@ public class AppController {
 		Message message = new Message(principal.getName(), ausleihe.getVerleiherName(), ausleihe.getArtikel().getArtikelName() + " wurde zurückgegeben");
 		messageRepository.save(message);
 		ausleiheRepository.delete(ausleiheRepository.findById(id).get());
-		model.addAttribute("link", "account/" + benutzername + "/ausgeliehenuebersicht");
+		model.addAttribute("link", "account/" + benutzername + "/ausgelieheneuebersicht");
 		return "backToTheFuture";
 	}
 

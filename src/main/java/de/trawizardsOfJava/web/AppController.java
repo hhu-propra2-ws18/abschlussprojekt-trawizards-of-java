@@ -108,7 +108,7 @@ public class AppController {
 		person.setPasswort(SecurityConfig.encoder().encode(person.getPasswort()));
 		person.setRolle("ROLE_USER");
 		benutzerRepository.save((person));
-		model.addAttribute("link", "");
+		model.addAttribute("link", "anmeldung");
 		return "backToTheFuture";
 	}
 

@@ -74,6 +74,9 @@
             <a th:href="@{/account/{benutzername}/nachrichten (benutzername=${person.name})}">
                 <button type="button" class="btn btn-outline-dark" >Nachrichten ansehen</button>
             </a>
+		<a th:href="@{/account/{benutzername}/transaktionUebersicht (benutzername=${person.name})}"/>
+			<button type="button" class="btn btn-outline-dark" >Transaktionen Übersicht</button>
+		</a>
     </div>
     <hr>
     <div class="col-md-12">

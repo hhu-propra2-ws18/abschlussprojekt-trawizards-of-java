@@ -8,4 +8,5 @@ import java.util.ArrayList;
 public interface RueckgabeRepository extends CrudRepository<Rueckgabe, Long> {
 	ArrayList<Rueckgabe> findAll();
 	ArrayList<Rueckgabe> findByVerleiherName(String verleiherName);
+	ArrayList<Rueckgabe> findByAusleihender(String verleiherName);
 }

@@ -126,7 +126,7 @@ public class AppControllerTest {
 				.param("benutzername", test.getBenutzername())
 				.param("name", test.getName())
 				.param("email", test.getEmail())
-				.param("passwort", test.getPasswort())).andExpect(redirectedUrl(null));
+				.param("passwort", test.getPasswort())).andExpect(view().name("backToTheFuture"));
 
 		verify(benutzerRepository).save(any(Person.class));
 	}

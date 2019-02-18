@@ -17,7 +17,7 @@
 </head>
 <body>
 <h1 align="center">Nachrichtenübersicht</h1>
-<div align="center">
+<div th:if="${admin} == true" align="center">
 <a th:href="@{/account/{benutzername}/nachricht/konflikte (benutzername=${name})}">
     <button class="btn btn-outline-dark" >Konflikte</button>
 </a>

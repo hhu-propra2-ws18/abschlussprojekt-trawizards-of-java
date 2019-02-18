@@ -41,7 +41,7 @@
 <form method="post">
     <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
 
         <a class="navbar-brand" href='/'>
             <img src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png" height="25"/>
@@ -67,22 +67,23 @@
                     </a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" th:text="'Für welchen Zeitraum möchten Sie den Artikel ausleihen?'"></a>
+                    <a class="nav-link">Artikel ausleihen</a>
                 </li>
                 <hr>
             </ul>
         </div>
     </nav>
 
-    <div align="center">
-        <input id="date" type="text" name="daterange" value="" min="#today"/> <br>
-        <br>
-        <br>
-        <a href='/'>
-            <button name="button" class="btn btn-outline-danger">Abbrechen</button>
-        </a>
-        <input type="hidden" th:field="*{id}">
-        <input type="submit" value="Bestätigen" class="btn btn-outline-success" onclick="confirmation()"/>
+    <div class="col-md-12" align="center">
+        <div class="col-md-4">
+            <h1>Für welchen Zeitraum möchten Sie den Artikel ausleihen?</h1>
+            <input type="text" class="form-control" name="daterange" min="#today"/> <br>
+            <br>
+            <a href='/'>
+                <button name="button" class="btn btn-outline-danger">Abbrechen</button>
+            </a>
+            <input type="submit" value="Bestätigen" class="btn btn-outline-success" onclick="confirmation()"/>
+        </div>
     </div>
     <script  th:inline="javascript">
         $(function() {
@@ -108,7 +109,7 @@
             })
         });
         function confirmation() {
-            alert("Artikel ausgeliehen!");
+            alert("Anfrage gestellt!");
         }
     </script>
     </body>

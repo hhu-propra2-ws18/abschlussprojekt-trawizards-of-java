@@ -1,4 +1,4 @@
-package de.trawizardsOfJava.web;
+package de.trawizardsOfJava.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
 	@Autowired
 	private SecurityPersonenService userDetailsService;
 
@@ -21,6 +20,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		http.formLogin().loginPage("/anmeldung");
+		//http.formLogin().loginProcessingUrl("/anmeldung");
+		http.formLogin().defaultSuccessUrl("/");
+		http.formLogin().failureUrl("/anmeldung?error");
 		http.authorizeRequests().antMatchers("/").permitAll();
 		http.authorizeRequests().antMatchers("/registrierung").permitAll();
 		http.authorizeRequests().antMatchers("/detail/{id}").permitAll();

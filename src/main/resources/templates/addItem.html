@@ -18,7 +18,7 @@
 
     <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
 
         <a class="navbar-brand" href='/'>
             <img src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png" height="25"/>
@@ -44,27 +44,28 @@
                     </a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" th:text="'Artikel erstellen'"></a>
+                    <a class="nav-link">Artikel erstellen</a>
                 </li>
                 <hr>
             </ul>
         </div>
     </nav>
 
-    <div align="center">
+    <div class="col-md-12" align="center">
+        <div class="col-md-4">
         <form method="post" th:object="${artikel}">
             <p>Name:</p>
-            <input type="text" th:field="*{artikelName}" placeholder="Artikelname" required><br>
+            <input type="text" class="form-control" th:field="*{artikelName}" placeholder="Artikelname" required><br>
             <p>Beschreibung:</p>
-            <textarea class="autoExpand" cols="50" maxlength="255" type="text" th:field="*{beschreibung}" placeholder="Beschreibung" }></textarea>
+            <textarea class="autoExpand form-control" cols="50" maxlength="255" type="text" th:field="*{beschreibung}" placeholder="Beschreibung" }></textarea>
             <p>Abholort:</p>
-            <input type="text" th:field="*{standort}" placeholder="Abholort" required /><br>
+            <input type="text" class="form-control" th:field="*{standort}" placeholder="Abholort" required /><br>
             <p>Preis:</p>
-            <input type="number" th:field="*{preis}" placeholder="Preis" required /><br>
+            <input type="number" class="form-control" th:field="*{preis}" placeholder="Preis" required /><br>
             <p>Kaution:</p>
-            <input type="number" th:field="*{kaution}" placeholder="Kaution" required /><br>
+            <input type="number" class="form-control" th:field="*{kaution}" placeholder="Kaution" required /><br>
             <p>Verfügbarkeitszeitraum:</p>
-            <input id="date" type="text" name="daterange" value="" /> <br>
+            <input id="date" type="text" class="form-control" name="daterange" value="" /> <br>
 
             <input type="hidden" th:field="*{id}">
             <input type="submit" value="Bestätigen" class="btn btn-outline-success"/>
@@ -72,6 +73,7 @@
         <a href='/'>
             <button name="button" class="btn btn-outline-danger"> Abbrechen</button>
         </a>
+        </div>
     </div>
 
     <script type="text/javascript">

@@ -1,4 +1,4 @@
-package de.trawizardsOfJava.web;
+package de.trawizardsOfJava.security;
 
 import de.trawizardsOfJava.data.BenutzerRepository;
 import de.trawizardsOfJava.model.Person;
@@ -13,10 +13,9 @@ import java.util.Optional;
 
 @Service
 public class SecurityPersonenService implements UserDetailsService {
-	
 	@Autowired
 	private BenutzerRepository personen;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String benutzername) throws UsernameNotFoundException {
 		Optional<Person> user = personen.findByBenutzername(benutzername);
@@ -30,5 +29,4 @@ public class SecurityPersonenService implements UserDetailsService {
 		}
 		throw new UsernameNotFoundException("Invalid Username");
 	}
-	
 }

@@ -1,17 +1,32 @@
 package de.trawizardsOfJava.data;
 
 
+
 import de.trawizardsOfJava.model.*;
 import de.trawizardsOfJava.web.SecurityConfig;
+
+import de.trawizardsOfJava.proPay.ProPaySchnittstelle;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 
 @Component
 public class DatabaseInitializr implements ServletContextInitializer {
+	@Autowired
+	ArtikelRepository artikelRepository;
+
+	@Autowired
+	BenutzerRepository benutzerRepository;
+
+	@Autowired
+	AusleiheRepository ausleiheRepository;
+
+	@Override
+	public void onStartup(ServletContext servletContext) {
+		System.out.println("Populating the database");
 
     @Autowired
     ArtikelRepository artikelRepository;
@@ -41,26 +56,14 @@ public class DatabaseInitializr implements ServletContextInitializer {
         person1.setRolle("ROLE_ADMIN");
         benutzerRepository.save(person1);
 
-        Person person2 = new Person();
-        person2.setBenutzername("Joe");
-        person2.setEmail("joe@mail.com");
-        person2.setName("Joe");
-        person2.setPasswort(SecurityConfig.encoder().encode("1234"));
-        person2.setRolle("ROLE_USER");
-        benutzerRepository.save(person2);
-
-        Artikel artikel = new Artikel();
-        artikel.setVerleiherBenutzername(person1.getBenutzername());
-        artikel.setArtikelName("Bagger");
-        artikel.setBeschreibung("Dies ist ein Schaufelbagger");
-        artikel.setKaution(2999);
-        artikel.setPreis(149);
-        artikel.setStandort("Mainz");
-        String s = "01/02/2018 - 31/05/2019";
-        Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit();
-        verfuegbarkeit.toVerfuegbarkeit(s);
-        artikel.setVerfuegbarkeit(verfuegbarkeit);
-        artikelRepository.save(artikel);
+		Person person2 = new Person();
+		person2.setBenutzername("Joe");
+		person2.setEmail("joe@mail.com");
+		person2.setName("Joe");
+		person2.setPasswort(SecurityConfig.encoder().encode("1234"));
+		person2.setRolle("ROLE_USER");
+		ProPaySchnittstelle.post("account/Joe?amount=3297");
+		benutzerRepository.save(person2);
 
         Ausleihe ausleihe = new Ausleihe();
         ausleihe.setArtikel(artikel);
@@ -77,7 +80,5 @@ public class DatabaseInitializr implements ServletContextInitializer {
         konflikt.setRueckgabe(rueckgabeRepository.findByVerleiherName(rueckgabe.getVerleiherName()).get(0));
         konflikt.setBeschreibung("kaputt");
         konfliktRepository.save(konflikt);
-
-    }
-
+	}
 }

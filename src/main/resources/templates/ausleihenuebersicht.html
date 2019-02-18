@@ -13,11 +13,10 @@
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
 
     <a class="navbar-brand" href='/'>
         <img src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png" height="25"/>
@@ -43,7 +42,7 @@
                 </a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" th:text="'Ausleihenübersicht'"></a>
+                <a class="nav-link">Ausleihenübersicht</a>
             </li>
             <hr>
         </ul>
@@ -60,7 +59,7 @@
         <a th:href="@{/account/{benutzername}/annahme/{id} (id=${ausleihe.id},benutzername=${name})}">
             <button name="button" class="btn btn-outline-success" onClick="confirmation()">Annehmen</button>
         </a>
-        <a th:href="@{/account/{benutzername}/remove/{id} (id=${ausleihe.id}),benutzername=${name}}">
+        <a th:href="@{/account/{benutzername}/remove/{id} (id=${ausleihe.id},benutzername=${name})}">
             <button name="button" class="btn btn-outline-danger">Ablehnen</button>
         </a>
     </div>

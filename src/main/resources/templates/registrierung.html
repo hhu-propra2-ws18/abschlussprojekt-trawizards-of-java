@@ -16,7 +16,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
 
     <a class="navbar-brand" href='/'>
         <img src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png" height="25"/>
@@ -32,7 +32,7 @@
                 <a class="nav-link" href='/'>Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link">Bitte geben Sie Ihre Daten ein </a>
+                <a class="nav-link">Neuen Account anlegen</a>
             </li>
             <hr>
         </ul>
@@ -40,24 +40,25 @@
 </nav>
 
 <div align="center">
+    <h1>Bitte geben Sie Ihre Daten ein:</h1>
     <p th:if ="${error}">Dieser Benutzername existeriert bereits!</p>
     <form method="post" th:object="${person}">
         <table>
             <tr>
                 <td>Benutzername:</td>
-                <td><input type="text" th:field="*{benutzername}" required></td>
+                <td><input type="text" class="form-control" th:field="*{benutzername}" required></td>
             </tr>
             <tr>
                 <td>Name:</td>
-                <td><input type="text" th:field="*{name}"></td>
+                <td><input type="text" class="form-control" th:field="*{name}"></td>
             </tr>
             <tr>
                 <td>E-Mail:</td>
-                <td><input type="text" th:field="*{email}" required></td>
+                <td><input type="text" class="form-control" th:field="*{email}" required></td>
             </tr>
             <tr>
                 <td>Passwort:</td>
-                <td><input type="text" th:field="*{passwort}" required></td>
+                <td><input type="text" class="form-control" th:field="*{passwort}" required></td>
             </tr>
         </table>
         <br>

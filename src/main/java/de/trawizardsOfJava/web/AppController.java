@@ -260,6 +260,8 @@ public class AppController {
 			return "permissionDenied";
 		}
 		Rueckgabe rueckgabe = new Rueckgabe(ausleiheRepository.findById(id).get());
+		rueckgabe.setRueckgabe(true);
+		System.out.println("Rückgabe set to true");
 		rueckgabeRepository.save(rueckgabe);
 		Message message = new Message();
 		message.setAbsender(principal.getName());
@@ -292,7 +294,7 @@ public class AppController {
 		message.setEmpfaenger(rueckgabe.getVerleiherName());
 		message.setNachricht("Rückgabe von " + rueckgabe.getArtikel().getArtikelName() + " akzeptiert");
 		messageRepository.save(message);
-		rueckgabeRepository.delete(rueckgabe);
+		//rueckgabeRepository.delete(rueckgabe);
 		model.addAttribute("ausleihen", rueckgabeRepository.findByVerleiherName(principal.getName()));
 		ProPaySchnittstelle.post("reservation/release/" + rueckgabe.getAusleihender() + "?reservationId=" + rueckgabe.getProPayId());
 		return "zurueckgegebeneartikel";
@@ -350,5 +352,16 @@ public class AppController {
 			model.addAttribute("disableThirdButton", true);
 		}
 		return "search";
+	}
+
+	@GetMapping("/account/{benutzername}/transaktionUebersicht")
+	public String transaktionen(@PathVariable String benutzername, Principal principal, Model model) {
+
+		model.addAttribute("name", principal.getName());
+
+		model.addAttribute("artikel", rueckgabeRepository.findByVerleiherName(principal.getName()));
+		model.addAttribute("artikelAusgeliehen", rueckgabeRepository.findByAusleihender(principal.getName()));
+
+		return "transaktionenUebersicht";
 	}
 }

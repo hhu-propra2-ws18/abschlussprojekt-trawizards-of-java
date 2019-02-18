@@ -16,6 +16,7 @@ public class Rueckgabe {
 	private Verfuegbarkeit verfuegbarkeit;
 	private String verleiherName;
 	private int proPayId;
+	private boolean rueckgabe;
 
 	public Rueckgabe(Ausleihe ausleihe) {
 		this.id = ausleihe.getId();

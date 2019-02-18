@@ -103,6 +103,7 @@ public class AppController {
 		person.setPasswort(SecurityConfig.encoder().encode(person.getPasswort()));
 		person.setRolle("ROLE_USER");
 		benutzerRepository.save((person));
+		model.addAttribute("link", "");
 		return "backToTheFuture";
 	}
 
@@ -122,8 +123,9 @@ public class AppController {
 	}
 
 	@PostMapping("/account/{benutzername}")
-	public String kontoAufladen(@PathVariable String benutzername, int amount) {
+	public String kontoAufladen(Model model, @PathVariable String benutzername, int amount) {
 		ProPaySchnittstelle.post("account/" + benutzername + "?amount=" + amount);
+		model.addAttribute("link", "account/" + benutzername);
 		return "backToTheFuture";
 	}
 

@@ -108,7 +108,7 @@ public class AppController {
 		person.setPasswort(SecurityConfig.encoder().encode(person.getPasswort()));
 		person.setRolle("ROLE_USER");
 		benutzerRepository.save((person));
-		model.addAttribute("link", "");
+		model.addAttribute("link", "anmeldung");
 		return "backToTheFuture";
 	}
 
@@ -301,6 +301,10 @@ public class AppController {
 		Message message = new Message(principal.getName(), rueckgabe.getVerleiherName(), "Rückgabe von " + rueckgabe.getArtikel().getArtikelName() + " akzeptiert");
 		messageRepository.save(message);
 		rueckgabe.setAngenommen(true);
+
+		//rueckgabe.setRueckgabeAkzeptiert("true");
+
+
 		rueckgabeRepository.save(rueckgabe);
 		model.addAttribute("link", "account/" + benutzername + "/zurueckgegebeneartikel");
 		return "backToTheFuture";
@@ -446,8 +450,13 @@ public class AppController {
 
 		model.addAttribute("name", principal.getName());
 
-		model.addAttribute("artikel", rueckgabeRepository.findByVerleiherName(principal.getName()));
-		model.addAttribute("artikelAusgeliehen", rueckgabeRepository.findByAusleihender(principal.getName()));
+
+		for(Rueckgabe rueckgabe: rueckgabeRepository.findAll()){
+			if(rueckgabe.isAngenommen()){
+				model.addAttribute("artikel", rueckgabeRepository.findByVerleiherName(principal.getName()));
+				model.addAttribute("artikelAusgeliehen", rueckgabeRepository.findByAusleihender(principal.getName()));
+			}
+		}
 
 		return "transaktionenUebersicht";
 	}

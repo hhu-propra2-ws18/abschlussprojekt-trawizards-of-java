@@ -15,8 +15,11 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -107,5 +110,73 @@ public class AppControllerTest {
 			.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 			.param("username", "test")
 			.param("password", "1234")).andExpect(redirectedUrl("/"));
+	}
+
+	@Test
+	public void registrierung() throws Exception{
+		Person test = new Person();
+		test.setBenutzername("foo");
+		test.setName("foo");
+		test.setEmail("foo");
+		test.setPasswort("foo");
+		test.setRolle("ROLE_USER");
+
+		mvc.perform(post("/registrierung")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("benutzername", test.getBenutzername())
+				.param("name", test.getName())
+				.param("email", test.getEmail())
+				.param("passwort", test.getPasswort())).andExpect(view().name("backToTheFuture"));
+
+		verify(benutzerRepository).save(any(Person.class));
+	}
+
+	@Test
+	public void registrierungFehler() throws Exception {
+		Person test = new Person();
+		test.setBenutzername("foo");
+		test.setName("foo");
+		test.setEmail("foo");
+		test.setPasswort("foo");
+		test.setRolle("ROLE_USER");
+
+		when(benutzerRepository.findByBenutzername(test.getBenutzername())).thenReturn(Optional.of(test));
+
+		mvc.perform(post("/registrierung")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("benutzername", test.getBenutzername())
+				.param("name", test.getName())
+				.param("email", test.getEmail())
+				.param("passwort", test.getPasswort())).andExpect(view().name("registrierung"));
+	}
+
+	@Test
+	@WithMockUser(username = "foo", authorities = "ROLE_USER")
+	public void bearbeiteMeinenAccount() throws Exception{
+		Person test = new Person();
+		test.setBenutzername("foo");
+		test.setName("foo");
+		test.setEmail("foo");
+		test.setPasswort("foo");
+		test.setRolle("ROLE_USER");
+
+		when(benutzerRepository.findByBenutzername(test.getBenutzername())).thenReturn(Optional.of(test));
+
+		mvc.perform(get("/account/foo/bearbeitung")).andExpect(view().name("benutzerverwaltung"));
+	}
+
+	@Test
+	@WithMockUser(username = "foo", authorities = "ROLE_USER")
+	public void bearbeiteAnderenAccount() throws Exception{
+		Person test = new Person();
+		test.setBenutzername("bar");
+		test.setName("bar");
+		test.setEmail("bar");
+		test.setPasswort("bar");
+		test.setRolle("ROLE_USER");
+
+		when(benutzerRepository.findByBenutzername(test.getBenutzername())).thenReturn(Optional.of(test));
+
+		mvc.perform(get("/account/bar/bearbeitung")).andExpect(view().name("permissionDenied"));
 	}
 }

@@ -302,9 +302,6 @@ public class AppController {
 		messageRepository.save(message);
 		rueckgabe.setAngenommen(true);
 
-		//rueckgabe.setRueckgabeAkzeptiert("true");
-
-
 		rueckgabeRepository.save(rueckgabe);
 		model.addAttribute("link", "account/" + benutzername + "/zurueckgegebeneartikel");
 		return "backToTheFuture";

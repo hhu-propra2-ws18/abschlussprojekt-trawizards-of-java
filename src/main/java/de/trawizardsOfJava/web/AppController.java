@@ -188,6 +188,10 @@ public class AppController {
 		ausleihe.setAusleihender(principal.getName());
 		int verfuegbaresGeld = ProPaySchnittstelle.getEntity(principal.getName()).berechneVerfuegbaresGeld();
 		int gebrauchtesGeld = ausleihe.berechneGesamtPreis();
+		ArrayList<Ausleihe> anfragen = ausleiheRepository.findByAusleihenderAndAccepted(principal.getName(), false);
+		for (Ausleihe anfrage : anfragen) {
+			gebrauchtesGeld += anfrage.berechneGesamtPreis();
+		}
 		if (!(verfuegbaresGeld >= gebrauchtesGeld)){
 			model.addAttribute("error", true);
 			return neueAnfrage(model, benutzername, id, principal);
@@ -198,6 +202,11 @@ public class AppController {
 		message.setEmpfaenger(artikel.getVerleiherBenutzername());
 		message.setNachricht("Anfrage für " + artikel.getArtikelName());
 		messageRepository.save(message);
+		Message anfrage = new Message();
+		anfrage.setAbsender("System");
+		anfrage.setEmpfaenger(principal.getName());
+		anfrage.setNachricht("Anfrage für" + artikel.getArtikelName() + "erfolgreich gestellt!");
+		messageRepository.save(anfrage);
 		return "backToTheFuture";
 	}
 

@@ -83,7 +83,7 @@
             <a href='/'>
                 <button name="button" class="btn btn-outline-danger">Abbrechen</button>
             </a>
-            <input type="submit" value="Bestätigen" class="btn btn-outline-success" onclick="confirmation()"/>
+            <input type="submit" value="Bestätigen" class="btn btn-outline-success"/>
         </div>
     </div>
     <script  th:inline="javascript">
@@ -109,9 +109,6 @@
                 }
             })
         });
-        function confirmation() {
-            alert("Anfrage gestellt!");
-        }
     </script>
     </body>
 </form>

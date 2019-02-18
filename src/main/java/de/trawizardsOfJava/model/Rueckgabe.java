@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class Rueckgabe{
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String ausleihender;
@@ -23,6 +23,14 @@ public class Rueckgabe{
 
     private boolean angenommen = false;
 
-    private String rueckgabeAkzeptiert = "false";
+    public Rueckgabe(){
 
+	}
+
+	public Rueckgabe(Ausleihe ausleihe){
+    	this.ausleihender = ausleihe.getAusleihender();
+    	this.artikel = ausleihe.getArtikel();
+    	this.verfuegbarkeit = ausleihe.getVerfuegbarkeit();
+    	this.verleiherName = ausleihe.getVerleiherName();
+	}
 }

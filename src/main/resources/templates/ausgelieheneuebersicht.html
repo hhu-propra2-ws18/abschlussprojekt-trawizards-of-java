@@ -11,9 +11,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-
 </head>
 <body>
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
@@ -58,14 +55,9 @@
         <p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
         <p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
         <a th:href="@{/account/{benutzername}/rueckgabe/{id} (id=${ausleihe.id},benutzername=${name})}">
-            <button name="button" class="btn btn-outline-success" onClick="confirmation()">Zurückgeben</button>
+            <button name="button" class="btn btn-outline-success">Zurückgeben</button>
         </a>
     </div>
 </div>
-<script>
-    function confirmation(){
-        alert("Rückgabe angefragt!");
-    }
-</script>
 </body>
 </html>

@@ -11,9 +11,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-
 </head>
 <body>
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
@@ -53,7 +50,7 @@
     <p th:text="|Beschreibung: ${konflikt.beschreibung}|"></p>
     <p th:text="|Artikel: ${konflikt.rueckgabe.artikel.artikelName}|"></p>
     <a th:href="@{/account/{benutzername}/nachricht/konflikte/{id} (id=${konflikt.id},benutzername=${name})}">
-        <button name="button" class="btn btn-outline-success" onClick="confirmation()">Annehmen</button>
+        <button name="button" class="btn btn-outline-success">Annehmen</button>
     </a>
 </div>
 <h2 align="center">In Bearbeitung</h2>
@@ -62,23 +59,13 @@
     <p th:text="|Verursacher: ${konflikt1.rueckgabe.ausleihender} (${konflikt1.verursacherMail})|"></p>
     <p th:text="|Beschreibung: ${konflikt1.beschreibung}|"></p>
     <p th:text="|Artikel: ${konflikt1.rueckgabe.artikel.artikelName}|"></p>
+    <p>Wer bekommt die Kaution?</p>
     <a th:href="@{/account/{benutzername}/nachricht/konflikte/ausleihender/{id} (id=${konflikt1.id},benutzername=${name})}">
-        <button name="button" class="btn btn-outline-dark" onClick="confirmation1()">Ausleihender</button>
+        <button name="button" class="btn btn-outline-dark">Ausleihender</button>
     </a>
     <a th:href="@{/account/{benutzername}/nachricht/konflikte/verleiher/{id} (id=${konflikt1.id},benutzername=${name})}">
-        <button name="button" class="btn btn-outline-dark" onClick="confirmation2()">Verleiher</button>
+        <button name="button" class="btn btn-outline-dark">Verleiher</button>
     </a>
 </div>
-<script>
-    function confirmation(){
-        alert("Konfliktlösung übernommen!");
-    }
-    function confirmation1(){
-        alert("Der Ausleihende erhält die Kaution zurück!");
-    }
-    function confirmation2(){
-        alert("Der Verleiher behält die Kaution!");
-    }
-</script>
 </body>
 </html>

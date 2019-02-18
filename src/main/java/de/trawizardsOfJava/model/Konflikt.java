@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class Konflikt {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String beschreibung;

@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class Ausleihe {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String ausleihender;
@@ -28,16 +28,6 @@ public class Ausleihe {
     public void setArtikel(Artikel artikel){
         this.artikel = artikel;
         verleiherName = artikel.getVerleiherBenutzername();
-    }
-
-    public Rueckgabe convertToRueckgabe(){
-        Rueckgabe rueckgabe = new Rueckgabe();
-        rueckgabe.setId(this.id);
-        rueckgabe.setAusleihender(this.ausleihender);
-        rueckgabe.setArtikel(this.artikel);
-        rueckgabe.setVerfuegbarkeit(this.verfuegbarkeit);
-        rueckgabe.setVerleiherName(this.verleiherName);
-        return rueckgabe;
     }
 
     public int berechneGesamtPreis() {

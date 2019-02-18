@@ -16,4 +16,14 @@ public class Message {
     private String empfaenger;
     private String nachricht;
 
+    public Message(){
+
+    }
+
+    public Message(String absender, String empfaenger, String nachricht){
+        this.absender = absender;
+        this.empfaenger = empfaenger;
+        this.nachricht = nachricht;
+    }
+
 }

@@ -46,17 +46,18 @@
     </div>
 </nav>
 
-<div align="center" margin="5"></div>
-<p th:if="${#lists.isEmpty(ausleihen)}">Keine Artikel vorhanden!</p>
-<div th:each="ausleihe : ${ausleihen}">
-    <div th:if="${ausleihe.accepted}">
-        <p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
-        <p th:text="|Verleiher: ${ausleihe.verleiherName}|">Verleiher</p>
-        <p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
-        <p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
-        <a th:href="@{/account/{benutzername}/rueckgabe/{id} (id=${ausleihe.id},benutzername=${name})}">
-            <button name="button" class="btn btn-outline-success">Zurückgeben</button>
-        </a>
+<div class="col-md-12" align="center">
+    <div class="col-md-12">
+        <p th:if="${#lists.isEmpty(ausleihen)}">Keine Artikel vorhanden!</p>
+        <div th:each="ausleihe : ${ausleihen}" th:if="${ausleihe.accepted}">
+            <p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
+            <p th:text="|Verleiher: ${ausleihe.verleiherName}|">Verleiher</p>
+            <p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
+            <p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
+            <a th:href="@{/account/{benutzername}/rueckgabe/{id} (id=${ausleihe.id},benutzername=${name})}">
+                <button name="button" class="btn btn-outline-success">Zurückgeben</button>
+            </a>
+        </div>
     </div>
 </div>
 </body>

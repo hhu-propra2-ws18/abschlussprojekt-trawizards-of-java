@@ -29,7 +29,7 @@ repositories {
 dependencies {
 	//runtime group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.3.0'
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.1.2.RELEASE'
-	implementation('org.springframework.boot:spring-boot-starter-security')
+	//implementation('org.springframework.boot:spring-boot-starter-security')
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'

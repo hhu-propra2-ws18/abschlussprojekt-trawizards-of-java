@@ -1,11 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de" xmlns:th="http://www.thymeleaf.com">
 <head>
 	<meta charset="UTF-8">
 	<title>The Awesome Chat</title>
+
+	<link href="../static/css/chat.css" th:href="@{/css/chat.css}" rel="stylesheet" />
 </head>
-<body>
-
-
-</body>
+	<body>
+		<div class="chat">
+			<p>Hello. How are you today?</p>
+			<span class="zeit-rechts">11:00</span>
+		</div>
+		<div class="chat">
+			<p>Sweet! So, what do you wanna do today?</p>
+			<span class="zeit-rechts">11:02</span>
+		</div>
+		<div class="chat dunkler">
+			<p>Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
+			<span class="zeit-links">11:05</span>
+		</div>
+		<div class="chat">
+			<p>Hi</p>
+			<span class="zeit-rechts">11:02</span>
+		</div>
+		<div class="chat dunkler">
+			<p>Hey</p>
+			<span class="zeit-links">11:05</span>
+		</div>
+		<script>
+			window.onresize = function(){
+				window.resizeTo(425, 500);
+			}
+			window.onclick = function(){
+				window.resizeTo(425, 500);
+			}
+		</script>
+	</body>
 </html>

@@ -1,0 +1,35 @@
+.chat {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 2px;
+    margin: 10px 0;
+    object-fit: contain;
+    width: 90%;
+    display: block;
+    float: left;
+}
+
+.dunkler {
+    border-color: #ccc;
+    background-color: #ddd;
+    margin-left: 0px;
+    margin-right: 10px;
+    float: right;
+}
+
+.chat::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.zeit-rechts {
+    float: right;
+    color: #aaa;
+}
+
+.zeit-links {
+    float: left;
+    color: #999;
+}

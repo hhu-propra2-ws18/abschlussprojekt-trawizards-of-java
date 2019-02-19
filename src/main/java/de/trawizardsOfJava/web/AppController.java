@@ -9,6 +9,7 @@ import de.trawizardsOfJava.proPay.ProPaySchnittstelle;
 import de.trawizardsOfJava.proPay.Reservierung;
 import de.trawizardsOfJava.security.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -53,13 +54,24 @@ public class AppController {
 	public String uebersicht(Model model, Principal principal) {
 		List<Artikel> alleArtikel = artikelRepository.findAll();
 		model.addAttribute("artikel", alleArtikel);
-
 		if (principal != null) {
 			model.addAttribute("disableSecondButton", true);
 		} else {
 			model.addAttribute("disableThirdButton", true);
 		}
 		return "uebersichtSeite";
+	}
+
+	@GetMapping("/search")
+	public String search(@RequestParam final String q, final Model model, Principal principal) {
+		model.addAttribute("artikel", this.artikelRepository.findAllByArtikelNameContaining(q));
+		model.addAttribute("query", q);
+		if (principal != null) {
+			model.addAttribute("disableSecondButton", true);
+		} else {
+			model.addAttribute("disableThirdButton", true);
+		}
+		return "search";
 	}
 
 	@GetMapping("/detail/{id}")
@@ -75,16 +87,15 @@ public class AppController {
 	}
 
 	@GetMapping("/detail/{id}/changeItem")
-	public String changeItem(Model model, @PathVariable Long id, Principal principal) {
+	@PreAuthorize("#benutzername == authentication.name")
+	public String changeItem(Model model, @PathVariable Long id) {
 		Artikel artikel = artikelRepository.findById(id).get();
-		if (!principal.getName().equals(artikel.getVerleiherBenutzername())) {
-			return "zugriffVerweigert";
-		}
 		model.addAttribute("artikel", artikel);
 		return "changeItem";
 	}
 
 	@PostMapping("/detail/{id}/changeItem")
+	@PreAuthorize("#benutzername == authentication.name")
 	public String postChangeItem(Model model, Artikel artikel, @RequestParam String daterange) {
 		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit(daterange);
 		artikel.setVerfuegbarkeit(verfuegbarkeit);
@@ -138,6 +149,7 @@ public class AppController {
 	}
 
 	@PostMapping("/account/{benutzername}")
+	@PreAuthorize("#benutzername == authentication.name")
 	public String kontoAufladen(Model model, @PathVariable String benutzername, int amount) {
 		ProPaySchnittstelle.post("account/" + benutzername + "?amount=" + amount);
 		model.addAttribute("link", "account/" + benutzername);
@@ -146,15 +158,14 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/bearbeitung")
+	@PreAuthorize("#benutzername == authentication.name")
 	public String benutzerverwaltung(Model model, @PathVariable String benutzername, Principal principal) {
-		if (!principal.getName().equals(benutzername)) {
-			return "zugriffVerweigert";
-		}
 		model.addAttribute("person", benutzerRepository.findByBenutzername(benutzername).get());
 		return "benutzerverwaltung";
 	}
 
 	@PostMapping("/account/{benutzername}/bearbeitung")
+	@PreAuthorize("#benutzername == authentication.name")
 	public String speicherAenderung(Model model, Person person) {
 		benutzerRepository.save((person));
 		model.addAttribute("link", "account/" + person.getBenutzername());
@@ -162,16 +173,15 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/addItem")
+	@PreAuthorize("#benutzername == authentication.name")
 	public String addItem(Model model, @PathVariable String benutzername, Principal principal) {
-		if (!principal.getName().equals(benutzername)) {
-			return "zugriffVerweigert";
-		}
 		Artikel newArtikel = new Artikel();
 		model.addAttribute("artikel", newArtikel);
 		return "addItem";
 	}
 
 	@PostMapping("/account/{benutzername}/addItem")
+	@PreAuthorize("#benutzername == authentication.name")
 	public String postAddItem(Model model, Artikel artikel, @PathVariable String benutzername, @RequestParam String daterange) {
 		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit(daterange);
 		artikel.setVerfuegbarkeit(verfuegbarkeit);
@@ -182,10 +192,8 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/artikel/{id}/anfrage")
+	@PreAuthorize("#benutzername == authentication.name")
 	public String neueAnfrage(Model model, @PathVariable String benutzername, @PathVariable Long id, Principal principal) {
-		if (!principal.getName().equals(benutzername)) {
-			return "zugriffVerweigert";
-		}
 		Artikel artikel = artikelRepository.findById(id).get();
 		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByArtikel(artikel);
 		ArrayList<Verfuegbarkeit> verfuegbarkeiten = new ArrayList<>();
@@ -197,6 +205,7 @@ public class AppController {
 	}
 
 	@PostMapping("/account/{benutzername}/artikel/{id}/anfrage")
+	@PreAuthorize("#benutzername == authentication.name")
 	public String speichereAnfrage(Model model, @PathVariable String benutzername, @PathVariable Long id, String daterange, Principal principal) {
 		Artikel artikel = artikelRepository.findById(id).get();
 		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit(daterange);
@@ -225,20 +234,16 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/ausleihenuebersicht")
+	@PreAuthorize("#benutzername == authentication.name")
 	public String ausleihenuebersicht(Model model, @PathVariable String benutzername, Principal principal) {
-		if (!principal.getName().equals(benutzername)) {
-			return "zugriffVerweigert";
-		}
 		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByVerleiherName(benutzername);
 		model.addAttribute("ausleihen", ausleihen);
 		return "ausleihenuebersicht";
 	}
 
 	@GetMapping("/account/{benutzername}/annahme/{id}")
+	@PreAuthorize("#benutzername == authentication.name")
 	public String ausleihebestaetigt(Model model, @PathVariable String benutzername, @PathVariable Long id, Principal principal) {
-		if (!principal.getName().equals(benutzername)) {
-			return "zugriffVerweigert";
-		}
 		Ausleihe ausleihe = ausleiheRepository.findById(id).get();
 		ausleihe.setAccepted(true);
 		ausleiheRepository.save(ausleihe);
@@ -255,10 +260,8 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/remove/{id}")
+	@PreAuthorize("#benutzername == authentication.name")
 	public String ausleiheabgelehnt(Model model, @PathVariable String benutzername, @PathVariable Long id, Principal principal) {
-		if (!principal.getName().equals(benutzername)) {
-			return "zugriffVerweigert";
-		}
 		Ausleihe ausleihe = ausleiheRepository.findById(id).get();
 		ausleiheRepository.delete(ausleihe);
 		Message message = new Message(principal.getName(), ausleihe.getAusleihender(), "Anfrage für " + ausleihe.getArtikel().getArtikelName() + " wurde abgelehnt");
@@ -268,20 +271,16 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/ausgelieheneuebersicht")
+	@PreAuthorize("#benutzername == authentication.name")
 	public String leihenuebersicht(Model model, @PathVariable String benutzername, Principal principal) {
-		if (!principal.getName().equals(benutzername)) {
-			return "zugriffVerweigert";
-		}
 		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByAusleihender(principal.getName());
 		model.addAttribute("ausleihen", ausleihen);
 		return "ausgelieheneuebersicht";
 	}
 
 	@GetMapping("/account/{benutzername}/rueckgabe/{id}")
+	@PreAuthorize("#benutzername == authentication.name")
 	public String zurueckgegeben(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal) {
-		if (!benutzername.equals(principal.getName())) {
-			return "zugriffVerweigert";
-		}
 		Ausleihe ausleihe = ausleiheRepository.findById(id).get();
 		rueckgabeRepository.save(new Rueckgabe(ausleihe));
 		Message message = new Message(principal.getName(), ausleihe.getVerleiherName(), ausleihe.getArtikel().getArtikelName() + " wurde zurückgegeben");
@@ -292,10 +291,8 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/zurueckgegebeneartikel")
+	@PreAuthorize("#benutzername == authentication.name")
 	public String rueckgabenuebersicht(Model model, @PathVariable String benutzername, Principal principal) {
-		if (!benutzername.equals(principal.getName())) {
-			return "zugriffVerweigert";
-		}
 		ArrayList<Rueckgabe> ausleihen = rueckgabeRepository.findByVerleiherName(principal.getName());
 		model.addAttribute("ausleihen", ausleihen);
 		model.addAttribute("name", principal.getName());
@@ -303,10 +300,8 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/rueckgabe/akzeptiert/{id}")
+	@PreAuthorize("#benutzername == authentication.name")
 	public String rueckgabeakzeptiert(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal) {
-		if (!benutzername.equals(principal.getName())) {
-			return "zugriffVerweigert";
-		}
 		Rueckgabe rueckgabe = rueckgabeRepository.findById(id).get();
 		Message message = new Message(principal.getName(), rueckgabe.getVerleiherName(), "Rückgabe von " + rueckgabe.getArtikel().getArtikelName() + " akzeptiert");
 		messageRepository.save(message);
@@ -318,10 +313,8 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/nachrichten")
+	@PreAuthorize("#benutzername == authentication.name")
 	public String nachrichtenUebersicht(Model model, @PathVariable String benutzername, Principal principal) {
-		if (!benutzername.equals(principal.getName())) {
-			return "zugriffVerweigert";
-		}
 		if (benutzerRepository.findByBenutzername(benutzername).get().getRolle().equals("ROLE_ADMIN")) {
 			model.addAttribute("admin", true);
 		}
@@ -331,20 +324,16 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/konflikt/send/{id}")
+	@PreAuthorize("#benutzername == authentication.name")
 	public String konfliktErstellen(Model model, @PathVariable String benutzername, @PathVariable Long id, Principal principal) {
-		if (!principal.getName().equals(benutzername)) {
-			return "zugriffVerweigert";
-		}
 		Konflikt konflikt = new Konflikt();
 		model.addAttribute("konflikt", konflikt);
 		return "konfliktErstellung";
 	}
 
 	@PostMapping("/account/{benutzername}/konflikt/send/{id}")
+	@PreAuthorize("#benutzername == authentication.name")
 	public String konfliktAbsenden(Konflikt konflikt, @PathVariable("benutzername") String benutzername, @PathVariable("id") Long id, Principal principal, Model model) {
-		if (!principal.getName().equals(benutzername)) {
-			return "zugriffVerweigert";
-		}
 		Rueckgabe rueckgabe = rueckgabeRepository.findById(id).get();
 		konflikt.setAbsenderMail(benutzerRepository.findByBenutzername(benutzername).get().getEmail());
 		konflikt.setVerursacherMail(benutzerRepository.findByBenutzername(rueckgabe.getAusleihender()).get().getEmail());
@@ -360,25 +349,11 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/nachricht/delete/{id}")
+	@PreAuthorize("#benutzername == authentication.name")
 	private String messageDelete(Model model, @PathVariable Long id, @PathVariable String benutzername, Principal principal) {
-		if (!principal.getName().equals(benutzername)) {
-			return "permissionDenied";
-		}
 		messageRepository.delete(messageRepository.findById(id).get());
 		model.addAttribute("link", "account/" + benutzername + "/nachrichten");
 		return "backToTheFuture";
-	}
-
-	@GetMapping("/search")
-	public String search(@RequestParam final String q, final Model model, Principal principal) {
-		model.addAttribute("artikel", this.artikelRepository.findAllByArtikelNameContaining(q));
-		model.addAttribute("query", q);
-		if (principal != null) {
-			model.addAttribute("disableSecondButton", true);
-		} else {
-			model.addAttribute("disableThirdButton", true);
-		}
-		return "search";
 	}
 
 	@GetMapping("/admin/konflikte")
@@ -421,10 +396,8 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/transaktionUebersicht")
+	@PreAuthorize("#benutzername == authentication.name")
 	public String transaktionen(@PathVariable String benutzername, Principal principal, Model model) {
-		if (!principal.getName().equals(benutzername)) {
-			return "zugriffVerweigert";
-		}
 		model.addAttribute("name", principal.getName());
 		for (Rueckgabe rueckgabe : rueckgabeRepository.findAll()) {
 			if (rueckgabe.isAngenommen()) {

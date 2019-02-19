@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.security.Principal;
 import java.util.List;
@@ -124,6 +125,15 @@ public class AppController {
 		model.addAttribute("artikel", artikelRepository.findByVerleiherBenutzername(person.getBenutzername()));
 		model.addAttribute("isUser", benutzername.equals(principal.getName()));
 		model.addAttribute("proPay", ProPaySchnittstelle.getEntity(benutzername));
+
+		ArrayList<Ausleihe> ausgelieheneArtikel = ausleiheRepository.findByAusleihender(benutzername);
+		for(Ausleihe ausleihe: ausgelieheneArtikel){
+			if(ausleihe.getVerfuegbarkeit().getEndDate().isBefore(LocalDate.now()) && ausleihe.isAccepted()){
+				model.addAttribute("message","true");
+				model.addAttribute("artikelName", ausleihe.getArtikel().getArtikelName());
+				model.addAttribute("verleiherName", ausleihe.getVerleiherName());
+			}
+		}
 		return "benutzeransicht";
 	}
 
@@ -131,6 +141,7 @@ public class AppController {
 	public String kontoAufladen(Model model, @PathVariable String benutzername, int amount) {
 		ProPaySchnittstelle.post("account/" + benutzername + "?amount=" + amount);
 		model.addAttribute("link", "account/" + benutzername);
+
 		return "backToTheFuture";
 	}
 

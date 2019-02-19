@@ -14,7 +14,8 @@
         }
     </style>
 </head>
-<body>
+<body onload="callAlert()">
+
 <div>
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
 
@@ -102,5 +103,20 @@
     </tr>
     </div>
 </div>
+
+<script  th:inline="javascript">
+    function callAlert() {
+
+        var message = /*[[${message}]]*/ 'default';
+        var artikelName = /*[[${artikelName}]]*/ 'default';
+        var verleiherName = /*[[${verleiherName}]]*/ 'default';
+
+        if(message === 'true'){
+            alert('Bitte ' + artikelName + ' an ' + verleiherName + ' zurückgeben!');
+		}
+
+    }
+</script>
+
 </body>
 </html>

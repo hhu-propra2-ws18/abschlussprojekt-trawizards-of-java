@@ -3,6 +3,7 @@ package de.trawizardsOfJava.security;
 import de.trawizardsOfJava.data.BenutzerRepository;
 import de.trawizardsOfJava.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,4 +30,6 @@ public class SecurityPersonenService implements UserDetailsService {
 		}
 		throw new UsernameNotFoundException("Invalid Username");
 	}
+
+
 }

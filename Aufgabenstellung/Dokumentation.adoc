@@ -12,7 +12,7 @@ Beim Aufruf der Anwendung sieht man die Startseite, auf der bereits eine Übersi
 verfügbaren Artikel angezeigt wird, sowie Links zur Anmeldung, Registrierung und eine Suchfunktion
 in der Navigationsleiste am oberen Bildschirmrand. Möchte man eine andere Seite sehen, beispielsweise
 die Detailseite eines Artikels, so muss man sich mit seinem Benutzernamen und Passwort anmelden, bzw.
-sich registrieren. Meldet man sich an findet man auch einen Link auf das eigene Profil in der
+sich registrieren. Meldet man sich an, findet man auch einen Link auf das eigene Profil in der
 Navigationsleiste auf jeder Seite.
 
 .Detailansicht
@@ -25,8 +25,7 @@ Auf dieser Seite kann man in einem Kalender den Zeitraum auswählen kann, für d
 gerne ausleihen möchte, wobei der verfügbare Zeitraum grün markiert ist. Bestätigt man nun seine Auswahl,
 so wird eine Anfrage an den Besitzer des Artikels gesendet, falls man genug Geld auf seinem ProPay-Konto
 hat, um die Kaution und die Kosten für den angegebenen Zeitraum zu bezahlen und der Besitzer erhält eine
-Nachricht. Die Kaution und die Kosten für den Zeitraum werden außerdem vom ProPay-Konto des Anfragenden
-reserviert.
+Nachricht.
 
 ## Profil
 Alle folgenden Schritte des Ausleihvorgangs lassen sich über die Profilseite vornehmen. Außerdem werden
@@ -47,14 +46,13 @@ Möchte ein Verleiher nachsehen, ob es Anfragen für einen seiner Artikel gibt, 
 auf seiner Profilseite auf "Anfragen ansehen". Dort kann er alle offenen und bereits angenommenen
 Anfragen einsehen und offene Anfragen entweder annehmen, oder ablehnen. Bei beiden Optionen wird
 eine Nachricht an den Ersteller der Anfrage geschickt, in der er über die Antwort auf seine Anfrage
-benachrichtigt wird.
+benachrichtigt wird. Wenn die Anfrage angenommen wurde, wird außerdem die Kaution reserviert und
+die Kosten für den Leihzeitraum werden an den Verleiher überwiesen.
 
 ### Ausgeliehene Artikel ansehen
 Wurde die Anfrage angenommen, so kann der Leihende in seinem Profil über
 "Ausgeliehene Artikel ansehen" den entsprechenden Artikel sehen, mit der Möglichkeit den
-Artikel zurückzugeben. Außerdem werden nun die Kosten für den Ausleihzeitraum, die zuvor nur
-reserviert war, an den Verleiher überwiesen. Wird der Artikel zurückgegeben, so erhält der
-Verleiher eine Nachricht.
+Artikel zurückzugeben. Wird der Artikel zurückgegeben, so erhält der Verleiher eine Nachricht.
 
 ### Rückgaben ansehen
 Der Verleiher findet in seinem Profil über "Rückgaben ansehen" eine Übersicht über alle an ihn

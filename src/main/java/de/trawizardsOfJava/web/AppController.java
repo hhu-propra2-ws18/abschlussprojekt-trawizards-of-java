@@ -27,26 +27,26 @@ public class AppController {
 	@Autowired
 	private ArtikelRepository artikelRepository;
 
-  	@Autowired
-  	private AusleiheRepository ausleiheRepository;
+	@Autowired
+	private AusleiheRepository ausleiheRepository;
 
-  	@Autowired
+	@Autowired
 	private MessageRepository messageRepository;
 
-  	@Autowired
-  	private RueckgabeRepository rueckgabeRepository;
+	@Autowired
+	private RueckgabeRepository rueckgabeRepository;
 
-  	@Autowired
+	@Autowired
 	private KonfliktRepository konfliktRepository;
 
 	@ModelAttribute
 	public void benutzername(Model model, Principal principal) {
-		if(principal != null) {
+		if (principal != null) {
 			model.addAttribute("name", principal.getName());
 		}
 	}
 
-  	@Autowired
+	@Autowired
 	private IMailService iMailService;
 
 	@GetMapping("/")
@@ -54,9 +54,9 @@ public class AppController {
 		List<Artikel> alleArtikel = artikelRepository.findAll();
 		model.addAttribute("artikel", alleArtikel);
 
-		if(principal != null){
+		if (principal != null) {
 			model.addAttribute("disableSecondButton", true);
-		}else{
+		} else {
 			model.addAttribute("disableThirdButton", true);
 		}
 		return "uebersichtSeite";
@@ -66,19 +66,19 @@ public class AppController {
 	public String detail(Model model, @PathVariable Long id, Principal principal) {
 		Optional<Artikel> artikel = artikelRepository.findById(id);
 		model.addAttribute("artikelDetail", artikel.get());
-		if(principal != null){
+		if (principal != null) {
 			model.addAttribute("disableSecondButton", true);
-		}else{
+		} else {
 			model.addAttribute("disableThirdButton", true);
 		}
 		return "artikelDetail";
 	}
 
 	@GetMapping("/detail/{id}/changeItem")
-	public String changeItem(Model model, @PathVariable Long id, Principal principal){
+	public String changeItem(Model model, @PathVariable Long id, Principal principal) {
 		Artikel artikel = artikelRepository.findById(id).get();
 		if (!principal.getName().equals(artikel.getVerleiherBenutzername())) {
-			return "permissionDenied";
+			return "zugriffVerweigert";
 		}
 		model.addAttribute("artikel", artikel);
 		return "changeItem";
@@ -102,7 +102,7 @@ public class AppController {
 
 	@PostMapping("/registrierung")
 	public String speicherePerson(Model model, Person person) {
-		if (benutzerRepository.findByBenutzername(person.getBenutzername()).isPresent()){
+		if (benutzerRepository.findByBenutzername(person.getBenutzername()).isPresent()) {
 			model.addAttribute("error", true);
 			return "registrierung";
 		}
@@ -114,7 +114,7 @@ public class AppController {
 	}
 
 	@GetMapping("/anmeldung")
-	public String anmelden(){
+	public String anmelden() {
 		return "anmeldung";
 	}
 
@@ -127,9 +127,9 @@ public class AppController {
 		model.addAttribute("proPay", ProPaySchnittstelle.getEntity(benutzername));
 
 		ArrayList<Ausleihe> ausgelieheneArtikel = ausleiheRepository.findByAusleihender(benutzername);
-		for(Ausleihe ausleihe: ausgelieheneArtikel){
-			if(ausleihe.getVerfuegbarkeit().getEndDate().isBefore(LocalDate.now()) && ausleihe.isAccepted()){
-				model.addAttribute("message","true");
+		for (Ausleihe ausleihe : ausgelieheneArtikel) {
+			if (ausleihe.getVerfuegbarkeit().getEndDate().isBefore(LocalDate.now()) && ausleihe.isAccepted()) {
+				model.addAttribute("message", "true");
 				model.addAttribute("artikelName", ausleihe.getArtikel().getArtikelName());
 				model.addAttribute("verleiherName", ausleihe.getVerleiherName());
 			}
@@ -148,7 +148,7 @@ public class AppController {
 	@GetMapping("/account/{benutzername}/bearbeitung")
 	public String benutzerverwaltung(Model model, @PathVariable String benutzername, Principal principal) {
 		if (!principal.getName().equals(benutzername)) {
-			return "permissionDenied";
+			return "zugriffVerweigert";
 		}
 		model.addAttribute("person", benutzerRepository.findByBenutzername(benutzername).get());
 		return "benutzerverwaltung";
@@ -164,7 +164,7 @@ public class AppController {
 	@GetMapping("/account/{benutzername}/addItem")
 	public String addItem(Model model, @PathVariable String benutzername, Principal principal) {
 		if (!principal.getName().equals(benutzername)) {
-			return "permissionDenied";
+			return "zugriffVerweigert";
 		}
 		Artikel newArtikel = new Artikel();
 		model.addAttribute("artikel", newArtikel);
@@ -184,7 +184,7 @@ public class AppController {
 	@GetMapping("/account/{benutzername}/artikel/{id}/anfrage")
 	public String neueAnfrage(Model model, @PathVariable String benutzername, @PathVariable Long id, Principal principal) {
 		if (!principal.getName().equals(benutzername)) {
-			return "permissionDenied";
+			return "zugriffVerweigert";
 		}
 		Artikel artikel = artikelRepository.findById(id).get();
 		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByArtikel(artikel);
@@ -211,7 +211,7 @@ public class AppController {
 		for (Ausleihe anfrage : anfragen) {
 			gebrauchtesGeld += anfrage.berechneGesamtPreis();
 		}
-		if (!(verfuegbaresGeld >= gebrauchtesGeld)){
+		if (!(verfuegbaresGeld >= gebrauchtesGeld)) {
 			model.addAttribute("error", true);
 			return neueAnfrage(model, benutzername, id, principal);
 		}
@@ -224,20 +224,20 @@ public class AppController {
 		return "backToTheFuture";
 	}
 
-    @GetMapping("/account/{benutzername}/ausleihenuebersicht")
-    public String ausleihenuebersicht(Model model, @PathVariable String benutzername, Principal principal){
+	@GetMapping("/account/{benutzername}/ausleihenuebersicht")
+	public String ausleihenuebersicht(Model model, @PathVariable String benutzername, Principal principal) {
 		if (!principal.getName().equals(benutzername)) {
-			return "permissionDenied";
+			return "zugriffVerweigert";
 		}
 		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByVerleiherName(benutzername);
 		model.addAttribute("ausleihen", ausleihen);
 		return "ausleihenuebersicht";
-    }
+	}
 
-    @GetMapping("/account/{benutzername}/annahme/{id}")
-    public String ausleihebestaetigt(Model model, @PathVariable String benutzername, @PathVariable Long id, Principal principal){
+	@GetMapping("/account/{benutzername}/annahme/{id}")
+	public String ausleihebestaetigt(Model model, @PathVariable String benutzername, @PathVariable Long id, Principal principal) {
 		if (!principal.getName().equals(benutzername)) {
-			return "permissionDenied";
+			return "zugriffVerweigert";
 		}
 		Ausleihe ausleihe = ausleiheRepository.findById(id).get();
 		ausleihe.setAccepted(true);
@@ -245,19 +245,19 @@ public class AppController {
 		Message message = new Message(principal.getName(), ausleihe.getAusleihender(), "Anfrage für " + ausleihe.getArtikel().getArtikelName() + " angenommen");
 		messageRepository.save(message);
 		int tage = ausleihe.getVerfuegbarkeit().berechneZwischenTage();
-		ProPaySchnittstelle.post("account/" +  ausleihe.getAusleihender() + "/transfer/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getPreis() * tage);
+		ProPaySchnittstelle.post("account/" + ausleihe.getAusleihender() + "/transfer/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getPreis() * tage);
 		ProPaySchnittstelle.post("reservation/reserve/" + ausleihe.getAusleihender() + "/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getKaution());
 		List<Reservierung> reservierungen = ProPaySchnittstelle.getEntity(ausleihe.getAusleihender()).getReservations();
 		ausleihe.setProPayId(reservierungen.get(reservierungen.size() - 1).getId());
 		ausleiheRepository.save(ausleihe);
 		model.addAttribute("link", "account/" + benutzername + "/ausleihenuebersicht");
 		return "backToTheFuture";
-    }
+	}
 
-    @GetMapping("/account/{benutzername}/remove/{id}")
-    public String ausleiheabgelehnt(Model model, @PathVariable String benutzername, @PathVariable Long id, Principal principal){
+	@GetMapping("/account/{benutzername}/remove/{id}")
+	public String ausleiheabgelehnt(Model model, @PathVariable String benutzername, @PathVariable Long id, Principal principal) {
 		if (!principal.getName().equals(benutzername)) {
-			return "permissionDenied";
+			return "zugriffVerweigert";
 		}
 		Ausleihe ausleihe = ausleiheRepository.findById(id).get();
 		ausleiheRepository.delete(ausleihe);
@@ -265,12 +265,12 @@ public class AppController {
 		messageRepository.save(message);
 		model.addAttribute("link", "account/" + benutzername + "/ausleihenuebersicht");
 		return "backToTheFuture";
-    }
+	}
 
 	@GetMapping("/account/{benutzername}/ausgelieheneuebersicht")
-	public String leihenuebersicht(Model model, @PathVariable String benutzername, Principal principal){
+	public String leihenuebersicht(Model model, @PathVariable String benutzername, Principal principal) {
 		if (!principal.getName().equals(benutzername)) {
-			return "permissionDenied";
+			return "zugriffVerweigert";
 		}
 		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByAusleihender(principal.getName());
 		model.addAttribute("ausleihen", ausleihen);
@@ -278,9 +278,9 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/rueckgabe/{id}")
-	public String zurueckgegeben(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal){
+	public String zurueckgegeben(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal) {
 		if (!benutzername.equals(principal.getName())) {
-			return "permissionDenied";
+			return "zugriffVerweigert";
 		}
 		Ausleihe ausleihe = ausleiheRepository.findById(id).get();
 		rueckgabeRepository.save(new Rueckgabe(ausleihe));
@@ -292,9 +292,9 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/zurueckgegebeneartikel")
-	public String rueckgabenuebersicht(Model model, @PathVariable String benutzername, Principal principal){
+	public String rueckgabenuebersicht(Model model, @PathVariable String benutzername, Principal principal) {
 		if (!benutzername.equals(principal.getName())) {
-			return "permissionDenied";
+			return "zugriffVerweigert";
 		}
 		ArrayList<Rueckgabe> ausleihen = rueckgabeRepository.findByVerleiherName(principal.getName());
 		model.addAttribute("ausleihen", ausleihen);
@@ -303,9 +303,9 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/rueckgabe/akzeptiert/{id}")
-	public String rueckgabeakzeptiert(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal){
+	public String rueckgabeakzeptiert(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal) {
 		if (!benutzername.equals(principal.getName())) {
-			return "permissionDenied";
+			return "zugriffVerweigert";
 		}
 		Rueckgabe rueckgabe = rueckgabeRepository.findById(id).get();
 		Message message = new Message(principal.getName(), rueckgabe.getVerleiherName(), "Rückgabe von " + rueckgabe.getArtikel().getArtikelName() + " akzeptiert");
@@ -318,15 +318,13 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/nachrichten")
-	public String nachrichtenUebersicht(Model model, @PathVariable String benutzername, Principal principal){
+	public String nachrichtenUebersicht(Model model, @PathVariable String benutzername, Principal principal) {
 		if (!benutzername.equals(principal.getName())) {
-			return "permissionDenied";
+			return "zugriffVerweigert";
 		}
-		if(benutzerRepository.findByBenutzername(benutzername).get().getRolle().equals("ROLE_ADMIN")){
-			model.addAttribute("admin",true);
+		if (benutzerRepository.findByBenutzername(benutzername).get().getRolle().equals("ROLE_ADMIN")) {
+			model.addAttribute("admin", true);
 		}
-		else model.addAttribute("admin",false);
-
 		model.addAttribute("messages", messageRepository.findByEmpfaenger(benutzername));
 		model.addAttribute("name", principal.getName());
 		return "nachrichtenUebersicht";
@@ -335,7 +333,7 @@ public class AppController {
 	@GetMapping("/account/{benutzername}/konflikt/send/{id}")
 	public String konfliktErstellen(Model model, @PathVariable String benutzername, @PathVariable Long id, Principal principal) {
 		if (!principal.getName().equals(benutzername)) {
-			return "permissionDenied";
+			return "zugriffVerweigert";
 		}
 		Konflikt konflikt = new Konflikt();
 		model.addAttribute("konflikt", konflikt);
@@ -343,9 +341,9 @@ public class AppController {
 	}
 
 	@PostMapping("/account/{benutzername}/konflikt/send/{id}")
-	public String konfliktAbsenden(Konflikt konflikt, @PathVariable("benutzername") String benutzername, @PathVariable("id") Long id, Principal principal, Model model){
+	public String konfliktAbsenden(Konflikt konflikt, @PathVariable("benutzername") String benutzername, @PathVariable("id") Long id, Principal principal, Model model) {
 		if (!principal.getName().equals(benutzername)) {
-			return "permissionDenied";
+			return "zugriffVerweigert";
 		}
 		Rueckgabe rueckgabe = rueckgabeRepository.findById(id).get();
 		konflikt.setAbsenderMail(benutzerRepository.findByBenutzername(benutzername).get().getEmail());
@@ -354,7 +352,7 @@ public class AppController {
 		konfliktRepository.save(konflikt);
 		Message message = new Message(principal.getName(), rueckgabe.getAusleihender(), "Der Artikel " + rueckgabe.getArtikel().getArtikelName() + " wurde im mangelhaften Zustand zurückgegeben. Der Fall wurde an die Konfliktlösestelle übergeben.");
 		messageRepository.save(message);
-		message = new Message("System",principal.getName(), "Ein Konflikt wurde mit folgender Beschreibung an die Konfliktlösestelle übergeben: " + konflikt.getBeschreibung());
+		message = new Message("System", principal.getName(), "Ein Konflikt wurde mit folgender Beschreibung an die Konfliktlösestelle übergeben: " + konflikt.getBeschreibung());
 		messageRepository.save(message);
 		//iMailService.sendEmailToKonfliktLoeseStelle(benutzername,konflikt.getBeschreibung(),id);
 		model.addAttribute("link", "account/" + benutzername + "/nachrichten");
@@ -362,7 +360,7 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}/nachricht/delete/{id}")
-	private String messageDelete(Model model, @PathVariable Long id, @PathVariable String benutzername, Principal principal){
+	private String messageDelete(Model model, @PathVariable Long id, @PathVariable String benutzername, Principal principal) {
 		if (!principal.getName().equals(benutzername)) {
 			return "permissionDenied";
 		}
@@ -373,25 +371,25 @@ public class AppController {
 
 	@GetMapping("/search")
 	public String search(@RequestParam final String q, final Model model, Principal principal) {
-		model.addAttribute("artikel",this.artikelRepository.findAllByArtikelNameContaining(q));
+		model.addAttribute("artikel", this.artikelRepository.findAllByArtikelNameContaining(q));
 		model.addAttribute("query", q);
-		if(principal != null){
+		if (principal != null) {
 			model.addAttribute("disableSecondButton", true);
-		}else{
+		} else {
 			model.addAttribute("disableThirdButton", true);
 		}
 		return "search";
 	}
 
 	@GetMapping("/admin/konflikte")
-	public String konfliktUebersicht(Model model, Principal principal){
+	public String konfliktUebersicht(Model model, Principal principal) {
 		model.addAttribute("offeneKonflikte", konfliktRepository.findAllByInBearbeitung("offen"));
 		model.addAttribute("meineKonflikte", konfliktRepository.findAllByBearbeitender(principal.getName()));
 		return "konfliktAnsicht";
 	}
 
 	@GetMapping("/admin/konflikte/{id}")
-	public String konfliktUebernehmen(@PathVariable Long id, Model model, Principal principal){
+	public String konfliktUebernehmen(@PathVariable Long id, Model model, Principal principal) {
 		Konflikt konflikt = konfliktRepository.findById(id).get();
 		konflikt.setInBearbeitung("inBearbeitung");
 		konflikt.setBearbeitender(principal.getName());
@@ -401,21 +399,20 @@ public class AppController {
 	}
 
 	@PostMapping("/admin/konflikte/{id}")
-	public String konfliktLoesen(Model model, @PathVariable Long id, String benutzer){
+	public String konfliktLoesen(Model model, @PathVariable Long id, String benutzer) {
 		Konflikt konflikt = konfliktRepository.findById(id).get();
 		konflikt.setInBearbeitung("geschlossen");
 		konfliktRepository.save(konflikt);
-		if ("Verleihender".equals(benutzer)){
+		if ("Verleihender".equals(benutzer)) {
 			Message message = new Message("Admin", konflikt.getRueckgabe().getVerleiherName(), "Sie erhalten die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + " zurück");
 			messageRepository.save(message);
-			message = new Message("Admin", konflikt.getRueckgabe().getAusleihender(),"Der Verhleiher erhält die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + "zurück");
+			message = new Message("Admin", konflikt.getRueckgabe().getAusleihender(), "Der Verhleiher erhält die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + "zurück");
 			messageRepository.save(message);
 			ProPaySchnittstelle.post("reservation/punish/" + konflikt.getRueckgabe().getAusleihender() + "?reservationId=" + konflikt.getRueckgabe().getProPayID());
-		}
-		else {
+		} else {
 			Message message = new Message("Admin", konflikt.getRueckgabe().getAusleihender(), "Sie erhalten die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + " zurück");
 			messageRepository.save(message);
-			message = new Message("Admin", konflikt.getRueckgabe().getVerleiherName(),"Der Ausleihende erhält die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + "zurück");
+			message = new Message("Admin", konflikt.getRueckgabe().getVerleiherName(), "Der Ausleihende erhält die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + "zurück");
 			messageRepository.save(message);
 			ProPaySchnittstelle.post("reservation/release/" + konflikt.getRueckgabe().getAusleihender() + "?reservationId=" + konflikt.getRueckgabe().getProPayID());
 		}
@@ -425,20 +422,21 @@ public class AppController {
 
 	@GetMapping("/account/{benutzername}/transaktionUebersicht")
 	public String transaktionen(@PathVariable String benutzername, Principal principal, Model model) {
-		if(!principal.getName().equals(benutzername)){
-			return "permissionDenied";
+		if (!principal.getName().equals(benutzername)) {
+			return "zugriffVerweigert";
 		}
-
 		model.addAttribute("name", principal.getName());
-
-
-		for(Rueckgabe rueckgabe: rueckgabeRepository.findAll()){
-			if(rueckgabe.isAngenommen()){
+		for (Rueckgabe rueckgabe : rueckgabeRepository.findAll()) {
+			if (rueckgabe.isAngenommen()) {
 				model.addAttribute("artikel", rueckgabeRepository.findByVerleiherName(principal.getName()));
 				model.addAttribute("artikelAusgeliehen", rueckgabeRepository.findByAusleihender(principal.getName()));
 			}
 		}
-
 		return "transaktionenUebersicht";
+	}
+
+	@GetMapping("/zugriffVerweigert")
+	public String zugriffVerweigert(){
+		return "zugriffVerweigert";
 	}
 }

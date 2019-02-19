@@ -21,13 +21,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.formLogin().loginPage("/anmeldung");
-		//http.formLogin().loginProcessingUrl("/anmeldung");
+		http.formLogin().loginProcessingUrl("/anmeldung");
 		http.formLogin().defaultSuccessUrl("/");
 		http.formLogin().failureUrl("/anmeldung?error");
 		http.authorizeRequests().antMatchers("/").permitAll();
 		http.authorizeRequests().antMatchers("/registrierung").permitAll();
 		http.authorizeRequests().antMatchers("/detail/{id}").permitAll();
 		http.authorizeRequests().antMatchers("/search").permitAll();
+		http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN");
+		http.exceptionHandling().accessDeniedPage("/zugriffVerweigert");
 		http.formLogin().permitAll();
 		http.logout().permitAll();
 		http.csrf().disable();

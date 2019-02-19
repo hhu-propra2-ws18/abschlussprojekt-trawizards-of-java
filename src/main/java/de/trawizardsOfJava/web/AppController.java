@@ -198,7 +198,6 @@ public class AppController {
 
 	@PostMapping("/account/{benutzername}/artikel/{id}/anfrage")
 	public String speichereAnfrage(Model model, @PathVariable String benutzername, @PathVariable Long id, String daterange, Principal principal) {
-		//ToDo: Überprüfung ob Geld ausreicht
 		Artikel artikel = artikelRepository.findById(id).get();
 		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit(daterange);
 		Ausleihe ausleihe = new Ausleihe();
@@ -312,8 +311,8 @@ public class AppController {
 		Message message = new Message(principal.getName(), rueckgabe.getVerleiherName(), "Rückgabe von " + rueckgabe.getArtikel().getArtikelName() + " akzeptiert");
 		messageRepository.save(message);
 		rueckgabe.setAngenommen(true);
-
 		rueckgabeRepository.save(rueckgabe);
+		ProPaySchnittstelle.post("reservation/release/" + rueckgabe.getAusleihender() + "?reservationId=" + rueckgabe.getProPayID());
 		model.addAttribute("link", "account/" + benutzername + "/zurueckgegebeneartikel");
 		return "backToTheFuture";
 	}
@@ -348,14 +347,17 @@ public class AppController {
 		if (!principal.getName().equals(benutzername)) {
 			return "permissionDenied";
 		}
+		Rueckgabe rueckgabe = rueckgabeRepository.findById(id).get();
 		konflikt.setAbsenderMail(benutzerRepository.findByBenutzername(benutzername).get().getEmail());
-		konflikt.setVerursacherMail(benutzerRepository.findByBenutzername(rueckgabeRepository.findById(id).get().getAusleihender()).get().getEmail());
-		konflikt.setRueckgabe(rueckgabeRepository.findById(id).get());
+		konflikt.setVerursacherMail(benutzerRepository.findByBenutzername(rueckgabe.getAusleihender()).get().getEmail());
+		konflikt.setRueckgabe(rueckgabe);
 		konfliktRepository.save(konflikt);
-		Message message = new Message(principal.getName(), "", konflikt.getBeschreibung());
+		Message message = new Message(principal.getName(), rueckgabe.getAusleihender(), "Der Artikel " + rueckgabe.getArtikel().getArtikelName() + " wurde im mangelhaften Zustand zurückgegeben. Der Fall wurde an die Konfliktlösestelle übergeben.");
+		messageRepository.save(message);
+		message = new Message("System",principal.getName(), "Ein Konflikt wurde mit folgender Beschreibung an die Konfliktlösestelle übergeben: " + konflikt.getBeschreibung());
 		messageRepository.save(message);
 		//iMailService.sendEmailToKonfliktLoeseStelle(benutzername,konflikt.getBeschreibung(),id);
-		model.addAttribute("link", "account/" + benutzername + "/nachricht/konflikte");
+		model.addAttribute("link", "account/" + benutzername + "/nachrichten");
 		return "backToTheFuture";
 	}
 
@@ -381,72 +383,43 @@ public class AppController {
 		return "search";
 	}
 
-	@GetMapping("/account/{benutzername}/nachricht/konflikte")
-	public String konfliktUebersicht(@PathVariable String benutzername, Model model, Principal principal){
-		if (!principal.getName().equals(benutzername)) {
-			return "permissionDenied";
-		}
-		model.addAttribute("konflikte", konfliktRepository.findAllByInBearbeitung("offen"));
-		model.addAttribute("konflikte1", konfliktRepository.findAllByBearbeitender(benutzername));
-		model.addAttribute("name", benutzername);
+	@GetMapping("/admin/konflikte")
+	public String konfliktUebersicht(Model model, Principal principal){
+		model.addAttribute("offeneKonflikte", konfliktRepository.findAllByInBearbeitung("offen"));
+		model.addAttribute("meineKonflikte", konfliktRepository.findAllByBearbeitender(principal.getName()));
 		return "konfliktAnsicht";
 	}
 
-	@GetMapping("/account/{benutzername}/nachricht/konflikte/{id}")
-	public String konfliktUebernehmen(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal){
-		if (!principal.getName().equals(benutzername)) {
-			return "permissionDenied";
-		}
+	@GetMapping("/admin/konflikte/{id}")
+	public String konfliktUebernehmen(@PathVariable Long id, Model model, Principal principal){
 		Konflikt konflikt = konfliktRepository.findById(id).get();
 		konflikt.setInBearbeitung("inBearbeitung");
-		konflikt.setBearbeitender(benutzername);
+		konflikt.setBearbeitender(principal.getName());
 		konfliktRepository.save(konflikt);
-		model.addAttribute("link", "account/" + benutzername + "/nachricht/konflikte");
-		return "backToTheFuture";
+		model.addAttribute("konflikt", konflikt);
+		return "konfliktDetail";
 	}
 
-	@GetMapping("/account/{benutzername}/nachricht/konflikte/ausleihender/{id}")
-	public String konfliktAusleihender(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal){
-		if (!principal.getName().equals(benutzername)) {
-			return "permissionDenied";
-		}
-		//Kaution zurück an Ausleihenden
+	@PostMapping("/admin/konflikte/{id}")
+	public String konfliktLoesen(Model model, @PathVariable Long id, String benutzer){
 		Konflikt konflikt = konfliktRepository.findById(id).get();
 		konflikt.setInBearbeitung("geschlossen");
-		konflikt.setBearbeitender("");
 		konfliktRepository.save(konflikt);
-		Message message = new Message(benutzername, konfliktRepository.findById(id).get().getRueckgabe().getVerleiherName(), "Der Ausleihende erhält die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + "zurück");
-		messageRepository.save(message);
-		Message message1 = new Message(benutzername, konfliktRepository.findById(id).get().getRueckgabe().getAusleihender(), "Sie erhalten die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + "zurück");
-		messageRepository.save(message1);
-
-		Rueckgabe rueckgabe = konflikt.getRueckgabe();
-		rueckgabe.setAngenommen(true);
-		rueckgabeRepository.save(rueckgabe);
-
-		model.addAttribute("link", "account/" + benutzername + "/nachricht/konflikte");
-		return "backToTheFuture";
-	}
-
-	@GetMapping("/account/{benutzername}/nachricht/konflikte/verleiher/{id}")
-	public String konfliktVerleiher(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal){
-		if (!principal.getName().equals(benutzername)) {
-			return "permissionDenied";
+		if ("Verleihender".equals(benutzer)){
+			Message message = new Message("Admin", konflikt.getRueckgabe().getVerleiherName(), "Sie erhalten die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + " zurück");
+			messageRepository.save(message);
+			message = new Message("Admin", konflikt.getRueckgabe().getAusleihender(),"Der Verhleiher erhält die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + "zurück");
+			messageRepository.save(message);
+			ProPaySchnittstelle.post("reservation/punish/" + konflikt.getRueckgabe().getAusleihender() + "?reservationId=" + konflikt.getRueckgabe().getProPayID());
 		}
-		Konflikt konflikt = konfliktRepository.findById(id).get();
-		konflikt.setInBearbeitung("geschlossen");
-		konflikt.setBearbeitender("");
-		konfliktRepository.save(konflikt);
-		Message message = new Message(benutzername, konfliktRepository.findById(id).get().getRueckgabe().getVerleiherName(), "Sie behalten die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName());
-		messageRepository.save(message);
-		Message message1 = new Message(benutzername, konfliktRepository.findById(id).get().getRueckgabe().getAusleihender(), "Der Verleiher behält die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName());
-		messageRepository.save(message1);
-
-		Rueckgabe rueckgabe = konflikt.getRueckgabe();
-		rueckgabe.setAngenommen(true);
-		rueckgabeRepository.save(rueckgabe);
-
-		model.addAttribute("link", "account/" + benutzername + "/nachricht/konflikte");
+		else {
+			Message message = new Message("Admin", konflikt.getRueckgabe().getAusleihender(), "Sie erhalten die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + " zurück");
+			messageRepository.save(message);
+			message = new Message("Admin", konflikt.getRueckgabe().getVerleiherName(),"Der Ausleihende erhält die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + "zurück");
+			messageRepository.save(message);
+			ProPaySchnittstelle.post("reservation/release/" + konflikt.getRueckgabe().getAusleihender() + "?reservationId=" + konflikt.getRueckgabe().getProPayID());
+		}
+		model.addAttribute("link", "admin/konflikte");
 		return "backToTheFuture";
 	}
 

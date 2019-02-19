@@ -23,6 +23,8 @@ public class Rueckgabe{
 
     private boolean angenommen = false;
 
+    private int proPayID;
+
     public Rueckgabe(){
 
 	}
@@ -32,5 +34,6 @@ public class Rueckgabe{
     	this.artikel = ausleihe.getArtikel();
     	this.verfuegbarkeit = ausleihe.getVerfuegbarkeit();
     	this.verleiherName = ausleihe.getVerleiherName();
+    	this.proPayID = ausleihe.getProPayId();
 	}
 }

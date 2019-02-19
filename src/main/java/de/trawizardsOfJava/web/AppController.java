@@ -159,7 +159,7 @@ public class AppController {
 
 	@GetMapping("/account/{benutzername}/bearbeitung")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String benutzerverwaltung(Model model, @PathVariable String benutzername, Principal principal) {
+	public String benutzerverwaltung(Model model, @PathVariable String benutzername) {
 		model.addAttribute("person", benutzerRepository.findByBenutzername(benutzername).get());
 		return "benutzerverwaltung";
 	}
@@ -174,7 +174,7 @@ public class AppController {
 
 	@GetMapping("/account/{benutzername}/addItem")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String addItem(Model model, @PathVariable String benutzername, Principal principal) {
+	public String addItem(Model model, @PathVariable String benutzername) {
 		Artikel newArtikel = new Artikel();
 		model.addAttribute("artikel", newArtikel);
 		return "addItem";
@@ -193,7 +193,7 @@ public class AppController {
 
 	@GetMapping("/account/{benutzername}/artikel/{id}/anfrage")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String neueAnfrage(Model model, @PathVariable String benutzername, @PathVariable Long id, Principal principal) {
+	public String neueAnfrage(Model model, @PathVariable String benutzername, @PathVariable Long id) {
 		Artikel artikel = artikelRepository.findById(id).get();
 		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByArtikel(artikel);
 		ArrayList<Verfuegbarkeit> verfuegbarkeiten = new ArrayList<>();
@@ -222,7 +222,7 @@ public class AppController {
 		}
 		if (!(verfuegbaresGeld >= gebrauchtesGeld)) {
 			model.addAttribute("error", true);
-			return neueAnfrage(model, benutzername, id, principal);
+			return neueAnfrage(model, benutzername, id);
 		}
 		ausleiheRepository.save(ausleihe);
 		Message message = new Message(principal.getName(), artikel.getVerleiherBenutzername(), "Anfrage für " + artikel.getArtikelName());
@@ -235,7 +235,7 @@ public class AppController {
 
 	@GetMapping("/account/{benutzername}/ausleihenuebersicht")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String ausleihenuebersicht(Model model, @PathVariable String benutzername, Principal principal) {
+	public String ausleihenuebersicht(Model model, @PathVariable String benutzername) {
 		ArrayList<Ausleihe> ausleihen = ausleiheRepository.findByVerleiherName(benutzername);
 		model.addAttribute("ausleihen", ausleihen);
 		return "ausleihenuebersicht";
@@ -325,7 +325,7 @@ public class AppController {
 
 	@GetMapping("/account/{benutzername}/konflikt/send/{id}")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String konfliktErstellen(Model model, @PathVariable String benutzername, @PathVariable Long id, Principal principal) {
+	public String konfliktErstellen(Model model, @PathVariable String benutzername) {
 		Konflikt konflikt = new Konflikt();
 		model.addAttribute("konflikt", konflikt);
 		return "konfliktErstellung";
@@ -333,7 +333,7 @@ public class AppController {
 
 	@PostMapping("/account/{benutzername}/konflikt/send/{id}")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String konfliktAbsenden(Konflikt konflikt, @PathVariable("benutzername") String benutzername, @PathVariable("id") Long id, Principal principal, Model model) {
+	public String konfliktAbsenden(Konflikt konflikt, @PathVariable String benutzername, @PathVariable Long id, Principal principal, Model model) {
 		Rueckgabe rueckgabe = rueckgabeRepository.findById(id).get();
 		konflikt.setAbsenderMail(benutzerRepository.findByBenutzername(benutzername).get().getEmail());
 		konflikt.setVerursacherMail(benutzerRepository.findByBenutzername(rueckgabe.getAusleihender()).get().getEmail());
@@ -350,7 +350,7 @@ public class AppController {
 
 	@GetMapping("/account/{benutzername}/nachricht/delete/{id}")
 	@PreAuthorize("#benutzername == authentication.name")
-	private String messageDelete(Model model, @PathVariable Long id, @PathVariable String benutzername, Principal principal) {
+	private String messageDelete(Model model, @PathVariable Long id, @PathVariable String benutzername) {
 		messageRepository.delete(messageRepository.findById(id).get());
 		model.addAttribute("link", "account/" + benutzername + "/nachrichten");
 		return "backToTheFuture";
@@ -397,7 +397,7 @@ public class AppController {
 
 	@GetMapping("/account/{benutzername}/transaktionUebersicht")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String transaktionen(@PathVariable String benutzername, Principal principal, Model model) {
+	public String transaktionen(Model model, @PathVariable String benutzername, Principal principal) {
 		model.addAttribute("name", principal.getName());
 		for (Rueckgabe rueckgabe : rueckgabeRepository.findAll()) {
 			if (rueckgabe.isAngenommen()) {

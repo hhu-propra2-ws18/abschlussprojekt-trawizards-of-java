@@ -13,6 +13,10 @@
             align-items: center;
             justify-content: center;
         }
+
+		.card-deck{
+			bottom-margin: 10px;
+		}
     </style>
 
 </head>
@@ -69,26 +73,33 @@
         </form>
         <hr>
 </nav>
-<div class="col-md-12" align="center">
-    <tr th:each="a: ${artikel}">
-        <dl class="dl-horizontal">
-            <dt th:text="'Artikel: ' +${a.artikelName}"></dt>
-            <div class="toptext">
-                <p>Verleihername:&nbsp;</p>
-                <a th:href="@{/account/{benutzername} (benutzername=${a.verleiherBenutzername})}">
-                    <p th:text="${a.verleiherBenutzername}"></p>
-                </a>
-            </div>
-            <dd th:text="'Preis(pro Tag): ' +${a.preis} + '&euro;'"></dd>
-            <dd th:text="'Kaution: ' +${a.kaution} + '&euro;'"></dd>
-            <div class="col-sm-10" align="center">
-                <a th:href="@{/detail/{id} (id=${a.id})}">
-                    <button type="button" class="btn btn-outline-dark" >Details</button>
-                </a>
-            </div>
-            <hr>
-        </dl>
-    </tr>
+<div class="row">
+	<tr th:each="a: ${artikel}">
+		<div class="col-sm-3">
+			<div class="card mt-3 ml-4" style="width: 18rem; height: 19rem" align="center">
+				<img class="card-img-top" src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png" alt="Bild fehlt">
+				<div class="card-body">
+					<h6 class="card-title" th:text="'Artikel: ' +${a.artikelName}"></h6>
+					<div class="card-text">
+						<div class="toptext">
+							<div class="card-deck mt-3">
+								<p>Verleihername:&nbsp;</p>
+								<a th:href="@{/account/{benutzername} (benutzername=${a.verleiherBenutzername})}">
+									<p th:text="${a.verleiherBenutzername}"></p>
+								</a>
+							</div>
+						</div>
+
+						<dd th:text="'Preis(pro Tag): ' +${a.preis} + '&euro;'"></dd>
+						<dd th:text="'Kaution: ' +${a.kaution} + '&euro;'"></dd>
+					</div>
+					<a th:href="@{/detail/{id} (id=${a.id})}">
+						<button type="button" class="btn btn-outline-dark" >Details</button>
+					</a>
+				</div>
+			</div>
+		</div>
+	</tr>
 </div>
 
 </body>

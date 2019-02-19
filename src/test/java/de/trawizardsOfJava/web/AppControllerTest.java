@@ -177,6 +177,6 @@ public class AppControllerTest {
 
 		when(benutzerRepository.findByBenutzername(test.getBenutzername())).thenReturn(Optional.of(test));
 
-		mvc.perform(get("/account/bar/bearbeitung")).andExpect(view().name("permissionDenied"));
+		mvc.perform(get("/account/bar/bearbeitung")).andExpect(view().name("zugriffVerweigert"));
 	}
 }

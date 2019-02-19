@@ -6,7 +6,7 @@
 		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-	<title>Konfliktübersicht</title>
+	<title>Zugriff Verweigert</title>
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
 		  integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -38,33 +38,14 @@
 				</a>
 			</li>
 			<li class="nav-item active">
-				<a class="nav-link">Konflikte</a>
+				<a class="nav-link">Zugriff Verweigert</a>
 			</li>
 			<hr>
 		</ul>
 	</div>
 </nav>
 <div class="col-md-12" align="center">
-	<h2 align="center">Konflikte in meiner Bearbeitung:</h2>
-	<div th:each="konflikt : ${meineKonflikte}">
-		<p th:text="|Absender: ${konflikt.rueckgabe.verleiherName}|"></p>
-		<p th:text="|Verursacher: ${konflikt.rueckgabe.ausleihender}|"></p>
-		<p th:text="|Beschreibung: ${konflikt.beschreibung}|"></p>
-		<p th:text="|Artikel: ${konflikt.rueckgabe.artikel.artikelName}|"></p>
-		<a th:href="@{/admin/konflikte/{id} (id=${konflikt.id})}">
-			<button name="button" class="btn btn-outline-success">Details</button>
-		</a>
-	</div>
-	<h2 align="center">Offene Konflikte:</h2>
-	<div th:each="konflikt : ${offeneKonflikte}">
-		<p th:text="|Absender: ${konflikt.rueckgabe.verleiherName}|"></p>
-		<p th:text="|Verursacher: ${konflikt.rueckgabe.ausleihender}|"></p>
-		<p th:text="|Beschreibung: ${konflikt.beschreibung}|"></p>
-		<p th:text="|Artikel: ${konflikt.rueckgabe.artikel.artikelName}|"></p>
-		<a th:href="@{/admin/konflikte/{id} (id=${konflikt.id})}">
-			<button name="button" class="btn btn-outline-success">Konflikt bearbeiten</button>
-		</a>
-	</div>
+	<h1 style="color:red">Zugriff nicht erlaubt!</h1>
 </div>
 </body>
 </html>

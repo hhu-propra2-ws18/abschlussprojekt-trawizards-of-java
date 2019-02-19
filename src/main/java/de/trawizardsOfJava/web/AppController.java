@@ -187,7 +187,6 @@ public class AppController {
 
 	@PostMapping("/account/{benutzername}/artikel/{id}/anfrage")
 	public String speichereAnfrage(Model model, @PathVariable String benutzername, @PathVariable Long id, String daterange, Principal principal) {
-		//ToDo: Überprüfung ob Geld ausreicht
 		Artikel artikel = artikelRepository.findById(id).get();
 		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit(daterange);
 		Ausleihe ausleihe = new Ausleihe();
@@ -337,14 +336,17 @@ public class AppController {
 		if (!principal.getName().equals(benutzername)) {
 			return "permissionDenied";
 		}
+		Rueckgabe rueckgabe = rueckgabeRepository.findById(id).get();
 		konflikt.setAbsenderMail(benutzerRepository.findByBenutzername(benutzername).get().getEmail());
-		konflikt.setVerursacherMail(benutzerRepository.findByBenutzername(rueckgabeRepository.findById(id).get().getAusleihender()).get().getEmail());
-		konflikt.setRueckgabe(rueckgabeRepository.findById(id).get());
+		konflikt.setVerursacherMail(benutzerRepository.findByBenutzername(rueckgabe.getAusleihender()).get().getEmail());
+		konflikt.setRueckgabe(rueckgabe);
 		konfliktRepository.save(konflikt);
-		Message message = new Message(principal.getName(), "", konflikt.getBeschreibung());
+		Message message = new Message(principal.getName(), rueckgabe.getAusleihender(), "Der Artikel " + rueckgabe.getArtikel().getArtikelName() + " wurde im mangelhaften Zustand zurückgegeben. Der Fall wurde an die Konfliktlösestelle übergeben.");
+		messageRepository.save(message);
+		message = new Message("System",principal.getName(), "Ein Konflikt wurde mit folgender Beschreibung an die Konfliktlösestelle übergeben: " + konflikt.getBeschreibung());
 		messageRepository.save(message);
 		//iMailService.sendEmailToKonfliktLoeseStelle(benutzername,konflikt.getBeschreibung(),id);
-		model.addAttribute("link", "account/" + benutzername + "/nachricht/konflikte");
+		model.addAttribute("link", "account/" + benutzername + "/nachrichten");
 		return "backToTheFuture";
 	}
 
@@ -370,30 +372,32 @@ public class AppController {
 		return "search";
 	}
 
-	@GetMapping("/account/{benutzername}/nachricht/konflikte")
-	public String konfliktUebersicht(@PathVariable String benutzername, Model model, Principal principal){
-		if (!principal.getName().equals(benutzername)) {
-			return "permissionDenied";
-		}
+	@GetMapping("/admin/konflikte")
+	public String konfliktUebersicht(Model model, Principal principal){
 		model.addAttribute("konflikte", konfliktRepository.findAllByInBearbeitung("offen"));
-		model.addAttribute("konflikte1", konfliktRepository.findAllByBearbeitender(benutzername));
-		model.addAttribute("name", benutzername);
+		model.addAttribute("konflikte1", konfliktRepository.findAllByBearbeitender(principal.getName()));
 		return "konfliktAnsicht";
 	}
 
-	@GetMapping("/account/{benutzername}/nachricht/konflikte/{id}")
-	public String konfliktUebernehmen(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal){
-		if (!principal.getName().equals(benutzername)) {
-			return "permissionDenied";
-		}
+	@GetMapping("/admin/konflikte/{id}")
+	public String konfliktUebernehmen(@PathVariable Long id, Model model, Principal principal){
 		Konflikt konflikt = konfliktRepository.findById(id).get();
 		konflikt.setInBearbeitung("inBearbeitung");
-		konflikt.setBearbeitender(benutzername);
+		konflikt.setBearbeitender(principal.getName());
 		konfliktRepository.save(konflikt);
-		model.addAttribute("link", "account/" + benutzername + "/nachricht/konflikte");
+		model.addAttribute("konflikt", konflikt);
+		return "konfliktDetail";
+	}
+
+	@PostMapping("/admin/konflikte/{id}")
+	public String konfliktLoesen(Model model, String benutzer){
+		model.addAttribute("link", "admin/konflikte");
 		return "backToTheFuture";
 	}
 
+
+
+/*
 	@GetMapping("/account/{benutzername}/nachricht/konflikte/ausleihender/{id}")
 	public String konfliktAusleihender(@PathVariable("id") Long id, @PathVariable("benutzername") String benutzername, Model model, Principal principal){
 		if (!principal.getName().equals(benutzername)) {
@@ -438,6 +442,7 @@ public class AppController {
 		model.addAttribute("link", "account/" + benutzername + "/nachricht/konflikte");
 		return "backToTheFuture";
 	}
+*/
 
 	@GetMapping("/account/{benutzername}/transaktionUebersicht")
 	public String transaktionen(@PathVariable String benutzername, Principal principal, Model model) {

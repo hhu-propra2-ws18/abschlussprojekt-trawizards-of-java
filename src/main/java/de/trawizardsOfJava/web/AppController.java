@@ -140,7 +140,7 @@ public class AppController {
 		ArrayList<Ausleihe> ausgelieheneArtikel = ausleiheRepository.findByAusleihender(benutzername);
 		for (Ausleihe ausleihe : ausgelieheneArtikel) {
 			if (ausleihe.getVerfuegbarkeit().getEndDate().isBefore(LocalDate.now()) && ausleihe.isAccepted()) {
-				iMailService.sendReminder(person.getEmail(),person.getName(), ausleihe.getArtikel().getArtikelName());
+				//iMailService.sendReminder(person.getEmail(),person.getName(), ausleihe.getArtikel().getArtikelName());
 				model.addAttribute("message", "true");
 				model.addAttribute("artikelName", ausleihe.getArtikel().getArtikelName());
 				model.addAttribute("verleiherName", ausleihe.getVerleiherName());

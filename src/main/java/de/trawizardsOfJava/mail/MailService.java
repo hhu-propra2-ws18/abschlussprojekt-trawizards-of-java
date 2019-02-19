@@ -28,7 +28,7 @@ public class MailService implements IMailService{
                 " der ID: " + id + "\n\n" + "Die Beschreibung des Geschädigten ist:\n\n" + beschreibung +
                 "\nWir bitten um zügige Bearbeitung. \nVielen Dank.");
         mail.setSubject("Konflikt bei Ausleihe: " + id);
-        //javaMailSender.send(mail);
+        javaMailSender.send(mail);
     }
 
     public void sendReminder(String email, String name ,String artikel) {
@@ -39,6 +39,6 @@ public class MailService implements IMailService{
         mail.setText("Sehr geehrter Herr " + name + ",\n\nwir möchten Sie erinnern, " +
                 "diesen ausgeliehenen Artikel bitte zügig zurückzugeben: "
                 + artikel + "\n\nVielen Dank, Ihr Leihe24 Team!");
-        //javaMailSender.send(mail); //später wieder hinzufügen
+        javaMailSender.send(mail); //später wieder hinzufügen
     }
 }

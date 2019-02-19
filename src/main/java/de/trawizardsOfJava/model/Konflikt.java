@@ -24,4 +24,10 @@ public class Konflikt {
     private String inBearbeitung = "offen";
 
     private String bearbeitender;
+
+    public Konflikt konfliktSchliessen(Konflikt konflikt){
+        konflikt.setBearbeitender("");
+        konflikt.setInBearbeitung("geschlossen");
+        return konflikt;
+    }
 }

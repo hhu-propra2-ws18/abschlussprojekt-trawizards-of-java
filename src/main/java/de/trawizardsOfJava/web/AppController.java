@@ -347,7 +347,7 @@ public class AppController {
 
 	@GetMapping("/account/{benutzername}/nachricht/delete/{id}")
 	@PreAuthorize("#benutzername == authentication.name")
-	private String messageDelete(Model model, @PathVariable String benutzername, @PathVariable Long id) {
+	public String messageDelete(Model model, @PathVariable String benutzername, @PathVariable Long id) {
 		messageRepository.delete(messageRepository.findById(id).get());
 		model.addAttribute("link", "account/" + benutzername + "/nachrichten");
 		return "backToTheFuture";

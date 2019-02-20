@@ -26,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.formLogin().loginProcessingUrl("/anmeldung");
 		http.formLogin().defaultSuccessUrl("/");
 		http.formLogin().failureUrl("/anmeldung?error");
+		http.logout().logoutUrl("/anmeldung?logout");
 		http.authorizeRequests().antMatchers("/").permitAll();
 		http.authorizeRequests().antMatchers("/registrierung").permitAll();
 		http.authorizeRequests().antMatchers("/detail/{id}").permitAll();

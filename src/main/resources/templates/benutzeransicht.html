@@ -5,7 +5,7 @@
 	<title th:text="'Profil von ' +${person.benutzername}"></title>
 </head>
 
-<body onload="callAlert()">
+<body onload="callAlert(), gimmeTitle()">
 <h1 layout:fragment="titel" th:text="'Profil von ' +${person.benutzername}"></h1>
 <div layout:fragment="inhalt">
 	<div id="topButton" th:if="${isUser}">

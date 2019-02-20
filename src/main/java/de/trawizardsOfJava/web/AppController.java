@@ -78,10 +78,12 @@ public class AppController {
 	public String detail(Model model, @PathVariable Long id, Principal principal) {
 		Optional<Artikel> artikel = artikelRepository.findById(id);
 		model.addAttribute("artikelDetail", artikel.get());
+		model.addAttribute("aktuelleSeite", "Artikelansicht");
 		if (principal != null) {
-			model.addAttribute("disableSecondButton", true);
-		} else {
-			model.addAttribute("disableThirdButton", true);
+			model.addAttribute("angemeldet", true);
+		}
+		else {
+			model.addAttribute("angemeldet", false);
 		}
 		return "artikelDetail";
 	}

@@ -27,7 +27,11 @@ repositories {
 }
 
 dependencies {
-	//runtime group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.3.0'
+	compile group: 'org.springframework', name: 'spring-websocket', version: '5.1.5.RELEASE'
+	compile("org.springframework.boot:spring-boot-starter-websocket")
+	compile("org.webjars:webjars-locator-core")
+	compile("org.webjars:sockjs-client:1.0.2")
+	compile("org.webjars:stomp-websocket:2.3.3")
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.1.2.RELEASE'
 	//implementation('org.springframework.boot:spring-boot-starter-security')
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -37,7 +41,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
-	//runtimeOnly 'mysql:mysql-connector-java'
 	compile('org.projectlombok:lombok')
 	annotationProcessor('org.projectlombok:lombok')
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

@@ -27,6 +27,22 @@
 			<p>Hey</p>
 			<span class="zeit-links">11:05</span>
 		</div>
+		<div class="chat" th:each="nachricht: ${nachrichten}">
+			<div th:if="${name == nachricht.absender}">
+				<div class="chat dunkler">
+					<p th:text="${nachricht.nachricht}"></p>
+					<span class="zeit-links" th:text="${nachricht.gesendet.dateToString()}">Datum</span>
+				</div>
+			</div>
+		</div>
+		<form method="post" th:object="nachricht">
+			<div class="type">
+				<textarea class="autoExpand" cols="50" maxlength="255" type="text" th:field="*{nachricht}" placeholder="Nachricht"></textarea>
+				<input type="hidden" th:field="*{teilnehmer}">
+				<button type="submit" value="submit" class="btn btn-outline-success"></button>
+			</div>
+		</form>
+
 		<script>
 			window.onresize = function(){
 				window.resizeTo(425, 500);

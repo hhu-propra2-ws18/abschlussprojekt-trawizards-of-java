@@ -1,122 +1,126 @@
+<!DOCTYPE html>
 <html lang="de" xmlns:th="http://www.thymeleaf.com">
 <head>
-    <title th:text ="${person.benutzername}"> Benutzer</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <style>
-        #topButton{
-            padding-top: 25px;
-        }
-        #buttonTop{
-            padding-top: 5px;
-        }
-    </style>
+	<title th:text="${person.benutzername}"> Benutzer</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+		  integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+	<style>
+		#topButton {
+			padding-top: 25px;
+		}
+		#buttonTop {
+			padding-top: 5px;
+		}
+	</style>
 </head>
+
 <body onload="callAlert()">
-
 <div>
-    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-
-        <a class="navbar-brand" href='/'>
-            <img src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png" height="25"/>
-        </a>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href='/'>Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href='/logout'>
-                        Logout
-                    </a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" th:text="'Profil von '+${person.benutzername}"></a>
-                </li>
-                <hr>
-            </ul>
-        </div>
-    </nav>
+	<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+		
+		<a class="navbar-brand" href='/'>
+			<img
+				src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png"
+				height="25"/>
+		</a>
+		
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active">
+					<a class="nav-link" href='/'>Home <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href='/logout'>
+						Logout
+					</a>
+				</li>
+				<li class="nav-item active">
+					<a class="nav-link" th:text="'Profil von '+${person.benutzername}"></a>
+				</li>
+				<hr>
+			</ul>
+		</div>
+	</nav>
 </div>
+
 <div class="col-md-12" align="center">
-    <div id="topButton" th:if="${isUser}">
-		<a th:href="@{/account/{benutzername}/bearbeitung (benutzername=${person.name})}">
-        	<button type="button" class="btn btn-outline-dark" >Profil bearbeiten</button>
+	<div id="topButton" th:if="${isUser}">
+		<a th:href="@{/account/{benutzername}/bearbeitung (benutzername=${person.benutzername})}">
+			<button type="button" class="btn btn-outline-dark">Profil bearbeiten</button>
 		</a>
-        <a th:href="@{/account/{benutzername}/addItem (benutzername=${person.name})}">
-        	<button type="button" class="btn btn-outline-dark" >Neuen Artikel erstellen</button>
-        </a>
-        <a th:href="@{/account/{benutzername}/ausleihenuebersicht (benutzername=${person.name})}">
-			<button type="button" class="btn btn-outline-dark" >Anfragen ansehen</button>
-        </a>
-        <a th:href="@{/account/{benutzername}/ausgelieheneuebersicht (benutzername=${person.name})}">
-			<button type="button" class="btn btn-outline-dark" >Ausgeliehene Artikel ansehen</button>
-        </a>
-        <a th:href="@{/account/{benutzername}/zurueckgegebeneartikel (benutzername=${person.name})}">
-			<button type="button" class="btn btn-outline-dark" >Rückgaben ansehen</button>
-        </a>
-        <a th:href="@{/account/{benutzername}/nachrichten (benutzername=${person.name})}">
-			<button type="button" class="btn btn-outline-dark" >Nachrichten ansehen</button>
-        </a>
-		<a th:href="@{/account/{benutzername}/transaktionUebersicht (benutzername=${person.name})}">
-		 <button type="button" class="btn btn-outline-dark" >Transaktionen Übersicht</button>
+		<a th:href="@{/account/{benutzername}/addItem (benutzername=${person.benutzername})}">
+			<button type="button" class="btn btn-outline-dark">Neuen Artikel erstellen</button>
 		</a>
-		<div class="col-md-4" >
-        	<p th:text="'Ihr aktueller ProPay-Kontostand: '+${proPay.amount}"></p>
-        	<p th:if="${! #lists.isEmpty(proPay.reservations)}">Ihre aktuellen Reservierungen:</p>
-        	<ul th:each="reservierung : ${proPay.reservations}">
-            	<li th:text="${reservierung.amount}"></li>
-        	</ul>
-        	<p>Hier können Sie Ihr Konto aufladen:</p>
-        	<form method = "post">
-            	<input type="number" name="amount">
-            	<button type = submit class="btn btn-outline-success">Bestätigen</button>
-        	</form>
+		<a th:href="@{/account/{benutzername}/ausleihenuebersicht (benutzername=${person.benutzername})}">
+			<button type="button" class="btn btn-outline-dark">Anfragen ansehen</button>
+		</a>
+		<a th:href="@{/account/{benutzername}/ausgelieheneuebersicht (benutzername=${person.benutzername})}">
+			<button type="button" class="btn btn-outline-dark">Ausgeliehene Artikel ansehen</button>
+		</a>
+		<a th:href="@{/account/{benutzername}/zurueckgegebeneartikel (benutzername=${person.benutzername})}">
+			<button type="button" class="btn btn-outline-dark">Rückgaben ansehen</button>
+		</a>
+		<a th:href="@{/account/{benutzername}/nachrichten (benutzername=${person.benutzername})}">
+			<button type="button" class="btn btn-outline-dark">Nachrichten ansehen</button>
+		</a>
+		<a th:href="@{/account/{benutzername}/transaktionUebersicht (benutzername=${person.benutzername})}">
+			<button type="button" class="btn btn-outline-dark">Transaktionen Übersicht</button>
+		</a>
+		<div class="col-md-4">
+			<p th:text="'Ihr aktueller ProPay-Kontostand: '+${proPay.amount}"></p>
+			<p th:if="${! #lists.isEmpty(proPay.reservations)}">Ihre aktuellen Reservierungen:</p>
+			<ul th:each="reservierung : ${proPay.reservations}">
+				<li th:text="${reservierung.amount}"></li>
+			</ul>
+			<p>Hier können Sie Ihr Konto aufladen:</p>
+			<form method="post">
+				<input type="number" name="amount">
+				<button type=submit class="btn btn-outline-success">Bestätigen</button>
+			</form>
 		</div>
 	</div>
-    <hr>
-    <div class="col-md-12">
-        <p th:if="${#lists.isEmpty(artikel)}">Keine Artikel vorhanden!</p>
-    <tr th:each="a: ${artikel}">
-        <dl class="dl-horizontal">
-            <dt th:text="'Artikel: ' +${a.artikelName}"></dt>
-            <dd th:text="'Verleiher: ' +${a.verleiherBenutzername}"></dd>
-            <div class="col-sm-10">
-                <a th:href="@{/detail/{id} (id=${a.id})}">
-                    <button type="button" class="btn btn-outline-dark" >Details</button>
-                </a>
-                <div th:if="${isUser}">
-                    <a th:href="@{/detail/{id}/changeItem (id=${a.id})}">
-                        <button type="button" class="btn btn-outline-dark" >Artikel bearbeiten</button>
-                    </a>
-                </div>
-            </div>
-            <hr>
-        </dl>
-    </tr>
-    </div>
+	<hr>
+	<div class="col-md-12">
+		<p th:if="${#lists.isEmpty(artikel)}">Keine Artikel vorhanden!</p>
+		<tr th:each="a: ${artikel}">
+			<dl class="dl-horizontal">
+				<dt th:text="'Artikel: ' +${a.artikelName}"></dt>
+				<dd th:text="'Verleiher: ' +${a.verleiherBenutzername}"></dd>
+				<div class="col-sm-10">
+					<a th:href="@{/detail/{id} (id=${a.id})}">
+						<button type="button" class="btn btn-outline-dark">Details</button>
+					</a>
+					<div th:if="${isUser}">
+						<a th:href="@{/detail/{id}/changeItem (id=${a.id})}">
+							<button type="button" class="btn btn-outline-dark">Artikel bearbeiten</button>
+						</a>
+					</div>
+				</div>
+				<hr>
+			</dl>
+		</tr>
+	</div>
 </div>
 
-<script  th:inline="javascript">
+<script th:inline="javascript">
     function callAlert() {
 
         var message = /*[[${message}]]*/ 'default';
         var artikelName = /*[[${artikelName}]]*/ 'default';
         var verleiherName = /*[[${verleiherName}]]*/ 'default';
 
-        if(message === 'true'){
+        if (message === 'true') {
             alert('Bitte ' + artikelName + ' an ' + verleiherName + ' zurückgeben!');
-		}
+        }
 
     }
 </script>
-
 </body>
 </html>

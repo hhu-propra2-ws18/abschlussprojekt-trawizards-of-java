@@ -15,6 +15,7 @@ plugins {
 }
 
 apply plugin: 'java'
+apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
@@ -29,6 +30,8 @@ repositories {
 dependencies {
 	compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.3.0'
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.1.2.RELEASE'
+	compile('org.projectlombok:lombok')
+	annotationProcessor('org.projectlombok:lombok')
 	implementation('org.springframework.boot:spring-boot-starter-security')
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
@@ -36,13 +39,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.3.0'
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'mysql:mysql-connector-java'
-	compile('org.projectlombok:lombok')
-	annotationProcessor('org.projectlombok:lombok')
+	testCompile group: 'com.h2database', name: 'h2', version:'1.4.197'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation('org.springframework.security:spring-security-test')
-	testCompile group: 'com.h2database', name: 'h2', version:'1.4.197'
 }
 
 tasks.withType(com.github.spotbugs.SpotBugsTask) {

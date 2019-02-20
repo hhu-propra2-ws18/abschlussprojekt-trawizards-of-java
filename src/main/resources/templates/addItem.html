@@ -3,32 +3,41 @@
 	  xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
 	<title>Artikel hinzufügen</title>
+
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
 </head>
 
 <body>
 <h1 layout:fragment="titel">Beschreiben Sie Ihren Artikel:</h1>
 <div layout:fragment="inhalt">
-	<form method="post" th:object="${artikel}">
-		<p>Name:</p>
-		<input type="text" class="form-control" th:field="*{artikelName}" placeholder="Artikelname" required><br>
-		<p>Beschreibung:</p>
-		<textarea class="autoExpand form-control" cols="50" maxlength="255" type="text" th:field="*{beschreibung}"
-				  placeholder="Beschreibung" }></textarea>
-		<p>Abholort:</p>
-		<input type="text" class="form-control" th:field="*{standort}" placeholder="Abholort" required/><br>
-		<p>Preis:</p>
-		<input type="number" class="form-control" th:field="*{preis}" placeholder="Preis" required/><br>
-		<p>Kaution:</p>
-		<input type="number" class="form-control" th:field="*{kaution}" placeholder="Kaution" required/><br>
-		<p>Verfügbarkeitszeitraum:</p>
-		<input id="date" type="text" class="form-control" name="daterange" value=""/> <br>
+	<div class="col-md-4">
+		<form method="post" th:object="${artikel}">
+			<p>Name:</p>
+			<input type="text" class="form-control" th:field="*{artikelName}" placeholder="Artikelname" required><br>
+			<p>Beschreibung:</p>
+			<textarea class="autoExpand form-control" cols="50" maxlength="255" type="text" th:field="*{beschreibung}"
+					  placeholder="Beschreibung" }></textarea>
+			<p>Abholort:</p>
+			<input type="text" class="form-control" th:field="*{standort}" placeholder="Abholort" required/><br>
+			<p>Preis:</p>
+			<input type="number" class="form-control" th:field="*{preis}" placeholder="Preis" required/><br>
+			<p>Kaution:</p>
+			<input type="number" class="form-control" th:field="*{kaution}" placeholder="Kaution" required/><br>
+			<p>Verfügbarkeitszeitraum:</p>
+			<input id="date" type="text" class="form-control" name="daterange" value=""/> <br>
 
-		<input type="hidden" th:field="*{id}">
-		<input type="submit" value="Bestätigen" class="btn btn-outline-success"/>
-	</form>
-	<a href='/'>
-		<button name="button" class="btn btn-outline-danger"> Abbrechen</button>
-	</a>
+			<input type="hidden" th:field="*{id}">
+			<input type="submit" value="Bestätigen" class="btn btn-outline-success"/>
+
+		</form>
+		<a href='/'>
+			<button name="button" class="btn btn-outline-danger"> Abbrechen</button>
+		</a>
+	</div>
 </div>
 
 

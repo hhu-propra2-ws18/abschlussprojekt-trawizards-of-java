@@ -1,77 +1,34 @@
 <!DOCTYPE html>
-<html lang="de" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="de" layout:decorate="~{layoutAngemeldet}" xmlns:th="http://www.thymeleaf.com"
+	  xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <title>Ausleihenübersicht</title>
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	<title>Ausleihenübersicht</title>
 </head>
+
 <body>
-
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-
-    <a class="navbar-brand" href='/'>
-        <img src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png" height="25"/>
-    </a>
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href='/'>Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/account/{benutzername} (benutzername=${name})}">
-                    Profil
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href='/logout'>
-                    Logout
-                </a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link">Ausleihenübersicht</a>
-            </li>
-            <hr>
-        </ul>
-    </div>
-</nav>
-
-<h2 align="center">Offene Anfragen:</h2>
-<div th:each="ausleihe : ${ausleihen}" align="center" margin="5">
-    <div  th:if="${ausleihe.accepted==false}">
-        <p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
-        <p th:text="|Ausleihender: ${ausleihe.ausleihender}|">Ausleihender</p>
-        <p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
-        <p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
-        <a th:href="@{/account/{benutzername}/annahme/{id} (id=${ausleihe.id},benutzername=${name})}">
-            <button name="button" class="btn btn-outline-success">Annehmen</button>
-        </a>
-        <a th:href="@{/account/{benutzername}/remove/{id} (id=${ausleihe.id},benutzername=${name})}">
-            <button name="button" class="btn btn-outline-danger">Ablehnen</button>
-        </a>
-    </div>
+<h1 layout:fragment="titel">Offene Anfragen:</h1>
+<div layout:fragment="inhalt" th:each="ausleihe : ${ausleihen}">
+	<div th:if="${ausleihe.accepted==false}">
+		<p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
+		<p th:text="|Ausleihender: ${ausleihe.ausleihender}|">Ausleihender</p>
+		<p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
+		<p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
+		<a th:href="@{/account/{benutzername}/annahme/{id} (id=${ausleihe.id},benutzername=${name})}">
+			<button name="button" class="btn btn-outline-success">Annehmen</button>
+		</a>
+		<a th:href="@{/account/{benutzername}/remove/{id} (id=${ausleihe.id},benutzername=${name})}">
+			<button name="button" class="btn btn-outline-danger">Ablehnen</button>
+		</a>
+	</div>
 </div>
-<h2 align="center">Angenommene Anfragen:</h2>
-<div th:each="ausleihe : ${ausleihen}" align="center" margin="5">
-    <div th:if=="${ausleihe.accepted}">
-        <p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
-        <p th:text="|Ausleihender: ${ausleihe.ausleihender}|">Ausleihender</p>
-        <p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
-        <p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
-    </div>
+<h1 layout:fragment="titel">Angenommene Anfragen:</h1>
+<div layout:fragment="inhalt" th:each="ausleihe : ${ausleihen}">
+	<div th:if=="${ausleihe.accepted}">
+		<p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
+		<p th:text="|Ausleihender: ${ausleihe.ausleihender}|">Ausleihender</p>
+		<p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
+		<p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
+	</div>
 </div>
 </body>
 </html>

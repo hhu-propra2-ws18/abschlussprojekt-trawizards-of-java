@@ -83,8 +83,7 @@ public class AppController {
 		model.addAttribute("aktuelleSeite", "Artikelansicht");
 		if (principal != null) {
 			model.addAttribute("angemeldet", true);
-		}
-		else {
+		} else {
 			model.addAttribute("angemeldet", false);
 		}
 		return "artikelDetail";

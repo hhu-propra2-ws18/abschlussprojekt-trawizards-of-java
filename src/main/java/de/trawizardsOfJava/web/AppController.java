@@ -54,10 +54,11 @@ public class AppController {
 	public String uebersicht(Model model, Principal principal) {
 		List<Artikel> alleArtikel = artikelRepository.findAll();
 		model.addAttribute("artikel", alleArtikel);
+		model.addAttribute("aktuelleSeite", "Startseite");
 		if (principal != null) {
-			model.addAttribute("disableSecondButton", true);
+			model.addAttribute("angemeldet", true);
 		} else {
-			model.addAttribute("disableThirdButton", true);
+			model.addAttribute("angemeldet", false);
 		}
 		return "uebersichtSeite";
 	}
@@ -66,10 +67,11 @@ public class AppController {
 	public String search(Model model, @RequestParam final String q, Principal principal) {
 		model.addAttribute("artikel", this.artikelRepository.findAllByArtikelNameContaining(q));
 		model.addAttribute("query", q);
+		model.addAttribute("aktuelleSeite", "Suche");
 		if (principal != null) {
-			model.addAttribute("disableSecondButton", true);
+			model.addAttribute("angemeldet", true);
 		} else {
-			model.addAttribute("disableThirdButton", true);
+			model.addAttribute("angemeldet", false);
 		}
 		return "search";
 	}
@@ -110,6 +112,8 @@ public class AppController {
 	@GetMapping("/registrierung")
 	public String registrierung(Model model) {
 		model.addAttribute("person", new Person());
+		model.addAttribute("angemeldet", false);
+		model.addAttribute("aktuelleSeite", "Registrierung");
 		return "registrierung";
 	}
 
@@ -126,7 +130,9 @@ public class AppController {
 	}
 
 	@GetMapping("/anmeldung")
-	public String anmelden() {
+	public String anmelden(Model model) {
+		model.addAttribute("angemeldet", false);
+		model.addAttribute("aktuelleSeite", "Anmeldung");
 		return "anmeldung";
 	}
 

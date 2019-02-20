@@ -16,24 +16,39 @@
 				height="25"/>
 	</a>
 	<ul class="navbar-nav mr-auto">
-		<li class="nav-item">
+		<li class="nav-item" th:if="${aktuelleSeite != 'Startseite'}">
 			<a class="nav-link" href='/'>Home</a>
 		</li>
-		<li class="nav-item" th:if="${!(angemeldet)}">
+		<li class="nav-item active" th:if="${aktuelleSeite == 'Startseite'}">
+			<a class="nav-link active" href='/'>Home</a>
+		</li>
+		<li class="nav-item" th:if="${!(angemeldet)} and ${aktuelleSeite != 'Anmeldung'}">
 			<a class="nav-link" href='/anmeldung'>Anmelden</a>
 		</li>
-		<li class="nav.item" th:if="${!(angemeldet)}">
+		<li class="nav-item active" th:if="${!(angemeldet)} and ${aktuelleSeite == 'Anmeldung'}">
+			<a class="nav-link active" href='/anmeldung'>Anmelden</a>
+		</li>
+		<li class="nav.item" th:if="${!(angemeldet)} and ${aktuelleSeite != 'Registrierung'}">
 			<a class="nav-link" th:href="@{/registrierung}">Registrieren</a>
 		</li>
+		<li class="nav.item active" th:if="${!(angemeldet)} and ${aktuelleSeite == 'Registrierung'}">
+			<a class="nav-link active" th:href="@{/registrierung}">Registrieren</a>
+		</li>
 		<li class="nav-item" th:if="${angemeldet}">
-			<a class="nav-link" href='/logout'>Logout</a>
+			<a class="nav-link" href='/logout'>Abmelden</a>
 		</li>
 		<li class="nav.item" th:if="${angemeldet}">
 			<a class="nav-link" th:href="@{/account/{benutzername} (benutzername=${name})}">Profil</a>
 		</li>
 		<li class="nav-item active">
-			<a class="nav-link active" href="" id="titel" th:if="${aktuelleSeite == 'Artikelansicht'}">Aktuelle Seite</a>
+			<a class="nav-link active" href="" id="titel" th:if="${aktuelleSeite == 'Artikelansicht'} or ${aktuelleSeite == 'Suche'}">Aktuelle Seite</a>
 		</li>
+
+		<form method="get" action="/search" class="form-inline">
+			<input class="form-control mr-sm-2" type="search" placeholder="Suche" th:value="${query}" name="q"/>
+			<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Suche</button>
+		</form>
+
 		<hr>
 	</ul>
 </nav>

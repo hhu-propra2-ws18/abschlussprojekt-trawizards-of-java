@@ -145,6 +145,7 @@ public class AppController {
 		model.addAttribute("artikel", artikelRepository.findByVerleiherBenutzername(person.getBenutzername()));
 		model.addAttribute("isUser", benutzername.equals(principal.getName()));
 		model.addAttribute("proPay", ProPaySchnittstelle.getEntity(benutzername));
+		model.addAttribute("angemeldet", true);
 
 		ArrayList<Ausleihe> ausgelieheneArtikel = ausleiheRepository.findByAusleihender(benutzername);
 		for (Ausleihe ausleihe : ausgelieheneArtikel) {

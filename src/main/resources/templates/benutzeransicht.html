@@ -1,56 +1,13 @@
 <!DOCTYPE html>
-<html lang="de" xmlns:th="http://www.thymeleaf.com">
+<html lang="de" layout:decorate="~{layoutUnangemeldet}" xmlns:th="http://www.thymeleaf.com"
+	  xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
-	<title th:text="${person.benutzername}"> Benutzer</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-		  integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-	<style>
-		#topButton {
-			padding-top: 25px;
-		}
-		#buttonTop {
-			padding-top: 5px;
-		}
-	</style>
+	<title th:text="${person.benutzername}"></title>
 </head>
 
 <body onload="callAlert()">
-<div>
-	<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-		
-		<a class="navbar-brand" href='/'>
-			<img
-				src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png"
-				height="25"/>
-		</a>
-		
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active">
-					<a class="nav-link" href='/'>Home <span class="sr-only">(current)</span></a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href='/logout'>
-						Logout
-					</a>
-				</li>
-				<li class="nav-item active">
-					<a class="nav-link" th:text="'Profil von '+${person.benutzername}"></a>
-				</li>
-				<hr>
-			</ul>
-		</div>
-	</nav>
-</div>
-
-<div class="col-md-12" align="center">
+<h1 layout:fragment="titel" th:text="'Profil von ' +${person.benutzername}"></h1>
+<div layout:fragment="inhalt">
 	<div id="topButton" th:if="${isUser}">
 		<a th:href="@{/account/{benutzername}/bearbeitung (benutzername=${person.benutzername})}">
 			<button type="button" class="btn btn-outline-dark">Profil bearbeiten</button>
@@ -107,20 +64,20 @@
 			</dl>
 		</tr>
 	</div>
-</div>
 
-<script th:inline="javascript">
-    function callAlert() {
+	<script th:inline="javascript">
+        function callAlert() {
 
-        var message = /*[[${message}]]*/ 'default';
-        var artikelName = /*[[${artikelName}]]*/ 'default';
-        var verleiherName = /*[[${verleiherName}]]*/ 'default';
+            var message = /*[[${message}]]*/ 'default';
+            var artikelName = /*[[${artikelName}]]*/ 'default';
+            var verleiherName = /*[[${verleiherName}]]*/ 'default';
 
-        if (message === 'true') {
-            alert('Bitte ' + artikelName + ' an ' + verleiherName + ' zurückgeben!');
+            if (message === 'true') {
+                alert('Bitte ' + artikelName + ' an ' + verleiherName + ' zurückgeben!');
+            }
+
         }
-
-    }
-</script>
+	</script>
+</div>
 </body>
 </html>

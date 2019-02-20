@@ -2,7 +2,7 @@
 <html lang="de" layout:decorate="~{layoutUnangemeldet}" xmlns:th="http://www.thymeleaf.com"
 	  xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
-	<title th:text="${person.benutzername}"></title>
+	<title th:text="'Profil von ' +${person.benutzername}"></title>
 </head>
 
 <body onload="callAlert()">

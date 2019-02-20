@@ -143,6 +143,7 @@ public class AppController {
 		model.addAttribute("isUser", benutzername.equals(principal.getName()));
 		model.addAttribute("proPay", ProPaySchnittstelle.getEntity(benutzername));
 		model.addAttribute("angemeldet", true);
+		model.addAttribute("aktuelleSeite", "Profil");
 
 		ArrayList<Ausleihe> ausgelieheneArtikel = ausleiheRepository.findByAusleihender(benutzername);
 		for (Ausleihe ausleihe : ausgelieheneArtikel) {
@@ -384,9 +385,11 @@ public class AppController {
 	@GetMapping("/admin/konflikte/{id}")
 	public String konfliktUebernehmen(Model model, @PathVariable Long id, Principal principal) {
 		Konflikt konflikt = konfliktRepository.findById(id).get();
-		konflikt.setInBearbeitung("inBearbeitung");
-		konflikt.setBearbeitender(principal.getName());
-		konfliktRepository.save(konflikt);
+		if ("offen".equals(konflikt.getInBearbeitung())) {
+			konflikt.setInBearbeitung("inBearbeitung");
+			konflikt.setBearbeitender(principal.getName());
+			konfliktRepository.save(konflikt);
+		}
 		model.addAttribute("konflikt", konflikt);
 		return "konfliktDetail";
 	}

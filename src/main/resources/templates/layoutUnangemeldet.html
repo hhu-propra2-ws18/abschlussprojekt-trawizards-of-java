@@ -37,11 +37,11 @@
 		<li class="nav-item" th:if="${angemeldet}">
 			<a class="nav-link" href='/logout'>Abmelden</a>
 		</li>
-		<li class="nav.item" th:if="${angemeldet}">
+		<li class="nav.item" th:if="${angemeldet} and ${aktuelleSeite != 'Profil'}">
 			<a class="nav-link" th:href="@{/account/{benutzername} (benutzername=${name})}">Profil</a>
 		</li>
 		<li class="nav-item active">
-			<a class="nav-link active" href="" id="titel" th:if="${aktuelleSeite == 'Artikelansicht'} or ${aktuelleSeite == 'Suche'}">Aktuelle Seite</a>
+			<a class="nav-link active" href="" id="titel" th:if="${aktuelleSeite == 'Artikelansicht'} or ${aktuelleSeite == 'Suche'} or ${aktuelleSeite == 'Profil'}">Aktuelle Seite</a>
 		</li>
 
 		<form method="get" action="/search" class="form-inline">

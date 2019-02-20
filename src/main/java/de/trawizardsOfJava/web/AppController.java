@@ -120,9 +120,7 @@ public class AppController {
 	public String speicherePerson(Model model, Person person) {
 		if (benutzerRepository.findByBenutzername(person.getBenutzername()).isPresent()) {
 			model.addAttribute("error", true);
-			model.addAttribute("angemeldet", false);
-			model.addAttribute("aktuelleSeite", "Registrierung");
-			return "registrierung";
+			return registrierung(model);
 		}
 		person.setPasswort(SecurityConfig.encoder().encode(person.getPasswort()));
 		benutzerRepository.save((person));

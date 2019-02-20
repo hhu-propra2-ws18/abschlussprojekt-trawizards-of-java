@@ -6,6 +6,11 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
 		  integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 	<title layout:title-pattern="$CONTENT_TITLE">Leih24</title>
+	<style>
+		.profil-pic {
+			border-radius: 50%;
+		}
+	</style>
 </head>
 
 <body onload="gimmeTitle()">
@@ -19,10 +24,7 @@
 		<li class="nav-item">
 			<a class="nav-link" href='/'>Home</a>
 		</li>
-		<li class="nav-item">
-			<a class="nav-link" href='/logout'>Abmelden</a>
-		</li>
-		<li class="nav-item dropdown" th:if="${angemeldet}">
+		<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<img class="profil-pic" src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/emptyPic.png"
 					 height="25"/>
@@ -34,6 +36,9 @@
 				<div class="dropdown-divider"></div>
 				<a class="dropdown-item disabled" th:text="'Angemeldet als '+${name}"></a>
 			</div>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href='/logout'>Abmelden</a>
 		</li>
 		<li class="nav-item active">
 			<a class="nav-link active" href="" id="titel">Aktuelle Seite</a>

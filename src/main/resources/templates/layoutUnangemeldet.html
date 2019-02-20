@@ -6,6 +6,11 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
 		  integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 	<title layout:title-pattern="$CONTENT_TITLE">Leih24</title>
+	<style>
+		.profil-pic {
+			border-radius: 50%;
+		}
+	</style>
 </head>
 
 <body onload="gimmeTitle()">
@@ -34,9 +39,6 @@
 		<li class="nav.item active" th:if="${!(angemeldet)} and ${aktuelleSeite == 'Registrierung'}">
 			<a class="nav-link active" th:href="@{/registrierung}">Registrieren</a>
 		</li>
-		<li class="nav-item" th:if="${angemeldet}">
-			<a class="nav-link" href='/logout'>Abmelden</a>
-		</li>
 		<li class="nav-item dropdown" th:if="${angemeldet}">
 			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<img class="profil-pic" src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/emptyPic.png"
@@ -50,11 +52,14 @@
 				<a class="dropdown-item disabled" th:text="'Angemeldet als '+${name}"></a>
 			</div>
 		</li>
+		<li class="nav-item" th:if="${angemeldet}">
+			<a class="nav-link" href='/logout'>Abmelden</a>
+		</li>
 		<li class="nav-item active">
 			<a class="nav-link active" href="" id="titel" th:if="${aktuelleSeite == 'Artikelansicht'} or ${aktuelleSeite == 'Suche'} or ${aktuelleSeite == 'Profil'}">Aktuelle Seite</a>
 		</li>
 
-		<form method="get" action="/search" class="form-inline">
+		<form method="get" action="/search" class="form-inline ml-5">
 			<input class="form-control mr-sm-2" type="search" placeholder="Suche" th:value="${query}" name="q"/>
 			<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Suche</button>
 		</form>

@@ -179,4 +179,13 @@ public class AppControllerTest {
 
 		mvc.perform(get("/account/bar/bearbeitung")).andExpect(status().is(403));
 	}
+
+	@Test
+	@WithMockUser(username = "foo", authorities = "ROLE_USER")
+	public void chargePropayAccount() throws Exception{
+		String amount = "100";
+		mvc.perform(post("/account/foo")
+		.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+		.param("amount", amount)).andExpect(view().name("backToTheFuture"));
+	}
 }

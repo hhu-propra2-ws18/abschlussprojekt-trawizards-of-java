@@ -86,7 +86,7 @@ public class AppController {
 		return "artikelDetail";
 	}
 
-	@GetMapping("/detail/{id}/changeItem")
+	@GetMapping("/account/{benutzername}/aendereArtikel/{id}")
 	@PreAuthorize("#benutzername == authentication.name")
 	public String changeItem(Model model, @PathVariable String benutzername, @PathVariable Long id) {
 		Artikel artikel = artikelRepository.findById(id).get();
@@ -94,7 +94,7 @@ public class AppController {
 		return "changeItem";
 	}
 
-	@PostMapping("/detail/{id}/changeItem")
+	@PostMapping("/account/{benutzername}/aendereArtikel/{id}")
 	@PreAuthorize("#benutzername == authentication.name")
 	public String postChangeItem(Model model, @PathVariable String benutzername, Artikel artikel, String daterange) {
 		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit(daterange);

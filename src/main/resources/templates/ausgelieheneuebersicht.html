@@ -1,64 +1,23 @@
 <!DOCTYPE html>
-<html lang="de" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="de" layout:decorate="~{layoutAngemeldet}" xmlns:th="http://www.thymeleaf.com"
+	  xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <title>Ausgeliehene Artikel</title>
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
+	<title>Ausgeliehene Artikel</title>
 </head>
+
 <body>
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-
-    <a class="navbar-brand" href='/'>
-        <img src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png" height="25"/>
-    </a>
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href='/'>Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                    <a class="nav-link" th:href="@{/account/{benutzername} (benutzername=${name})}">
-                        Profil
-                    </a>
-            </li>
-            <li class="nav-item">
-                    <a class="nav-link" href='/logout'>
-                        Logout
-                    </a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link">Ausgeliehene Artikel</a>
-            </li>
-            <hr>
-        </ul>
-    </div>
-</nav>
-
-<div class="col-md-12" align="center">
-    <div class="col-md-12">
-        <p th:if="${#lists.isEmpty(ausleihen)}">Keine Artikel vorhanden!</p>
-        <div th:each="ausleihe : ${ausleihen}" th:if="${ausleihe.accepted}">
-            <p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
-            <p th:text="|Verleiher: ${ausleihe.verleiherName}|">Verleiher</p>
-            <p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
-            <p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
-            <a th:href="@{/account/{benutzername}/rueckgabe/{id} (id=${ausleihe.id},benutzername=${name})}">
-                <button name="button" class="btn btn-outline-success">Zurückgeben</button>
-            </a>
-        </div>
-    </div>
+<h1 layout:fragment="titel">Diese Artikel haben Sie momentan ausgeliehen:</h1>
+<div layout:fragment="inhalt">
+	<p th:if="${#lists.isEmpty(ausleihen)}">Keine Artikel vorhanden!</p>
+	<div th:each="ausleihe : ${ausleihen}" th:if="${ausleihe.accepted}">
+		<p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
+		<p th:text="|Verleiher: ${ausleihe.verleiherName}|">Verleiher</p>
+		<p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
+		<p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
+		<a th:href="@{/account/{benutzername}/rueckgabe/{id} (id=${ausleihe.id},benutzername=${name})}">
+			<button name="button" class="btn btn-outline-success">Zurückgeben</button>
+		</a>
+	</div>
 </div>
 </body>
 </html>

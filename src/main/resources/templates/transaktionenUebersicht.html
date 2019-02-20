@@ -1,56 +1,16 @@
 <!DOCTYPE html>
-<html lang="de" xmlns:th="http://www.thymeleaf.com">
+<html lang="de" layout:decorate="~{layoutAngemeldet}" xmlns:th="http://www.thymeleaf.com"
+	  xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Leih24</title>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-		  integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-
-	<style>
-		.toptext {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-	</style>
-
+	<title>Transaktionenübersicht</title>
 </head>
+
 <body>
-
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-
-	<a class="navbar-brand" href='/'>
-		<img src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png" height="25"/>
-	</a>
-
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-
-	<div class="collapse navbar-collapse" id="navbarSupportedContent">
-		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active">
-				<a class="nav-link" href='/'>Home <span class="sr-only">(current)</span></a>
-			</li>
-			<li class="nav-item">
-					<a class="nav-link"  th:href="@{/account/{benutzername} (benutzername=${name})}">
-						Profil
-					</a>
-			</li>
-			<li class="nav-item">
-					<a class="nav-link" href='/logout'>
-						Logout
-					</a>
-			</li>
-		</ul>
-	</div>
-	<hr>
-</nav>
-<div class="col-md-12" align="center">
+<h1 layout:fragment="titel">Ihre bisherigen Transkationen bei Leih24:</h1>
+<div layout:fragment="inhalt">
+	<h3>Verliehen von mir:</h3>
 	<tr th:each="a: ${artikel}">
 		<dl class="dl-horizontal">
-			<h3>Verliehen von mir:</h3>
 			<dt th:text="'Artikel: ' +${a.artikel.artikelName}"></dt>
 			<p th:text="'Ausgeliehen an: ' +${a.ausleihender}"></p>
 			<p th:text="'Beschreibung: ' +${a.artikel.beschreibung}"></p>
@@ -59,20 +19,19 @@
 			<hr>
 		</dl>
 	</tr>
+	<div>
+		<h3>Habe ich ausgeliehen:</h3>
+		<tr th:each="a: ${artikelAusgeliehen}">
+			<dl class="dl-horizontal">
+				<dt th:text="'Artikel: ' +${a.artikel.artikelName}"></dt>
+				<p th:text="'Verliehen von: ' +${a.verleiherName}"></p>
+				<p th:text="'Beschreibung: ' +${a.artikel.beschreibung}"></p>
+				<p th:text="'Von: ' +${a.verfuegbarkeit.startDate}"></p>
+				<p th:text="'Bis: ' +${a.verfuegbarkeit.endDate}"></p>
+				<hr>
+			</dl>
+		</tr>
+	</div>
 </div>
-<div class="col-md-12" align="center">
-	<tr th:each="a: ${artikelAusgeliehen}">
-		<dl class="dl-horizontal">
-			<h3>Habe ich ausgeliehen:</h3>
-			<dt th:text="'Artikel: ' +${a.artikel.artikelName}"></dt>
-			<p th:text="'Verliehen von: ' +${a.verleiherName}"></p>
-			<p th:text="'Beschreibung: ' +${a.artikel.beschreibung}"></p>
-			<p th:text="'Von: ' +${a.verfuegbarkeit.startDate}"></p>
-			<p th:text="'Bis: ' +${a.verfuegbarkeit.endDate}"></p>
-			<hr>
-		</dl>
-	</tr>
-</div>
-
 </body>
 </html>

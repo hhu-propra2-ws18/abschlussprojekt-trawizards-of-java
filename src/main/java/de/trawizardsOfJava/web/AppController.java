@@ -99,9 +99,8 @@ public class AppController {
 	public String postChangeItem(Model model, @PathVariable String benutzername, Artikel artikel, String daterange) {
 		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit(daterange);
 		artikel.setVerfuegbarkeit(verfuegbarkeit);
-		artikel.setVerleiherBenutzername(artikel.getVerleiherBenutzername());
 		artikelRepository.save(artikel);
-		model.addAttribute("link", "/detail/" + artikel.getId());
+		model.addAttribute("link", "detail/" + artikel.getId());
 		return "backToTheFuture";
 	}
 
@@ -390,13 +389,13 @@ public class AppController {
 		if ("Verleihender".equals(benutzer)) {
 			Message message = new Message("Admin", konflikt.getRueckgabe().getVerleiherName(), "Sie erhalten die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + " zurück");
 			messageRepository.save(message);
-			message = new Message("Admin", konflikt.getRueckgabe().getAusleihender(), "Der Verhleiher erhält die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + "zurück");
+			message = new Message("Admin", konflikt.getRueckgabe().getAusleihender(), "Der Verleiher erhält die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + " zurück");
 			messageRepository.save(message);
 			ProPaySchnittstelle.post("reservation/punish/" + konflikt.getRueckgabe().getAusleihender() + "?reservationId=" + konflikt.getRueckgabe().getProPayID());
 		} else {
 			Message message = new Message("Admin", konflikt.getRueckgabe().getAusleihender(), "Sie erhalten die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + " zurück");
 			messageRepository.save(message);
-			message = new Message("Admin", konflikt.getRueckgabe().getVerleiherName(), "Der Ausleihende erhält die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + "zurück");
+			message = new Message("Admin", konflikt.getRueckgabe().getVerleiherName(), "Der Ausleihende erhält die Kaution für " + konfliktRepository.findById(id).get().getRueckgabe().getArtikel().getArtikelName() + " zurück");
 			messageRepository.save(message);
 			ProPaySchnittstelle.post("reservation/release/" + konflikt.getRueckgabe().getAusleihender() + "?reservationId=" + konflikt.getRueckgabe().getProPayID());
 		}

@@ -7,8 +7,8 @@
 
 <body>
 <h1 layout:fragment="titel">Offene Anfragen:</h1>
-<div layout:fragment="inhalt" th:each="ausleihe : ${ausleihen}">
-	<div th:if="${ausleihe.accepted==false}">
+<div layout:fragment="inhalt">
+	<div th:each="ausleihe : ${ausleihen}" th:if="${!ausleihe.accepted}">
 		<p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
 		<p th:text="|Ausleihender: ${ausleihe.ausleihender}|">Ausleihender</p>
 		<p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
@@ -20,10 +20,8 @@
 			<button name="button" class="btn btn-outline-danger">Ablehnen</button>
 		</a>
 	</div>
-</div>
-<h1 layout:fragment="titel">Angenommene Anfragen:</h1>
-<div layout:fragment="inhalt" th:each="ausleihe : ${ausleihen}">
-	<div th:if=="${ausleihe.accepted}">
+	<h1>Angenommene Anfragen:</h1>
+	<div th:each="ausleihe : ${ausleihen}" th:if=="${ausleihe.accepted}">
 		<p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
 		<p th:text="|Ausleihender: ${ausleihe.ausleihender}|">Ausleihender</p>
 		<p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>

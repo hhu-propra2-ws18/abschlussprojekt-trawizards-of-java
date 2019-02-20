@@ -1,50 +1,13 @@
 <!DOCTYPE html>
-<html lang="de" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="de" layout:decorate="~{layoutAngemeldet}" xmlns:th="http://www.thymeleaf.com"
+	  xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport"
-		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-	<title>Konflikt Detail</title>
-
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-		  integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
+	<title>Konflikt</title>
 </head>
+
 <body>
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-
-	<a class="navbar-brand" href='/'>Leih24</a>
-
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-
-	<div class="collapse navbar-collapse" id="navbarSupportedContent">
-		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active">
-				<a class="nav-link" href='/'>Home <span class="sr-only">(current)</span></a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" th:href="@{/account/{benutzername} (benutzername=${name})}">
-					Profil
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href='/logout'>
-					Logout
-				</a>
-			</li>
-			<li class="nav-item active">
-				<a class="nav-link">Konflikt</a>
-			</li>
-			<hr>
-		</ul>
-	</div>
-</nav>
-<div class="col-md-12" align="center">
-<h2 align="center">In Bearbeitung</h2>
+<h1 layout:fragment="titel">In Bearbeitung</h1>
+<div layout:fragment="inhalt">
 	<p th:text="|Absender: ${konflikt.rueckgabe.verleiherName} (${konflikt.absenderMail})|"></p>
 	<p th:text="|Verursacher: ${konflikt.rueckgabe.ausleihender} (${konflikt.verursacherMail})|"></p>
 	<p th:text="|Beschreibung: ${konflikt.beschreibung}|"></p>

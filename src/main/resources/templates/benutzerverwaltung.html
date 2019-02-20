@@ -1,50 +1,15 @@
-<html lang="de" xmlns:th="http://www.thymeleaf.com">
+<!DOCTYPE html>
+<html lang="de" layout:decorate="~{layoutAngemeldet}" xmlns:th="http://www.thymeleaf.com"
+	  xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
 	<title>Accountverwaltung</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-		  integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-	<style>
-		tr:hover {
-			background-color: whitesmoke;
-		}
-	</style>
 </head>
+
 <body>
-
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-
-	<a class="navbar-brand" href='/'>
-		<img src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png" height="25"/>
-	</a>
-
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-
-	<div class="collapse navbar-collapse" id="navbarSupportedContent">
-		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active">
-				<a class="nav-link" href='/'>Home <span class="sr-only">(current)</span></a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href='/logout'>
-					Logout
-				</a>
-			</li>
-			<li class="nav-item active">
-				<a class="nav-link">Profil bearbeiten</a>
-			</li>
-			<hr>
-		</ul>
-	</div>
-</nav>
-
-<div align="center">
-	<h1>Bitte geben Sie Ihre neuen Daten an:</h1>
+<h1 layout:fragment="title">Bitte geben Sie Ihre neuen Daten an:</h1>
+<div layout:fragment="content">
 	<form method="post" th:object="${person}">
-		<table align="center">
+		<table>
 			<tr>
 				<td>Benutzername:</td>
 				<td><input type="text" class="form-control" th:field="*{benutzername}" disabled></td>
@@ -57,6 +22,8 @@
 				<td>E-Mail:</td>
 				<td><input type="text" class="form-control" th:field="*{email}" required></td>
 			</tr>
+			<input type="hidden" th:field="*{rolle}">
+			<input type="hidden" th:field="*{passwort}">
 		</table>
 		<br>
 		<button type="submit" class="btn btn-outline-success">Bestätigen</button>

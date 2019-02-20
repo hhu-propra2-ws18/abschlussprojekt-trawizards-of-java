@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.com" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+		  integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+	<title layout:title-pattern="$CONTENT_TITLE">Leih24</title>
+</head>
+
+<body onload="gimmeTitle()">
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+	<a class="navbar-brand" href='/'>
+		<img
+			src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png"
+			height="25"/>
+	</a>
+	<ul class="navbar-nav mr-auto">
+		<li class="nav-item">
+			<a class="nav-link" href='/'>Home</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href='/logout'>Logout</a>
+		</li>
+		<li class="nav.item">
+			<a class="nav-link" th:href="@{/account/{benutzername} (benutzername=${name})}">Profil</a>
+		</li>
+		<li class="nav-item active">
+			<a class="nav-link active" href="" id="titel">Aktuelle Seite</a>
+		</li>
+		<hr>
+	</ul>
+</nav>
+
+<div class="col-md-12" align="center">
+	<h1 layout:fragment="title">Überschrift steht hier</h1>
+	<div layout:fragment="content">
+		Inhalt geht hier hin
+	</div>
+</div>
+
+<script>
+    function gimmeTitle() {
+        document.getElementById("titel").innerHTML = document.title;
+    }
+</script>
+</body>
+</html>

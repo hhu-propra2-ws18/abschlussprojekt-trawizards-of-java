@@ -199,6 +199,7 @@ public class AppController {
 			verfuegbarkeiten.add(ausleihe.getVerfuegbarkeit());
 		}
 		model.addAttribute("daten", verfuegbarkeiten);
+		model.addAttribute("verfuegbar", artikel.getVerfuegbarkeit());
 		return "ausleihe";
 	}
 

@@ -7,7 +7,7 @@
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+	<link rel="stylesheet" type="text/css" href="../static/css/daterange.css" th:href="@{/css/daterange.css}"/>
 
 </head>
 
@@ -56,13 +56,19 @@
 
         $(function () {
             $('input[name="daterange"]').daterangepicker({
-                opens: 'left',
+                "autoApply": true,
+                minDate: 0,
+                disabledDates: [moment('19/02/2019', 'DD/MM/YYYY')],
                 locale: {
                     format: 'DD/MM/YYYY'
+                },
+                isInvalidDate: function (date) {
+                    var gestern = new Date();
+                    gestern.setDate(gestern.getDate() - 1);
+                    return !!date.isBefore(gestern);
+
                 }
-            }, function (start, end, label) {
-                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-            });
+            })
         });
 	</script>
 </div>

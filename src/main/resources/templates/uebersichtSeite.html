@@ -1,106 +1,42 @@
 <!DOCTYPE html>
-<html lang="de" xmlns:th="http://www.thymeleaf.com">
+<html lang="de" layout:decorate="~{layoutUnangemeldet}" xmlns:th="http://www.thymeleaf.com"
+	  xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Leih24</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-
-    <style>
-        .toptext {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-		.card-deck{
-			bottom-margin: 10px;
-		}
-    </style>
-
+	<title>Leih24</title>
 </head>
+
 <body>
-
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-
-    <a class="navbar-brand" href='/'>
-        <img src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png" height="25"/>
-    </a>
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href='/'>Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <div th:if="${disableThirdButton}">
-                    <a class="nav-link" href='/anmeldung'>
-                        Anmelden
-                    </a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <div th:if="${disableThirdButton}">
-                    <a class="nav-link" href='/registrierung'>
-                        Registrieren
-                    </a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <div th:if="${disableSecondButton}">
-                    <a class="nav-link"  th:href="@{/account/{benutzername} (benutzername=${name})}">
-                        Profil
-                    </a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <div th:if="${disableSecondButton}">
-                    <a class="nav-link" href='/logout'>
-                        Logout
-                    </a>
-                </div>
-            </li>
-        </ul>
-    </div>
-        <form method="get" action="/search" class="form-inline">
-            <input class="form-control mr-sm-2" type="search" placeholder="Suche" name="q"/>
-            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Suche</button>
-        </form>
-        <hr>
-</nav>
-<div class="row">
-	<tr th:each="a: ${artikel}">
-		<div class="col-sm-3">
-			<div class="card mt-3 ml-4" style="width: 18rem; height: 19rem" align="center">
-				<img class="card-img-top" src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png" alt="Bild fehlt">
-				<div class="card-body">
-					<h6 class="card-title" th:text="'Artikel: ' +${a.artikelName}"></h6>
-					<div class="card-text">
-						<div class="toptext">
-							<div class="card-deck mt-3">
-								<p>Verleihername:&nbsp;</p>
-								<a th:href="@{/account/{benutzername} (benutzername=${a.verleiherBenutzername})}">
-									<p th:text="${a.verleiherBenutzername}"></p>
-								</a>
+<div layout:fragment="inhalt">
+	<div class="row">
+		<tr th:each="a: ${artikel}">
+			<div class="col-sm-3">
+				<div class="card mt-3 ml-4" style="width: 18rem; height: 19rem" align="center">
+					<img class="card-img-top"
+						 src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png"
+						 alt="Bild fehlt">
+					<div class="card-body">
+						<h6 class="card-title" th:text="'Artikel: ' +${a.artikelName}"></h6>
+						<div class="card-text">
+							<div class="toptext">
+								<div class="card-deck mt-3">
+									<p>Verleihername:&nbsp;</p>
+									<a th:href="@{/account/{benutzername} (benutzername=${a.verleiherBenutzername})}">
+										<p th:text="${a.verleiherBenutzername}"></p>
+									</a>
+								</div>
 							</div>
-						</div>
 
-						<dd th:text="'Preis(pro Tag): ' +${a.preis} + '&euro;'"></dd>
-						<dd th:text="'Kaution: ' +${a.kaution} + '&euro;'"></dd>
+							<dd th:text="'Preis(pro Tag): ' +${a.preis} + '&euro;'"></dd>
+							<dd th:text="'Kaution: ' +${a.kaution} + '&euro;'"></dd>
+						</div>
+						<a th:href="@{/detail/{id} (id=${a.id})}">
+							<button type="button" class="btn btn-outline-dark">Details</button>
+						</a>
 					</div>
-					<a th:href="@{/detail/{id} (id=${a.id})}">
-						<button type="button" class="btn btn-outline-dark" >Details</button>
-					</a>
 				</div>
 			</div>
-		</div>
-	</tr>
+		</tr>
+	</div>
 </div>
-
 </body>
 </html>

@@ -1,47 +1,14 @@
-<html lang="de" xmlns:th="http://www.thymeleaf.com">
+<!DOCTYPE html>
+<html lang="de" layout:decorate="~{layoutUnangemeldet}" xmlns:th="http://www.thymeleaf.com"
+	  xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Anmelden</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-		  integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-	<style>
-		tr:hover {
-			background-color: whitesmoke;
-		}
-	</style>
+	<title>Anmeldung</title>
 </head>
+
 <body>
-
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-	
-	<a class="navbar-brand" href='/'>
-		<img
-			src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png"
-			height="25"/>
-	</a>
-	
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-	
-	<div class="collapse navbar-collapse" id="navbarSupportedContent">
-		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active">
-				<a class="nav-link" href='/'>Home <span class="sr-only">(current)</span></a>
-			</li>
-			<li class="nav-item active">
-				<a class="nav-link">Anmeldung</a>
-			</li>
-			<hr>
-		</ul>
-	</div>
-</nav>
-
-<div align="center">
-	<h1>Bitte geben Sie Ihre Daten ein:</h1>
-	<form name="f" method="post">
+<h1 layout:fragment="titel">Bitte geben Sie Ihre Daten ein:</h1>
+<div layout:fragment="inhalt">
+	<form method="post">
 		<table>
 			<div th:if="${param.error}" class="alert alert-error">
 				Ungültiger Benutzername oder ungültiges Passwort!

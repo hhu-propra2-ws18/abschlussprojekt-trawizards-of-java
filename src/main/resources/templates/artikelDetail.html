@@ -24,10 +24,10 @@
 	<a href='/'>
 		<button type="button" class="btn btn-outline-danger">Zurück</button>
 	</a>
-	<a th:unless="${disableSecondButton}" th:href="@{/anmeldung}">
+	<a th:unless="${angemeldet}" th:href="@{/anmeldung}">
 		<button type="button" class="btn btn-outline-success">Ausleihen</button>
 	</a>
-	<a th:if="${disableSecondButton}"
+	<a th:if="${angemeldet}"
 	   th:href="@{/account/{benutzername}/artikel/{id}/anfrage (id=${artikelDetail.id},benutzername=${name})}">
 		<button type="button" class="btn btn-outline-success">Ausleihen</button>
 	</a>

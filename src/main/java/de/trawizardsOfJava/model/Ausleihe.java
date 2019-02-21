@@ -8,25 +8,18 @@ import java.time.LocalDate;
 @Entity
 @Data
 public class Ausleihe {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String ausleihender;
-
     @OneToOne
     private Artikel artikel;
-
     private Verfuegbarkeit verfuegbarkeit;
-
     private String verleiherName;
-
     private boolean accepted = false;
-
     private int proPayId;
 
-    public Ausleihe() {}
+    public Ausleihe(){}
 
     public Ausleihe(Artikel artikel, Verfuegbarkeit verfuegbarkeit, String ausleihender) {
         this.ausleihender = ausleihender;

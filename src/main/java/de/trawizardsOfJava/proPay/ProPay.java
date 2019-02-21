@@ -13,14 +13,14 @@ public class ProPay {
 
 	public int berechneVerfuegbaresGeld(){
 		int reservierungsgeld = 0;
-		for (Reservierung reservation : reservations) {
+		for (Reservierung reservation : this.reservations) {
 			reservierungsgeld += reservation.getAmount();
 		}
-		return amount - reservierungsgeld;
+		return this.amount - reservierungsgeld;
 	}
 
 	public boolean genuegendGeld(int gebrauchtesGeld, ArrayList<Ausleihe> anfragen){
-		int verfuegbaresGeld = berechneVerfuegbaresGeld();
+		int verfuegbaresGeld = this.berechneVerfuegbaresGeld();
 		for (Ausleihe anfrage : anfragen) {
 			gebrauchtesGeld += anfrage.berechneGesamtPreis();
 		}

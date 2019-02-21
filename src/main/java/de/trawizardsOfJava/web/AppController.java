@@ -7,7 +7,6 @@ import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.*;
 import de.trawizardsOfJava.proPay.ProPay;
 import de.trawizardsOfJava.proPay.ProPaySchnittstelle;
-import de.trawizardsOfJava.proPay.Reservierung;
 import de.trawizardsOfJava.security.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,10 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.security.Principal;
-import java.util.List;
 
 @Controller
 public class AppController {

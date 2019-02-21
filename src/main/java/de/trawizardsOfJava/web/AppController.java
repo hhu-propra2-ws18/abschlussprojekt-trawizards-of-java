@@ -19,26 +19,27 @@ import java.security.Principal;
 
 @Controller
 public class AppController {
-	@Autowired
 	private BenutzerRepository benutzerRepository;
-
-	@Autowired
 	private ArtikelRepository artikelRepository;
-
-	@Autowired
 	private AusleiheRepository ausleiheRepository;
-
-	@Autowired
 	private MessageRepository messageRepository;
-
-	@Autowired
 	private RueckgabeRepository rueckgabeRepository;
-
-	@Autowired
 	private KonfliktRepository konfliktRepository;
+	//private IMailService iMailService;
 
 	@Autowired
-	private IMailService iMailService;
+	public AppController(BenutzerRepository benutzerRepository, ArtikelRepository artikelRepository,
+						 AusleiheRepository ausleiheRepository, MessageRepository messageRepository,
+						 RueckgabeRepository rueckgabeRepository, KonfliktRepository konfliktRepository,
+						 IMailService iMailService) {
+		this.benutzerRepository = benutzerRepository;
+		this.artikelRepository = artikelRepository;
+		this.ausleiheRepository = ausleiheRepository;
+		this.messageRepository = messageRepository;
+		this.rueckgabeRepository = rueckgabeRepository;
+		this.konfliktRepository = konfliktRepository;
+		//this.iMailService = iMailService;
+	}
 
 	@ModelAttribute
 	public void benutzername(Model model, Principal principal) {
@@ -243,7 +244,7 @@ public class AppController {
 
 	@PostMapping("/account/{benutzername}/ausgelieheneuebersicht")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String verwalteRueckgabe(Model model, @PathVariable String benutzername, Long id, Principal principal){
+	public String verwalteRueckgabe(Model model, @PathVariable String benutzername, Long id, Principal principal) {
 		Ausleihe ausleihe = ausleiheRepository.findById(id).get();
 		rueckgabeRepository.save(new Rueckgabe(ausleihe));
 		Message message = new Message(principal.getName(), ausleihe.getVerleiherName(), Message.generiereNachricht("Rueckgabe", principal.getName(), ausleihe.getArtikel().getArtikelName()));

@@ -3,6 +3,15 @@
 	  xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
 	<title th:text="'Profil von ' +${person.benutzername}"></title>
+
+	<style>
+
+		.bottomDistance {
+			margin-bottom: 10px;
+		}
+
+	</style>
+
 </head>
 
 <body onload="callAlert(), gimmeTitle()">
@@ -44,26 +53,43 @@
 		</div>
 	</div>
 	<hr>
-	<div class="col-md-12">
+
+	<div class="row">
 		<p th:if="${#lists.isEmpty(artikel)}">Keine Artikel vorhanden!</p>
 		<tr th:each="a: ${artikel}">
-			<dl class="dl-horizontal">
-				<dt th:text="'Artikel: ' +${a.artikelName}"></dt>
-				<dd th:text="'Verleiher: ' +${a.verleiherBenutzername}"></dd>
-				<div class="col-sm-10">
-					<a th:href="@{/detail/{id} (id=${a.id})}">
-						<button type="button" class="btn btn-outline-dark">Details</button>
-					</a>
-					<div th:if="${isUser}">
-						<a th:href="@{/account/{benutzername}/aendereArtikel/{id} (id=${a.id}, benutzername=${name})}">
-							<button type="button" class="btn btn-outline-dark">Artikel bearbeiten</button>
+			<div class="col-sm-3">
+				<div class="card mt-3 ml-4" style="width: 18rem; height: 21em" align="center">
+					<img class="card-img-top"
+						 src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png"
+						 alt="Bild fehlt">
+					<div class="card-body">
+						<h6 class="card-title" th:text="'Artikel: ' +${a.artikelName}"></h6>
+						<div class="card-text">
+							<div class="toptext">
+								<div class="card-deck ml-5">
+									<dl class="ml-4">
+										<dd th:text="'Verleiher: ' +${a.verleiherBenutzername}"></dd>
+									</dl>
+								</div>
+							</div>
+
+							<dd th:text="'Preis(pro Tag): ' +${a.preis} + '&euro;'"></dd>
+							<dd th:text="'Kaution: ' +${a.kaution} + '&euro;'"></dd>
+						</div>
+						<a th:href="@{/detail/{id} (id=${a.id})}">
+							<button type="button" class="btn btn-outline-dark bottomDistance">Details</button>
 						</a>
+						<div th:if="${isUser}">
+							<a th:href="@{/account/{benutzername}/aendereArtikel/{id} (id=${a.id}, benutzername=${name})}">
+								<button type="button" class="btn btn-outline-dark">Artikel bearbeiten</button>
+							</a>
+						</div>
 					</div>
 				</div>
-				<hr>
-			</dl>
+			</div>
 		</tr>
 	</div>
+
 
 	<script th:inline="javascript">
         function callAlert() {

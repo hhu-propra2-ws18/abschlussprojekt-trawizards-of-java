@@ -9,6 +9,7 @@ import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletContext;
+import java.time.LocalDateTime;
 
 @Component
 public class DataIni implements ServletContextInitializer {
@@ -34,15 +35,24 @@ public class DataIni implements ServletContextInitializer {
 		Session session = new Session();
 		session.setTeilnehmer(teilnehmer);
 		sessionRepo.save(session);
+
 		Nachricht nachricht = new Nachricht();
 		nachricht.setSession(session);
-		nachricht.setNachricht("Season each side of the pumpkin seeds with six and a half teaspoons of pickles.");
+		nachricht.setChat("Season each side of the pumpkin seeds with six and a half teaspoons of pickles.");
 		nachricht.setAbsender(person);
+		nachricht.setGesendet(LocalDateTime.now());
 		nachrichtenRepo.save(nachricht);
+
+		Nachricht nachricht2 = new Nachricht();
+		nachricht2.setSession(session);
+		nachricht2.setChat("The cloudy mermaid technically acquires the particle.");
+		nachricht2.setAbsender(person2);
+		nachricht2.setGesendet(LocalDateTime.now());
+		nachrichtenRepo.save(nachricht2);
 		System.out.println("Finished populating the database");
 
 		System.out.println(personRepo.findByPersonName("Ocramir"));
 		System.out.println(sessionRepo.findByTeilnehmer(teilnehmer));
-		System.out.println(nachrichtenRepo.findById(new Long(1)).get());
+		System.out.println(nachrichtenRepo.findAll().get(0));
 	}
 }

@@ -8,4 +8,5 @@ import java.util.ArrayList;
 
 public interface NachrichtenRepo extends CrudRepository<Nachricht, Long> {
     ArrayList<Nachricht> findBySession(Session session);
+    ArrayList<Nachricht> findAll();
 }

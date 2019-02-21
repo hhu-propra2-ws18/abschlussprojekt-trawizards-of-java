@@ -1,3 +1,9 @@
+.name{
+    float: left;
+    font-size: 12px;
+    color: #aaa;
+}
+
 .chat {
     border: 2px solid #dedede;
     background-color: #f1f1f1;
@@ -5,10 +11,12 @@
     padding: 2px;
     margin: 10px 0;
     object-fit: contain;
-    width: 90%;
     display: block;
     float: left;
+    word-break: break-all;
+    position: relative;
 }
+
 
 .dunkler {
     border-color: #ccc;

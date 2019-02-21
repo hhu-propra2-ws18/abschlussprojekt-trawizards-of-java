@@ -4,6 +4,9 @@ import de.trawizardsofjava.messenger.model.Session;
 import de.trawizardsofjava.messenger.model.Teilnehmer;
 import org.springframework.data.repository.CrudRepository;
 
-public interface SessionRepo extends CrudRepository<Session, Teilnehmer> {
+import java.util.ArrayList;
+
+public interface SessionRepo extends CrudRepository<Session, Long> {
 	Session findByTeilnehmer(Teilnehmer teilnehmer);
+	ArrayList<Session> findAll();
 }

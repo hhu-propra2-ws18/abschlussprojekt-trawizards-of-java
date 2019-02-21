@@ -11,7 +11,7 @@ public class Nachricht {
 	@Id
 	@GeneratedValue
 	private Long id;
-	private String nachricht;
+	private String chat;
 	@OneToOne
 	private Person absender;
 	@OneToOne
@@ -20,13 +20,13 @@ public class Nachricht {
 	private LocalDateTime gesendet;
 
 	public String dateToString(){
+		if (this.gesendet == null)return "Kein Datum";
 		String s = "";
 		s += this.gesendet.getDayOfMonth() +"/";
 		s += this.gesendet.getMonth() + "/";
 		s += this.gesendet.getYear() + " ";
 		s += this.gesendet.getHour() + ":";
 		s += this.gesendet.getMinute();
-
 		return s;
 	}
 }

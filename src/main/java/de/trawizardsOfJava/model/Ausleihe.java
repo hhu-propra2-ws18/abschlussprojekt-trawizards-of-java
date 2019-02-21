@@ -25,9 +25,13 @@ public class Ausleihe {
 
     private int proPayId;
 
-    public void setArtikel(Artikel artikel){
+    public Ausleihe() {}
+
+    public Ausleihe(Artikel artikel, Verfuegbarkeit verfuegbarkeit, String ausleihender) {
+        this.ausleihender = ausleihender;
         this.artikel = artikel;
-        verleiherName = artikel.getVerleiherBenutzername();
+        this.verfuegbarkeit = verfuegbarkeit;
+        this.verleiherName = artikel.getVerleiherBenutzername();
     }
 
     public int berechneGesamtPreis() {

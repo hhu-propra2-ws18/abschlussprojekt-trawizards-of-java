@@ -10,6 +10,6 @@ public interface MessageRepository extends CrudRepository<Message, Long> {
 
     ArrayList<Message> findAll();
 
-    ArrayList<Message> findByEmpfaenger(String empfaenger);
+    ArrayList<Message> findByEmpfaengerOrAbsender(String empfaenger, String absender);
 
 }

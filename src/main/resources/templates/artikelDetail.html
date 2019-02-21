@@ -6,31 +6,34 @@
 </head>
 
 <body>
-<h1 layout:fragment="titel" th:text="'Artikel: ' +${artikelDetail.artikelName}"></h1>
 <div layout:fragment="inhalt">
-	<p th:text="'Artikelname: ' +${artikelDetail.artikelName}"></p>
-	<div class="toptext">
-		<p>Verleihername:&nbsp;</p>
-		<a th:href="@{/account/{benutzername} (benutzername=${artikelDetail.verleiherBenutzername})}">
-			<p th:text="${artikelDetail.verleiherBenutzername}"></p>
-		</a>
+	<div class="card text-center">
+		<h5 class="card-header" th:text="'Artikel: ' +${artikelDetail.artikelName}"></h5>
+		<div class="card-body">
+			<p style="display:inline-block;">Verleiher:&nbsp;</p>
+			<a th:href="@{/account/{benutzername} (benutzername=${artikelDetail.verleiherBenutzername})}" style="display:inline-block;">
+				<p th:text="${artikelDetail.verleiherBenutzername}"></p>
+			</a>
+			<p th:text="'Beschreibung: ' +${artikelDetail.beschreibung}"></p>
+			<p th:text="'Standort: ' +${artikelDetail.standort}"></p>
+			<p th:text="'Preis: ' +${artikelDetail.preis} + '&euro;'"></p>
+			<p th:text="'Kaution: ' +${artikelDetail.kaution} + '&euro;'"></p>
+			<p th:text="'Verfügbar von: ' +${artikelDetail.verfuegbarkeit.startDate}"></p>
+			<p th:text="'Verfügbar bis: ' +${artikelDetail.verfuegbarkeit.endDate}"></p>
+		</div>
+		<div class="card-footer">
+			<a href='/'>
+				<button type="button" class="btn btn-outline-danger">Zurück</button>
+			</a>
+			<a th:unless="${angemeldet}" th:href="@{/anmeldung}">
+				<button type="button" class="btn btn-outline-success">Ausleihen</button>
+			</a>
+			<a th:if="${angemeldet}"
+			   th:href="@{/account/{benutzername}/artikel/{id}/anfrage (id=${artikelDetail.id},benutzername=${name})}">
+				<button type="button" class="btn btn-outline-success">Ausleihen</button>
+			</a>
+		</div>
 	</div>
-	<p th:text="'Beschreibung: ' +${artikelDetail.beschreibung}"></p>
-	<p th:text="'Standort: ' +${artikelDetail.standort}"></p>
-	<p th:text="'Preis: ' +${artikelDetail.preis} + '&euro;'"></p>
-	<p th:text="'Kaution: ' +${artikelDetail.kaution} + '&euro;'"></p>
-	<p th:text="'Verfügbar von: ' +${artikelDetail.verfuegbarkeit.startDate}"></p>
-	<p th:text="'Verfügbar bis: ' +${artikelDetail.verfuegbarkeit.endDate}"></p>
-	<a href='/'>
-		<button type="button" class="btn btn-outline-danger">Zurück</button>
-	</a>
-	<a th:unless="${angemeldet}" th:href="@{/anmeldung}">
-		<button type="button" class="btn btn-outline-success">Ausleihen</button>
-	</a>
-	<a th:if="${angemeldet}"
-	   th:href="@{/account/{benutzername}/artikel/{id}/anfrage (id=${artikelDetail.id},benutzername=${name})}">
-		<button type="button" class="btn btn-outline-success">Ausleihen</button>
-	</a>
 </div>
 </body>
 </html>

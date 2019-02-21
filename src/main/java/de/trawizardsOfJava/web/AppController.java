@@ -243,9 +243,10 @@ public class AppController {
 		return "ausgelieheneuebersicht";
 	}
 
-	@GetMapping("/account/{benutzername}/rueckgabe/{id}")
+
+	@PostMapping("/account/{benutzername}/ausgelieheneuebersicht")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String zurueckgegeben(Model model, @PathVariable String benutzername, @PathVariable Long id, Principal principal) {
+	public String verwalteRueckgabe(Model model, @PathVariable String benutzername, Long id, Principal principal){
 		Ausleihe ausleihe = ausleiheRepository.findById(id).get();
 		rueckgabeRepository.save(new Rueckgabe(ausleihe));
 		Message message = new Message(principal.getName(), ausleihe.getVerleiherName(), Message.generiereNachricht("Rueckgabe", principal.getName(), ausleihe.getArtikel().getArtikelName()));
@@ -262,9 +263,9 @@ public class AppController {
 		return "zurueckgegebeneartikel";
 	}
 
-	@GetMapping("/account/{benutzername}/rueckgabe/akzeptiert/{id}")
+	@PostMapping("/account/{benutzername}/zurueckgegebeneartikel")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String rueckgabeakzeptiert(Model model, @PathVariable String benutzername, @PathVariable Long id, Principal principal) {
+	public String rueckgabeakzeptiert(Model model, @PathVariable String benutzername, Long id, Principal principal) {
 		Rueckgabe rueckgabe = rueckgabeRepository.findById(id).get();
 		Message message = new Message(principal.getName(), rueckgabe.getAusleihender(), Message.generiereNachricht("RueckgabeAkzeptiert", principal.getName(), rueckgabe.getArtikel().getArtikelName()));
 		messageRepository.save(message);
@@ -273,21 +274,6 @@ public class AppController {
 		ProPaySchnittstelle.post("reservation/release/" + rueckgabe.getAusleihender() + "?reservationId=" + rueckgabe.getProPayID());
 		model.addAttribute("link", "account/" + benutzername + "/zurueckgegebeneartikel");
 		return "backToTheFuture";
-	}
-
-	@GetMapping("/account/{benutzername}/nachrichten")
-	@PreAuthorize("#benutzername == authentication.name")
-	public String nachrichtenUebersicht(Model model, @PathVariable String benutzername) {
-		model.addAttribute("admin", benutzerRepository.findByBenutzername(benutzername).get().getRolle().equals("ROLE_ADMIN"));
-		model.addAttribute("messages", messageRepository.findByEmpfaengerOrAbsender(benutzername, benutzername));
-		return "nachrichtenUebersicht";
-	}
-
-	@PostMapping("/account/{benutzername}/nachrichten")
-	@PreAuthorize("#benutzername == authentication.name")
-	public String loescheNachricht(Model model, @PathVariable String benutzername, Long id) {
-		messageRepository.delete(messageRepository.findById(id).get());
-		return nachrichtenUebersicht(model, benutzername);
 	}
 
 	@GetMapping("/account/{benutzername}/konflikt/send/{id}")
@@ -310,6 +296,21 @@ public class AppController {
 		//iMailService.sendEmailToKonfliktLoeseStelle(benutzername,konflikt.getBeschreibung(),id);
 		model.addAttribute("link", "account/" + benutzername + "/nachrichten");
 		return "backToTheFuture";
+	}
+
+	@GetMapping("/account/{benutzername}/nachrichten")
+	@PreAuthorize("#benutzername == authentication.name")
+	public String nachrichtenUebersicht(Model model, @PathVariable String benutzername) {
+		model.addAttribute("admin", benutzerRepository.findByBenutzername(benutzername).get().getRolle().equals("ROLE_ADMIN"));
+		model.addAttribute("messages", messageRepository.findByEmpfaengerOrAbsender(benutzername, benutzername));
+		return "nachrichtenUebersicht";
+	}
+
+	@PostMapping("/account/{benutzername}/nachrichten")
+	@PreAuthorize("#benutzername == authentication.name")
+	public String loescheNachricht(Model model, @PathVariable String benutzername, Long id) {
+		messageRepository.delete(messageRepository.findById(id).get());
+		return nachrichtenUebersicht(model, benutzername);
 	}
 
 	@GetMapping("/account/{benutzername}/transaktionUebersicht")

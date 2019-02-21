@@ -39,9 +39,12 @@
 					</a>
 					<button class="btn btn-outline-dark" onclick="openchat()">Chatten</button>
 
-					<script>
+					<script th:inline="javascript">
                         function openchat() {
-                            window.open("http://localhost:8081","_blank", "toolbar=0,location=0,directories=0,scrollbars=0,resizable=0,top=400,left=500,width=425,height=500");
+							/*<![CDATA[*/
+							var benutzername = /*[[${name}]]*/
+                            	window.open("http://localhost:8080/messenger/" + benutzername,"_blank", "toolbar=0,location=0,directories=0,scrollbars=0,resizable=0,top=400,left=500,width=425,height=500");
+							/*]]>*/
                         }
 					</script>
 				</div>

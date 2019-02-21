@@ -1,4 +1,4 @@
-package de.trawizardsofjava.messenger.data;
+/*package de.trawizardsOfJava.messenger.data;
 
 import de.trawizardsofjava.messenger.model.Nachricht;
 import de.trawizardsofjava.messenger.model.Person;
@@ -56,3 +56,4 @@ public class DataIni implements ServletContextInitializer {
 		System.out.println(nachrichtenRepo.findAll().get(0));
 	}
 }
+*/

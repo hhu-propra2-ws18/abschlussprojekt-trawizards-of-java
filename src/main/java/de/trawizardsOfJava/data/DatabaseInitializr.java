@@ -2,6 +2,9 @@ package de.trawizardsOfJava.data;
 
 
 
+import de.trawizardsOfJava.messenger.data.SessionRepo;
+import de.trawizardsOfJava.messenger.model.Session;
+import de.trawizardsOfJava.messenger.model.Teilnehmer;
 import de.trawizardsOfJava.model.*;
 import de.trawizardsOfJava.security.SecurityConfig;
 
@@ -30,6 +33,9 @@ public class DatabaseInitializr implements ServletContextInitializer {
 
     @Autowired
     RueckgabeRepository rueckgabeRepository;
+
+    @Autowired
+    SessionRepo sessionRepo;
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
@@ -81,5 +87,9 @@ public class DatabaseInitializr implements ServletContextInitializer {
         konflikt.setRueckgabe(rueckgabeRepository.findByVerleiherName("root").get(0));
         konflikt.setBeschreibung("kaputt");
         konfliktRepository.save(konflikt);
+
+        Teilnehmer teilnehmer = new Teilnehmer(person1,person2);
+        Session session = new Session(teilnehmer);
+        sessionRepo.save(session);
 	}
 }

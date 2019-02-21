@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.com">
+<head>
+	<meta charset="UTF-8">
+	<title>The Awesome Chat</title>
+
+	<link href="../static/css/chat.css" th:href="@{/css/chat.css}" rel="stylesheet" />
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+	<body>
+		<div id="div1" th:each="nachricht: ${nachrichten}">
+
+		</div>
+		<form method="post" th:object="${nachricht}">
+			<div class="type" style="position: fixed; bottom: 0;">
+				<input type="hidden" th:field="*{id}">
+				<input type="hidden" th:field="*{absender}">
+				<input type="hidden" th:field="*{session}">
+				<input type="hidden" th:field="*{gesendet}">
+				<input id="feld" maxlength="255" style="width: 100%" type="text" th:field="*{chat}" required placeholder="Nachricht" tabindex="+1">
+				<a th:href="@{/messenger/{benutzername}/{teilnehmer} (benutzername=${name},teilnehmer=${teilnehmer}}">
+					<button name="button" class="btn btn-outline-danger" value="submit" tabindex="-1">Senden</button>
+				</a>
+			</div>
+		</form>
+
+		<script th:inline="javascript">
+			window.onresize = function(){
+				window.resizeTo(425, 500);
+			}
+			window.onclick = function(){
+				window.resizeTo(425, 500);
+			}
+
+			var input = document.getElementById('feld');
+			input.focus();
+			input.select();
+
+			function loadlink(){
+				/*<![CDATA[*/
+				var benutzer = /*[[${name}]]*/;
+				var teilnehmer = /*[[${teilnehmer}]]*/;
+				$('#div1').load('/messenger/' + benutzer + '/' + teilnehmer +'/reload',function () {
+					$(this).unwrap();
+				});
+				/*]]>*/
+			}
+			loadlink(); // This will run on page load
+			setInterval(function(){
+				loadlink() // this will run after every 5 seconds
+			}, 5000);
+		</script>
+	</body>
+</html>

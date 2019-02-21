@@ -1,5 +1,6 @@
-package de.trawizardsofjava.messenger.model;
+package de.trawizardsOfJava.messenger.model;
 
+import de.trawizardsOfJava.model.Person;
 import lombok.Data;
 
 import javax.persistence.*;

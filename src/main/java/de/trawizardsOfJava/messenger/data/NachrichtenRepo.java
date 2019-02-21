@@ -1,7 +1,7 @@
-package de.trawizardsofjava.messenger.data;
+package de.trawizardsOfJava.messenger.data;
 
-import de.trawizardsofjava.messenger.model.Nachricht;
-import de.trawizardsofjava.messenger.model.Session;
+import de.trawizardsOfJava.messenger.model.Nachricht;
+import de.trawizardsOfJava.messenger.model.Session;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.ArrayList;

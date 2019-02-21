@@ -1,4 +1,4 @@
-package de.trawizardsofjava.messenger.config;
+package de.trawizardsOfJava.messenger.config;
 
 
 import org.springframework.context.annotation.Configuration;

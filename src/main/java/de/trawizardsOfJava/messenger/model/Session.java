@@ -1,4 +1,4 @@
-package de.trawizardsofjava.messenger.model;
+package de.trawizardsOfJava.messenger.model;
 
 import lombok.Data;
 
@@ -13,4 +13,12 @@ public class Session  implements Serializable {
 	private Long id;
 	@Embedded
 	private Teilnehmer teilnehmer;
+
+	public Session(){
+
+	}
+
+	public Session(Teilnehmer teilnehmer){
+		this.teilnehmer = teilnehmer;
+	}
 }

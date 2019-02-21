@@ -1,10 +1,9 @@
-package de.trawizardsofjava.messenger.model;
+package de.trawizardsOfJava.messenger.model;
 
+import de.trawizardsOfJava.model.Person;
 import lombok.Data;
 
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -19,4 +18,12 @@ public class Teilnehmer implements Serializable {
 	@OneToOne
 	private Person personZwei;
 
+	public Teilnehmer(){
+
+	}
+
+	public Teilnehmer(Person personEins, Person personZwei){
+		this.personEins = personEins;
+		this.personZwei = personZwei;
+	}
 }

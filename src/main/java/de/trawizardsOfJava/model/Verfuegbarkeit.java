@@ -25,6 +25,6 @@ public class Verfuegbarkeit implements Serializable {
 	}
 	
 	public int berechneZwischenTage() {
-		return (int)DAYS.between(this.startDate, this.endDate);
+		return (int)DAYS.between(this.startDate, this.endDate)+1;
 	}
 }

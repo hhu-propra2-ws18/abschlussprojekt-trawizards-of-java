@@ -26,4 +26,12 @@ public class ProPay {
 		}
 		return verfuegbaresGeld >= gebrauchtesGeld;
 	}
+
+	public static int bezahlvorgang(Ausleihe ausleihe){
+		int tage = ausleihe.getVerfuegbarkeit().berechneZwischenTage();
+		ProPaySchnittstelle.post("account/" + ausleihe.getAusleihender() + "/transfer/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getPreis() * tage);
+		ProPaySchnittstelle.post("reservation/reserve/" + ausleihe.getAusleihender() + "/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getKaution());
+		List<Reservierung> reservierungen = ProPaySchnittstelle.getEntity(ausleihe.getAusleihender()).getReservations();
+		return reservierungen.get(reservierungen.size() - 1).getId();
+	}
 }

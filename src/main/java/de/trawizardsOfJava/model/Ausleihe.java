@@ -3,6 +3,7 @@ package de.trawizardsOfJava.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -36,5 +37,9 @@ public class Ausleihe {
 
     public int berechneGesamtPreis() {
       return this.artikel.getKaution() + (this.verfuegbarkeit.berechneZwischenTage() * this.artikel.getPreis());
+    }
+
+    public boolean faelligeAusleihe(){
+        return this.verfuegbarkeit.getEndDate().isBefore(LocalDate.now()) && this.accepted;
     }
 }

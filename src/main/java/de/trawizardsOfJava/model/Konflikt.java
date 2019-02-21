@@ -30,4 +30,11 @@ public class Konflikt {
         konflikt.setInBearbeitung("geschlossen");
         return konflikt;
     }
+
+    public void nehmeKonfliktAn(String name){
+        if ("offen".equals(this.inBearbeitung)) {
+            this.inBearbeitung = "inBearbeitung";
+            this.bearbeitender = name;
+        }
+    }
 }

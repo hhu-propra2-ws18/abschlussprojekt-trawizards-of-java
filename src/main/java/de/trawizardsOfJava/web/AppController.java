@@ -5,6 +5,7 @@ import de.trawizardsOfJava.mail.IMailService;
 import de.trawizardsOfJava.mail.Message;
 import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.*;
+import de.trawizardsOfJava.proPay.ProPay;
 import de.trawizardsOfJava.proPay.ProPaySchnittstelle;
 import de.trawizardsOfJava.proPay.Reservierung;
 import de.trawizardsOfJava.security.SecurityConfig;
@@ -128,7 +129,7 @@ public class AppController {
 
 		ArrayList<Ausleihe> ausgelieheneArtikel = ausleiheRepository.findByAusleihender(benutzername);
 		for (Ausleihe ausleihe : ausgelieheneArtikel) {
-			if (ausleihe.getVerfuegbarkeit().getEndDate().isBefore(LocalDate.now()) && ausleihe.isAccepted()) {
+			if (ausleihe.faelligeAusleihe()) {
 				//iMailService.sendReminder(person.getEmail(),person.getName(), ausleihe.getArtikel().getArtikelName());
 				model.addAttribute("message", "true");
 				model.addAttribute("artikelName", ausleihe.getArtikel().getArtikelName());
@@ -197,7 +198,7 @@ public class AppController {
 	public String speichereAnfrage(Model model, @PathVariable String benutzername, @PathVariable Long id, String daterange, Principal principal) {
 		Artikel artikel = artikelRepository.findById(id).get();
 		Ausleihe ausleihe = new Ausleihe(artikel, new Verfuegbarkeit(daterange), principal.getName());
-		if (! ProPaySchnittstelle.getEntity(principal.getName()).genuegendGeld(ausleihe.berechneGesamtPreis(), ausleiheRepository.findByAusleihenderAndAccepted(principal.getName(), false))) {
+		if (!ProPaySchnittstelle.getEntity(principal.getName()).genuegendGeld(ausleihe.berechneGesamtPreis(), ausleiheRepository.findByAusleihenderAndAccepted(principal.getName(), false))) {
 			model.addAttribute("error", true);
 			return neueAnfrage(model, benutzername, id);
 		}
@@ -215,33 +216,24 @@ public class AppController {
 		return "ausleihenuebersicht";
 	}
 
-	@GetMapping("/account/{benutzername}/annahme/{id}")
+	@PostMapping("/account/{benutzername}/ausleihenuebersicht")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String ausleihebestaetigt(Model model, @PathVariable String benutzername, @PathVariable Long id, Principal principal) {
-		Ausleihe ausleihe = ausleiheRepository.findById(id).get();
-		ausleihe.setAccepted(true);
-		ausleiheRepository.save(ausleihe);
-		Message message = new Message(principal.getName(), ausleihe.getAusleihender(), Message.generiereNachricht("AnfrageAngenommen", principal.getName(), ausleihe.getArtikel().getArtikelName()));
-		messageRepository.save(message);
-		int tage = ausleihe.getVerfuegbarkeit().berechneZwischenTage();
-		ProPaySchnittstelle.post("account/" + ausleihe.getAusleihender() + "/transfer/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getPreis() * tage);
-		ProPaySchnittstelle.post("reservation/reserve/" + ausleihe.getAusleihender() + "/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getKaution());
-		List<Reservierung> reservierungen = ProPaySchnittstelle.getEntity(ausleihe.getAusleihender()).getReservations();
-		ausleihe.setProPayId(reservierungen.get(reservierungen.size() - 1).getId());
-		ausleiheRepository.save(ausleihe);
-		model.addAttribute("link", "account/" + benutzername + "/ausleihenuebersicht");
-		return "backToTheFuture";
-	}
-
-	@GetMapping("/account/{benutzername}/remove/{id}")
-	@PreAuthorize("#benutzername == authentication.name")
-	public String ausleiheabgelehnt(Model model, @PathVariable String benutzername, @PathVariable Long id, Principal principal) {
-		Ausleihe ausleihe = ausleiheRepository.findById(id).get();
-		ausleiheRepository.delete(ausleihe);
-		Message message = new Message(principal.getName(), ausleihe.getAusleihender(), Message.generiereNachricht("AnfrageAbgelehnt", principal.getName(), ausleihe.getArtikel().getArtikelName()));
-		messageRepository.save(message);
-		model.addAttribute("link", "account/" + benutzername + "/ausleihenuebersicht");
-		return "backToTheFuture";
+	public String verwalteAusleihen(Model model, @PathVariable String benutzername, String art, Long id, Principal principal) {
+		if ("angenommen".equals(art)) {
+			Ausleihe ausleihe = ausleiheRepository.findById(id).get();
+			ausleihe.setAccepted(true);
+			ausleiheRepository.save(ausleihe);
+			Message message = new Message(principal.getName(), ausleihe.getAusleihender(), Message.generiereNachricht("AnfrageAngenommen", principal.getName(), ausleihe.getArtikel().getArtikelName()));
+			messageRepository.save(message);
+			ausleihe.setProPayId(ProPay.bezahlvorgang(ausleihe));
+			ausleiheRepository.save(ausleihe);
+		} else {
+			Ausleihe ausleihe = ausleiheRepository.findById(id).get();
+			ausleiheRepository.delete(ausleihe);
+			Message message = new Message(principal.getName(), ausleihe.getAusleihender(), Message.generiereNachricht("AnfrageAbgelehnt", principal.getName(), ausleihe.getArtikel().getArtikelName()));
+			messageRepository.save(message);
+		}
+		return ausleihenuebersicht(model, benutzername);
 	}
 
 	@GetMapping("/account/{benutzername}/ausgelieheneuebersicht")
@@ -290,7 +282,7 @@ public class AppController {
 		model.addAttribute("messages", messageRepository.findByEmpfaengerOrAbsender(benutzername, benutzername));
 		return "nachrichtenUebersicht";
 	}
-	
+
 	@PostMapping("/account/{benutzername}/nachrichten")
 	@PreAuthorize("#benutzername == authentication.name")
 	public String loescheNachricht(Model model, @PathVariable String benutzername, Long id) {
@@ -342,11 +334,8 @@ public class AppController {
 	@GetMapping("/admin/konflikte/{id}")
 	public String konfliktUebernehmen(Model model, @PathVariable Long id, Principal principal) {
 		Konflikt konflikt = konfliktRepository.findById(id).get();
-		if ("offen".equals(konflikt.getInBearbeitung())) {
-			konflikt.setInBearbeitung("inBearbeitung");
-			konflikt.setBearbeitender(principal.getName());
-			konfliktRepository.save(konflikt);
-		}
+		konflikt.nehmeKonfliktAn(principal.getName());
+		konfliktRepository.save(konflikt);
 		model.addAttribute("konflikt", konflikt);
 		return "konfliktDetail";
 	}

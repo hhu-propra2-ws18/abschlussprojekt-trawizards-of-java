@@ -162,7 +162,7 @@ public class AppControllerTest {
 
 		when(benutzerRepository.findByBenutzername(test.getBenutzername())).thenReturn(Optional.of(test));
 
-		mvc.perform(get("/account/foo/bearbeitung")).andExpect(view().name("benutzerverwaltung"));
+		mvc.perform(get("/account/foo/bearbeitung")).andExpect(view().name("profilAendern"));
 	}
 
 	@Test
@@ -194,6 +194,6 @@ public class AppControllerTest {
 
 		mvc.perform(post("/account/foo")
 		.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-		.param("amount", "100")).andExpect(view().name("benutzeransicht"));
+		.param("amount", "100")).andExpect(view().name("profilAnsicht"));
 	}
 }

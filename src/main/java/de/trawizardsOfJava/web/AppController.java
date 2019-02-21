@@ -290,6 +290,13 @@ public class AppController {
 		model.addAttribute("messages", messageRepository.findByEmpfaengerOrAbsender(benutzername, benutzername));
 		return "nachrichtenUebersicht";
 	}
+	
+	@PostMapping("/account/{benutzername}/nachrichten")
+	@PreAuthorize("#benutzername == authentication.name")
+	public String loescheNachricht(Model model, @PathVariable String benutzername, Long id) {
+		messageRepository.delete(messageRepository.findById(id).get());
+		return nachrichtenUebersicht(model, benutzername);
+	}
 
 	@GetMapping("/account/{benutzername}/konflikt/send/{id}")
 	@PreAuthorize("#benutzername == authentication.name")
@@ -309,14 +316,6 @@ public class AppController {
 		Message message = new Message(principal.getName(), rueckgabe.getAusleihender(), Message.generiereNachricht("RueckgabeAbgelehnt", principal.getName(), rueckgabe.getArtikel().getArtikelName()));
 		messageRepository.save(message);
 		//iMailService.sendEmailToKonfliktLoeseStelle(benutzername,konflikt.getBeschreibung(),id);
-		model.addAttribute("link", "account/" + benutzername + "/nachrichten");
-		return "backToTheFuture";
-	}
-
-	@GetMapping("/account/{benutzername}/nachricht/delete/{id}")
-	@PreAuthorize("#benutzername == authentication.name")
-	public String messageDelete(Model model, @PathVariable String benutzername, @PathVariable Long id) {
-		messageRepository.delete(messageRepository.findById(id).get());
 		model.addAttribute("link", "account/" + benutzername + "/nachrichten");
 		return "backToTheFuture";
 	}

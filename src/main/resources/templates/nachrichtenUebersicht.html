@@ -15,9 +15,9 @@
 	<div th:each="message : ${messages}">
 		<p th:text="|Absender: ${message.absender}|">Absender</p>
 		<p th:text="|Nachricht: ${message.nachricht}|">Nachricht</p>
-		<a th:href="@{/account/{benutzername}/nachricht/delete/{id} (id=${message.id},benutzername=${name})}">
-			<button name="button" class="btn btn-outline-danger">Löschen</button>
-		</a>
+		<form method="post">
+			<button class="btn btn-outline-danger" type="submit" name="id" th:value="${message.id}">Löschen</button>
+		</form>
 	</div>
 </div>
 </body>

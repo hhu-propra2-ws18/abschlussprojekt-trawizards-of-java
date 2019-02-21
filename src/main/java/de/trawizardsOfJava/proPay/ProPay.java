@@ -11,7 +11,7 @@ public class ProPay {
 	private int amount;
 	private List<Reservierung> reservations;
 
-	public int berechneVerfuegbaresGeld(){
+	private int berechneVerfuegbaresGeld(){
 		int reservierungsgeld = 0;
 		for (Reservierung reservation : this.reservations) {
 			reservierungsgeld += reservation.getAmount();

@@ -7,9 +7,6 @@ import java.util.ArrayList;
 
 @Controller
 public interface MessageRepository extends CrudRepository<Message, Long> {
-
-    ArrayList<Message> findAll();
-
-    ArrayList<Message> findByEmpfaengerOrAbsender(String empfaenger, String absender);
-
+	ArrayList<Message> findAll();
+	ArrayList<Message> findByEmpfaengerOrAbsender(String empfaenger, String absender);
 }

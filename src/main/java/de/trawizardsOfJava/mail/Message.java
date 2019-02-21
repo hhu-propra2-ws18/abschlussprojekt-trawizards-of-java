@@ -1,51 +1,69 @@
 package de.trawizardsOfJava.mail;
 
+import de.trawizardsOfJava.model.Ausleihe;
+import de.trawizardsOfJava.model.Konflikt;
+import de.trawizardsOfJava.model.Rueckgabe;
 import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 @Data
 public class Message {
-    @Id
-    @GeneratedValue
-    private Long id;
-    private String absender;
-    private String empfaenger;
-    private String nachricht;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String absender;
+	private String empfaenger;
+	private String nachricht;
 
-    public Message(){}
+	public Message(Ausleihe ausleihe, String parameter) {
+		this.nachricht = "Anfrage von " + ausleihe.getAusleihender() + " um " + ausleihe.getArtikel().getArtikelName() + " auszuleihen, wurde " + parameter;
+		if("angefragt".equals(parameter)) {
+			this.absender = ausleihe.getAusleihender();
+			this.empfaenger = ausleihe.getVerleiherName();
+		} else {
+			this.absender = ausleihe.getVerleiherName();
+			this.empfaenger = ausleihe.getAusleihender();
+		}
+	}
 
-    public Message(String absender, String empfaenger, String nachricht){
-        this.absender = absender;
-        this.empfaenger = empfaenger;
-        this.nachricht = nachricht;
-    }
+	public Message(Rueckgabe rueckgabe, String parameter) {
+		this.nachricht = "Rückgabe von " + rueckgabe.getAusleihender() + " um " + rueckgabe.getArtikel().getArtikelName() + " zurückzugeben, wurde " + parameter;
+		if("angefragt".equals(parameter)) {
+			this.absender = rueckgabe.getAusleihender();
+			this.empfaenger = rueckgabe.getVerleiherName();
+		} else {
+			this.absender = rueckgabe.getVerleiherName();
+			this.empfaenger = rueckgabe.getAusleihender();
+			if("abgelehnt".equals(parameter)) {
+				this.nachricht += ", da der Artikel in einem mangelhaftem Zustand zurückgegeben wurde. Die Konfliktlösestelle wurde kontaktiert";
+			}
+		}
+	}
 
-    public static String generiereNachricht(String anlass, String person, String parameter){
-        if(anlass.equals("AnfrageGestellt")){
-            return String.format("Anfrage von %s für %s gestellt", person, parameter);
-        }
-        if(anlass.equals("AnfrageAngenommen")){
-            return String.format("Anfrage von %s für %s wurde angommen", person, parameter);
-        }
-        if(anlass.equals("AnfrageAbgelehnt")){
-            return String.format("Anfrage von %s für %s wurde abgelehnt", person, parameter);
-        }
-        if (anlass.equals("Rueckgabe")){
-            return String.format("Der Artikel %s wurde von %s zurückgegeben.", parameter, person);
-        }
-        if (anlass.equals("RueckgabeAkzeptiert")){
-            return String.format("Die Rückgabe des Artikels %s wurde von %s akzeptiert.", parameter, person);
-        }
-        if (anlass.equals("RueckgabeAbgelehnt")) {
-            return String.format("Der Artikel %s wurde im mangelhaften Zustand zurückgegeben und wurde von %s an die Konfliktlösestelle übergeben.", parameter, person);
-        }
-        if (anlass.equals("Konflikt")){
-            return String.format("Die Kaution für %s wurde %s zugeschrieben.", parameter, person);
-        }
-        return "";
-    }
+	private Message(Konflikt konflikt, String parameter, String empfaenger) {
+		Rueckgabe rueckgabe = konflikt.getRueckgabe();
+		this.absender = "Admin";
+		this.nachricht = "Die Kaution von " + rueckgabe.getArtikel().getArtikelName() + " geht an den " + parameter;
+		if("Verleihenden".equals(parameter)) {
+			this.empfaenger = empfaenger;
+			this.nachricht += "(" + rueckgabe.getVerleiherName() + ")";
+		} else if("Ausleihenden".equals(parameter)) {
+			this.empfaenger = empfaenger;
+			this.nachricht += "(" + rueckgabe.getAusleihender() + ")";
+		}
+	}
+
+	public Message(){}
+
+	public static Message[] konfliktMessages(Konflikt konflikt, String parameter) {
+		Message[] messages = new Message[2];
+		messages[0] = new Message(konflikt, parameter, konflikt.getRueckgabe().getVerleiherName());
+		messages[1] = new Message(konflikt, parameter, konflikt.getRueckgabe().getAusleihender());
+		return messages;
+	}
 }

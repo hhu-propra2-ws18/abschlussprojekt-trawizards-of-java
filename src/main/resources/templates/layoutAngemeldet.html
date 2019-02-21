@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.com" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+		  integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+			integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+			crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+			integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+			crossorigin="anonymous"></script>
+	<style>
+		.profil-pic {
+			border-radius: 50%;
+		}
+	</style>
+	<title layout:title-pattern="$CONTENT_TITLE">Leih24</title>
+</head>
+
+<body onload="gimmeTitle()">
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+	<a class="navbar-brand" href='/'>
+		<img
+			src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png"
+			height="25"/>
+	</a>
+	<ul class="navbar-nav mr-auto">
+		<li class="nav-item">
+			<a class="nav-link" href='/'>Home</a>
+		</li>
+		<li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+			   aria-haspopup="true" aria-expanded="false">
+				<img class="profil-pic"
+					 src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/emptyPic.png"
+					 height="25"/>
+			</a>
+			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+				<a class="dropdown-item" th:href="@{/account/{benutzername} (benutzername=${name})}">Profil</a>
+				<a class="dropdown-item" th:href="@{/account/{benutzername}/addItem (benutzername=${name})}">Artikel
+					erstellen</a>
+				<a class="dropdown-item" th:href="@{/account/{benutzername}/nachrichten (benutzername=${name})}">Nachrichten
+					ansehen</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item disabled" th:text="'Angemeldet als '+${name}"></a>
+			</div>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href='/logout'>Abmelden</a>
+		</li>
+		<li class="nav-item active">
+			<a class="nav-link active" href="" id="titel">Aktuelle Seite</a>
+		</li>
+	</ul>
+</nav>
+
+<div class="col-md-12" align="center">
+	<h1 layout:fragment="titel"></h1>
+	<div layout:fragment="inhalt"></div>
+</div>
+
+<script>
+    function gimmeTitle() {
+        document.getElementById("titel").innerHTML = document.title;
+    }
+</script>
+</body>
+</html>

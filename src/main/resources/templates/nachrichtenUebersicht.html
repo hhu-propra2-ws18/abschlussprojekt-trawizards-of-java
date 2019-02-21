@@ -1,60 +1,24 @@
 <!DOCTYPE html>
-<html lang="de" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="de" layout:decorate="~{layoutAngemeldet}" xmlns:th="http://www.thymeleaf.com"
+	  xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <title>Nachrichtenübersicht</title>
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
+	<title>Nachrichtenübersicht</title>
 </head>
+
 <body>
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-
-    <a class="navbar-brand" href='/'>Leih24</a>
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href='/'>Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/account/{benutzername} (benutzername=${name})}">
-                    Profil
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href='/logout'>
-                    Logout
-                </a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link">Nachrichtenübersicht</a>
-            </li>
-            <hr>
-        </ul>
-    </div>
-</nav>
-
-<div th:if="${admin}" align="center">
-<a th:href="@{/admin/konflikte}">
-    <button class="btn btn-outline-dark" >Konflikte</button>
-</a>
-</div>
-<div th:each="message : ${messages}" align="center" margin="5">
-    <p th:text="|Absender: ${message.absender}|">Absender</p>
-    <p th:text="|Nachricht: ${message.nachricht}|">Nachricht</p>
-    <a th:href="@{/account/{benutzername}/nachricht/delete/{id} (id=${message.id},benutzername=${name})}">
-        <button name="button" class="btn btn-outline-danger">Löschen</button>
-    </a>
+<h1 layout:fragment="titel">Postfach</h1>
+<div layout:fragment="inhalt">
+	<a th:if="${admin}" th:href="@{/admin/konflikte}">
+		<button class="btn btn-outline-dark">Konflikte</button>
+	</a>
+	<p th:if="${#lists.isEmpty(messages)}">Keine Nachrichten vorhanden!</p>
+	<div th:each="message : ${messages}">
+		<p th:text="|Absender: ${message.absender}|">Absender</p>
+		<p th:text="|Nachricht: ${message.nachricht}|">Nachricht</p>
+		<a th:href="@{/account/{benutzername}/nachricht/delete/{id} (id=${message.id},benutzername=${name})}">
+			<button name="button" class="btn btn-outline-danger">Löschen</button>
+		</a>
+	</div>
 </div>
 </body>
 </html>

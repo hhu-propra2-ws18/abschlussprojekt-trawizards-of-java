@@ -7,6 +7,7 @@
 
 <body>
 <div layout:fragment="inhalt">
+	<p th:if="${#lists.isEmpty(artikel)}">Keine Artikel vorhanden!</p>
 	<div class="row">
 		<tr th:each="a: ${artikel}">
 			<div class="col-sm-3">

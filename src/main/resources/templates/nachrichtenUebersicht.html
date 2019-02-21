@@ -11,6 +11,7 @@
 	<a th:if="${admin}" th:href="@{/admin/konflikte}">
 		<button class="btn btn-outline-dark">Konflikte</button>
 	</a>
+	<p th:if="${#lists.isEmpty(messages)}">Keine Nachrichten vorhanden!</p>
 	<div th:each="message : ${messages}">
 		<p th:text="|Absender: ${message.absender}|">Absender</p>
 		<p th:text="|Nachricht: ${message.nachricht}|">Nachricht</p>

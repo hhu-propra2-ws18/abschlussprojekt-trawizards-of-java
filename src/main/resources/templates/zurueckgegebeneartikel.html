@@ -8,6 +8,7 @@
 <body>
 <h1 layout:fragment="titel">Zurückgegebene Artikel:</h1>
 <div layout:fragment="inhalt">
+	<p th:if="${#lists.isEmpty(ausleihen)}">Es wurden keine Artikel zurückgegeben!</p>
 	<div th:each="ausleihe : ${ausleihen}" th:if="${!ausleihe.angenommen}">
 		<p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
 		<p th:text="|Ausleihender: ${ausleihe.ausleihender}|">Ausleihender</p>

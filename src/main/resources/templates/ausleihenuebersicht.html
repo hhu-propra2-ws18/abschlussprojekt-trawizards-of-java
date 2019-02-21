@@ -8,6 +8,7 @@
 <body>
 <h1 layout:fragment="titel">Offene Anfragen:</h1>
 <div layout:fragment="inhalt">
+	<p th:if="${#lists.isEmpty(ausleihen)}">Keine Anfragen vorhanden!</p>
 	<div th:each="ausleihe : ${ausleihen}" th:if="${!ausleihe.accepted}">
 		<p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
 		<p th:text="|Ausleihender: ${ausleihe.ausleihender}|">Ausleihender</p>
@@ -21,6 +22,7 @@
 		</a>
 	</div>
 	<h1>Angenommene Anfragen:</h1>
+	<p th:if="${#lists.isEmpty(ausleihen)}">Keine Anfragen vorhanden!</p>
 	<div th:each="ausleihe : ${ausleihen}" th:if=="${ausleihe.accepted}">
 		<p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
 		<p th:text="|Ausleihender: ${ausleihe.ausleihender}|">Ausleihender</p>

@@ -9,6 +9,7 @@
 <h1 layout:fragment="titel">Ihre bisherigen Transkationen bei Leih24:</h1>
 <div layout:fragment="inhalt">
 	<h3>Verliehen von mir:</h3>
+	<p th:if="${#lists.isEmpty(artikel)}">Sie haben noch keine Artikel verliehen!</p>
 	<tr th:each="a: ${artikel}">
 		<dl class="dl-horizontal">
 			<dt th:text="'Artikel: ' +${a.artikel.artikelName}"></dt>
@@ -21,6 +22,7 @@
 	</tr>
 	<div>
 		<h3>Habe ich ausgeliehen:</h3>
+		<p th:if="${#lists.isEmpty(artikelAusgeliehen)}">Sie haben noch keine Artikel ausgeliehene!</p>
 		<tr th:each="a: ${artikelAusgeliehen}">
 			<dl class="dl-horizontal">
 				<dt th:text="'Artikel: ' +${a.artikel.artikelName}"></dt>

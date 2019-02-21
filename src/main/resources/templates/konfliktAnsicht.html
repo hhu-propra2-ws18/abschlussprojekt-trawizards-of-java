@@ -8,6 +8,7 @@
 <body>
 <h1 layout:fragment="titel">Konflikte in meiner Bearbeitung:</h1>
 <div layout:fragment="inhalt">
+	<p th:if="${#lists.isEmpty(meineKonflikte)}">Keine Konflikte vorhanden!</p>
 	<div th:each="konflikt : ${meineKonflikte}">
 		<p th:text="|Absender: ${konflikt.rueckgabe.verleiherName}|"></p>
 		<p th:text="|Verursacher: ${konflikt.rueckgabe.ausleihender}|"></p>
@@ -18,6 +19,7 @@
 		</a>
 	</div>
 	<h1 align="center">Offene Konflikte:</h1>
+	<p th:if="${#lists.isEmpty(offeneKonflikte)}">Keine Konflikte vorhanden!</p>
 	<div th:each="konflikt : ${offeneKonflikte}">
 		<p th:text="|Absender: ${konflikt.rueckgabe.verleiherName}|"></p>
 		<p th:text="|Verursacher: ${konflikt.rueckgabe.ausleihender}|"></p>

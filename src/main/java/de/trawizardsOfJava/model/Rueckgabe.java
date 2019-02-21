@@ -16,7 +16,7 @@ public class Rueckgabe{
     private Verfuegbarkeit verfuegbarkeit;
     private String verleiherName;
     private boolean angenommen = false;
-    private int proPayID;
+    private Long proPayID;
 
     public Rueckgabe(){}
 

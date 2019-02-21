@@ -8,30 +8,33 @@ import java.util.List;
 
 @Data
 public class ProPay {
-	private int amount;
+	private Long amount;
 	private List<Reservierung> reservations;
 
-	private int berechneVerfuegbaresGeld(){
-		int reservierungsgeld = 0;
+	private Long berechneVerfuegbaresGeld(){
+		Long reservierungsgeld = 0L;
 		for (Reservierung reservation : this.reservations) {
 			reservierungsgeld += reservation.getAmount();
 		}
 		return this.amount - reservierungsgeld;
 	}
 
-	public boolean genuegendGeld(int gebrauchtesGeld, ArrayList<Ausleihe> anfragen){
-		int verfuegbaresGeld = this.berechneVerfuegbaresGeld();
+	public boolean genuegendGeld(Long gebrauchtesGeld, ArrayList<Ausleihe> anfragen){
+		Long verfuegbaresGeld = this.berechneVerfuegbaresGeld();
 		for (Ausleihe anfrage : anfragen) {
 			gebrauchtesGeld += anfrage.berechneGesamtPreis();
 		}
 		return verfuegbaresGeld >= gebrauchtesGeld;
 	}
 
-	public static int bezahlvorgang(Ausleihe ausleihe){
-		int tage = ausleihe.getVerfuegbarkeit().berechneZwischenTage();
-		ProPaySchnittstelle.post("account/" + ausleihe.getAusleihender() + "/transfer/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getPreis() * tage);
-		ProPaySchnittstelle.post("reservation/reserve/" + ausleihe.getAusleihender() + "/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getKaution());
-		List<Reservierung> reservierungen = ProPaySchnittstelle.getEntity(ausleihe.getAusleihender()).getReservations();
-		return reservierungen.get(reservierungen.size() - 1).getId();
+	public static void bezahlvorgang(Ausleihe ausleihe) {
+		ausleihe.setAccepted(true);
+		if(!ausleihe.getVerleiherName().equals(ausleihe.getAusleihender())) {
+			Long tage = ausleihe.getVerfuegbarkeit().berechneZwischenTage();
+			ProPaySchnittstelle.post("account/" + ausleihe.getAusleihender() + "/transfer/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getPreis() * tage);
+			ProPaySchnittstelle.post("reservation/reserve/" + ausleihe.getAusleihender() + "/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getKaution());
+			List<Reservierung> reservierungen = ProPaySchnittstelle.getEntity(ausleihe.getAusleihender()).getReservations();
+			ausleihe.setProPayId(reservierungen.get(reservierungen.size() - 1).getId());
+		}
 	}
 }

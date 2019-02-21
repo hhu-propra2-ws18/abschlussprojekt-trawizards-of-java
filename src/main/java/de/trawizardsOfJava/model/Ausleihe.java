@@ -17,7 +17,7 @@ public class Ausleihe {
     private Verfuegbarkeit verfuegbarkeit;
     private String verleiherName;
     private boolean accepted = false;
-    private int proPayId;
+    private Long proPayId;
 
     public Ausleihe(){}
 
@@ -28,7 +28,7 @@ public class Ausleihe {
         this.verleiherName = artikel.getVerleiherBenutzername();
     }
 
-    public int berechneGesamtPreis() {
+    public Long berechneGesamtPreis() {
       return this.artikel.getKaution() + (this.verfuegbarkeit.berechneZwischenTage() * this.artikel.getPreis());
     }
 

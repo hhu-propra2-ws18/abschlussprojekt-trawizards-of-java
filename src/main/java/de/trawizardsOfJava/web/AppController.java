@@ -46,24 +46,24 @@ public class AppController {
 	}
 
 	@GetMapping("/")
-	public String uebersicht(Model model, Principal principal) {
+	public String startseite(Model model, Principal principal) {
 		model.addAttribute("artikel", artikelRepository.findAll());
 		model.addAttribute("aktuelleSeite", "Startseite");
 		model.addAttribute("angemeldet", principal != null);
-		return "uebersichtSeite";
+		return "startseite";
 	}
 
 	@GetMapping("/search")
-	public String search(Model model, @RequestParam final String q, Principal principal) {
+	public String suche(Model model, @RequestParam final String q, Principal principal) {
 		model.addAttribute("artikel", artikelRepository.findAllByArtikelNameContaining(q));
 		model.addAttribute("query", q);
 		model.addAttribute("aktuelleSeite", "Suche");
 		model.addAttribute("angemeldet", principal != null);
-		return "search";
+		return "suche";
 	}
 
 	@GetMapping("/detail/{id}")
-	public String detail(Model model, @PathVariable Long id, Principal principal) {
+	public String artikelDetail(Model model, @PathVariable Long id, Principal principal) {
 		model.addAttribute("artikelDetail", artikelRepository.findById(id).get());
 		model.addAttribute("aktuelleSeite", "Artikelansicht");
 		model.addAttribute("angemeldet", principal != null);
@@ -72,14 +72,14 @@ public class AppController {
 
 	@GetMapping("/account/{benutzername}/aendereArtikel/{id}")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String changeItem(Model model, @PathVariable String benutzername, @PathVariable Long id) {
+	public String artikelAendern(Model model, @PathVariable String benutzername, @PathVariable Long id) {
 		model.addAttribute("artikel", artikelRepository.findById(id).get());
-		return "changeItem";
+		return "artikelAendern";
 	}
 
 	@PostMapping("/account/{benutzername}/aendereArtikel/{id}")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String postChangeItem(Model model, @PathVariable String benutzername, Artikel artikel, String daterange) {
+	public String speicherArtikelAenderung(Model model, @PathVariable String benutzername, Artikel artikel, String daterange) {
 		artikel.setVerfuegbarkeit(new Verfuegbarkeit(daterange));
 		artikelRepository.save(artikel);
 		model.addAttribute("link", "detail/" + artikel.getId());
@@ -95,7 +95,7 @@ public class AppController {
 	}
 
 	@PostMapping("/registrierung")
-	public String speicherePerson(Model model, Person person) {
+	public String speicherPerson(Model model, Person person) {
 		if (benutzerRepository.findByBenutzername(person.getBenutzername()).isPresent()) {
 			model.addAttribute("error", true);
 			return registrierung(model);
@@ -114,7 +114,7 @@ public class AppController {
 	}
 
 	@GetMapping("/account/{benutzername}")
-	public String accountansicht(Model model, @PathVariable String benutzername, Principal principal) {
+	public String profilAnsicht(Model model, @PathVariable String benutzername, Principal principal) {
 		model.addAttribute("person", benutzerRepository.findByBenutzername(benutzername).get());
 		model.addAttribute("artikel", artikelRepository.findByVerleiherBenutzername(benutzername));
 		model.addAttribute("isUser", benutzername.equals(principal.getName()));
@@ -131,42 +131,41 @@ public class AppController {
 				model.addAttribute("verleiherName", ausleihe.getVerleiherName());
 			}
 		}
-		return "benutzeransicht";
+		return "profilAnsicht";
 	}
 
 	@PostMapping("/account/{benutzername}")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String kontoAufladen(Model model, @PathVariable String benutzername, int amount) {
+	public String kontoAufladen(Model model, @PathVariable String benutzername, Long amount, Principal principal) {
 		ProPaySchnittstelle.post("account/" + benutzername + "?amount=" + amount);
-		model.addAttribute("link", "account/" + benutzername);
-		return "backToTheFuture";
+		return profilAnsicht(model, benutzername, principal);
 	}
 
 	@GetMapping("/account/{benutzername}/bearbeitung")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String benutzerverwaltung(Model model, @PathVariable String benutzername) {
+	public String profilAendern(Model model, @PathVariable String benutzername) {
 		model.addAttribute("person", benutzerRepository.findByBenutzername(benutzername).get());
-		return "benutzerverwaltung";
+		return "profilAendern";
 	}
 
 	@PostMapping("/account/{benutzername}/bearbeitung")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String speicherAenderung(Model model, @PathVariable String benutzername, Person person) {
+	public String speicherProfilAenderung(Model model, @PathVariable String benutzername, Person person) {
 		benutzerRepository.save((person));
 		model.addAttribute("link", "account/" + person.getBenutzername());
 		return "backToTheFuture";
 	}
 
-	@GetMapping("/account/{benutzername}/addItem")
+	@GetMapping("/account/{benutzername}/erstelleArtikel")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String addItem(Model model, @PathVariable String benutzername) {
+	public String erstelleArtikel(Model model, @PathVariable String benutzername) {
 		model.addAttribute("artikel", new Artikel());
-		return "addItem";
+		return "artikelErstellung";
 	}
 
-	@PostMapping("/account/{benutzername}/addItem")
+	@PostMapping("/account/{benutzername}/erstelleArtikel")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String postAddItem(Model model, @PathVariable String benutzername, String daterange, Artikel artikel) {
+	public String speicherArtikel(Model model, @PathVariable String benutzername, String daterange, Artikel artikel) {
 		artikel.setVerfuegbarkeit(new Verfuegbarkeit(daterange));
 		artikel.setVerleiherBenutzername(benutzername);
 		artikelRepository.save(artikel);
@@ -206,7 +205,7 @@ public class AppController {
 	@PreAuthorize("#benutzername == authentication.name")
 	public String ausleihenUebersicht(Model model, @PathVariable String benutzername) {
 		model.addAttribute("ausleihen", ausleiheRepository.findByVerleiherName(benutzername));
-		return "ausleihenuebersicht";
+		return "ausleihenUebersicht";
 	}
 
 	@PostMapping("/account/{benutzername}/ausleihenuebersicht")
@@ -214,8 +213,7 @@ public class AppController {
 	public String verwalteAusleihen(Model model, @PathVariable String benutzername, String art, Long id) {
 		Ausleihe ausleihe = ausleiheRepository.findById(id).get();
 		if ("angenommen".equals(art)) {
-			ausleihe.setAccepted(true);
-			ausleihe.setProPayId(ProPay.bezahlvorgang(ausleihe));
+			ProPay.bezahlvorgang(ausleihe);
 			ausleiheRepository.save(ausleihe);
 			Message message = new Message(ausleihe, "angenommen");
 			messageRepository.save(message);
@@ -231,7 +229,7 @@ public class AppController {
 	@PreAuthorize("#benutzername == authentication.name")
 	public String leihenUebersicht(Model model, @PathVariable String benutzername, Principal principal) {
 		model.addAttribute("ausleihen", ausleiheRepository.findByAusleihender(principal.getName()));
-		return "ausgelieheneuebersicht";
+		return "ausgelieheneUebersicht";
 	}
 
 	@PostMapping("/account/{benutzername}/ausgelieheneuebersicht")

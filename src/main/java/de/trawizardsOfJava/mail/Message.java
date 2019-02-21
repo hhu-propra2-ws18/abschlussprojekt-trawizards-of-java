@@ -48,12 +48,11 @@ public class Message {
 	private Message(Konflikt konflikt, String parameter, String empfaenger) {
 		Rueckgabe rueckgabe = konflikt.getRueckgabe();
 		this.absender = "Admin";
+		this.empfaenger = empfaenger;
 		this.nachricht = "Die Kaution von " + rueckgabe.getArtikel().getArtikelName() + " geht an den " + parameter;
 		if("Verleihenden".equals(parameter)) {
-			this.empfaenger = empfaenger;
 			this.nachricht += "(" + rueckgabe.getVerleiherName() + ")";
-		} else if("Ausleihenden".equals(parameter)) {
-			this.empfaenger = empfaenger;
+		} else {
 			this.nachricht += "(" + rueckgabe.getAusleihender() + ")";
 		}
 	}

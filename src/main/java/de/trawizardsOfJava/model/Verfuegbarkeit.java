@@ -24,7 +24,7 @@ public class Verfuegbarkeit implements Serializable {
 		return (date.isAfter(this.startDate) && date.isBefore(this.endDate));
 	}
 	
-	public int berechneZwischenTage() {
-		return (int)DAYS.between(this.startDate, this.endDate)+1;
+	public Long berechneZwischenTage() {
+		return DAYS.between(this.startDate, this.endDate)+1;
 	}
 }

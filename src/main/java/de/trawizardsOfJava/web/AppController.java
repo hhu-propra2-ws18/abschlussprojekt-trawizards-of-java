@@ -86,7 +86,8 @@ public class AppController {
 	public String postChangeItem(Model model, @PathVariable String benutzername, Artikel artikel, String daterange) {
 		artikel.setVerfuegbarkeit(new Verfuegbarkeit(daterange));
 		artikelRepository.save(artikel);
-		model.addAttribute("link", "detail/" + artikel.getId());
+		model.addAttribute("link", "account/" + benutzername);
+	//	model.addAttribute("link", "");
 		return "backToTheFuture";
 	}
 

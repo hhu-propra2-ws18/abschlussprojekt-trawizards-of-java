@@ -17,11 +17,11 @@
 			<p th:if="${error}">Sie haben nicht genügend Geld auf Ihrem ProPay-Konto!</p>
 			<input type="text" class="form-control" name="daterange" min="#today"/> <br>
 			<br>
-			<a href='/'>
-				<button name="button" class="btn btn-outline-danger">Abbrechen</button>
-			</a>
 			<input type="submit" value="Bestätigen" class="btn btn-outline-success"/>
 		</form>
+		<a href='/'>
+			<button name="button" class="btn btn-outline-danger">Abbrechen</button>
+		</a>
 	</div>
 
 	<script th:inline="javascript">

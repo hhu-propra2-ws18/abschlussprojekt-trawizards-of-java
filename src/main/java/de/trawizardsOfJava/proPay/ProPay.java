@@ -1,7 +1,9 @@
 package de.trawizardsOfJava.proPay;
 
+import de.trawizardsOfJava.model.Ausleihe;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -15,5 +17,13 @@ public class ProPay {
 			reservierungsgeld += reservation.getAmount();
 		}
 		return amount - reservierungsgeld;
+	}
+
+	public boolean genuegendGeld(int gebrauchtesGeld, ArrayList<Ausleihe> anfragen){
+		int verfuegbaresGeld = berechneVerfuegbaresGeld();
+		for (Ausleihe anfrage : anfragen) {
+			gebrauchtesGeld += anfrage.berechneGesamtPreis();
+		}
+		return verfuegbaresGeld >= gebrauchtesGeld;
 	}
 }

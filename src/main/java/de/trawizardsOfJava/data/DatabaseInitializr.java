@@ -52,7 +52,7 @@ public class DatabaseInitializr implements ServletContextInitializer {
 		ProPaySchnittstelle.post("account/Joe?amount=3297");
 		benutzerRepository.save(person2);
 
-		Artikel artikel = new Artikel();
+		/*Artikel artikel = new Artikel();
         artikel.setVerleiherBenutzername(person1.getBenutzername());
         artikel.setArtikelName("Bagger");
         artikel.setBeschreibung("Dies ist ein Schaufelbagger");
@@ -80,6 +80,6 @@ public class DatabaseInitializr implements ServletContextInitializer {
         konflikt.setVerursacherMail(person2.getEmail());
         konflikt.setRueckgabe(rueckgabeRepository.findByVerleiherName("root").get(0));
         konflikt.setBeschreibung("kaputt");
-        konfliktRepository.save(konflikt);
+        konfliktRepository.save(konflikt);*/
 	}
 }

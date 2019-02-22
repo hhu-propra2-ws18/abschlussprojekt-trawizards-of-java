@@ -7,18 +7,7 @@
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="../static/css/daterange.css" th:href="@{/css/daterange.css}"/>
-
-	<style>
-		label {
-			float: left;
-			display: block;
-		}
-
-		.group {
-			display: flex;
-			margin-bottom: 10px;
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="../static/css/design.css" th:href="@{/css/design.css}"/>
 
 </head>
 
@@ -58,7 +47,7 @@
 							<input id="date" type="text" class="form-control ml-5" name="daterange" value=""/> <br>
 						</div>
 						<input type="hidden" th:field="*{id}">
-							<input type="submit" value="Bestätigen" class="btn btn-outline-success md-5"/>
+						<input type="submit" value="Bestätigen" class="btn btn-outline-success"/>
 					</form>
 					</div>
 			</div>

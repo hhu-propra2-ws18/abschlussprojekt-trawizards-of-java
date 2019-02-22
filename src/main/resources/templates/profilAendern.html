@@ -6,28 +6,43 @@
 </head>
 
 <body>
-<h1 layout:fragment="titel">Bitte geben Sie Ihre neuen Daten an:</h1>
 <div layout:fragment="inhalt">
-	<form method="post" th:object="${person}">
-		<table>
-			<tr>
-				<td>Benutzername:</td>
-				<td><input type="text" class="form-control" th:field="*{benutzername}" disabled></td>
-			</tr>
-			<tr>
-				<td>Name:</td>
-				<td><input type="text" class="form-control" th:field="*{name}"></td>
-			</tr>
-			<tr>
-				<td>E-Mail:</td>
-				<td><input type="text" class="form-control" th:field="*{email}" required></td>
-			</tr>
-			<input type="hidden" th:field="*{rolle}">
-			<input type="hidden" th:field="*{passwort}">
-		</table>
-		<br>
-		<button type="submit" class="btn btn-outline-success">Bestätigen</button>
-	</form>
+
+	<div class="card text-center">
+		<h5 class="card-header">
+			Bitte geben Sie Ihre neuen Daten an:
+		</h5>
+		<div class="card-body">
+			<form method="post" th:object="${person}">
+				<div class="col-md-12" align="center">
+				<table>
+					<tr>
+						<td>Benutzername:</td>
+						<td><input type="text" class="form-control" th:field="*{benutzername}" disabled></td>
+					</tr>
+					<tr>
+						<td>Name:</td>
+						<td><input type="text" class="form-control" th:field="*{name}"></td>
+					</tr>
+					<tr>
+						<td>E-Mail:</td>
+						<td><input type="text" class="form-control" th:field="*{email}" required></td>
+					</tr>
+					<input type="hidden" th:field="*{rolle}">
+					<input type="hidden" th:field="*{passwort}">
+				</table>
+			</div>
+				<br>
+				<button type="submit" class="btn btn-outline-success">Bestätigen</button>
+			</form>
+		</div>
+		<div class="card-footer text-muted">
+			<a href='/'>
+				<button type="button" class="btn btn-outline-danger">Abbrechen</button>
+			</a>
+		</div>
+	</div>
+
 </div>
 </body>
 </html>

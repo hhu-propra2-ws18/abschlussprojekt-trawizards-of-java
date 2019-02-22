@@ -14,6 +14,7 @@ import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 @Component
 public class DatabaseInitializr implements ServletContextInitializer {
@@ -82,7 +83,7 @@ public class DatabaseInitializr implements ServletContextInitializer {
         Konflikt konflikt = new Konflikt();
         konflikt.setAbsenderMail(person1.getEmail());
         konflikt.setVerursacherMail(person2.getEmail());
-        konflikt.setRueckgabe(rueckgabeRepository.findByVerleiherName("root").get(0));
+        konflikt.setRueckgabe(rueckgabeRepository.findAll().get(0));
         konflikt.setBeschreibung("kaputt");
         konfliktRepository.save(konflikt);
     }

@@ -1,8 +1,6 @@
 package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.*;
-import de.trawizardsOfJava.mail.IMailService;
-import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.Person;
 import de.trawizardsOfJava.security.SecurityConfig;
 import de.trawizardsOfJava.security.SecurityPersonenService;
@@ -15,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 

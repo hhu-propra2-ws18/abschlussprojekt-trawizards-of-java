@@ -8,34 +8,40 @@
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 	<body>
-		<div id="div1" th:each="nachricht: ${nachrichten}">
+		<div id="div1">
 
 		</div>
 		<form method="post" th:object="${nachricht}">
-			<div class="type" style="position: fixed; bottom: 0;">
+			<div class="type">
 				<input type="hidden" th:field="*{id}">
 				<input type="hidden" th:field="*{absender}">
 				<input type="hidden" th:field="*{session}">
 				<input type="hidden" th:field="*{gesendet}">
-				<input id="feld" maxlength="255" style="width: 100%" type="text" th:field="*{chat}" required placeholder="Nachricht" tabindex="+1">
+				<input id="feld" maxlength="255" style="width: 330px" type="text" th:field="*{chat}" required placeholder="Nachricht" tabindex="+1">
 				<a th:href="@{/messenger/{benutzername}/{teilnehmer} (benutzername=${name},teilnehmer=${teilnehmer}}">
-					<button name="button" class="btn btn-outline-danger" value="submit" tabindex="-1">Senden</button>
+					<button name="button" style="width: 60px;object-fit: contain" class="btn btn-outline-danger" value="submit" tabindex="-1">Senden</button>
 				</a>
 			</div>
 		</form>
 
 		<script th:inline="javascript">
+            $('html, body').animate({scrollTop:$(document).height()+99999999}, 'slow');
+			//not resizable
+			var breite = window.outerWidth.valueOf();
+			var hoehe = window.outerHeight.valueOf();
 			window.onresize = function(){
-				window.resizeTo(425, 500);
-			}
+				window.resizeTo(breite, hoehe);
+			};
 			window.onclick = function(){
-				window.resizeTo(425, 500);
-			}
+				window.resizeTo(breite, hoehe);
+			};
 
+			//Inputfeld auswählen
 			var input = document.getElementById('feld');
 			input.focus();
 			input.select();
 
+			//Inhalt neuladen
 			function loadlink(){
 				/*<![CDATA[*/
 				var benutzer = /*[[${name}]]*/;
@@ -49,6 +55,7 @@
 			setInterval(function(){
 				loadlink() // this will run after every 5 seconds
 			}, 5000);
+			//end-Inhalt neuladen
 		</script>
 	</body>
 </html>

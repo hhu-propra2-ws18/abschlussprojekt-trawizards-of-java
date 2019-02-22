@@ -195,8 +195,7 @@ public class AppController {
 			return neueAnfrage(model, benutzername, id);
 		}
 		ausleiheRepository.save(ausleihe);
-		Message message = new Message(ausleihe, "angefragt");
-		messageRepository.save(message);
+		messageRepository.save(new Message(ausleihe, "angefragt"));
 		model.addAttribute("link", "account/" + benutzername + "/nachrichten");
 		return "backToTheFuture";
 	}
@@ -215,12 +214,10 @@ public class AppController {
 		if ("angenommen".equals(art)) {
 			ProPay.bezahlvorgang(ausleihe);
 			ausleiheRepository.save(ausleihe);
-			Message message = new Message(ausleihe, "angenommen");
-			messageRepository.save(message);
+			messageRepository.save(new Message(ausleihe, "angenommen"));
 		} else {
 			ausleiheRepository.delete(ausleihe);
-			Message message = new Message(ausleihe, "abgelehnt");
-			messageRepository.save(message);
+			messageRepository.save(new Message(ausleihe, "abgelehnt"));
 		}
 		return ausleihenUebersicht(model, benutzername);
 	}
@@ -238,8 +235,7 @@ public class AppController {
 		Rueckgabe rueckgabe = new Rueckgabe(ausleiheRepository.findById(id).get());
 		rueckgabeRepository.save(rueckgabe);
 		ausleiheRepository.delete(ausleiheRepository.findById(id).get());
-		Message message = new Message(rueckgabe, "angefragt");
-		messageRepository.save(message);
+		messageRepository.save(new Message(rueckgabe, "angefragt"));
 		return leihenUebersicht(model, benutzername, principal);
 	}
 
@@ -256,8 +252,7 @@ public class AppController {
 		Rueckgabe rueckgabe = rueckgabeRepository.findById(id).get();
 		rueckgabe.setAngenommen(true);
 		rueckgabeRepository.save(rueckgabe);
-		Message message = new Message(rueckgabe, "angenommen");
-		messageRepository.save(message);
+		messageRepository.save( new Message(rueckgabe, "angenommen"));
 		ProPaySchnittstelle.post("reservation/release/" + rueckgabe.getAusleihender() + "?reservationId=" + rueckgabe.getProPayID());
 		return rueckgabenUebersicht(model, benutzername, principal);
 	}
@@ -271,14 +266,11 @@ public class AppController {
 
 	@PostMapping("/account/{benutzername}/konflikt/send/{id}")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String konfliktAbsenden(Model model, @PathVariable String benutzername, @PathVariable Long id, Konflikt konflikt, Principal principal) {
+	public String konfliktAbsenden(Model model, @PathVariable String benutzername, @PathVariable Long id, Konflikt konflikt) {
 		Rueckgabe rueckgabe = rueckgabeRepository.findById(id).get();
-		konflikt.setAbsenderMail(benutzerRepository.findByBenutzername(benutzername).get().getEmail());
-		konflikt.setVerursacherMail(benutzerRepository.findByBenutzername(rueckgabe.getAusleihender()).get().getEmail());
-		konflikt.setRueckgabe(rueckgabe);
+		konflikt.setKonflikt(rueckgabe, benutzerRepository.findByBenutzername(rueckgabe.getAusleihender()).get().getEmail(), benutzerRepository.findByBenutzername(benutzername).get().getEmail());
 		konfliktRepository.save(konflikt);
-		Message message = new Message(rueckgabe, "abgelehnt");
-		messageRepository.save(message);
+		messageRepository.save(new Message(rueckgabe, "abgelehnt"));
 		//iMailService.sendEmailToKonfliktLoeseStelle(benutzername,konflikt.getBeschreibung(),id);
 		model.addAttribute("link", "account/" + benutzername + "/nachrichten");
 		return "backToTheFuture";

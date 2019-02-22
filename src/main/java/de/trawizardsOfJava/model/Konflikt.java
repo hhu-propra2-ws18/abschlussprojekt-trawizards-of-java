@@ -18,6 +18,14 @@ public class Konflikt {
     private String inBearbeitung = "offen";
     private String bearbeitender;
 
+    public Konflikt() {}
+
+    public void setKonflikt(Rueckgabe rueckgabe, String verursacherMail, String absenderMail) {
+        this.rueckgabe = rueckgabe;
+        this.verursacherMail = verursacherMail;
+        this.absenderMail = absenderMail;
+    }
+
     public void nehmeKonfliktAn(String name){
         if ("offen".equals(this.inBearbeitung)) {
             this.inBearbeitung = "inBearbeitung";

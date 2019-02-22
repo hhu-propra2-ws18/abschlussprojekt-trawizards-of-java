@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="de" layout:decorate="~{layoutAngemeldet}" xmlns:th="http://www.thymeleaf.com"
+	  xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Ausleihenübersicht</title>
+</head>
+
+<body>
+<div layout:fragment="inhalt">
+	<div class="card text-center">
+		<h5 class="card-header">
+			Offene Anfragen:
+		</h5>
+		<div class="card-body">
+			<p th:if="${#lists.isEmpty(ausleihen)}">Keine Anfragen vorhanden!</p>
+			<div th:each="ausleihe : ${ausleihen}" th:if="${!ausleihe.accepted}">
+				<li class="list-group-item">
+					<p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
+					<p th:text="|Ausleihender: ${ausleihe.ausleihender}|">Ausleihender</p>
+					<p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
+					<p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
+					<form method="post">
+						<input type="hidden" th:value="${ausleihe.id}" name="id">
+						<button class="btn btn-outline-success" type="submit" name="art" value="angenommen">Annehmen</button>
+						<button class="btn btn-outline-danger" type="submit" name="art" value="abgelehnt">Ablehenen</button>
+					</form>
+				</li>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="card text-center mt-3">
+		<h5 class="card-header">
+			Angenommene Anfragen:
+		</h5>
+		<div class="card-body">
+			<p th:if="${#lists.isEmpty(ausleihen)}">Keine Anfragen vorhanden!</p>
+			<div th:each="ausleihe : ${ausleihen}" th:if=="${ausleihe.accepted}">
+				<li class="list-group-item">
+					<p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
+					<p th:text="|Ausleihender: ${ausleihe.ausleihender}|">Ausleihender</p>
+					<p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
+					<p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
+				</li>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

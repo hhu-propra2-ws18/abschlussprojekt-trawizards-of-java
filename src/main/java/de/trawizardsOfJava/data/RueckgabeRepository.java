@@ -1,6 +1,5 @@
 package de.trawizardsOfJava.data;
 
-import de.trawizardsOfJava.model.Person;
 import de.trawizardsOfJava.model.Rueckgabe;
 import org.springframework.data.repository.CrudRepository;
 

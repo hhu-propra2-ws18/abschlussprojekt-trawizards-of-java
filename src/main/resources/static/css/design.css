@@ -1,0 +1,13 @@
+label {
+    float: left;
+    display: block;
+}
+
+.group {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.bottomDistance {
+    margin-bottom: 10px;
+}

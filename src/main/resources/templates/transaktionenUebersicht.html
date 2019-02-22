@@ -8,32 +8,47 @@
 <body>
 <h1 layout:fragment="titel">Ihre bisherigen Transkationen bei Leih24:</h1>
 <div layout:fragment="inhalt">
-	<h3>Verliehen von mir:</h3>
-	<p th:if="${#lists.isEmpty(artikel)}">Sie haben noch keine Artikel verliehen!</p>
-	<tr th:each="a: ${artikel}">
-		<dl class="dl-horizontal">
-			<dt th:text="'Artikel: ' +${a.artikel.artikelName}"></dt>
-			<p th:text="'Ausgeliehen an: ' +${a.ausleihender}"></p>
-			<p th:text="'Beschreibung: ' +${a.artikel.beschreibung}"></p>
-			<p th:text="'Von: ' +${a.verfuegbarkeit.startDate}"></p>
-			<p th:text="'Bis: ' +${a.verfuegbarkeit.endDate}"></p>
-			<hr>
-		</dl>
-	</tr>
-	<div>
-		<h3>Habe ich ausgeliehen:</h3>
-		<p th:if="${#lists.isEmpty(artikelAusgeliehen)}">Sie haben noch keine Artikel ausgeliehene!</p>
-		<tr th:each="a: ${artikelAusgeliehen}">
-			<dl class="dl-horizontal">
-				<dt th:text="'Artikel: ' +${a.artikel.artikelName}"></dt>
-				<p th:text="'Verliehen von: ' +${a.verleiherName}"></p>
-				<p th:text="'Beschreibung: ' +${a.artikel.beschreibung}"></p>
-				<p th:text="'Von: ' +${a.verfuegbarkeit.startDate}"></p>
-				<p th:text="'Bis: ' +${a.verfuegbarkeit.endDate}"></p>
-				<hr>
-			</dl>
-		</tr>
+	<div class="card text-center">
+		<h5 class="card-header">
+			Verliehen von mir:
+		</h5>
+		<div class="card-body">
+			<p th:if="${#lists.isEmpty(artikel)}">Sie haben noch keine Artikel verliehen!</p>
+			<tr th:each="a: ${artikel}">
+				<li class="list-group-item">
+					<dl class="dl-horizontal">
+						<dt th:text="'Artikel: ' +${a.artikel.artikelName}"></dt>
+						<p th:text="'Ausgeliehen an: ' +${a.ausleihender}"></p>
+						<p th:text="'Beschreibung: ' +${a.artikel.beschreibung}"></p>
+						<p th:text="'Von: ' +${a.verfuegbarkeit.startDate}"></p>
+						<p th:text="'Bis: ' +${a.verfuegbarkeit.endDate}"></p>
+					</dl>
+				</li>
+			</tr>
+		</div>
 	</div>
+
+	<div class="card text-center mt-3">
+		<h5 class="card-header">
+			Habe ich ausgeliehen:
+		</h5>
+		<div class="card-body">
+			<p th:if="${#lists.isEmpty(artikelAusgeliehen)}">Sie haben noch keine Artikel ausgeliehene!</p>
+			<tr th:each="a: ${artikelAusgeliehen}">
+				<li class="list-group-item">
+					<dl class="dl-horizontal">
+						<dt th:text="'Artikel: ' +${a.artikel.artikelName}"></dt>
+						<p th:text="'Verliehen von: ' +${a.verleiherName}"></p>
+						<p th:text="'Beschreibung: ' +${a.artikel.beschreibung}"></p>
+						<p th:text="'Von: ' +${a.verfuegbarkeit.startDate}"></p>
+						<p th:text="'Bis: ' +${a.verfuegbarkeit.endDate}"></p>
+					</dl>
+				</li>
+			</tr>
+		</div>
+
+	</div>
+
 </div>
 </body>
 </html>

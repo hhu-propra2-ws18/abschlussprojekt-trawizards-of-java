@@ -6,18 +6,26 @@
 </head>
 
 <body>
-<h1 layout:fragment="titel">Postfach</h1>
 <div layout:fragment="inhalt">
-	<a th:if="${admin}" th:href="@{/admin/konflikte}">
-		<button class="btn btn-outline-dark">Konflikte</button>
-	</a>
-	<p th:if="${#lists.isEmpty(messages)}">Keine Nachrichten vorhanden!</p>
-	<div th:each="message : ${messages}">
-		<p th:text="|Absender: ${message.absender}|">Absender</p>
-		<p th:text="|Nachricht: ${message.nachricht}|">Nachricht</p>
-		<a th:href="@{/account/{benutzername}/nachricht/delete/{id} (id=${message.id},benutzername=${name})}">
-			<button name="button" class="btn btn-outline-danger">Löschen</button>
-		</a>
+	<div class="card text-center">
+		<h5 class="card-header">
+			Postfach
+			<a th:if="${admin}" th:href="@{/admin/konflikte}">
+				<button class="btn btn-outline-dark ml-4">Konflikte</button>
+			</a>
+		</h5>
+		<div class="card-body">
+			<p th:if="${#lists.isEmpty(messages)}">Keine Nachrichten vorhanden!</p>
+				<div th:each="message : ${messages}">
+					<li class="list-group-item">
+					<p th:text="|Absender: ${message.absender}|">Absender</p>
+					<p th:text="|Nachricht: ${message.nachricht}|">Nachricht</p>
+					<form method="post">
+						<button class="btn btn-outline-danger" type="submit" name="id" th:value="${message.id}">Löschen</button>
+					</form>
+				</div>
+			</li>
+		</div>
 	</div>
 </div>
 </body>

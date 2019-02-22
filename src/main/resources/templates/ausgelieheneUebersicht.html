@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="de" layout:decorate="~{layoutAngemeldet}" xmlns:th="http://www.thymeleaf.com"
+	  xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Ausgeliehene Artikel</title>
+</head>
+
+<body>
+<div layout:fragment="inhalt">
+		<div class="card text-center">
+			<h5 class="card-header">
+				Diese Artikel haben Sie momentan ausgeliehen:
+			</h5>
+			<div class="card-body">
+				<p th:if="${#lists.isEmpty(ausleihen)}">Keine Artikel vorhanden!</p>
+				<div th:each="ausleihe : ${ausleihen}" th:if="${ausleihe.accepted}">
+					<li class="list-group-item">
+						<p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
+						<p th:text="|Verleiher: ${ausleihe.verleiherName}|">Verleiher</p>
+						<p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
+						<p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
+						<form method="post">
+							<button class="btn btn-outline-success" type="submit" name="id" th:value=${ausleihe.id}>Zurückgeben</button>
+						</form>
+					</li>
+			</div>
+		</div>
+
+	</div>
+</div>
+</body>
+</html>

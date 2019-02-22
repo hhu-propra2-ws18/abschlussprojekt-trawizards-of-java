@@ -6,28 +6,39 @@
 </head>
 
 <body>
-<h1 layout:fragment="titel">Bitte geben Sie Ihre Daten ein:</h1>
 <div layout:fragment="inhalt">
-	<form method="post">
-		<table>
-			<div th:if="${param.error}" class="alert alert-danger">
-				Ungültiger Benutzername oder ungültiges Passwort!
-			</div>
-			<div th:if="${param.logout}" class="alert alert-success">
-				Auf Wiedersehen!
-			</div>
-			<tr>
-				<td>Benutzername:</td>
-				<td><input type="text" class="form-control" name="username"></td>
-			</tr>
-			<tr>
-				<td>Passwort:</td>
-				<td><input type="password" class="form-control" name="password"></td>
-			</tr>
-		</table>
-		<br>
-		<button type="submit" class="btn btn-outline-success">Bestätigen</button>
-	</form>
+
+
+	<div class="card text-center">
+		<h5 class="card-header">
+			Bitte geben Sie Ihre Daten ein:
+		</h5>
+		<div class="card-body">
+			<form method="post">
+				<div class="col-md-12" align="center">
+					<table>
+						<div th:if="${param.error}" class="alert alert-danger">
+							Ungültiger Benutzername oder ungültiges Passwort!
+						</div>
+						<div th:if="${param.logout}" class="alert alert-success">
+							Auf Wiedersehen!
+						</div>
+						<tr>
+							<td>Benutzername:</td>
+							<td><input type="text" class="form-control" name="username"></td>
+						</tr>
+						<tr>
+							<td>Passwort:</td>
+							<td><input type="password" class="form-control" name="password"></td>
+						</tr>
+					</table>
+				</div>
+				<br>
+				<button type="submit" class="btn btn-outline-success">Bestätigen</button>
+			</form>
+		</div>
+	</div>
+
 </div>
 </body>
 </html>

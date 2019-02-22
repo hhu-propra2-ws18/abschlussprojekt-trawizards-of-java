@@ -45,7 +45,9 @@
 			</form>
 		</div>
 	</div>
-	<button class="btn btn-outline-dark" onclick="openchat()">Chatten</button>
+	<div th:unless="${isUser}">
+		<button class="btn btn-outline-dark" onclick="openchat()">Chatten</button>
+	</div>
 	<hr>
 
 	<div class="row">

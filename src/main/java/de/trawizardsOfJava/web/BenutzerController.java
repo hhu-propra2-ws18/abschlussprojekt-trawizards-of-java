@@ -57,6 +57,7 @@ public class BenutzerController {
 		model.addAttribute("proPay", ProPaySchnittstelle.getEntity(benutzername));
 		model.addAttribute("angemeldet", true);
 		model.addAttribute("aktuelleSeite", "Profil");
+		model.addAttribute("empfaenger", benutzername);
 		findeFaelligeAusleihe(model, ausleiheRepository.findByAusleihender(benutzername));
 		return "profilAnsicht";
 	}

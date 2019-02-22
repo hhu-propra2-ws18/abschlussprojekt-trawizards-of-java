@@ -3,6 +3,19 @@
 	  xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
 	<title th:text="'Suchergebnis: ' +${query}"></title>
+
+	<style>
+		.footer {
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			height: 23px;
+			width: 100%;
+			color: white;
+			text-align: center;
+		}
+	</style>
+
 </head>
 
 <body>
@@ -37,6 +50,11 @@
 			</div>
 		</tr>
 	</div>
+
+	<div class="footer bg-dark text-secondary">
+		<p>© 2019: Trawizards of Java</p>
+	</div>
+
 </div>
 </body>
 </html>

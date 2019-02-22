@@ -50,13 +50,18 @@ public class AusleihController {
 	@PreAuthorize("#benutzername == authentication.name")
 	public String neueAnfrage(Model model, @PathVariable String benutzername, @PathVariable Long id) {
 		Artikel artikel = artikelRepository.findById(id).get();
-		ArrayList<Verfuegbarkeit> verfuegbarkeiten = new ArrayList<>();
-		for (Ausleihe ausleihe : ausleiheRepository.findByArtikel(artikel)) {
-			verfuegbarkeiten.add(ausleihe.getVerfuegbarkeit());
-		}
+		ArrayList<Verfuegbarkeit> verfuegbarkeiten = getVerfuegbarkeiten(ausleiheRepository.findByArtikel(artikel));
 		model.addAttribute("daten", verfuegbarkeiten);
 		model.addAttribute("verfuegbar", artikel.getVerfuegbarkeit());
 		return "ausleihe";
+	}
+
+	private ArrayList<Verfuegbarkeit> getVerfuegbarkeiten(ArrayList<Ausleihe> ausleihen) {
+		ArrayList<Verfuegbarkeit> verfuegbarkeiten = new ArrayList<>();
+		for (Ausleihe ausleihe : ausleihen) {
+			verfuegbarkeiten.add(ausleihe.getVerfuegbarkeit());
+		}
+		return verfuegbarkeiten;
 	}
 
 	@PostMapping("/account/{benutzername}/artikel/{id}/anfrage")

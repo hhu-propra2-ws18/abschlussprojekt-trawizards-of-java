@@ -7,7 +7,6 @@ import de.trawizardsOfJava.data.RueckgabeRepository;
 import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.Ausleihe;
 import de.trawizardsOfJava.model.Person;
-import de.trawizardsOfJava.model.Rueckgabe;
 import de.trawizardsOfJava.proPay.ProPaySchnittstelle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
+import java.util.ArrayList;
 
 @Controller
 public class BenutzerController {
@@ -57,15 +57,20 @@ public class BenutzerController {
 		model.addAttribute("proPay", ProPaySchnittstelle.getEntity(benutzername));
 		model.addAttribute("angemeldet", true);
 		model.addAttribute("aktuelleSeite", "Profil");
-		for (Ausleihe ausleihe : ausleiheRepository.findByAusleihender(benutzername)) {
+		findeFaelligeAusleihe(model, ausleiheRepository.findByAusleihender(benutzername));
+		return "profilAnsicht";
+	}
+
+	private void findeFaelligeAusleihe(Model model, ArrayList<Ausleihe> ausleihen) {
+		for (Ausleihe ausleihe : ausleihen) {
 			if (ausleihe.faelligeAusleihe()) {
+				//Person person = benutzerRepository.findByBenutzername(ausleihe.getAusleihender()).get();
 				//iMailService.sendReminder(person.getEmail(),person.getName(), ausleihe.getArtikel().getArtikelName());
 				model.addAttribute("message", "true");
 				model.addAttribute("artikelName", ausleihe.getArtikel().getArtikelName());
 				model.addAttribute("verleiherName", ausleihe.getVerleiherName());
 			}
 		}
-		return "profilAnsicht";
 	}
 
 	@PostMapping("/account/{benutzername}")
@@ -93,12 +98,8 @@ public class BenutzerController {
 	@GetMapping("/account/{benutzername}/transaktionUebersicht")
 	@PreAuthorize("#benutzername == authentication.name")
 	public String transaktionen(Model model, @PathVariable String benutzername) {
-		for (Rueckgabe rueckgabe : rueckgabeRepository.findAll()) {
-			if (rueckgabe.isAngenommen()) {
-				model.addAttribute("artikel", rueckgabeRepository.findByVerleiherName(benutzername));
-				model.addAttribute("artikelAusgeliehen", rueckgabeRepository.findByAusleihender(benutzername));
-			}
-		}
+		model.addAttribute("artikel", rueckgabeRepository.findByVerleiherName(benutzername));
+		model.addAttribute("artikelAusgeliehen", rueckgabeRepository.findByAusleihender(benutzername));
 		return "transaktionenUebersicht";
 	}
 

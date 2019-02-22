@@ -4,24 +4,21 @@ import de.trawizardsOfJava.model.Person;
 import lombok.Data;
 
 import javax.persistence.Embeddable;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 @Data
 @Embeddable
 public class Teilnehmer{
 	@NotNull
-	@OneToOne
-	private Person personEins;
+	private String personEins;
 	@NotNull
-	@OneToOne
-	private Person personZwei;
+	private String personZwei;
 
 	public Teilnehmer(){
 
 	}
 
-	public Teilnehmer(Person personEins, Person personZwei){
+	public Teilnehmer(String personEins, String personZwei){
 		this.personEins = personEins;
 		this.personZwei = personZwei;
 	}

@@ -5,6 +5,7 @@ import de.trawizardsOfJava.messenger.data.NachrichtenRepo;
 import de.trawizardsOfJava.messenger.data.SessionRepo;
 import de.trawizardsOfJava.messenger.model.Nachricht;
 import de.trawizardsOfJava.messenger.model.Session;
+import de.trawizardsOfJava.messenger.model.Teilnehmer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
-import java.util.ArrayList;
 
 import static java.time.LocalDateTime.now;
 
@@ -38,11 +38,19 @@ public class ChatController {
 		}
 	}
 
-	@GetMapping("/messenger/{benutzername}")
+	@GetMapping("/messenger/{benutzername}/{empfaenger}/start")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String uebersicht(Model model, @PathVariable String benutzername) {
-		ArrayList<Session> sessions = sessionRepo.findAll();
-		model.addAttribute("teilnehmer", sessions.get(0).getId());//sessionRepo.findById(teilnehmer).getId());
+	public String uebersicht(Model model, @PathVariable("benutzername") String benutzername, @PathVariable("empfaenger") String empfaenger) {
+		String benutzerName = benutzername.toLowerCase();
+		String empfaengerName = empfaenger.toLowerCase();
+		Teilnehmer teilnehmer = new Teilnehmer(benutzerName, empfaengerName);
+		Session session = new Session(teilnehmer);
+		Long sessionId = session.isExisting	(sessionRepo.findAll());
+		if(sessionId == -1) {
+			sessionRepo.save(session);
+			sessionId = sessionRepo.findByTeilnehmer(teilnehmer).getId();
+		}
+		model.addAttribute("link", sessionId);
 		return "start";
 	}
 
@@ -50,11 +58,8 @@ public class ChatController {
 	@PreAuthorize("#benutzername == authentication.name")
 	public String sessionChat(Model model, @PathVariable("sessionId") Long sessionId, @PathVariable("benutzername") String benutzername) {
 		Session session = sessionRepo.findById(sessionId).get();
-		System.out.println(nachrichtenRepo.findBySession(session));
 		model.addAttribute("nachrichten", nachrichtenRepo.findBySession(session));
-		Nachricht nachricht = new Nachricht();
-		nachricht.setSession(session);
-		nachricht.setAbsender(benutzerRepository.findByBenutzername(benutzername).get());
+		Nachricht nachricht = new Nachricht(benutzerRepository.findByBenutzername(benutzername).get(), session);
 		model.addAttribute("nachricht", nachricht);
 		model.addAttribute("name", benutzername);
 		model.addAttribute("teilnehmer", sessionId);
@@ -65,11 +70,8 @@ public class ChatController {
 	@PreAuthorize("#benutzername == authentication.name")
 	public String reloadChat(Model model, @PathVariable("sessionId") Long sessionId, @PathVariable("benutzername") String benutzername) {
 		Session session = sessionRepo.findById(sessionId).get();
-		System.out.println(nachrichtenRepo.findBySession(session));
 		model.addAttribute("nachrichten", nachrichtenRepo.findBySession(session));
-		Nachricht nachricht = new Nachricht();
-		nachricht.setSession(session);
-		nachricht.setAbsender(benutzerRepository.findByBenutzername(benutzername).get());
+		Nachricht nachricht = new Nachricht(benutzerRepository.findByBenutzername(benutzername).get(),session);
 		model.addAttribute("nachricht", nachricht);
 		model.addAttribute("name", benutzername);
 		model.addAttribute("teilnehmer", sessionId);

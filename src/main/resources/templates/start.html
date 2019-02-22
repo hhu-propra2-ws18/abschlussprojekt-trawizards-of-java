@@ -5,8 +5,6 @@
 	<title>Startseite</title>
 </head>
 <body>
-<a th:href="@{/messenger/{benutzername}/{teilnehmer} (benutzername=${name},teilnehmer=${teilnehmer})}">
-	<button name="button" class="btn btn-outline-danger">Chat</button>
-</a>
+<meta http-equiv="refresh" th:attr="content=${'0; url=http://localhost:8080/messenger/' + name + '/' + link}" />
 </body>
 </html>

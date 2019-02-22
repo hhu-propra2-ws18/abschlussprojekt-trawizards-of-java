@@ -19,6 +19,15 @@ public class Nachricht {
 	private Session session;
 
 	private LocalDateTime gesendet;
+	
+	public Nachricht(){
+	
+	}
+	
+	public Nachricht(Person absender, Session session){
+		this.absender = absender;
+		this.session = session;
+	}
 
 	public String dateToString(){
 		if (this.gesendet == null)return "Kein Datum";

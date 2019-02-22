@@ -43,6 +43,7 @@
 			</form>
 		</div>
 	</div>
+	<button class="btn btn-outline-dark" onclick="openchat()">Chatten</button>
 	<hr>
 	<div class="col-md-12">
 		<p th:if="${#lists.isEmpty(artikel)}">Keine Artikel vorhanden!</p>
@@ -64,8 +65,14 @@
 			</dl>
 		</tr>
 	</div>
-
 	<script th:inline="javascript">
+		function openchat() {
+			/*<![CDATA[*/
+			var benutzername = /*[[${name}]]*/ 'default';
+			var empfaenger = /*[[${empfaenger}]]*/ 'default';
+					window.open("http://localhost:8080/messenger/" + benutzername + "/" + empfaenger + "/start","_blank", "toolbar=0,location=0,directories=0,scrollbars=0,resizable=0,top=400,left=500,width=425,height=500");
+			/*]]>*/
+		}
         function callAlert() {
 
             var message = /*[[${message}]]*/ 'default';

@@ -87,9 +87,5 @@ public class DatabaseInitializr implements ServletContextInitializer {
         konflikt.setRueckgabe(rueckgabeRepository.findByVerleiherName("root").get(0));
         konflikt.setBeschreibung("kaputt");
         konfliktRepository.save(konflikt);
-
-        Teilnehmer teilnehmer = new Teilnehmer(person1,person2);
-        Session session = new Session(teilnehmer);
-        sessionRepo.save(session);
-	}
+    }
 }

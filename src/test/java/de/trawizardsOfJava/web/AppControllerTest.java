@@ -179,21 +179,4 @@ public class AppControllerTest {
 
 		mvc.perform(get("/account/bar/bearbeitung")).andExpect(status().is(403));
 	}
-
-	@Test
-	@WithMockUser(username = "foo", authorities = "ROLE_USER")
-	public void chargePropayAccount() throws Exception{
-		Person test = new Person();
-		test.setBenutzername("foo");
-		test.setName("foo");
-		test.setEmail("foo");
-		test.setPasswort("foo");
-		test.setRolle("ROLE_USER");
-
-		when(benutzerRepository.findByBenutzername(test.getBenutzername())).thenReturn(Optional.of(test));
-
-		mvc.perform(post("/account/foo")
-		.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-		.param("amount", "100")).andExpect(view().name("profilAnsicht"));
-	}
 }

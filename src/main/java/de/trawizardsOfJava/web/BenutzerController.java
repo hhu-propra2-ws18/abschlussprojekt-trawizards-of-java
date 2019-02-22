@@ -107,7 +107,7 @@ public class BenutzerController {
 	@PreAuthorize("#benutzername == authentication.name")
 	public String nachrichtenUebersicht(Model model, @PathVariable String benutzername) {
 		model.addAttribute("admin", benutzerRepository.findByBenutzername(benutzername).get().getRolle().equals("ROLE_ADMIN"));
-		model.addAttribute("messages", messageRepository.findByEmpfaengerOrAbsender(benutzername, benutzername));
+		model.addAttribute("messages", messageRepository.findByEmpfaenger(benutzername));
 		return "nachrichtenUebersicht";
 	}
 

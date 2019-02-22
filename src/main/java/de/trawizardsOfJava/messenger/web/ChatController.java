@@ -58,11 +58,16 @@ public class ChatController {
 	@PreAuthorize("#benutzername == authentication.name")
 	public String sessionChat(Model model, @PathVariable("sessionId") Long sessionId, @PathVariable("benutzername") String benutzername) {
 		Session session = sessionRepo.findById(sessionId).get();
-		model.addAttribute("nachrichten", nachrichtenRepo.findBySession(session));
 		Nachricht nachricht = new Nachricht(benutzerRepository.findByBenutzername(benutzername).get(), session);
 		model.addAttribute("nachricht", nachricht);
-		model.addAttribute("name", benutzername);
 		model.addAttribute("teilnehmer", sessionId);
+		return "chat";
+	}
+
+	@GetMapping("/messenger/{benutzername}")
+	@PreAuthorize("#benutzername == authentication.name")
+	public String allChats(Model model, @PathVariable("benutzername") String benutzername) {
+		model.addAttribute("sessions", sessionRepo.findByTeilnehmer_PersonEinsOrTeilnehmer_PersonZwei(benutzername, benutzername));
 		return "chat";
 	}
 
@@ -71,10 +76,6 @@ public class ChatController {
 	public String reloadChat(Model model, @PathVariable("sessionId") Long sessionId, @PathVariable("benutzername") String benutzername) {
 		Session session = sessionRepo.findById(sessionId).get();
 		model.addAttribute("nachrichten", nachrichtenRepo.findBySession(session));
-		Nachricht nachricht = new Nachricht(benutzerRepository.findByBenutzername(benutzername).get(),session);
-		model.addAttribute("nachricht", nachricht);
-		model.addAttribute("name", benutzername);
-		model.addAttribute("teilnehmer", sessionId);
 		return "reloadChat";
 	}
 

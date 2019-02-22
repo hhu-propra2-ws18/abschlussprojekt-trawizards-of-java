@@ -10,7 +10,7 @@
 <div layout:fragment="inhalt">
 	<form method="post">
 		<table>
-			<div th:if="${param.error}" class="alert alert-error">
+			<div th:if="${param.error}" class="alert alert-danger">
 				Ungültiger Benutzername oder ungültiges Passwort!
 			</div>
 			<div th:if="${param.logout}" class="alert alert-success">

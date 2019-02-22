@@ -8,7 +8,9 @@
 <body>
 <h1 layout:fragment="titel">Bitte geben Sie Ihre Daten ein:</h1>
 <div layout:fragment="inhalt">
-	<p th:if="${error}">Dieser Benutzername existeriert bereits!</p>
+	<div th:if="${error}" class="alert alert-danger" role="alert">
+		Dieser Benutzername existeriert bereits!
+	</div>
 	<form method="post" th:object="${person}">
 		<table>
 			<tr>

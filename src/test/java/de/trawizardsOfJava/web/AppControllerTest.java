@@ -1,8 +1,6 @@
 package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.*;
-import de.trawizardsOfJava.mail.IMailService;
-import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.Person;
 import de.trawizardsOfJava.security.SecurityConfig;
 import de.trawizardsOfJava.security.SecurityPersonenService;
@@ -15,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -33,28 +30,13 @@ public class AppControllerTest {
 	MockMvc mvc;
 
 	@MockBean
-	AusleiheRepository ausleiheRepository;
-
-	@MockBean
 	BenutzerRepository benutzerRepository;
 
 	@MockBean
 	ArtikelRepository artikelRepository;
 
 	@MockBean
-	RueckgabeRepository rueckgabeRepository;
-
-	@MockBean
-	MessageRepository messageRepository;
-
-	@MockBean
-	KonfliktRepository konfliktRepository;
-	
-	@MockBean
 	SecurityPersonenService securityPersonenService;
-
-	@MockBean
-	IMailService iMailService;
 
 	@Test
 	public void isOk() throws Exception {
@@ -65,9 +47,9 @@ public class AppControllerTest {
 	public void loginBadCredentials() throws Exception {
 		when(securityPersonenService.loadUserByUsername("user1")).thenThrow(new UsernameNotFoundException("Invalid Username"));
 		mvc.perform(post("/anmeldung")
-			.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-			.param("username", "user1")
-			.param("password", "password1")).andExpect(redirectedUrl("/anmeldung?error"));
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("username", "user1")
+				.param("password", "password1")).andExpect(redirectedUrl("/anmeldung?error"));
 	}
 
 	@Test
@@ -101,19 +83,19 @@ public class AppControllerTest {
 		person1.setRolle("ROLE_USER");
 		benutzerRepository.save(person1);
 		UserDetails userDetails = User.builder()
-			.username(person1.getBenutzername())
-			.password(person1.getPasswort())
-			.authorities(person1.getRolle())
-			.build();
+				.username(person1.getBenutzername())
+				.password(person1.getPasswort())
+				.authorities(person1.getRolle())
+				.build();
 		when(securityPersonenService.loadUserByUsername("test")).thenReturn(userDetails);
 		mvc.perform(post("/anmeldung")
-			.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-			.param("username", "test")
-			.param("password", "1234")).andExpect(redirectedUrl("/"));
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("username", "test")
+				.param("password", "1234")).andExpect(redirectedUrl("/"));
 	}
 
 	@Test
-	public void registrierung() throws Exception{
+	public void registrierung() throws Exception {
 		Person test = new Person();
 		test.setBenutzername("foo");
 		test.setName("foo");
@@ -148,52 +130,5 @@ public class AppControllerTest {
 				.param("name", test.getName())
 				.param("email", test.getEmail())
 				.param("passwort", test.getPasswort())).andExpect(view().name("registrierung"));
-	}
-
-	@Test
-	@WithMockUser(username = "foo", authorities = "ROLE_USER")
-	public void bearbeiteMeinenAccount() throws Exception{
-		Person test = new Person();
-		test.setBenutzername("foo");
-		test.setName("foo");
-		test.setEmail("foo");
-		test.setPasswort("foo");
-		test.setRolle("ROLE_USER");
-
-		when(benutzerRepository.findByBenutzername(test.getBenutzername())).thenReturn(Optional.of(test));
-
-		mvc.perform(get("/account/foo/bearbeitung")).andExpect(view().name("profilAendern"));
-	}
-
-	@Test
-	@WithMockUser(username = "foo", authorities = "ROLE_USER")
-	public void bearbeiteAnderenAccount() throws Exception{
-		Person test = new Person();
-		test.setBenutzername("bar");
-		test.setName("bar");
-		test.setEmail("bar");
-		test.setPasswort("bar");
-		test.setRolle("ROLE_USER");
-
-		when(benutzerRepository.findByBenutzername(test.getBenutzername())).thenReturn(Optional.of(test));
-
-		mvc.perform(get("/account/bar/bearbeitung")).andExpect(status().is(403));
-	}
-
-	@Test
-	@WithMockUser(username = "foo", authorities = "ROLE_USER")
-	public void chargePropayAccount() throws Exception{
-		Person test = new Person();
-		test.setBenutzername("foo");
-		test.setName("foo");
-		test.setEmail("foo");
-		test.setPasswort("foo");
-		test.setRolle("ROLE_USER");
-
-		when(benutzerRepository.findByBenutzername(test.getBenutzername())).thenReturn(Optional.of(test));
-
-		mvc.perform(post("/account/foo")
-		.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-		.param("amount", "100")).andExpect(view().name("profilAnsicht"));
 	}
 }

@@ -57,8 +57,6 @@ public class BenutzerController {
 		model.addAttribute("proPay", ProPaySchnittstelle.getEntity(benutzername));
 		model.addAttribute("angemeldet", true);
 		model.addAttribute("aktuelleSeite", "Profil");
-
-		//Überprüfung, ob eine Rückgabe fällig ist
 		for (Ausleihe ausleihe : ausleiheRepository.findByAusleihender(benutzername)) {
 			if (ausleihe.faelligeAusleihe()) {
 				//iMailService.sendReminder(person.getEmail(),person.getName(), ausleihe.getArtikel().getArtikelName());

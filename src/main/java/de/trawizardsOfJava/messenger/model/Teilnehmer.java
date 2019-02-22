@@ -6,11 +6,10 @@ import lombok.Data;
 import javax.persistence.Embeddable;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 @Data
 @Embeddable
-public class Teilnehmer implements Serializable {
+public class Teilnehmer{
 	@NotNull
 	@OneToOne
 	private Person personEins;

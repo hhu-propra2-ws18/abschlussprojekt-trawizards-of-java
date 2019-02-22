@@ -3,6 +3,8 @@ package de.trawizardsOfJava.web;
 import de.trawizardsOfJava.data.*;
 import de.trawizardsOfJava.mail.IMailService;
 import de.trawizardsOfJava.mail.MessageRepository;
+import de.trawizardsOfJava.messenger.data.NachrichtenRepo;
+import de.trawizardsOfJava.messenger.data.SessionRepo;
 import de.trawizardsOfJava.model.Person;
 import de.trawizardsOfJava.security.SecurityConfig;
 import de.trawizardsOfJava.security.SecurityPersonenService;
@@ -55,6 +57,12 @@ public class AppControllerTest {
 
 	@MockBean
 	IMailService iMailService;
+
+	@MockBean
+	NachrichtenRepo nachrichtenRepo;
+
+	@MockBean
+	SessionRepo sessionRepo;
 
 	@Test
 	public void isOk() throws Exception {

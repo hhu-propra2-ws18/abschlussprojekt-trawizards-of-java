@@ -162,7 +162,7 @@ public class AppControllerTest {
 
 		when(benutzerRepository.findByBenutzername(test.getBenutzername())).thenReturn(Optional.of(test));
 
-		mvc.perform(get("/account/foo/bearbeitung")).andExpect(view().name("benutzerverwaltung"));
+		mvc.perform(get("/account/foo/bearbeitung")).andExpect(view().name("profilAendern"));
 	}
 
 	@Test
@@ -183,9 +183,17 @@ public class AppControllerTest {
 	@Test
 	@WithMockUser(username = "foo", authorities = "ROLE_USER")
 	public void chargePropayAccount() throws Exception{
-		String amount = "100";
+		Person test = new Person();
+		test.setBenutzername("foo");
+		test.setName("foo");
+		test.setEmail("foo");
+		test.setPasswort("foo");
+		test.setRolle("ROLE_USER");
+
+		when(benutzerRepository.findByBenutzername(test.getBenutzername())).thenReturn(Optional.of(test));
+
 		mvc.perform(post("/account/foo")
 		.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-		.param("amount", amount)).andExpect(view().name("backToTheFuture"));
+		.param("amount", "100")).andExpect(view().name("profilAnsicht"));
 	}
 }

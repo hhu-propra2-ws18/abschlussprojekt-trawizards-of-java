@@ -3,29 +3,23 @@ package de.trawizardsOfJava.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Data
 public class Ausleihe {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String ausleihender;
-
     @OneToOne
     private Artikel artikel;
-
     private Verfuegbarkeit verfuegbarkeit;
-
     private String verleiherName;
-
     private boolean accepted = false;
+    private Long proPayId;
 
-    private int proPayId;
-
-    public Ausleihe() {}
+    public Ausleihe(){}
 
     public Ausleihe(Artikel artikel, Verfuegbarkeit verfuegbarkeit, String ausleihender) {
         this.ausleihender = ausleihender;
@@ -34,7 +28,11 @@ public class Ausleihe {
         this.verleiherName = artikel.getVerleiherBenutzername();
     }
 
-    public int berechneGesamtPreis() {
+    public Long berechneGesamtPreis() {
       return this.artikel.getKaution() + (this.verfuegbarkeit.berechneZwischenTage() * this.artikel.getPreis());
+    }
+
+    public boolean faelligeAusleihe(){
+        return this.verfuegbarkeit.getEndDate().isBefore(LocalDate.now()) && this.accepted;
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -39,8 +40,19 @@ public class AppControllerTest {
 	SecurityPersonenService securityPersonenService;
 
 	@Test
-	public void isOk() throws Exception {
+	public void isOkHauptseite() throws Exception {
 		mvc.perform(get("/")).andExpect(status().isOk());
+	}
+
+	@Test
+	public void isOkAnmeldung() throws Exception {
+		mvc.perform(get("/anmeldung")).andExpect(status().isOk());
+	}
+
+	@Test
+	public void isOkSearch() throws Exception {
+		when(artikelRepository.findAllByArtikelNameContaining("blub")).thenReturn(new ArrayList<>());
+		mvc.perform(get("/search?q=blub")).andExpect(view().name("suche"));
 	}
 
 	@Test

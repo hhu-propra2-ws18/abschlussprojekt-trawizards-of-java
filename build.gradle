@@ -11,7 +11,7 @@ buildscript {
 }
 
 plugins {
-  id "com.github.spotbugs" version "1.6.9"
+  id "com.github.spotbugs" version "1.6.10"
 }
 
 apply plugin: 'java'
@@ -50,11 +50,4 @@ dependencies {
 	testCompile group: 'com.h2database', name: 'h2', version:'1.4.197'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation('org.springframework.security:spring-security-test')
-}
-
-tasks.withType(com.github.spotbugs.SpotBugsTask) {
-  reports {
-   xml.enabled=false
-   html.enabled=true
-  }
 }

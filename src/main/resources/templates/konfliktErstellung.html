@@ -7,17 +7,25 @@
 </head>
 
 <body>
-<h1 layout:fragment="titel">Beschreiben Sie den Konflikt:</h1>
 <div layout:fragment="inhalt">
-	<form method="post" th:object="${konflikt}">
-		<textarea class="autoExpand" cols="50" maxlength="255" type="text" th:field="*{beschreibung}"
-				  placeholder="Beschreibung"></textarea>
-		<input type="hidden" th:field="*{id}"><br>
-		<input type="submit" value="Absenden" class="btn btn-outline-success"/>
-	</form>
-	<a th:href="@{/account/{benutzername}/zurueckgegebeneartikel (benutzername=${name})}">
-		<button name="button" class="btn btn-outline-danger"> Abbrechen</button>
-	</a>
+	<div class="card text-center">
+		<h5 class="card-header">
+			Beschreiben Sie den Konflikt:
+		</h5>
+		<div class="card-body" align="center">
+			<form method="post" th:object="${konflikt}">
+			<textarea class="form-control col-md-4"  cols="50" maxlength="255" type="text" th:field="*{beschreibung}" placeholder="Beschreibung">
+			</textarea>
+				<input type="hidden" th:field="*{id}"><br>
+				<input type="submit" value="Absenden" class="btn btn-outline-success"/>
+			</form>
+		</div>
+		<div class="card-footer text-muted">
+			<a th:href="@{/account/{benutzername}/zurueckgegebeneartikel (benutzername=${name})}">
+				<button name="button" class="btn btn-outline-danger"> Abbrechen</button>
+			</a>
+		</div>
+	</div>
 
 	<script type="text/javascript">
         $(document)

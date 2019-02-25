@@ -10,6 +10,7 @@ import java.util.List;
 public class ProPay {
 	private Long amount;
 	private List<Reservierung> reservations;
+	private IProPaySchnittstelle proPaySchnittstelle;
 
 	private Long berechneVerfuegbaresGeld(){
 		Long reservierungsgeld = 0L;
@@ -27,14 +28,7 @@ public class ProPay {
 		return verfuegbaresGeld >= gebrauchtesGeld;
 	}
 
-	public static void bezahlvorgang(Ausleihe ausleihe) {
-		ausleihe.setAccepted(true);
-		if(!ausleihe.getVerleiherName().equals(ausleihe.getAusleihender())) {
-			Long tage = ausleihe.getVerfuegbarkeit().berechneZwischenTage();
-			ProPaySchnittstelle.post("account/" + ausleihe.getAusleihender() + "/transfer/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getPreis() * tage);
-			ProPaySchnittstelle.post("reservation/reserve/" + ausleihe.getAusleihender() + "/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getKaution());
-			List<Reservierung> reservierungen = ProPaySchnittstelle.getEntity(ausleihe.getAusleihender()).getReservations();
-			ausleihe.setProPayId(reservierungen.get(reservierungen.size() - 1).getId());
-		}
+	public Long letzteReservierung () {
+		return reservations.get(reservations.size() - 1).getId();
 	}
 }

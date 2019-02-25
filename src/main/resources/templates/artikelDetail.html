@@ -20,17 +20,19 @@
 			<p th:text="'Kaution: ' +${artikelDetail.kaution} + '&euro;'"></p>
 			<p th:text="'Verfügbar von: ' +${artikelDetail.verfuegbarkeit.startDate}"></p>
 			<p th:text="'Verfügbar bis: ' +${artikelDetail.verfuegbarkeit.endDate}"></p>
+			<a th:unless="${angemeldet}" th:href="@{/anmeldung}">
+				<button type="button" class="btn btn-outline-success">Ausleihen</button>
+			</a>
+			<iframe th:src="@{http://maps.google.com/maps?q={loc}&output=embed (loc=${artikelDetail.standort})}" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+			<a th:if="${angemeldet}"
+			   th:href="@{/account/{benutzername}/artikel/{id}/anfrage (id=${artikelDetail.id},benutzername=${name})}">
+				<button type="button" class="btn btn-outline-success">Ausleihen</button>
+			</a>
+			<br>
 		</div>
 		<div class="card-footer">
 			<a href='/'>
 				<button type="button" class="btn btn-outline-danger">Zurück</button>
-			</a>
-			<a th:unless="${angemeldet}" th:href="@{/anmeldung}">
-				<button type="button" class="btn btn-outline-success">Ausleihen</button>
-			</a>
-			<a th:if="${angemeldet}"
-			   th:href="@{/account/{benutzername}/artikel/{id}/anfrage (id=${artikelDetail.id},benutzername=${name})}">
-				<button type="button" class="btn btn-outline-success">Ausleihen</button>
 			</a>
 		</div>
 	</div>

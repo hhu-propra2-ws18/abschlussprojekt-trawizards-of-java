@@ -5,6 +5,7 @@ import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.Ausleihe;
 import de.trawizardsOfJava.model.Person;
 import de.trawizardsOfJava.proPay.IProPaySchnittstelle;
+import de.trawizardsOfJava.proPay.ProPay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -54,7 +55,9 @@ public class BenutzerController {
 		model.addAttribute("person", benutzerRepository.findByBenutzername(benutzername).get());
 		model.addAttribute("artikel", artikelRepository.findByVerleiherBenutzername(benutzername));
 		model.addAttribute("isUser", benutzername.equals(principal.getName()));
-		model.addAttribute("proPay", proPaySchnittstelle.getEntity(benutzername));
+		ProPay proPay = proPaySchnittstelle.getEntity(benutzername);
+		model.addAttribute("proPayError", proPay.getAmount() == null);
+		model.addAttribute("proPay", proPay);
 		model.addAttribute("angemeldet", true);
 		model.addAttribute("aktuelleSeite", "Profil");
 		findeFaelligeAusleihe(model, ausleiheRepository.findByAusleihender(benutzername));

@@ -135,9 +135,6 @@ public class AusleihControllerTest {
 		ausleihe.setVerleiherName(artikel.getVerleiherBenutzername());
 		ausleihe.setId(1L);
 
-		ArrayList<Ausleihe> ausleihen = new ArrayList<>();
-		ausleihen.add(ausleihe);
-
 		ProPay proPay = new ProPay();
 		proPay.setAmount(100L);
 		ArrayList<Reservierung> reservierungen = new ArrayList<>();

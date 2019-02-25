@@ -20,4 +20,5 @@ public class Artikel {
 	private int preis;
 	private int kaution;
 	private Verfuegbarkeit verfuegbarkeit;
+	private boolean verleihen = true;
 }

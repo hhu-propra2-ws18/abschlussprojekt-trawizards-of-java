@@ -39,9 +39,12 @@ public class ArtikelController {
 
 	@PostMapping("/account/{benutzername}/erstelleArtikel")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String speicherArtikel(Model model, @PathVariable String benutzername, String daterange, Artikel artikel) {
+	public String speicherArtikel(Model model, @PathVariable String benutzername, String daterange, Artikel artikel, String select) {
 		artikel.setVerfuegbarkeit(new Verfuegbarkeit(daterange));
 		artikel.setVerleiherBenutzername(benutzername);
+		if(select.equals("Verkaufen")){
+			artikel.setVerleihen(false);
+		}
 		artikelRepository.save(artikel);
 		model.addAttribute("link", "account/" + benutzername);
 		return "backToTheFuture";

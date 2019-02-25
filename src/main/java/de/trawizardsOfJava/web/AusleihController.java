@@ -2,7 +2,7 @@ package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.ArtikelRepository;
 import de.trawizardsOfJava.data.AusleiheRepository;
-import de.trawizardsOfJava.data.IProPaySchnittstelle;
+import de.trawizardsOfJava.proPay.IProPaySchnittstelle;
 import de.trawizardsOfJava.data.RueckgabeRepository;
 import de.trawizardsOfJava.mail.Message;
 import de.trawizardsOfJava.mail.MessageRepository;

@@ -2,7 +2,7 @@ package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.ArtikelRepository;
 import de.trawizardsOfJava.data.AusleiheRepository;
-import de.trawizardsOfJava.data.IProPaySchnittstelle;
+import de.trawizardsOfJava.proPay.IProPaySchnittstelle;
 import de.trawizardsOfJava.data.RueckgabeRepository;
 import de.trawizardsOfJava.mail.IMailService;
 import de.trawizardsOfJava.mail.MessageRepository;
@@ -13,6 +13,7 @@ import de.trawizardsOfJava.model.Verfuegbarkeit;
 import de.trawizardsOfJava.proPay.ProPay;
 import de.trawizardsOfJava.proPay.Reservierung;
 import de.trawizardsOfJava.security.SecurityPersonenService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -184,6 +185,36 @@ public class AusleihControllerTest {
 		verify(rueckgabeRepository).save(any(Rueckgabe.class));
 	}
 
-	//ToDo: rueckgabeAkzeptiert()
-	//ToDo: rueckgabeAbgelehnt()
+
+	@Test
+	@WithMockUser(username = "foo")
+	public void rueckgabeAkzeptiert() throws Exception {
+		Artikel artikel = new Artikel();
+		artikel.setVerleiherBenutzername("foo");
+		artikel.setArtikelName("Schaufel");
+		artikel.setKaution(10);
+		artikel.setPreis(10);
+		artikel.setVerfuegbarkeit(new Verfuegbarkeit("20/02/2019 - 24/02/2019"));
+		artikel.setBeschreibung("Schaufel");
+		artikel.setStandort("foo");
+		artikel.setId(1L);
+
+		Ausleihe ausleihe = new Ausleihe();
+		ausleihe.setArtikel(artikel);
+		ausleihe.setAusleihender("bar");
+		ausleihe.setVerfuegbarkeit(new Verfuegbarkeit("22/02/2019 - 22/02/2019"));
+		ausleihe.setVerleiherName(artikel.getVerleiherBenutzername());
+		ausleihe.setId(1L);
+
+		Rueckgabe rueckgabe = new Rueckgabe(ausleihe);
+		rueckgabe.setId(1L);
+
+		when(rueckgabeRepository.findById(rueckgabe.getId())).thenReturn(Optional.of(rueckgabe));
+
+		mvc.perform(post("/account/foo/zurueckgegebeneartikel").accept(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("id", "" + rueckgabe.getId()))
+				.andExpect(view().name("zurueckgegebeneartikel"));
+		Assert.assertTrue(rueckgabe.isAngenommen());
+		verify(rueckgabeRepository).save(rueckgabe);
+	}
 }

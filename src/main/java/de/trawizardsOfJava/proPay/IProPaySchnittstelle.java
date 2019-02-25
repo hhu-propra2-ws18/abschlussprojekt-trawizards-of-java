@@ -1,4 +1,4 @@
-package de.trawizardsOfJava.data;
+package de.trawizardsOfJava.proPay;
 import de.trawizardsOfJava.proPay.ProPay;
 
 public interface IProPaySchnittstelle {

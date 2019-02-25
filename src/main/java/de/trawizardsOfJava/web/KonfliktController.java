@@ -1,11 +1,11 @@
 package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.*;
-import de.trawizardsOfJava.mail.IMailService;
 import de.trawizardsOfJava.mail.Message;
 import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.Konflikt;
 import de.trawizardsOfJava.model.Rueckgabe;
+import de.trawizardsOfJava.proPay.IProPaySchnittstelle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;

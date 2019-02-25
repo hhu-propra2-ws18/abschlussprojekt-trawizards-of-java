@@ -5,6 +5,7 @@ import de.trawizardsOfJava.mail.IMailService;
 import de.trawizardsOfJava.mail.Message;
 import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.Person;
+import de.trawizardsOfJava.proPay.IProPaySchnittstelle;
 import de.trawizardsOfJava.proPay.ProPay;
 import de.trawizardsOfJava.security.SecurityPersonenService;
 import org.junit.Test;

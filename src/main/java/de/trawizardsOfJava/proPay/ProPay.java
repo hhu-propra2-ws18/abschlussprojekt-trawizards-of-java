@@ -1,6 +1,5 @@
 package de.trawizardsOfJava.proPay;
 
-import de.trawizardsOfJava.data.IProPaySchnittstelle;
 import de.trawizardsOfJava.model.Ausleihe;
 import lombok.Data;
 

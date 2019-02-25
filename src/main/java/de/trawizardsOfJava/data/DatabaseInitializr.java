@@ -1,6 +1,7 @@
 package de.trawizardsOfJava.data;
 
 import de.trawizardsOfJava.model.*;
+import de.trawizardsOfJava.proPay.IProPaySchnittstelle;
 import de.trawizardsOfJava.security.SecurityConfig;
 
 import org.springframework.beans.factory.annotation.Autowired;

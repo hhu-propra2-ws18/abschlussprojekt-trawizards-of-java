@@ -2,9 +2,12 @@ package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.*;
 import de.trawizardsOfJava.mail.IMailService;
+import de.trawizardsOfJava.mail.Message;
 import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.*;
+import de.trawizardsOfJava.proPay.IProPaySchnittstelle;
 import de.trawizardsOfJava.security.SecurityPersonenService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +24,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(KonfliktController.class)
@@ -83,5 +88,106 @@ public class KonfliktControllerTest {
 		verify(konfliktRepository).save(any(Konflikt.class));
 	}
 
-	//TODO loeseKonflikt()... ProPay ist halt Scheisse implementiert....
+	@Test
+	@WithMockUser(username = "root", authorities = "ROLE_ADMIN")
+	public void nehmeKonfliktAn() throws Exception{
+		Artikel artikel = new Artikel();
+		artikel.setVerleiherBenutzername("foo");
+		artikel.setArtikelName("Schaufel");
+		artikel.setKaution(10);
+		artikel.setPreis(10);
+		artikel.setVerfuegbarkeit(new Verfuegbarkeit("20/02/2019 - 24/02/2019"));
+		artikel.setBeschreibung("Schaufel");
+		artikel.setStandort("foo");
+		artikel.setId(1L);
+
+		Rueckgabe rueckgabe = new Rueckgabe();
+		rueckgabe.setAngenommen(false);
+		rueckgabe.setArtikel(artikel);
+		rueckgabe.setAusleihender("bar");
+		rueckgabe.setVerleiherName("foo");
+		rueckgabe.setId(1L);
+
+		Person person = new Person();
+		person.setEmail("email");
+
+		Konflikt konflikt = new Konflikt();
+		konflikt.setKonflikt(rueckgabe, person.getEmail(), person.getEmail());
+		konflikt.setId(1L);
+
+		when(konfliktRepository.findById(1L)).thenReturn(Optional.of(konflikt));
+
+		mvc.perform(get("/admin/konflikte/" + 1L)).andExpect(view().name("konfliktDetail"));
+		Assert.assertEquals("root", konflikt.getBearbeitender());
+	}
+
+	@Test
+	@WithMockUser(username = "root", authorities = "ROLE_ADMIN")
+	public void loeseKonflikt_verleiher() throws Exception{
+		Artikel artikel = new Artikel();
+		artikel.setVerleiherBenutzername("foo");
+		artikel.setArtikelName("Schaufel");
+		artikel.setKaution(10);
+		artikel.setPreis(10);
+		artikel.setVerfuegbarkeit(new Verfuegbarkeit("20/02/2019 - 24/02/2019"));
+		artikel.setBeschreibung("Schaufel");
+		artikel.setStandort("foo");
+		artikel.setId(1L);
+
+		Rueckgabe rueckgabe = new Rueckgabe();
+		rueckgabe.setAngenommen(false);
+		rueckgabe.setArtikel(artikel);
+		rueckgabe.setAusleihender("bar");
+		rueckgabe.setVerleiherName("foo");
+		rueckgabe.setId(1L);
+		rueckgabe.setProPayID(1L);
+
+		Person person = new Person();
+		person.setEmail("email");
+
+		Konflikt konflikt = new Konflikt();
+		konflikt.setKonflikt(rueckgabe, person.getEmail(), person.getEmail());
+		konflikt.setId(1L);
+
+		when(konfliktRepository.findById(konflikt.getId())).thenReturn(Optional.of(konflikt));
+
+		mvc.perform(post("/admin/konflikte/" + 1L)
+				.param("benutzer", "Verleihender"));
+		verify(proPaySchnittstelle).post("reservation/punish/" + konflikt.getRueckgabe().getAusleihender() + "?reservationId=" + konflikt.getRueckgabe().getProPayID());
+	}
+
+	@Test
+	@WithMockUser(username = "root", authorities = "ROLE_ADMIN")
+	public void loeseKonflikt_ausleihender() throws Exception{
+		Artikel artikel = new Artikel();
+		artikel.setVerleiherBenutzername("foo");
+		artikel.setArtikelName("Schaufel");
+		artikel.setKaution(10);
+		artikel.setPreis(10);
+		artikel.setVerfuegbarkeit(new Verfuegbarkeit("20/02/2019 - 24/02/2019"));
+		artikel.setBeschreibung("Schaufel");
+		artikel.setStandort("foo");
+		artikel.setId(1L);
+
+		Rueckgabe rueckgabe = new Rueckgabe();
+		rueckgabe.setAngenommen(false);
+		rueckgabe.setArtikel(artikel);
+		rueckgabe.setAusleihender("bar");
+		rueckgabe.setVerleiherName("foo");
+		rueckgabe.setId(1L);
+		rueckgabe.setProPayID(1L);
+
+		Person person = new Person();
+		person.setEmail("email");
+
+		Konflikt konflikt = new Konflikt();
+		konflikt.setKonflikt(rueckgabe, person.getEmail(), person.getEmail());
+		konflikt.setId(1L);
+
+		when(konfliktRepository.findById(konflikt.getId())).thenReturn(Optional.of(konflikt));
+
+		mvc.perform(post("/admin/konflikte/" + 1L)
+				.param("benutzer", "Ausleihender"));
+		verify(proPaySchnittstelle).post("reservation/release/" + konflikt.getRueckgabe().getAusleihender() + "?reservationId=" + konflikt.getRueckgabe().getProPayID());
+	}
 }

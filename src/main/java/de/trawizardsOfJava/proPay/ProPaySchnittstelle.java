@@ -1,6 +1,5 @@
 package de.trawizardsOfJava.proPay;
 
-import de.trawizardsOfJava.data.IProPaySchnittstelle;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;

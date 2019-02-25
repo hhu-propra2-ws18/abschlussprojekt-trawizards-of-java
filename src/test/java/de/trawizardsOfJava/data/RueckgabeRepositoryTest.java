@@ -34,7 +34,7 @@ public class RueckgabeRepositoryTest {
 		this.artikel.save(artikel);
 		this.rueckgaben.save(rueckgabe);
 
-		ArrayList<Rueckgabe> rueckgabenListe = this.rueckgaben.findByVerleiherName("foo");
+		ArrayList<Rueckgabe> rueckgabenListe = this.rueckgaben.findByVerleiherName(artikel.getVerleiherBenutzername());
 
 		Assertions.assertThat(rueckgabenListe.get(0).getAusleihender()).isEqualTo("bar");
 	}
@@ -56,7 +56,7 @@ public class RueckgabeRepositoryTest {
 		rueckgabe = new Rueckgabe(ausleihe);
 		this.rueckgaben.save(rueckgabe);
 
-		ArrayList<Rueckgabe> rueckgabenListe = this.rueckgaben.findByVerleiherName("foo");
+		ArrayList<Rueckgabe> rueckgabenListe = this.rueckgaben.findByVerleiherName(artikel.getVerleiherBenutzername());
 
 		Assertions.assertThat(rueckgabenListe.get(0).getAusleihender()).isEqualTo("bar");
 		Assertions.assertThat(rueckgabenListe.get(1).getAusleihender()).isEqualTo("rab");

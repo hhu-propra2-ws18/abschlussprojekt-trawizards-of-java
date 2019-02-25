@@ -15,7 +15,7 @@ public class BenutzerRepositoryTest {
 	private BenutzerRepository personen;
 
 	@Test
-	public void speicherPerson(){
+	public void speicherPerson() {
 		Person test = new Person();
 		test.setBenutzername("foo");
 		test.setName("foo");

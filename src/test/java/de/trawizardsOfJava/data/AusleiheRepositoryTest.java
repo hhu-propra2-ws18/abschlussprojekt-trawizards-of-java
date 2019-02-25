@@ -20,7 +20,7 @@ public class AusleiheRepositoryTest {
 	private ArtikelRepository artikel;
 
 	@Test
-	public void speicherAusleihe(){
+	public void speicherAusleihe() {
 		Artikel artikel = new Artikel();
 		artikel.setVerleiherBenutzername("foo");
 		artikel.setArtikelName("Bagger");
@@ -32,7 +32,7 @@ public class AusleiheRepositoryTest {
 		this.artikel.save(artikel);
 		this.ausleihen.save(ausleihe);
 
-		ArrayList<Ausleihe> ausleihenListe = this.ausleihen.findByVerleiherName("foo");
+		ArrayList<Ausleihe> ausleihenListe = this.ausleihen.findByVerleiherName(artikel.getVerleiherBenutzername());
 
 		Assertions.assertThat(ausleihenListe.get(0).getAusleihender()).isEqualTo("bar");
 	}
@@ -52,7 +52,7 @@ public class AusleiheRepositoryTest {
 		ausleihe = new Ausleihe(artikel, null, "rab");
 		this.ausleihen.save(ausleihe);
 
-		ArrayList<Ausleihe> ausleihenListe = this.ausleihen.findByVerleiherName("foo");
+		ArrayList<Ausleihe> ausleihenListe = this.ausleihen.findByVerleiherName(artikel.getVerleiherBenutzername());
 
 		Assertions.assertThat(ausleihenListe.get(0).getAusleihender()).isEqualTo("bar");
 		Assertions.assertThat(ausleihenListe.get(1).getAusleihender()).isEqualTo("rab");

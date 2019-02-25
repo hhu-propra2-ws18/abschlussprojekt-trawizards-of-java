@@ -3,7 +3,7 @@ package de.trawizardsOfJava.proPay;
 import lombok.Data;
 
 @Data
-class Reservierung {
+public class Reservierung {
 	private Long id;
 	private Long amount;
 }

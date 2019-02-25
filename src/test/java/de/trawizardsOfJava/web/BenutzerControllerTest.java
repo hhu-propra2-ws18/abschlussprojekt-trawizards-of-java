@@ -4,10 +4,8 @@ import de.trawizardsOfJava.data.*;
 import de.trawizardsOfJava.mail.IMailService;
 import de.trawizardsOfJava.mail.Message;
 import de.trawizardsOfJava.mail.MessageRepository;
-import de.trawizardsOfJava.model.Ausleihe;
 import de.trawizardsOfJava.model.Person;
 import de.trawizardsOfJava.proPay.ProPay;
-import de.trawizardsOfJava.proPay.ProPaySchnittstelle;
 import de.trawizardsOfJava.security.SecurityPersonenService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,12 +31,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(BenutzerController.class)
 public class BenutzerControllerTest {
-
 	@Autowired
 	MockMvc mvc;
-
-	@MockBean
-	AusleiheRepository ausleiheRepository;
 
 	@MockBean
 	BenutzerRepository benutzerRepository;
@@ -47,16 +41,22 @@ public class BenutzerControllerTest {
 	ArtikelRepository artikelRepository;
 
 	@MockBean
+	AusleiheRepository ausleiheRepository;
+
+	@MockBean
 	RueckgabeRepository rueckgabeRepository;
 
 	@MockBean
 	MessageRepository messageRepository;
 
 	@MockBean
-	SecurityPersonenService securityPersonenService;
+	IProPaySchnittstelle proPaySchnittstelle;
 
 	@MockBean
 	IMailService iMailService;
+
+	@MockBean
+	SecurityPersonenService securityPersonenService;
 
 	@Test
 	@WithMockUser(username = "foo", authorities = "ROLE_USER")
@@ -71,6 +71,7 @@ public class BenutzerControllerTest {
 		when(benutzerRepository.findByBenutzername(test.getBenutzername())).thenReturn(Optional.of(test));
 		when(artikelRepository.findByVerleiherBenutzername(test.getBenutzername())).thenReturn(new ArrayList<>());
 		when(ausleiheRepository.findByAusleihender(test.getBenutzername())).thenReturn(new ArrayList<>());
+		when(proPaySchnittstelle.getEntity("foo")).thenReturn(new ProPay());
 
 		mvc.perform(get("/account/foo")).andExpect(status().isOk());
 	}

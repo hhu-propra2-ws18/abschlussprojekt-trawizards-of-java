@@ -17,7 +17,7 @@ public class ArtikelRepositoryTest {
 	private ArtikelRepository artikel;
 
 	@Test
-	public void speicherArtikel(){
+	public void speicherArtikel() {
 		Artikel artikel = new Artikel();
 		artikel.setVerleiherBenutzername("foo");
 		artikel.setArtikelName("Bagger");
@@ -52,7 +52,7 @@ public class ArtikelRepositoryTest {
 		artikel2.setKaution(0);
 		this.artikel.save(artikel2);
 
-		ArrayList<Artikel> datenbankArtikel = this.artikel.findByVerleiherBenutzername("foo");
+		ArrayList<Artikel> datenbankArtikel = this.artikel.findByVerleiherBenutzername(artikel.getVerleiherBenutzername());
 
 		Assertions.assertThat(datenbankArtikel.get(0).getArtikelName()).isEqualTo("Bagger");
 		Assertions.assertThat(datenbankArtikel.get(1).getBeschreibung()).isEqualTo("Das ist auch ein Bagger");

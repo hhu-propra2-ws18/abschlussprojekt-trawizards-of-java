@@ -1,8 +1,6 @@
 package de.trawizardsOfJava.web;
 
-import de.trawizardsOfJava.data.BenutzerRepository;
-import de.trawizardsOfJava.data.KonfliktRepository;
-import de.trawizardsOfJava.data.RueckgabeRepository;
+import de.trawizardsOfJava.data.*;
 import de.trawizardsOfJava.mail.IMailService;
 import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.*;
@@ -19,19 +17,15 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Optional;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(KonfliktController.class)
 public class KonfliktControllerTest {
-
 	@Autowired
 	MockMvc mvc;
 
@@ -42,10 +36,13 @@ public class KonfliktControllerTest {
 	RueckgabeRepository rueckgabeRepository;
 
 	@MockBean
+	KonfliktRepository konfliktRepository;
+
+	@MockBean
 	MessageRepository messageRepository;
 
 	@MockBean
-	KonfliktRepository konfliktRepository;
+	IProPaySchnittstelle proPaySchnittstelle;
 
 	@MockBean
 	IMailService iMailService;

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.com">
+<head>
+	<meta charset="UTF-8">
+	<title>The Awesome Chat</title>
+
+	<link href="../../static/css/seitenBar.css" th:href="@{/css/seitenBar.css}" rel="stylesheet" />
+	<link href="../../static/css/chat.css" th:href="@{/css/chat.css}" rel="stylesheet" />
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+	<body>
+		<div id="seitenBar" class="bar">
+			<a href="javascipt:void(0)" class="schliessen" onclick="schliesseBar()">&times;</a>
+			<div th:each="sitzung: ${sessions}">
+				<a th:href="@{/messenger/{benutzername}/{teilnehmer} (benutzername=${name},teilnehmer=${sitzung.id})}"
+				   th:text="${sitzung.toString()}"></a>
+			</div>
+		</div>
+
+		<span style="font-size: 30px;cursor: pointer" onclick="oeffneBar();">&#9776;</span>
+
+		<div id="div1" th:if="${hide == false}"></div>
+		<form th:if="${hide == false}" method="post" th:object="${nachricht}">
+			<div class="type">
+				<input type="hidden" th:field="*{id}">
+				<input type="hidden" th:field="*{absender}">
+				<input type="hidden" th:field="*{session}">
+				<input type="hidden" th:field="*{gesendet}">
+				<input id="feld" maxlength="255" style="width: 320px" type="text" th:field="*{chat}" required placeholder="Nachricht" tabindex="+1">
+				<a th:href="@{/messenger/{benutzername}/{teilnehmer} (benutzername=${name},teilnehmer=${teilnehmer}}">
+					<button name="button" style="width: 60px;object-fit: contain" class="btn btn-outline-danger" value="submit" tabindex="-1">Senden</button>
+				</a>
+			</div>
+		</form>
+
+		<script th:inline="javascript">
+            $('html, body').animate({scrollTop:$(document).height()+99999999}, 'slow');
+			//not resizable
+			var breite = window.outerWidth.valueOf();
+			var hoehe = window.outerHeight.valueOf();
+
+			window.onresize = function(){
+				window.resizeTo(breite, hoehe);
+			};
+			window.onclick = function(){
+				window.resizeTo(breite, hoehe);
+			};
+
+
+
+
+			//Inhalt neuladen
+			function loadlink(){
+				/*<![CDATA[*/
+				var benutzer = /*[[${name}]]*/;
+				var teilnehmer = /*[[${teilnehmer}]]*/;
+				$('#div1').load('/messenger/' + benutzer + '/' + teilnehmer +'/reload',function () {
+                    $(this).unwrap();
+                });
+				/*]]>*/
+			}
+
+			//end-Inhalt neuladen
+            function oeffneBar(){
+                document.getElementById("seitenBar").style.width = "250px";
+            }
+            function schliesseBar(){
+                document.getElementById("seitenBar").style.width = "0px";
+            }
+            $( document ).ready(function() {
+                /*<![CDATA[*/
+                if(/*[[${hide}]]*/){
+                    oeffneBar();
+				}
+                else {
+                    loadlink(); // This will run on page load
+                    setInterval(function(){
+                        loadlink() // this will run after every 5 seconds
+                    }, 5000);
+
+                    //Inputfeld auswählen
+                    var input = document.getElementById('feld');
+                    input.focus();
+                    input.select();
+				}
+                /*]]>*/
+            });
+		</script>
+	</body>
+</html>

@@ -15,7 +15,6 @@ public class Session{
 	private Teilnehmer teilnehmer;
 
 	public Session(){
-
 	}
 
 	public Session(Teilnehmer teilnehmer){
@@ -33,5 +32,9 @@ public class Session{
 			}
 		}
 		return (long)-1;
+	}
+
+	public String toString(){
+		return teilnehmer.getPersonEins() + " - " + teilnehmer.getPersonZwei();
 	}
 }

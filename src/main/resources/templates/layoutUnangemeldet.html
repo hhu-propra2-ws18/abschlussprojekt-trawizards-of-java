@@ -63,10 +63,8 @@
 			</div>
 		</li>
 		<li class="nav-item" th:if="${angemeldet}">
-			<a class="nav-link" th:href="@{/messenger/{benutzername} (benutzername=${name})}">
-				<img id="post" class="messages" src="../static/images/post.png" th:src="@{/images/post.png}"
-					 height="25" width="auto" onmouseover="onHover();" onmouseout="offHover();"/>
-			</a>
+			<img id="post" class="messages" src="../static/images/post.png" th:src="@{/images/post.png}"
+			 height="25" width="auto" onmouseover="onHover();" onmouseout="offHover();" onclick="openchat()"/>
 		</li>
 		<li class="nav-item" th:if="${angemeldet}">
 			<a class="nav-link" href='/logout'>Abmelden</a>
@@ -88,7 +86,13 @@
 	<div layout:fragment="inhalt"></div>
 </div>
 
-<script>
+<script th:inline="javascript">
+    function openchat() {
+        /*<![CDATA[*/
+        var benutzername = /*[[${name}]]*/ 'default';
+        window.open("http://localhost:8080/messenger/" + benutzername,"_blank", "toolbar=0,location=0,directories=0,scrollbars=0,resizable=0,top=400,left=500,width=425,height=500");
+        /*]]>*/
+    }
     function gimmeTitle() {
         document.getElementById("titel").innerHTML = document.title;
     }

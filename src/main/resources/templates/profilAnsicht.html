@@ -46,7 +46,7 @@
 		</div>
 	</div>
 	<div th:unless="${isUser}">
-		<button class="btn btn-outline-dark" onclick="openchat()">Chatten</button>
+		<button class="btn btn-outline-dark" onclick="openchatin()">Chatten</button>
 	</div>
 	<hr>
 
@@ -90,7 +90,7 @@
 
 
 	<script th:inline="javascript">
-		function openchat() {
+		function openchatin() {
 			/*<![CDATA[*/
 			var benutzername = /*[[${name}]]*/ 'default';
 			var empfaenger = /*[[${empfaenger}]]*/ 'default';

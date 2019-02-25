@@ -1,8 +1,8 @@
 package de.trawizardsOfJava.data;
 
 import de.trawizardsOfJava.model.*;
+import de.trawizardsOfJava.proPay.IProPaySchnittstelle;
 import de.trawizardsOfJava.security.SecurityConfig;
-import de.trawizardsOfJava.proPay.ProPaySchnittstelle;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
@@ -22,6 +22,8 @@ public class DatabaseInitializr implements ServletContextInitializer {
 	KonfliktRepository konfliktRepository;
 	@Autowired
 	RueckgabeRepository rueckgabeRepository;
+	@Autowired
+	IProPaySchnittstelle proPaySchnittstelle;
 
 	@Override
 	public void onStartup(ServletContext servletContext) {
@@ -41,7 +43,7 @@ public class DatabaseInitializr implements ServletContextInitializer {
 		person2.setName("Joe");
 		person2.setPasswort(SecurityConfig.encoder().encode("1234"));
 		person2.setRolle("ROLE_USER");
-		ProPaySchnittstelle.post("account/Joe?amount=3297");
+		proPaySchnittstelle.post("account/Joe?amount=3297");
 		benutzerRepository.save(person2);
 
 		Artikel artikel = new Artikel();

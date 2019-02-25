@@ -16,7 +16,6 @@ import java.security.Principal;
 
 @Controller
 public class ArtikelController {
-
 	private ArtikelRepository artikelRepository;
 
 	@Autowired

@@ -1,13 +1,10 @@
 package de.trawizardsOfJava.web;
 
-import de.trawizardsOfJava.data.ArtikelRepository;
-import de.trawizardsOfJava.data.AusleiheRepository;
-import de.trawizardsOfJava.data.BenutzerRepository;
-import de.trawizardsOfJava.data.RueckgabeRepository;
+import de.trawizardsOfJava.data.*;
 import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.Ausleihe;
 import de.trawizardsOfJava.model.Person;
-import de.trawizardsOfJava.proPay.ProPaySchnittstelle;
+import de.trawizardsOfJava.proPay.IProPaySchnittstelle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -28,17 +25,20 @@ public class BenutzerController {
 	private AusleiheRepository ausleiheRepository;
 	private RueckgabeRepository rueckgabeRepository;
 	private MessageRepository messageRepository;
+	private IProPaySchnittstelle proPaySchnittstelle;
 	//private IMailService iMailService;
 
 	@Autowired
 	public BenutzerController(BenutzerRepository benutzerRepository, ArtikelRepository artikelRepository,
 							  AusleiheRepository ausleiheRepository, RueckgabeRepository rueckgabeRepository,
-							  MessageRepository messageRepository /*, IMailService iMailService*/) {
+							  MessageRepository messageRepository, IProPaySchnittstelle proPaySchnittstelle/*,
+							  IMailService iMailService*/) {
 		this.benutzerRepository = benutzerRepository;
 		this.artikelRepository = artikelRepository;
 		this.ausleiheRepository = ausleiheRepository;
 		this.rueckgabeRepository = rueckgabeRepository;
 		this.messageRepository = messageRepository;
+		this.proPaySchnittstelle = proPaySchnittstelle;
 		//this.iMailService = iMailService;
 	}
 
@@ -54,7 +54,7 @@ public class BenutzerController {
 		model.addAttribute("person", benutzerRepository.findByBenutzername(benutzername).get());
 		model.addAttribute("artikel", artikelRepository.findByVerleiherBenutzername(benutzername));
 		model.addAttribute("isUser", benutzername.equals(principal.getName()));
-		model.addAttribute("proPay", ProPaySchnittstelle.getEntity(benutzername));
+		model.addAttribute("proPay", proPaySchnittstelle.getEntity(benutzername));
 		model.addAttribute("angemeldet", true);
 		model.addAttribute("aktuelleSeite", "Profil");
 		findeFaelligeAusleihe(model, ausleiheRepository.findByAusleihender(benutzername));
@@ -76,7 +76,7 @@ public class BenutzerController {
 	@PostMapping("/account/{benutzername}")
 	@PreAuthorize("#benutzername == authentication.name")
 	public String kontoAufladen(Model model, @PathVariable String benutzername, Long amount, Principal principal) {
-		ProPaySchnittstelle.post("account/" + benutzername + "?amount=" + amount);
+		proPaySchnittstelle.post("account/" + benutzername + "?amount=" + amount);
 		return profilAnsicht(model, benutzername, principal);
 	}
 
@@ -107,7 +107,7 @@ public class BenutzerController {
 	@PreAuthorize("#benutzername == authentication.name")
 	public String nachrichtenUebersicht(Model model, @PathVariable String benutzername) {
 		model.addAttribute("admin", benutzerRepository.findByBenutzername(benutzername).get().getRolle().equals("ROLE_ADMIN"));
-		model.addAttribute("messages", messageRepository.findByEmpfaengerOrAbsender(benutzername, benutzername));
+		model.addAttribute("messages", messageRepository.findByEmpfaenger(benutzername));
 		return "nachrichtenUebersicht";
 	}
 

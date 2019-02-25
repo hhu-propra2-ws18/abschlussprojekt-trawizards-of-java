@@ -5,7 +5,7 @@ import de.trawizardsOfJava.mail.Message;
 import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.Konflikt;
 import de.trawizardsOfJava.model.Rueckgabe;
-import de.trawizardsOfJava.proPay.ProPaySchnittstelle;
+import de.trawizardsOfJava.proPay.IProPaySchnittstelle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -21,19 +21,21 @@ import java.security.Principal;
 public class KonfliktController {
 
 	private BenutzerRepository benutzerRepository;
-	private MessageRepository messageRepository;
 	private RueckgabeRepository rueckgabeRepository;
 	private KonfliktRepository konfliktRepository;
+	private MessageRepository messageRepository;
+	private IProPaySchnittstelle proPaySchnittstelle;
 	//private IMailService iMailService;
 
 	@Autowired
-	public KonfliktController(BenutzerRepository benutzerRepository, MessageRepository messageRepository,
-							  RueckgabeRepository rueckgabeRepository, KonfliktRepository konfliktRepository/*,
-							  IMailService iMailService*/) {
+	public KonfliktController(BenutzerRepository benutzerRepository, RueckgabeRepository rueckgabeRepository,
+							  KonfliktRepository konfliktRepository, MessageRepository messageRepository,
+							  IProPaySchnittstelle proPaySchnittstelle/*, IMailService iMailService*/) {
 		this.benutzerRepository = benutzerRepository;
-		this.messageRepository = messageRepository;
 		this.rueckgabeRepository = rueckgabeRepository;
 		this.konfliktRepository = konfliktRepository;
+		this.messageRepository = messageRepository;
+		this.proPaySchnittstelle = proPaySchnittstelle;
 		//this.iMailService = iMailService;
 	}
 
@@ -87,10 +89,10 @@ public class KonfliktController {
 		Message[] messages;
 		if ("Verleihender".equals(benutzer)) {
 			messages = Message.konfliktMessages(konflikt, "Verleihenden");
-			ProPaySchnittstelle.post("reservation/punish/" + konflikt.getRueckgabe().getAusleihender() + "?reservationId=" + konflikt.getRueckgabe().getProPayID());
+			proPaySchnittstelle.post("reservation/punish/" + konflikt.getRueckgabe().getAusleihender() + "?reservationId=" + konflikt.getRueckgabe().getProPayID());
 		} else {
 			messages = Message.konfliktMessages(konflikt, "Ausleihenden");
-			ProPaySchnittstelle.post("reservation/release/" + konflikt.getRueckgabe().getAusleihender() + "?reservationId=" + konflikt.getRueckgabe().getProPayID());
+			proPaySchnittstelle.post("reservation/release/" + konflikt.getRueckgabe().getAusleihender() + "?reservationId=" + konflikt.getRueckgabe().getProPayID());
 		}
 		messageRepository.save(messages[0]);
 		messageRepository.save(messages[1]);

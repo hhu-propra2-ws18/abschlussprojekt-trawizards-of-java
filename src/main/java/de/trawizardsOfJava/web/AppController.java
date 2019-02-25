@@ -51,19 +51,6 @@ public class AppController {
 		}
 	}
 
-	/*
-		Diese Methode greift auf das Dateisystem des Dockercontainers zu und liefert das angefragte Bild aus.
-
-	*/
-	@ResponseBody
-	@RequestMapping(value = "/detail/{id}", method = GET, produces = MediaType.IMAGE_JPEG_VALUE)
-	@PreAuthorize("#benutzername == authentication.name")
-	public Resource getImageAsResource(@PathVariable("id") Long id) {
-		String test = artikelRepository.findById(id).get().getFotos().get(0);
-		System.out.println("testa" + new FileSystemResource("fotos/" + test + ".jpg"));
-		return new FileSystemResource("fotos/" + test + ".jpg");
-	}
-
 
 	@GetMapping("/")
 	public String startseite(Model model, Principal principal) {
@@ -100,9 +87,50 @@ public class AppController {
 			System.out.println("in right fotots");
 		}
 
+		model.addAttribute("testId", id);
 
 		return "artikelDetail";
 	}
+
+	@ResponseBody
+	@RequestMapping(value = "/detail/{id}/foto", method = GET, produces = MediaType.IMAGE_JPEG_VALUE)
+	public FileSystemResource artikelDetailFoto(Model model, @PathVariable Long id, Principal principal) {
+		model.addAttribute("artikelDetail", artikelRepository.findById(id).get());
+		model.addAttribute("aktuelleSeite", "Artikelansicht");
+		model.addAttribute("angemeldet", principal != null);
+
+
+		if(artikelRepository.findById(id).get().getFotos().get(0).equals("fotos")){
+			model.addAttribute("fotoTest", ALTERNATIVE_PHOTO);
+			System.out.println("in ALT fotos");
+		}else{
+			model.addAttribute("fotoTest", artikelRepository.findById(id).get().getFotos().get(0));
+			System.out.println("fotoTest " + artikelRepository.findById(id).get().getFotos().get(0));
+			System.out.println("in right fotots");
+
+			String test = artikelRepository.findById(id).get().getFotos().get(0);
+			System.out.println("testa" + new FileSystemResource("src/main/resources/fotos/" + test ));
+			return new FileSystemResource("src/main/resources/fotos/"  + test);
+		}
+
+
+		//artikelRepository.findById(id).get().setFotosFromVolume(new FileSystemResource("src/main/resources/fotos/" + ALTERNATIVE_PHOTO));
+
+		return new FileSystemResource("src/main/resources/fotos/" + ALTERNATIVE_PHOTO);
+	}
+
+	/*
+	Diese Methode greift auf das Dateisystem des Dockercontainers zu und liefert das angefragte Bild aus.
+
+
+	@ResponseBody
+	@RequestMapping(value = "/detail", method = GET, produces = MediaType.IMAGE_JPEG_VALUE)
+	public Resource getImageAsResource(@PathVariable("id") Long id) {
+		String test = artikelRepository.findById(id).get().getFotos().get(0);
+		System.out.println("testa" + new FileSystemResource("fotos/" + test + ".jpg"));
+		return new FileSystemResource("fotos/" + test + ".jpg");
+	}
+	*/
 
 	@GetMapping("/account/{benutzername}/aendereArtikel/{id}")
 	@PreAuthorize("#benutzername == authentication.name")

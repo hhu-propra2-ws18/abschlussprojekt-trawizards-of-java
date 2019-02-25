@@ -26,13 +26,8 @@
 <div layout:fragment="inhalt">
 	<div class="card text-center">
 		<h5 class="card-header" th:text="'Artikel: ' +${artikelDetail.artikelName}"></h5>
+
 		<div class="card-body">
-
-			<img th:src="@{'../resources/fotos/' + ${fotoTest}}"
-				  class="img-thumbnail img-sm" style="width:100px; height:100px; margin-right:20px"
-			/>
-
-
 
 			<p style="display:inline-block;">Verleiher:&nbsp;</p>
 			<a th:href="@{/account/{benutzername} (benutzername=${artikelDetail.verleiherBenutzername})}" style="display:inline-block;">
@@ -44,6 +39,11 @@
 			<p th:text="'Kaution: ' +${artikelDetail.kaution} + '&euro;'"></p>
 			<p th:text="'Verfügbar von: ' +${artikelDetail.verfuegbarkeit.startDate}"></p>
 			<p th:text="'Verfügbar bis: ' +${artikelDetail.verfuegbarkeit.endDate}"></p>
+
+			<a th:href="@{/detail/{id}/foto (id=${testId})}">
+				<button type="button" class="btn btn-outline-success">Foto</button>
+			</a>
+
 		</div>
 		<div class="card-footer">
 			<a href='/'>

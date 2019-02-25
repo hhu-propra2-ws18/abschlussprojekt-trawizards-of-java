@@ -6,6 +6,9 @@ import de.trawizardsOfJava.model.*;
 import de.trawizardsOfJava.proPay.*;
 import de.trawizardsOfJava.security.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.security.Principal;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @Controller
 public class AppController {
@@ -23,6 +28,7 @@ public class AppController {
 	private RueckgabeRepository rueckgabeRepository;
 	private KonfliktRepository konfliktRepository;
 	//private IMailService iMailService;
+	private static final String ALTERNATIVE_PHOTO = "kein-bild-vorhanden.jpg";
 
 	@Autowired
 	public AppController(BenutzerRepository benutzerRepository, ArtikelRepository artikelRepository,
@@ -45,6 +51,20 @@ public class AppController {
 		}
 	}
 
+	/*
+		Diese Methode greift auf das Dateisystem des Dockercontainers zu und liefert das angefragte Bild aus.
+
+	*/
+	@ResponseBody
+	@RequestMapping(value = "/detail/{id}", method = GET, produces = MediaType.IMAGE_JPEG_VALUE)
+	@PreAuthorize("#benutzername == authentication.name")
+	public Resource getImageAsResource(@PathVariable("id") Long id) {
+		String test = artikelRepository.findById(id).get().getFotos().get(0);
+		System.out.println("testa" + new FileSystemResource("fotos/" + test + ".jpg"));
+		return new FileSystemResource("fotos/" + test + ".jpg");
+	}
+
+
 	@GetMapping("/")
 	public String startseite(Model model, Principal principal) {
 		model.addAttribute("artikel", artikelRepository.findAll());
@@ -62,11 +82,25 @@ public class AppController {
 		return "suche";
 	}
 
+	//public static String uploadDirectory = System.getProperty("user.dir")+"/src/main/resources/fotos/";
+
 	@GetMapping("/detail/{id}")
 	public String artikelDetail(Model model, @PathVariable Long id, Principal principal) {
 		model.addAttribute("artikelDetail", artikelRepository.findById(id).get());
 		model.addAttribute("aktuelleSeite", "Artikelansicht");
 		model.addAttribute("angemeldet", principal != null);
+
+
+		if(artikelRepository.findById(id).get().getFotos().get(0).equals("fotos")){
+			model.addAttribute("fotoTest", ALTERNATIVE_PHOTO);
+			System.out.println("in ALT fotos");
+		}else{
+			model.addAttribute("fotoTest", artikelRepository.findById(id).get().getFotos().get(0));
+			System.out.println("fotoTest " + artikelRepository.findById(id).get().getFotos().get(0));
+			System.out.println("in right fotots");
+		}
+
+
 		return "artikelDetail";
 	}
 
@@ -168,9 +202,11 @@ public class AppController {
 	public String speicherArtikel(Model model, @PathVariable String benutzername, String daterange, Artikel artikel) {
 		artikel.setVerfuegbarkeit(new Verfuegbarkeit(daterange));
 		artikel.setVerleiherBenutzername(benutzername);
+		artikel.setFotos(new ArrayList<String>());
 		artikelRepository.save(artikel);
 		model.addAttribute("link", "account/" + benutzername);
-		return "backToTheFuture";
+
+		return "redirect:/fotoupload/"+artikel.getId();
 	}
 
 	@GetMapping("/account/{benutzername}/artikel/{id}/anfrage")

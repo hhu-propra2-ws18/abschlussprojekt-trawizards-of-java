@@ -1,9 +1,11 @@
-version: '3.7'
+version: "3.7"
 services:
   #anwendung:
-  #  build: .
-  #  ports:
-  #    - "8080:8080"  
+  #build: .
+  #ports:
+  #- "8080:8080"
+  #volumes:
+  #- ./src/main/resources/static/fotos:/app/fotos
 
   datenbank:
     image: mariadb

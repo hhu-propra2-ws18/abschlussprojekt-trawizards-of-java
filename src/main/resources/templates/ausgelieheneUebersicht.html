@@ -6,17 +6,26 @@
 </head>
 
 <body>
-<h1 layout:fragment="titel">Diese Artikel haben Sie momentan ausgeliehen:</h1>
 <div layout:fragment="inhalt">
-	<p th:if="${#lists.isEmpty(ausleihen)}">Keine Artikel vorhanden!</p>
-	<div th:each="ausleihe : ${ausleihen}" th:if="${ausleihe.accepted}">
-		<p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
-		<p th:text="|Verleiher: ${ausleihe.verleiherName}|">Verleiher</p>
-		<p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
-		<p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
-		<form method="post">
-			<button class="btn btn-outline-success" type="submit" name="id" th:value=${ausleihe.id}>Zurückgeben</button>
-		</form>
+		<div class="card text-center">
+			<h5 class="card-header">
+				Diese Artikel haben Sie momentan ausgeliehen:
+			</h5>
+			<div class="card-body">
+				<p th:if="${#lists.isEmpty(ausleihen)}">Keine Artikel vorhanden!</p>
+				<div th:each="ausleihe : ${ausleihen}" th:if="${ausleihe.accepted}">
+					<li class="list-group-item">
+						<p th:text="|Name des Artikels: ${ausleihe.artikel.artikelName}|">Artikelname</p>
+						<p th:text="|Verleiher: ${ausleihe.verleiherName}|">Verleiher</p>
+						<p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
+						<p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
+						<form method="post">
+							<button class="btn btn-outline-success" type="submit" name="id" th:value=${ausleihe.id}>Zurückgeben</button>
+						</form>
+					</li>
+			</div>
+		</div>
+
 	</div>
 </div>
 </body>

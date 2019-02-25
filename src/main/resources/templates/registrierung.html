@@ -6,31 +6,42 @@
 </head>
 
 <body>
-<h1 layout:fragment="titel">Bitte geben Sie Ihre Daten ein:</h1>
 <div layout:fragment="inhalt">
-	<p th:if="${error}">Dieser Benutzername existeriert bereits!</p>
-	<form method="post" th:object="${person}">
-		<table>
-			<tr>
-				<td>Benutzername:</td>
-				<td><input type="text" class="form-control" th:field="*{benutzername}" required></td>
-			</tr>
-			<tr>
-				<td>Name:</td>
-				<td><input type="text" class="form-control" th:field="*{name}"></td>
-			</tr>
-			<tr>
-				<td>E-Mail:</td>
-				<td><input type="text" class="form-control" th:field="*{email}" required></td>
-			</tr>
-			<tr>
-				<td>Passwort:</td>
-				<td><input type="password" class="form-control" th:field="*{passwort}" required></td>
-			</tr>
-		</table>
-		<br>
-		<button type="submit" class="btn btn-outline-success">Registrieren</button>
-	</form>
-</div>
+
+	<div class="card text-center">
+		<h5 class="card-header">
+			Bitte geben Sie Ihre Daten ein:
+		</h5>
+		<div class="card-body">
+			<div th:if="${error}" class="alert alert-danger" role="alert">
+				Dieser Benutzername existeriert bereits!
+			</div>
+			<form method="post" th:object="${person}">
+				<div class="col-md-12" align="center">
+					<table>
+						<tr>
+							<td>Benutzername:</td>
+							<td><input type="text" class="form-control" th:field="*{benutzername}" required></td>
+						</tr>
+						<tr>
+							<td>Name:</td>
+							<td><input type="text" class="form-control" th:field="*{name}"></td>
+						</tr>
+						<tr>
+							<td>E-Mail:</td>
+							<td><input type="text" class="form-control" th:field="*{email}" required></td>
+						</tr>
+						<tr>
+							<td>Passwort:</td>
+							<td><input type="password" class="form-control" th:field="*{passwort}" required></td>
+						</tr>
+					</table>
+				<br>
+				<button type="submit" class="btn btn-outline-success">Registrieren</button>
+			</form>
+		</div>
+		</div>
+		</div>
+	</div>
 </body>
 </html>

@@ -26,6 +26,13 @@
 							<input type="text" class="form-control ml-5" th:field="*{artikelName}" placeholder="Artikelname" required style="display:inline-block;"><br>
 						</div>
 						<div class="group">
+							<label class="col-sm-2 col-form-label mr-5">Verleihen oder verkaufen:</label>
+							<select th:name="select">
+								<option th:value="Ausleihen" th:text="Ausleihen"></option>
+								<option th:value="Verkaufen" th:text="Verkaufen"></option>
+							</select>
+						</div>
+						<div class="group">
 							<label class="col-sm-2 col-form-label mr-5">Beschreibung:</label>
 							<textarea class="autoExpand form-control ml-5" cols="50" maxlength="255" type="text" th:field="*{beschreibung}"
 									  placeholder="Beschreibung" }></textarea>
@@ -40,7 +47,7 @@
 						</div>
 						<div class="group">
 							<label class="col-sm-2 col-form-label mr-5">Kaution:</label>
-							<input type="number" class="form-control ml-5" th:field="*{kaution}" placeholder="Kaution" required/><br>
+							<input type="number" class="form-control ml-5" th:field="*{kaution}" placeholder="Kaution (nur fürs Ausleihen benötigt)" required/><br>
 						</div>
 						<div class="group">
 							<label class="col-sm-2 col-form-label mr-5">Verfügbarkeit:</label>

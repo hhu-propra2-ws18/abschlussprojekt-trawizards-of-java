@@ -48,9 +48,9 @@
 			</div>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" th:href="@{/messenger/{benutzername}/ (benutzername=${name})}">
-				<img class="messages" src="../static/images/post.png" th:src="@{/images/post.png}"
-				height="25" width="auto"/>
+			<a class="nav-link" th:href="@{/messenger/{benutzername} (benutzername=${name})}">
+				<img id="post" class="messages" src="../static/images/post.png" th:src="@{/images/post.png}"
+				height="25" width="auto" onmouseover="onHover();" onmouseout="offHover();"/>
 			</a>
 		</li>
 		<li class="nav-item">
@@ -67,9 +67,17 @@
 	<div layout:fragment="inhalt"></div>
 </div>
 
-<script>
+<script th:inline="javascript">
     function gimmeTitle() {
         document.getElementById("titel").innerHTML = document.title;
+    }
+    function onHover()
+	{
+	    $("#post").attr('src', '/images/post_hover.png');
+	}
+    function offHover()
+    {
+        $("#post").attr('src', '/images/post.png');
     }
 </script>
 </body>

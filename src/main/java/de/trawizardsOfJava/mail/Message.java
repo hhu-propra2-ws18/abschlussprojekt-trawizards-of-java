@@ -1,6 +1,7 @@
 package de.trawizardsOfJava.mail;
 
 import de.trawizardsOfJava.model.Ausleihe;
+import de.trawizardsOfJava.model.Kauf;
 import de.trawizardsOfJava.model.Konflikt;
 import de.trawizardsOfJava.model.Rueckgabe;
 import lombok.Data;
@@ -43,6 +44,12 @@ public class Message {
 				this.nachricht += ", da der Artikel in einem mangelhaftem Zustand zurückgegeben wurde. Die Konfliktlösestelle wurde kontaktiert";
 			}
 		}
+	}
+
+	public Message(Kauf kauf){
+		this.nachricht = "Sie haben " + kauf.getArtikel().getArtikelName() + " von" + kauf.getVerleiherName() + " gekauft.";
+		this.absender = kauf.getVerleiherName();
+		this.empfaenger = kauf.getKaeufer();
 	}
 
 	private Message(Konflikt konflikt, String parameter, String empfaenger) {

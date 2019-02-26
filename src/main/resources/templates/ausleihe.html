@@ -18,7 +18,8 @@
 		<div class="card-body" align="center">
 			<div class="col-md-4">
 				<form name="f" method="post">
-					<p th:if="${error}">Sie haben nicht genügend Geld auf Ihrem ProPay-Konto!</p>
+					<p th:if="${error}" style="color: red">Sie haben nicht genügend Geld auf Ihrem ProPay-Konto!</p>
+					<p th:if="${proPayError}" style="color: red">ProPay ist derzeit nicht erreichbar. Versuchen sie es später erneut.</p>
 					<input type="text" class="form-control" name="daterange" min="#today"/> <br>
 					<br>
 					<input type="submit" value="Bestätigen" class="btn btn-outline-success"/>

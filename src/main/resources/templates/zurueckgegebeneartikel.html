@@ -7,7 +7,6 @@
 
 <body>
 <div layout:fragment="inhalt">
-
 	<div class="card text-center">
 		<h5 class="card-header">
 			Zurückgegebene Artikel:
@@ -20,6 +19,7 @@
 					<p th:text="|Ausleihender: ${ausleihe.ausleihender}|">Ausleihender</p>
 					<p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
 					<p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
+					<p th:if="${proPayError}" style="color: red">ProPay ist derzeit nicht erreichbar. Versuchen Sie es später nochmal.</p>
 					<form method="post">
 						<button class="btn btn-outline-success" type="submit" name="id" th:value="${ausleihe.id}">Akzeptieren</button>
 					</form>

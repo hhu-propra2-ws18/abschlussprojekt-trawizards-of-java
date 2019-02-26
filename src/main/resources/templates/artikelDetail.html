@@ -3,13 +3,32 @@
 	  xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
 	<title th:text="'Artikel: ' +${artikelDetail.artikelName}"></title>
+
+
+	<style>
+		div.gallery {
+			margin: 5px;
+			border: 1px solid #ccc;
+			float: left;
+			width: 180px;
+		}
+		div.gallery:hover {
+			border: 2px solid #777;
+		}
+		div.gallery img {
+			width: 100%;
+			height: auto;
+		}
+	</style>
 </head>
 
 <body>
 <div layout:fragment="inhalt">
 	<div class="card text-center">
 		<h5 class="card-header" th:text="'Artikel: ' +${artikelDetail.artikelName}"></h5>
+
 		<div class="card-body">
+
 			<p style="display:inline-block;">Verleiher:&nbsp;</p>
 			<a th:href="@{/account/{benutzername} (benutzername=${artikelDetail.verleiherBenutzername})}" style="display:inline-block;">
 				<p th:text="${artikelDetail.verleiherBenutzername}"></p>
@@ -20,6 +39,9 @@
 			<p th:text="'Kaution: ' +${artikelDetail.kaution} + '&euro;'"></p>
 			<p th:text="'Verfügbar von: ' +${artikelDetail.verfuegbarkeit.startDate}"></p>
 			<p th:text="'Verfügbar bis: ' +${artikelDetail.verfuegbarkeit.endDate}"></p>
+			<a th:href="@{/detail/{id}/foto (id=${photoId})}">
+				<button type="button" class="btn btn-outline-success">Foto</button>
+			</a>
 			<a th:unless="${angemeldet}" th:href="@{/anmeldung}">
 				<button type="button" class="btn btn-outline-success">Ausleihen</button>
 			</a>

@@ -83,7 +83,7 @@ public class DatabaseInitializr implements ServletContextInitializer {
         konflikt.setRueckgabe(rueckgabeRepository.findAll().get(0));
         konflikt.setBeschreibung("kaputt");
         konfliktRepository.save(konflikt);
-    
+
         Person person3 = new Person();
         person3.setBenutzername("deineMum");
         person3.setEmail("deineMum@mail.com");
@@ -91,7 +91,7 @@ public class DatabaseInitializr implements ServletContextInitializer {
         person3.setPasswort(SecurityConfig.encoder().encode("1234"));
         person3.setRolle("ROLE_ADMIN");
         benutzerRepository.save(person3);
-    
+
         Person person4 = new Person();
         person4.setBenutzername("aydin");
         person4.setEmail("aydin@mail.com");

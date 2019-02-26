@@ -68,6 +68,25 @@ public class ArtikelController {
 		model.addAttribute("artikelDetail", artikelRepository.findById(id).get());
 		model.addAttribute("aktuelleSeite", "Artikelansicht");
 		model.addAttribute("angemeldet", principal != null);
+		model.addAttribute("photoId", id);
 		return "artikelDetail";
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/detail/{id}/foto", method = GET, produces = MediaType.IMAGE_JPEG_VALUE)
+	public FileSystemResource artikelDetailFoto(Model model, @PathVariable Long id, Principal principal) {
+		model.addAttribute("artikelDetail", artikelRepository.findById(id).get());
+		model.addAttribute("aktuelleSeite", "Artikelansicht");
+		model.addAttribute("angemeldet", principal != null);
+
+
+		if(!(artikelRepository.findById(id).get().getFotos().get(0).equals("fotos"))){
+
+			String photoUrl = artikelRepository.findById(id).get().getFotos().get(0);
+			return new FileSystemResource("src/main/resources/fotos/"  + photoUrl);
+		}
+
+
+		return new FileSystemResource("src/main/resources/fotos/" + ALTERNATIVE_PHOTO);
 	}
 }

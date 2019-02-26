@@ -17,7 +17,7 @@
 		<a th:href="@{/account/{benutzername}/erstelleArtikel (benutzername=${person.benutzername})}">
 			<button type="button" class="btn btn-outline-dark">Neuen Artikel erstellen</button>
 		</a>
-		<a th:href="@{/account/{benutzername}/ausleihenuebersicht (benutzername=${person.benutzername})}">
+		<a th:href="@{/account/{benutzername}/anfragenuebersicht (benutzername=${person.benutzername})}">
 			<button type="button" class="btn btn-outline-dark">Anfragen ansehen</button>
 		</a>
 		<a th:href="@{/account/{benutzername}/ausgelieheneuebersicht (benutzername=${person.benutzername})}">
@@ -30,7 +30,7 @@
 			<button type="button" class="btn btn-outline-dark">Nachrichten ansehen</button>
 		</a>
 		<a th:href="@{/account/{benutzername}/transaktionUebersicht (benutzername=${person.benutzername})}">
-			<button type="button" class="btn btn-outline-dark">Transaktionen Übersicht</button>
+			<button type="button" class="btn btn-outline-dark">Transaktionenübersicht</button>
 		</a>
 		<div class="col-md-4">
 			<p th:text="'Ihr aktueller ProPay-Kontostand: '+${proPay.amount}"></p>

@@ -27,12 +27,13 @@ public class BenutzerController {
 	private MessageRepository messageRepository;
 	private IProPaySchnittstelle proPaySchnittstelle;
 	//private IMailService iMailService;
+	private KaufRepository kaufRepository;
 
 	@Autowired
 	public BenutzerController(BenutzerRepository benutzerRepository, ArtikelRepository artikelRepository,
 							  AusleiheRepository ausleiheRepository, RueckgabeRepository rueckgabeRepository,
 							  MessageRepository messageRepository, IProPaySchnittstelle proPaySchnittstelle/*,
-							  IMailService iMailService*/) {
+							  IMailService iMailService*/, KaufRepository kaufRepository) {
 		this.benutzerRepository = benutzerRepository;
 		this.artikelRepository = artikelRepository;
 		this.ausleiheRepository = ausleiheRepository;
@@ -40,6 +41,7 @@ public class BenutzerController {
 		this.messageRepository = messageRepository;
 		this.proPaySchnittstelle = proPaySchnittstelle;
 		//this.iMailService = iMailService;
+		this.kaufRepository = kaufRepository;
 	}
 
 	@ModelAttribute
@@ -100,6 +102,8 @@ public class BenutzerController {
 	public String transaktionen(Model model, @PathVariable String benutzername) {
 		model.addAttribute("artikel", rueckgabeRepository.findByVerleiherName(benutzername));
 		model.addAttribute("artikelAusgeliehen", rueckgabeRepository.findByAusleihender(benutzername));
+		model.addAttribute("gekauft", kaufRepository.findByKaeufer(benutzername));
+		model.addAttribute("verkauft", kaufRepository.findByVerkaeufer(benutzername));
 		return "transaktionenUebersicht";
 	}
 

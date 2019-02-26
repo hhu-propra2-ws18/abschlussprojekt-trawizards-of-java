@@ -46,10 +46,28 @@ public class Message {
 		}
 	}
 
-	public Message(Kauf kauf){
-		this.nachricht = "Sie haben " + kauf.getArtikel().getArtikelName() + " von" + kauf.getVerleiherName() + " gekauft.";
-		this.absender = kauf.getVerleiherName();
-		this.empfaenger = kauf.getKaeufer();
+	public Message(Kauf kauf, String parameter){
+
+		if("angenommen".equals(parameter)){
+			this.nachricht = "Kauf von Artikel " + kauf.getArtikel().getArtikelName() + " von " + kauf.getVerkaeufer() + " wurde angenommen.";
+			this.absender = kauf.getVerkaeufer();
+			this.empfaenger = kauf.getKaeufer();
+		}
+		if("angefragt".equals(parameter)){
+			this.nachricht = "Sie haben eine Kaufanfrage für den Kauf von " + kauf.getArtikel().getArtikelName() + " von " + kauf.getVerkaeufer() + " gestellt.";
+			this.absender = "System";
+			this.empfaenger = kauf.getKaeufer();
+		}
+		if("angefragtVerkäufer".equals(parameter)){
+			this.nachricht = "Es wurde eine Kaufanfrage für " + kauf.getArtikel().getArtikelName() + " von " + kauf.getKaeufer() + " gestellt.";
+			this.absender = "System";
+			this.empfaenger = kauf.getVerkaeufer();
+		}
+		if("abgelehnt".equals(parameter)) {
+			this.nachricht = "Kauf von Artikel " + kauf.getArtikel().getArtikelName() + " von " + kauf.getVerkaeufer() + " wurde abgelehnt.";
+			this.absender = kauf.getVerkaeufer();
+			this.empfaenger = kauf.getKaeufer();
+		}
 	}
 
 	private Message(Konflikt konflikt, String parameter, String empfaenger) {

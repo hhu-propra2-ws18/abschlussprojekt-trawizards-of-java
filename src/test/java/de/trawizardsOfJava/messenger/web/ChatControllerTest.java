@@ -61,12 +61,6 @@ public class ChatControllerTest {
 		person.setName("foo");
 		person.setPasswort("1234");
 		person.setEmail("foo@gmail.com");
-		Nachricht nachricht = new Nachricht();
-		nachricht.setChat("test");
-		nachricht.setAbsender(person);
-		nachricht.setSession(session);
-		nachricht.setGesendet(LocalDateTime.now());
-		nachricht.setId(1L);
 	}
 	
 	@Test

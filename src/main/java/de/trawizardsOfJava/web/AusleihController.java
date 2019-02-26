@@ -98,7 +98,7 @@ public class AusleihController {
 	public String verwalteAusleihen(Model model, @PathVariable String benutzername, String art, Long id) {
 		Ausleihe ausleihe = ausleiheRepository.findById(id).get();
 		if ("angenommen".equals(art)) {
-			if (proPaySchnittstelle.ping()) {
+			if (!proPaySchnittstelle.ping()) {
 				model.addAttribute("proPayError", true);
 				return ausleihenUebersicht(model, benutzername);
 			}
@@ -149,7 +149,7 @@ public class AusleihController {
 	@PostMapping("/account/{benutzername}/zurueckgegebeneartikel")
 	@PreAuthorize("#benutzername == authentication.name")
 	public String rueckgabeAkzeptiert(Model model, @PathVariable String benutzername, Long id) {
-		if (proPaySchnittstelle.ping()){
+		if (!proPaySchnittstelle.ping()){
 			model.addAttribute("proPayError", true);
 			return rueckgabenUebersicht(model, benutzername);
 

@@ -83,7 +83,7 @@ public class KonfliktController {
 
 	@PostMapping("/admin/konflikte/{id}")
 	public String konfliktLoesen(Model model, @PathVariable Long id, String benutzer, Principal principal) {
-		if (proPaySchnittstelle.ping()){
+		if (!proPaySchnittstelle.ping()){
 			model.addAttribute("proPayError", true);
 			return konfliktUebernehmen(model, id, principal);
 		}

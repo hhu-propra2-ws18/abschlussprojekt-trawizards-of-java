@@ -209,7 +209,10 @@ public class AusleihControllerTest {
 		Rueckgabe rueckgabe = new Rueckgabe(ausleihe);
 		rueckgabe.setId(1L);
 
+		ProPay proPay = new ProPay();
+		proPay.setAmount(1L);
 		when(rueckgabeRepository.findById(rueckgabe.getId())).thenReturn(Optional.of(rueckgabe));
+		when(proPaySchnittstelle.getEntity("foo")).thenReturn(proPay);
 
 		mvc.perform(post("/account/foo/zurueckgegebeneartikel").accept(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("id", "" + rueckgabe.getId()))

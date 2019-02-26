@@ -6,6 +6,7 @@ import de.trawizardsOfJava.mail.Message;
 import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.*;
 import de.trawizardsOfJava.proPay.IProPaySchnittstelle;
+import de.trawizardsOfJava.proPay.ProPay;
 import de.trawizardsOfJava.security.SecurityPersonenService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -149,7 +150,11 @@ public class KonfliktControllerTest {
 		konflikt.setKonflikt(rueckgabe, person.getEmail(), person.getEmail());
 		konflikt.setId(1L);
 
+		ProPay proPay = new ProPay();
+		proPay.setAmount(1L);
+
 		when(konfliktRepository.findById(konflikt.getId())).thenReturn(Optional.of(konflikt));
+		when(proPaySchnittstelle.getEntity("root")).thenReturn(proPay);
 
 		mvc.perform(post("/admin/konflikte/" + 1L)
 				.param("benutzer", "Verleihender"));
@@ -184,7 +189,11 @@ public class KonfliktControllerTest {
 		konflikt.setKonflikt(rueckgabe, person.getEmail(), person.getEmail());
 		konflikt.setId(1L);
 
+		ProPay proPay = new ProPay();
+		proPay.setAmount(1L);
+
 		when(konfliktRepository.findById(konflikt.getId())).thenReturn(Optional.of(konflikt));
+		when(proPaySchnittstelle.getEntity("root")).thenReturn(proPay);
 
 		mvc.perform(post("/admin/konflikte/" + 1L)
 				.param("benutzer", "Ausleihender"));

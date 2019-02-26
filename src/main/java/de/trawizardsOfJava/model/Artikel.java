@@ -1,11 +1,14 @@
 package de.trawizardsOfJava.model;
 
 import lombok.Data;
+import org.springframework.core.io.FileSystemResource;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.nio.file.FileSystem;
+import java.util.ArrayList;
 
 @Data
 @Entity
@@ -20,4 +23,6 @@ public class Artikel {
 	private int preis;
 	private int kaution;
 	private Verfuegbarkeit verfuegbarkeit;
+	private ArrayList<String> fotos;
+	//private FileSystemResource fotosFromVolume;
 }

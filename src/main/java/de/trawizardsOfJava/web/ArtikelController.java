@@ -1,7 +1,9 @@
 package de.trawizardsOfJava.web;
 
+import de.trawizardsOfJava.data.ArtikelKaufenRepository;
 import de.trawizardsOfJava.data.ArtikelRepository;
 import de.trawizardsOfJava.model.Artikel;
+import de.trawizardsOfJava.model.ArtikelKaufen;
 import de.trawizardsOfJava.model.Verfuegbarkeit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,10 +19,12 @@ import java.security.Principal;
 @Controller
 public class ArtikelController {
 	private ArtikelRepository artikelRepository;
+	private ArtikelKaufenRepository artikelKaufenRepository;
 
 	@Autowired
-	public ArtikelController(ArtikelRepository artikelRepository) {
+	public ArtikelController(ArtikelRepository artikelRepository, ArtikelKaufenRepository artikelKaufenRepository) {
 		this.artikelRepository = artikelRepository;
+		this.artikelKaufenRepository = artikelKaufenRepository;
 	}
 
 	@ModelAttribute
@@ -30,22 +34,48 @@ public class ArtikelController {
 		}
 	}
 
+	@GetMapping("/account/{benutzername}/select")
+	@PreAuthorize("#benutzername == authentication.name")
+	public String select(Model model, @PathVariable String benutzername){
+		model.addAttribute("select", "");
+		return "select";
+	}
+
+	@PostMapping("/account/{benutzername}/select")
+	@PreAuthorize("#benutzername == authentication.name")
+	public String postSelect(Model model, @PathVariable String benutzername, String select){
+		if("Verkaufen".equals(select)){
+			model.addAttribute("artikel", new ArtikelKaufen());
+			model.addAttribute("verkaufen", true);
+			return erstelleArtikel(model, benutzername);
+		}
+		model.addAttribute("artikel", new Artikel());
+		model.addAttribute("verkaufen", false);
+		return erstelleArtikel(model, benutzername);
+	}
+
+
 	@GetMapping("/account/{benutzername}/erstelleArtikel")
 	@PreAuthorize("#benutzername == authentication.name")
 	public String erstelleArtikel(Model model, @PathVariable String benutzername) {
-		model.addAttribute("artikel", new Artikel());
 		return "artikelErstellung";
 	}
 
-	@PostMapping("/account/{benutzername}/erstelleArtikel")
+	@PostMapping("/account/{benutzername}/erstelleArtikel/leihen")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String speicherArtikel(Model model, @PathVariable String benutzername, String daterange, Artikel artikel, String select) {
+	public String speicherArtikel(Model model, @PathVariable String benutzername, String daterange, Artikel artikel) {
 		artikel.setVerfuegbarkeit(new Verfuegbarkeit(daterange));
 		artikel.setVerleiherBenutzername(benutzername);
-		if(select.equals("Verkaufen")){
-			artikel.setVerleihen(false);
-		}
 		artikelRepository.save(artikel);
+		model.addAttribute("link", "account/" + benutzername);
+		return "backToTheFuture";
+	}
+
+	@PostMapping("/account/{benutzername}/erstelleArtikel/kaufen")
+	@PreAuthorize("#benutzername == authentication.name")
+	public String speicherArtikelKaufen(Model model, @PathVariable String benutzername, ArtikelKaufen artikel) {
+		artikel.setVerkaeufer(benutzername);
+		artikelKaufenRepository.save(artikel);
 		model.addAttribute("link", "account/" + benutzername);
 		return "backToTheFuture";
 	}

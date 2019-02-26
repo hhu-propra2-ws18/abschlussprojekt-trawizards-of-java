@@ -1,5 +1,6 @@
 package de.trawizardsOfJava.web;
 
+import de.trawizardsOfJava.data.ArtikelKaufenRepository;
 import de.trawizardsOfJava.data.ArtikelRepository;
 import de.trawizardsOfJava.data.AusleiheRepository;
 import de.trawizardsOfJava.data.KaufRepository;
@@ -22,18 +23,18 @@ import java.security.Principal;
 @Controller
 public class VerkaufController {
     private IProPaySchnittstelle proPaySchnittstelle;
-    private ArtikelRepository artikelRepository;
     private AusleiheRepository ausleiheRepository;
     private KaufRepository kaufRepository;
     private MessageRepository messageRepository;
+    private ArtikelKaufenRepository artikelKaufenRepository;
 
     @Autowired
-    public VerkaufController(MessageRepository messageRepository, ProPaySchnittstelle proPaySchnittstelle, ArtikelRepository artikelRepository, AusleiheRepository ausleiheRepository, KaufRepository kaufRepository) {
+    public VerkaufController(MessageRepository messageRepository, ProPaySchnittstelle proPaySchnittstelle, AusleiheRepository ausleiheRepository, KaufRepository kaufRepository, ArtikelKaufenRepository artikelKaufenRepository) {
         this.proPaySchnittstelle = proPaySchnittstelle;
-        this.artikelRepository = artikelRepository;
         this.ausleiheRepository = ausleiheRepository;
         this.kaufRepository = kaufRepository;
         this.messageRepository = messageRepository;
+        this.artikelKaufenRepository = artikelKaufenRepository;
     }
 
     @ModelAttribute
@@ -46,7 +47,7 @@ public class VerkaufController {
     @GetMapping("/account/{benutzername}/artikel/{id}/kaufen")
     @PreAuthorize("#benutzername == authentication.name")
     public String kaufen(Model model, @PathVariable("benutzername") String benutzername, @PathVariable("id") Long id){
-        Kauf kauf = new Kauf(artikelRepository.findById(id).get(), benutzername);
+        Kauf kauf = new Kauf(artikelKaufenRepository.findById(id).get(), benutzername);
         if (!proPaySchnittstelle.getEntity(benutzername).genuegendGeld(Long.valueOf(kauf.getArtikel().getPreis()), ausleiheRepository.findByAusleihenderAndAccepted(benutzername, false))) {
             model.addAttribute("error", true);
             return "/"; //Bei zu wenig Geld

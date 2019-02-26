@@ -28,12 +28,13 @@ public class BenutzerController {
 	private IProPaySchnittstelle proPaySchnittstelle;
 	//private IMailService iMailService;
 	private KaufRepository kaufRepository;
+	private ArtikelKaufenRepository artikelKaufenRepository;
 
 	@Autowired
 	public BenutzerController(BenutzerRepository benutzerRepository, ArtikelRepository artikelRepository,
 							  AusleiheRepository ausleiheRepository, RueckgabeRepository rueckgabeRepository,
 							  MessageRepository messageRepository, IProPaySchnittstelle proPaySchnittstelle/*,
-							  IMailService iMailService*/, KaufRepository kaufRepository) {
+							  IMailService iMailService*/, KaufRepository kaufRepository, ArtikelKaufenRepository artikelKaufenRepository) {
 		this.benutzerRepository = benutzerRepository;
 		this.artikelRepository = artikelRepository;
 		this.ausleiheRepository = ausleiheRepository;
@@ -42,6 +43,7 @@ public class BenutzerController {
 		this.proPaySchnittstelle = proPaySchnittstelle;
 		//this.iMailService = iMailService;
 		this.kaufRepository = kaufRepository;
+		this.artikelKaufenRepository = artikelKaufenRepository;
 	}
 
 	@ModelAttribute
@@ -55,6 +57,7 @@ public class BenutzerController {
 	public String profilAnsicht(Model model, @PathVariable String benutzername, Principal principal) {
 		model.addAttribute("person", benutzerRepository.findByBenutzername(benutzername).get());
 		model.addAttribute("artikel", artikelRepository.findByVerleiherBenutzername(benutzername));
+		model.addAttribute("artikelKaufen", artikelKaufenRepository.findByVerkaeufer(benutzername));
 		model.addAttribute("isUser", benutzername.equals(principal.getName()));
 		model.addAttribute("proPay", proPaySchnittstelle.getEntity(benutzername));
 		model.addAttribute("angemeldet", true);

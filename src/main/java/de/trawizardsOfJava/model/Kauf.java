@@ -12,7 +12,7 @@ public class Kauf {
     private Long id;
     private String kaeufer;
     @OneToOne
-    private Artikel artikel;
+    private ArtikelKaufen artikel;
     private String verkaeufer;
     private boolean accepted = false;
     private Long proPayId;
@@ -21,9 +21,9 @@ public class Kauf {
 
     }
 
-    public Kauf(Artikel artikel, String kaeufer){
+    public Kauf(ArtikelKaufen artikel, String kaeufer){
         this.artikel = artikel;
         this.kaeufer = kaeufer;
-        this.verkaeufer = artikel.getVerleiherBenutzername();
+        this.verkaeufer = artikel.getVerkaeufer();
     }
 }

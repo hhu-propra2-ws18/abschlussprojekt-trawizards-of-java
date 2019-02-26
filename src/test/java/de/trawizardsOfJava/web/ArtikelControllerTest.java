@@ -83,7 +83,7 @@ public class ArtikelControllerTest {
 				.param("preis", "" + test.getPreis())
 				.param("kaution", "" + test.getKaution())
 				.param("daterange", "22/02/2019 - 22/02/2019")
-				.param("verleiherBenutzername", test.getVerleiherBenutzername())
+				.param("verkaeufer", test.getVerleiherBenutzername())
 				.param("id", ""+ 1L));
 
 		verify(artikelRepository).save(test);

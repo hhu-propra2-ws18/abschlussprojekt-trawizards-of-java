@@ -71,12 +71,11 @@ public class AusleihController {
 	@PreAuthorize("#benutzername == authentication.name")
 	public String speichereAnfrage(Model model, @PathVariable String benutzername, @PathVariable Long id, String daterange) {
 		Ausleihe ausleihe = new Ausleihe(artikelRepository.findById(id).get(), new Verfuegbarkeit(daterange), benutzername);
-		ProPay proPay = proPaySchnittstelle.getEntity(benutzername);
-		if (proPay.getAmount() == null) {
+		if (!proPaySchnittstelle.ping()) {
 			model.addAttribute("proPayError", true);
 			return neueAnfrage(model, benutzername, id);
 		}
-			if (!proPay.genuegendGeld(ausleihe.berechneGesamtPreis(), ausleiheRepository.findByAusleihenderAndAccepted(benutzername, false))) {
+			if (!proPaySchnittstelle.getEntity(benutzername).genuegendGeld(ausleihe.berechneGesamtPreis(), ausleiheRepository.findByAusleihenderAndAccepted(benutzername, false))) {
 				model.addAttribute("error", true);
 				return neueAnfrage(model, benutzername, id);
 			}
@@ -99,7 +98,7 @@ public class AusleihController {
 	public String verwalteAusleihen(Model model, @PathVariable String benutzername, String art, Long id) {
 		Ausleihe ausleihe = ausleiheRepository.findById(id).get();
 		if ("angenommen".equals(art)) {
-			if (proPaySchnittstelle.getEntity(benutzername).getAmount() == null) {
+			if (proPaySchnittstelle.ping()) {
 				model.addAttribute("proPayError", true);
 				return ausleihenUebersicht(model, benutzername);
 			}
@@ -150,7 +149,7 @@ public class AusleihController {
 	@PostMapping("/account/{benutzername}/zurueckgegebeneartikel")
 	@PreAuthorize("#benutzername == authentication.name")
 	public String rueckgabeAkzeptiert(Model model, @PathVariable String benutzername, Long id) {
-		if (proPaySchnittstelle.getEntity(benutzername).getAmount() == null){
+		if (proPaySchnittstelle.ping()){
 			model.addAttribute("proPayError", true);
 			return rueckgabenUebersicht(model, benutzername);
 

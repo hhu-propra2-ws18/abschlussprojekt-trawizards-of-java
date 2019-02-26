@@ -77,6 +77,7 @@ public class AusleihControllerTest {
 		proPay.setReservations(new ArrayList<>());
 
 		when(artikelRepository.findById(1L)).thenReturn(Optional.of(artikel));
+		when(proPaySchnittstelle.ping()).thenReturn(true);
 		when(proPaySchnittstelle.getEntity("bar")).thenReturn(proPay);
 
 		mvc.perform(post("/account/bar/artikel/" + 1L + "/anfrage")

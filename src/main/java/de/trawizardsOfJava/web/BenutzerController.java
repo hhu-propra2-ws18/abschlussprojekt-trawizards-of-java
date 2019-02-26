@@ -56,7 +56,7 @@ public class BenutzerController {
 		model.addAttribute("artikel", artikelRepository.findByVerleiherBenutzername(benutzername));
 		model.addAttribute("isUser", benutzername.equals(principal.getName()));
 		ProPay proPay = proPaySchnittstelle.getEntity(benutzername);
-		model.addAttribute("proPayError", proPay.getAmount() == null);
+		model.addAttribute("proPayError", !proPaySchnittstelle.ping());
 		model.addAttribute("proPay", proPay);
 		model.addAttribute("angemeldet", true);
 		model.addAttribute("aktuelleSeite", "Profil");

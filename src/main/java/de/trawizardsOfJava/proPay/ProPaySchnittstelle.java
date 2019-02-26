@@ -7,10 +7,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 @Component
 public class ProPaySchnittstelle implements IProPaySchnittstelle {
 	@Override
-	public ProPay getEntity(String benutzername){
+	public ProPay getEntity(String benutzername) {
 		for (int versuche = 0; versuche <= 3; versuche++) {
 			try {
 				HttpClient httpClient = HttpClient.create().tcpConfiguration(client -> client.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000));
@@ -22,7 +25,7 @@ public class ProPaySchnittstelle implements IProPaySchnittstelle {
 						.block();
 				return proPay;
 			} catch (Exception e) {
-				if (++versuche == 3){
+				if (++versuche == 3) {
 					System.err.println("ERROR: " + e);
 				}
 			}
@@ -47,5 +50,22 @@ public class ProPaySchnittstelle implements IProPaySchnittstelle {
 				}
 			}
 		}
+	}
+
+	public boolean ping() {
+		try {
+			URL url = new URL("localhost:8888/");
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setConnectTimeout(3000);
+			connection.connect();
+			int code = connection.getResponseCode();
+			if (code == 200) {
+				return true;
+			}
+		}
+		catch (Exception ignored){
+		}
+		return false;
 	}
 }

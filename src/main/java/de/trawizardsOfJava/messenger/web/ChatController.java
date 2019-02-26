@@ -87,6 +87,7 @@ public class ChatController {
 	public String sendMessage(Model model, @PathVariable("sessionId") Long sessionId, Nachricht nachricht, @PathVariable("benutzername") String benutzername){
 		nachricht.setGesendet(now());
 		nachrichtenRepo.save(nachricht);
+
 		model.addAttribute("chat", nachrichtenRepo.findBySession(sessionRepo.findById(sessionId).get()));
 		return sessionChat(model, sessionId, benutzername);
 	}

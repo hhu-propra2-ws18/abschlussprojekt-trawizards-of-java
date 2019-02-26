@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 
 @Controller
 public class ArtikelController {
@@ -49,9 +50,11 @@ public class ArtikelController {
 	public String speicherArtikel(Model model, @PathVariable String benutzername, String daterange, Artikel artikel) {
 		artikel.setVerfuegbarkeit(new Verfuegbarkeit(daterange));
 		artikel.setVerleiherBenutzername(benutzername);
+		artikel.setFotos(new ArrayList<String>());
 		artikelRepository.save(artikel);
 		model.addAttribute("link", "account/" + benutzername);
-		return "backToTheFuture";
+
+		return "redirect:/fotoupload/"+artikel.getId();
 	}
 
 	@GetMapping("/account/{benutzername}/aendereArtikel/{id}")

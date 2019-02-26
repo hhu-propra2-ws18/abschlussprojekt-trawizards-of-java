@@ -19,6 +19,7 @@ public class Message {
 	private String absender;
 	private String empfaenger;
 	private String nachricht;
+	private boolean neueNachricht = false;
 
 	public Message(Ausleihe ausleihe, String parameter) {
 		this.nachricht = "Anfrage von " + ausleihe.getAusleihender() + " um " + ausleihe.getArtikel().getArtikelName() + " auszuleihen, wurde " + parameter;
@@ -64,5 +65,9 @@ public class Message {
 		messages[0] = new Message(konflikt, parameter, konflikt.getRueckgabe().getVerleiherName());
 		messages[1] = new Message(konflikt, parameter, konflikt.getRueckgabe().getAusleihender());
 		return messages;
+	}
+
+	public boolean schauenObNeueNachricht(){
+		return this.neueNachricht;
 	}
 }

@@ -7,7 +7,7 @@
 
 </head>
 
-<body onload="callAlert(), gimmeTitle()">
+<body onload="callAlert(), neueNachricht(), gimmeTitle()">
 <h1 layout:fragment="titel" th:text="'Profil von ' +${person.benutzername}"></h1>
 <div layout:fragment="inhalt">
 	<div id="topButton" th:if="${isUser}">
@@ -99,6 +99,17 @@
             }
 
         }
+
+        function neueNachricht() {
+
+            var nachricht = /*[[${nachricht}]]*/ 'default';
+
+            if (nachricht === 'true') {
+                alert('Sie haben Nachrichten in Ihrem Postfach!');
+            }
+
+        }
+
 	</script>
 </div>
 </body>

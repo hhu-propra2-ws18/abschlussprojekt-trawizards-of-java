@@ -6,21 +6,27 @@
 </head>
 
 <body>
-<h1 layout:fragment="titel">In Bearbeitung</h1>
 <div layout:fragment="inhalt">
-	<p th:text="|Absender: ${konflikt.rueckgabe.verleiherName} (${konflikt.absenderMail})|"></p>
-	<p th:text="|Verursacher: ${konflikt.rueckgabe.ausleihender} (${konflikt.verursacherMail})|"></p>
-	<p th:text="|Beschreibung: ${konflikt.beschreibung}|"></p>
-	<p th:text="|Artikel: ${konflikt.rueckgabe.artikel.artikelName}|"></p>
-	<div th:if="${konflikt.inBearbeitung} != 'geschlossen'">
-		<p>Wer bekommt die Kaution?</p>
-		<form method="post">
-			<button class="btn btn-outline-dark" type="submit" name="benutzer" value="Ausleihender">Ausleihender
-			</button>
-			<button class="btn btn-outline-dark" type="submit" name="benutzer" value="Verleihender">Verleihender
-			</button>
-		</form>
-		<p th:if="${proPayError}" style="color: red">ProPay ist zurzeit nicht erreichbar. Versuchen Sie es später nochmal.</p>
+	<div class="card text-center">
+		<h5 class="card-header">
+			In Bearbeitung
+		</h5>
+		<div class="card-body">
+			<p th:text="|Absender: ${konflikt.rueckgabe.verleiherName} (${konflikt.absenderMail})|"></p>
+			<p th:text="|Verursacher: ${konflikt.rueckgabe.ausleihender} (${konflikt.verursacherMail})|"></p>
+			<p th:text="|Beschreibung: ${konflikt.beschreibung}|"></p>
+			<p th:text="|Artikel: ${konflikt.rueckgabe.artikel.artikelName}|"></p>
+		</div>
+		<div th:if="${konflikt.inBearbeitung} != 'geschlossen'" class="card-footer">
+				<p>Wer bekommt die Kaution?</p>
+				<form method="post">
+					<button class="btn btn-outline-dark" type="submit" name="benutzer" value="Ausleihender">Ausleihender
+					</button>
+					<button class="btn btn-outline-dark" type="submit" name="benutzer" value="Verleihender">Verleihender
+					</button>
+				</form>
+				<p th:if="${proPayError}" style="color: red">ProPay ist zurzeit nicht erreichbar. Versuchen Sie es später nochmal.</p>
+		</div>
 	</div>
 </div>
 </body>

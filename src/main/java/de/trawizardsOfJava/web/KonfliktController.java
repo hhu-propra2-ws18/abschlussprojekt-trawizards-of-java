@@ -82,7 +82,11 @@ public class KonfliktController {
 	}
 
 	@PostMapping("/admin/konflikte/{id}")
-	public String konfliktLoesen(Model model, @PathVariable Long id, String benutzer) {
+	public String konfliktLoesen(Model model, @PathVariable Long id, String benutzer, Principal principal) {
+		if (proPaySchnittstelle.getEntity(benutzer).getAmount() == null){
+			model.addAttribute("proPayError", true);
+			return konfliktUebernehmen(model, id, principal);
+		}
 		Konflikt konflikt = konfliktRepository.findById(id).get();
 		konflikt.setInBearbeitung("geschlossen");
 		konfliktRepository.save(konflikt);

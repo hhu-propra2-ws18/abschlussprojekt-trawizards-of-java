@@ -20,6 +20,7 @@
 			<button class="btn btn-outline-dark" type="submit" name="benutzer" value="Verleihender">Verleihender
 			</button>
 		</form>
+		<p th:if="${proPayError}" style="color: red">ProPay ist zurzeit nicht erreichbar. Versuchen Sie es später nochmal.</p>
 	</div>
 </div>
 </body>

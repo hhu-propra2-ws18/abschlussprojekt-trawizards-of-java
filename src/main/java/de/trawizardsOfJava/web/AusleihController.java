@@ -10,6 +10,7 @@ import de.trawizardsOfJava.model.Artikel;
 import de.trawizardsOfJava.model.Ausleihe;
 import de.trawizardsOfJava.model.Rueckgabe;
 import de.trawizardsOfJava.model.Verfuegbarkeit;
+import de.trawizardsOfJava.proPay.ProPay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -70,10 +71,16 @@ public class AusleihController {
 	@PreAuthorize("#benutzername == authentication.name")
 	public String speichereAnfrage(Model model, @PathVariable String benutzername, @PathVariable Long id, String daterange) {
 		Ausleihe ausleihe = new Ausleihe(artikelRepository.findById(id).get(), new Verfuegbarkeit(daterange), benutzername);
-		if (!proPaySchnittstelle.getEntity(benutzername).genuegendGeld(ausleihe.berechneGesamtPreis(), ausleiheRepository.findByAusleihenderAndAccepted(benutzername, false))) {
-			model.addAttribute("error", true);
+		ProPay proPay = proPaySchnittstelle.getEntity(benutzername);
+		if (proPay.getAmount() == null) {
+			model.addAttribute("proPayError", true);
 			return neueAnfrage(model, benutzername, id);
 		}
+			if (!proPay.genuegendGeld(ausleihe.berechneGesamtPreis(), ausleiheRepository.findByAusleihenderAndAccepted(benutzername, false))) {
+				model.addAttribute("error", true);
+				return neueAnfrage(model, benutzername, id);
+			}
+
 		ausleiheRepository.save(ausleihe);
 		messageRepository.save(new Message(ausleihe, "angefragt"));
 		model.addAttribute("link", "account/" + benutzername + "/nachrichten");
@@ -92,6 +99,10 @@ public class AusleihController {
 	public String verwalteAusleihen(Model model, @PathVariable String benutzername, String art, Long id) {
 		Ausleihe ausleihe = ausleiheRepository.findById(id).get();
 		if ("angenommen".equals(art)) {
+			if (proPaySchnittstelle.getEntity(benutzername).getAmount() == null) {
+				model.addAttribute("proPayError", true);
+				return ausleihenUebersicht(model, benutzername);
+			}
 			bezahlvorgang(ausleihe);
 			ausleiheRepository.save(ausleihe);
 			messageRepository.save(new Message(ausleihe, "angenommen"));
@@ -139,6 +150,11 @@ public class AusleihController {
 	@PostMapping("/account/{benutzername}/zurueckgegebeneartikel")
 	@PreAuthorize("#benutzername == authentication.name")
 	public String rueckgabeAkzeptiert(Model model, @PathVariable String benutzername, Long id) {
+		if (proPaySchnittstelle.getEntity(benutzername).getAmount() == null){
+			model.addAttribute("proPayError", true);
+			return rueckgabenUebersicht(model, benutzername);
+
+		}
 		Rueckgabe rueckgabe = rueckgabeRepository.findById(id).get();
 		rueckgabe.setAngenommen(true);
 		rueckgabeRepository.save(rueckgabe);

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 
+import java.io.IOException;
 import java.net.*;
 
 @Component
@@ -52,13 +53,13 @@ public class ProPaySchnittstelle implements IProPaySchnittstelle {
 	}
 
 	public boolean ping() {
-		int timeout = 5000;
-		try (Socket socket = new Socket()) {
-			socket.connect(new InetSocketAddress("localhost", 8888), timeout);
+		Socket socket = new Socket();
+		try {
+			socket.connect(new InetSocketAddress("localhost", 8888), 5000);
 			return true;
+		} catch(IOException e) {
+			e.printStackTrace();
 		}
-		catch (Exception e){
-			return false;
-		}
+		return false;
 	}
 }

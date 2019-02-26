@@ -12,11 +12,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+
 import java.security.Principal;
 
 @Controller
 public class ArtikelController {
 	private ArtikelRepository artikelRepository;
+	private static final String ALTERNATIVE_PHOTO = "kein-bild-vorhanden.jpg";
 
 	@Autowired
 	public ArtikelController(ArtikelRepository artikelRepository) {
@@ -25,7 +32,7 @@ public class ArtikelController {
 
 	@ModelAttribute
 	public void benutzername(Model model, Principal principal) {
-		if (principal != null) {
+		if(principal != null) {
 			model.addAttribute("name", principal.getName());
 		}
 	}
@@ -79,13 +86,11 @@ public class ArtikelController {
 		model.addAttribute("aktuelleSeite", "Artikelansicht");
 		model.addAttribute("angemeldet", principal != null);
 
-
-		if(!(artikelRepository.findById(id).get().getFotos().get(0).equals("fotos"))){
+		if(!(artikelRepository.findById(id).get().getFotos().get(0).equals("fotos"))) {
 
 			String photoUrl = artikelRepository.findById(id).get().getFotos().get(0);
-			return new FileSystemResource("src/main/resources/fotos/"  + photoUrl);
+			return new FileSystemResource("src/main/resources/fotos/" + photoUrl);
 		}
-
 
 		return new FileSystemResource("src/main/resources/fotos/" + ALTERNATIVE_PHOTO);
 	}

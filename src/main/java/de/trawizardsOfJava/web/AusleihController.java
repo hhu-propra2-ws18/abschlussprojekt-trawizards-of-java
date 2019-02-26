@@ -10,7 +10,6 @@ import de.trawizardsOfJava.model.Artikel;
 import de.trawizardsOfJava.model.Ausleihe;
 import de.trawizardsOfJava.model.Rueckgabe;
 import de.trawizardsOfJava.model.Verfuegbarkeit;
-import de.trawizardsOfJava.proPay.ProPay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;

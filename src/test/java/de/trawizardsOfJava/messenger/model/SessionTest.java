@@ -32,7 +32,7 @@ public class SessionTest {
 		Session session = new Session();
 		session.setTeilnehmer(teilnehmer);
 		session.setId(session.isExisting(sessionRepo.findAll()));
-		Assert.assertEquals(session.getId(), new Long(-1));
+		Assert.assertEquals(session.getId(), Long.valueOf(-1));
 	}
 	
 	@Test
@@ -53,7 +53,7 @@ public class SessionTest {
 		Session revSession = new Session();
 		revSession.setTeilnehmer(revteilnehmer);
 		revSession.setId(revSession.isExisting(sessionRepo.findAll()));
-		Assert.assertNotEquals(revSession.getId(), new Long(-1));
+		Assert.assertNotEquals(revSession.getId(), Long.valueOf(-1));
 	}
 	
 	@Test
@@ -74,6 +74,6 @@ public class SessionTest {
 		Session revSession = new Session();
 		revSession.setTeilnehmer(neuTeilnehmer);
 		revSession.setId(revSession.isExisting(sessionRepo.findAll()));
-		Assert.assertNotEquals(revSession.getId(), new Long(-1));
+		Assert.assertNotEquals(revSession.getId(), Long.valueOf(-1));
 	}
 }

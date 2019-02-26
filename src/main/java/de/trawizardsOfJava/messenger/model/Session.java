@@ -31,7 +31,7 @@ public class Session{
 				return session.getId();
 			}
 		}
-		return new Long(-1);
+		return Long.valueOf(-1);
 	}
 
 	public String toString(){

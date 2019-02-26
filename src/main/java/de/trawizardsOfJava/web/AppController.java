@@ -69,7 +69,6 @@ public class AppController {
 		return "suche";
 	}
 
-	//public static String uploadDirectory = System.getProperty("user.dir")+"/src/main/resources/fotos/";
 
 	@GetMapping("/detail/{id}")
 	public String artikelDetail(Model model, @PathVariable Long id, Principal principal) {
@@ -77,17 +76,7 @@ public class AppController {
 		model.addAttribute("aktuelleSeite", "Artikelansicht");
 		model.addAttribute("angemeldet", principal != null);
 
-
-		if(artikelRepository.findById(id).get().getFotos().get(0).equals("fotos")){
-			model.addAttribute("fotoTest", ALTERNATIVE_PHOTO);
-			System.out.println("in ALT fotos");
-		}else{
-			model.addAttribute("fotoTest", artikelRepository.findById(id).get().getFotos().get(0));
-			System.out.println("fotoTest " + artikelRepository.findById(id).get().getFotos().get(0));
-			System.out.println("in right fotots");
-		}
-
-		model.addAttribute("testId", id);
+		model.addAttribute("photoId", id);
 
 		return "artikelDetail";
 	}
@@ -100,37 +89,16 @@ public class AppController {
 		model.addAttribute("angemeldet", principal != null);
 
 
-		if(artikelRepository.findById(id).get().getFotos().get(0).equals("fotos")){
-			model.addAttribute("fotoTest", ALTERNATIVE_PHOTO);
-			System.out.println("in ALT fotos");
-		}else{
-			model.addAttribute("fotoTest", artikelRepository.findById(id).get().getFotos().get(0));
-			System.out.println("fotoTest " + artikelRepository.findById(id).get().getFotos().get(0));
-			System.out.println("in right fotots");
+		if(!(artikelRepository.findById(id).get().getFotos().get(0).equals("fotos"))){
 
-			String test = artikelRepository.findById(id).get().getFotos().get(0);
-			System.out.println("testa" + new FileSystemResource("src/main/resources/fotos/" + test ));
-			return new FileSystemResource("src/main/resources/fotos/"  + test);
+			String photoUrl = artikelRepository.findById(id).get().getFotos().get(0);
+			return new FileSystemResource("src/main/resources/fotos/"  + photoUrl);
 		}
 
-
-		//artikelRepository.findById(id).get().setFotosFromVolume(new FileSystemResource("src/main/resources/fotos/" + ALTERNATIVE_PHOTO));
 
 		return new FileSystemResource("src/main/resources/fotos/" + ALTERNATIVE_PHOTO);
 	}
 
-	/*
-	Diese Methode greift auf das Dateisystem des Dockercontainers zu und liefert das angefragte Bild aus.
-
-
-	@ResponseBody
-	@RequestMapping(value = "/detail", method = GET, produces = MediaType.IMAGE_JPEG_VALUE)
-	public Resource getImageAsResource(@PathVariable("id") Long id) {
-		String test = artikelRepository.findById(id).get().getFotos().get(0);
-		System.out.println("testa" + new FileSystemResource("fotos/" + test + ".jpg"));
-		return new FileSystemResource("fotos/" + test + ".jpg");
-	}
-	*/
 
 	@GetMapping("/account/{benutzername}/aendereArtikel/{id}")
 	@PreAuthorize("#benutzername == authentication.name")

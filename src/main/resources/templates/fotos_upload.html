@@ -17,7 +17,7 @@
 				<h3>Fotos Upload</h3>
 				<form  th:action="@{/fotoupload/{id} (id=${id})}" method="post" enctype="multipart/form-data">
 					<div class="form-group">
-						<label class="control-label" for="files">Nur JPG und bis zu 10 Fotos pro Artikel!</label>
+						<label class="control-label" for="files">Nur JPG und 1 Foto!</label>
 						<input type="file" class="form-control" id="files"
 							   placeholder="Upload Multiple Files"  name="files" multiple></input>
 					</div>

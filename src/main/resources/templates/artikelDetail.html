@@ -40,7 +40,7 @@
 			<p th:text="'Verfügbar von: ' +${artikelDetail.verfuegbarkeit.startDate}"></p>
 			<p th:text="'Verfügbar bis: ' +${artikelDetail.verfuegbarkeit.endDate}"></p>
 
-			<a th:href="@{/detail/{id}/foto (id=${testId})}">
+			<a th:href="@{/detail/{id}/foto (id=${photoId})}">
 				<button type="button" class="btn btn-outline-success">Foto</button>
 			</a>
 

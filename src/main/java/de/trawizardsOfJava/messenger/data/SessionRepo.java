@@ -9,5 +9,5 @@ import java.util.ArrayList;
 public interface SessionRepo extends CrudRepository<Session, Long> {
 	Session findByTeilnehmer(Teilnehmer teilnehmer);
 	ArrayList<Session> findAll();
-	ArrayList<Session> findByTeilnehmer_PersonEinsOrTeilnehmer_PersonZwei(String person, String person2);
+	ArrayList<Session> findByTeilnehmer_PersonEinsOrTeilnehmer_PersonZwei(String person, String gleichePerson);
 }

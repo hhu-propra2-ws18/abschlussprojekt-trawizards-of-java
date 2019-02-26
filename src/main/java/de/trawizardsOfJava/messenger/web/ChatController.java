@@ -45,7 +45,7 @@ public class ChatController {
 		String empfaengerName = empfaenger.toLowerCase();
 		Teilnehmer teilnehmer = new Teilnehmer(benutzerName, empfaengerName);
 		Session session = new Session(teilnehmer);
-		Long sessionId = session.isExisting	(sessionRepo.findAll());
+		Long sessionId = session.isExisting(sessionRepo.findAll());
 		if(sessionId == -1) {
 			sessionRepo.save(session);
 			sessionId = sessionRepo.findByTeilnehmer(teilnehmer).getId();

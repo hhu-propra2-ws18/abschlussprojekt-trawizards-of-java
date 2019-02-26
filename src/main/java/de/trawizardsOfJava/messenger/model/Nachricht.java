@@ -2,6 +2,7 @@ package de.trawizardsOfJava.messenger.model;
 
 import de.trawizardsOfJava.model.Person;
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ public class Nachricht {
 	private Long id;
 	private String chat;
 	@OneToOne
+	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	private Person absender;
 	@OneToOne
 	private Session session;
@@ -32,11 +34,12 @@ public class Nachricht {
 	public String dateToString(){
 		if (this.gesendet == null)return "Kein Datum";
 		String s = "";
+		s += this.gesendet.getHour() + ":";
+		s += this.gesendet.getMinute() + " ";
 		s += this.gesendet.getDayOfMonth() +"/";
 		s += this.gesendet.getMonth() + "/";
-		s += this.gesendet.getYear() + " ";
-		s += this.gesendet.getHour() + ":";
-		s += this.gesendet.getMinute();
+		s += this.gesendet.getYear();
+		
 		return s;
 	}
 }

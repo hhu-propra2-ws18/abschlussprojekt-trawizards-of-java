@@ -24,8 +24,15 @@
 
 .bar .schliessen{
     position: absolute;
-    top: 0;
+    top: 2px;
     right: 10px;
     font-size: 20px;
     margin-left: 30px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.schliessen:hover{
+    background-color: #ffffff;
+    color: black;
 }

@@ -10,7 +10,7 @@
 </head>
 	<body>
 		<div id="seitenBar" class="bar">
-			<a href="javascipt:void(0)" class="schliessen" onclick="schliesseBar()">&times;</a>
+			<a class="schliessen" onclick="schliesseBar()">&times</a>
 			<div th:each="sitzung: ${sessions}">
 				<a th:href="@{/messenger/{benutzername}/{teilnehmer} (benutzername=${name},teilnehmer=${sitzung.id})}"
 				   th:text="${sitzung.toString()}"></a>
@@ -34,6 +34,12 @@
 		</form>
 
 		<script th:inline="javascript">
+			function schliesseBar(){
+				document.getElementById("seitenBar").style.width = "0px";
+			}
+			function oeffneBar(){
+				document.getElementById("seitenBar").style.width = "250px";
+			}
             $('html, body').animate({scrollTop:$(document).height()+99999999}, 'slow');
 			//not resizable
 			var breite = window.outerWidth.valueOf();
@@ -61,12 +67,7 @@
 			}
 
 			//end-Inhalt neuladen
-            function oeffneBar(){
-                document.getElementById("seitenBar").style.width = "250px";
-            }
-            function schliesseBar(){
-                document.getElementById("seitenBar").style.width = "0px";
-            }
+
             $( document ).ready(function() {
                 /*<![CDATA[*/
                 if(/*[[${hide}]]*/){

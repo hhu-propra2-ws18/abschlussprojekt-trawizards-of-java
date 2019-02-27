@@ -1,9 +1,6 @@
 package de.trawizardsOfJava.mail;
 
-import de.trawizardsOfJava.model.Ausleihe;
-import de.trawizardsOfJava.model.Kauf;
-import de.trawizardsOfJava.model.Konflikt;
-import de.trawizardsOfJava.model.Rueckgabe;
+import de.trawizardsOfJava.model.*;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -22,10 +19,16 @@ public class Message {
 	private String nachricht;
 	private boolean neueNachricht = false;
 
-	public Message(String empfaenger, String parameter) {
-		this.nachricht = "Der Artikel wurde erfolgreich " + parameter;
+	public Message(Artikel artikel) {
+		this.nachricht = "Der Artikel " + artikel.getArtikelName() + " wurde erfolgreich eingestellt.";
 		this.absender = "System";
-		this.empfaenger = empfaenger;
+		this.empfaenger = artikel.getVerleiherBenutzername();
+	}
+
+	public Message(ArtikelKaufen artikel) {
+		this.nachricht = "Der Artikel " + artikel.getArtikelName() + " wurde erfolgreich eingestellt.";
+		this.absender = "System";
+		this.empfaenger = artikel.getVerkaeufer();
 	}
 
 	public Message(Ausleihe ausleihe, String parameter) {

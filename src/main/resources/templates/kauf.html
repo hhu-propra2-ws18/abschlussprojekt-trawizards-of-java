@@ -13,6 +13,9 @@
 	<form method="post">
 		<button type="submit" class="btn btn-outline-success">Bestätigen</button>
 	</form>
+	<a th:href="@{/detail/{id} (id=${id})}">
+		<button name="button" class="btn btn-outline-danger">Abbrechen</button>
+	</a>
 </div>
 
 </body>

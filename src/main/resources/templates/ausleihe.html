@@ -65,7 +65,10 @@
                     /*[# th:each="datum : ${daten}"]*/
                     var von = moment(/*[[${datum.startDate.toString()}]]*/, 'YYYY/MM/DD');
                     var bis = moment(/*[[${datum.endDate.toString()}]]*/, 'YYYY/MM/DD');
-                    console.log(start.isBefore(von) && end.isAfter(bis));
+                    if (start.isBefore(von) && end.isAfter(bis))
+                        alert("Da Sie es ANSCHEINEND nicht verstanden haben, dass man keinen Zeitraum auswählen kann," +
+                            " indem ein ROTER Bereich markiert ist, muss ich Ihnen LEIDER mitteilen, dass Sie den Kalender ein" +
+                            " weiteres mal öffnen müssen und einen neuen Zeitraum wählen müssen. \n LG Ihr Leih24-Team");
                     document.getElementById("subBut").disabled = (start.isBefore(von) && end.isAfter(bis));
                     /*[/]*/
                     /*]]>*/

@@ -14,11 +14,13 @@ import java.security.Principal;
 public class AppController {
 	private BenutzerRepository benutzerRepository;
 	private ArtikelRepository artikelRepository;
+	private ArtikelKaufenRepository artikelKaufenRepository;
 
 	@Autowired
-	public AppController(BenutzerRepository benutzerRepository, ArtikelRepository artikelRepository) {
+	public AppController(BenutzerRepository benutzerRepository, ArtikelRepository artikelRepository, ArtikelKaufenRepository artikelKaufenRepository) {
 		this.benutzerRepository = benutzerRepository;
 		this.artikelRepository = artikelRepository;
+		this.artikelKaufenRepository = artikelKaufenRepository;
 	}
 
 	@ModelAttribute
@@ -31,6 +33,7 @@ public class AppController {
 	@GetMapping("/")
 	public String startseite(Model model, Principal principal) {
 		model.addAttribute("artikel", artikelRepository.findAll());
+		model.addAttribute("artikelKaufen", artikelKaufenRepository.findAll());
 		model.addAttribute("aktuelleSeite", "Startseite");
 		model.addAttribute("angemeldet", principal != null);
 		return "startseite";
@@ -39,6 +42,7 @@ public class AppController {
 	@GetMapping("/search")
 	public String suche(Model model, @RequestParam final String q, Principal principal) {
 		model.addAttribute("artikel", artikelRepository.findAllByArtikelNameContaining(q));
+		model.addAttribute("artikelKaufen", artikelKaufenRepository.findAllByArtikelNameContaining(q));
 		model.addAttribute("query", q);
 		model.addAttribute("aktuelleSeite", "Suche");
 		model.addAttribute("angemeldet", principal != null);

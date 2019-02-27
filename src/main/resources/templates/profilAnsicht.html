@@ -7,17 +7,20 @@
 
 </head>
 
-<body onload="callAlert(), gimmeTitle()">
+<body onload="callAlert(), neueNachricht(), gimmeTitle()">
 <h1 layout:fragment="titel" th:text="'Profil von ' +${person.benutzername}"></h1>
 <div layout:fragment="inhalt">
+	<div class="alert alert-info" role="alert" id="nachricht">
+		Sie haben Nachrichten in Ihrem Postfach!
+	</div>
 	<div id="topButton" th:if="${isUser}">
 		<a th:href="@{/account/{benutzername}/bearbeitung (benutzername=${person.benutzername})}">
 			<button type="button" class="btn btn-outline-dark">Profil bearbeiten</button>
 		</a>
-		<a th:href="@{/account/{benutzername}/erstelleArtikel (benutzername=${person.benutzername})}">
+		<a th:href="@{/account/{benutzername}/select (benutzername=${person.benutzername})}">
 			<button type="button" class="btn btn-outline-dark">Neuen Artikel erstellen</button>
 		</a>
-		<a th:href="@{/account/{benutzername}/ausleihenuebersicht (benutzername=${person.benutzername})}">
+		<a th:href="@{/account/{benutzername}/anfragenuebersicht (benutzername=${person.benutzername})}">
 			<button type="button" class="btn btn-outline-dark">Anfragen ansehen</button>
 		</a>
 		<a th:href="@{/account/{benutzername}/ausgelieheneuebersicht (benutzername=${person.benutzername})}">
@@ -30,7 +33,7 @@
 			<button type="button" class="btn btn-outline-dark">Nachrichten ansehen</button>
 		</a>
 		<a th:href="@{/account/{benutzername}/transaktionUebersicht (benutzername=${person.benutzername})}">
-			<button type="button" class="btn btn-outline-dark">Transaktionen Übersicht</button>
+			<button type="button" class="btn btn-outline-dark">Transaktionenübersicht</button>
 		</a>
 		<div class="col-md-4" th:if="${!proPayError}">
 			<p th:text="'Ihr aktueller ProPay-Kontostand: '+${proPay.amount}"></p>
@@ -44,7 +47,9 @@
 				<button type=submit class="btn btn-outline-success">Bestätigen</button>
 			</form>
 		</div>
-		<p th:if="${proPayError}" style="color: red">ProPay ist zurzeit nicht erreichbar. Versuchen Sie es später nochmal.</p>
+		<div th:if="${proPayError}" class="alert alert-danger" role="alert">
+			ProPay ist zurzeit nicht erreichbar. Versuchen Sie es später nochmal.
+		</div>
 	</div>
 	<div th:unless="${isUser}">
 		<button class="btn btn-outline-dark" onclick="openchatin()">Chatten</button>
@@ -53,8 +58,8 @@
 		</a>
 	</div>
 	<hr>
-
 	<div class="row">
+		<h2>Artikel zum Verleihen</h2>
 		<div class="col-md-12" align="center">
 			<p th:if="${#lists.isEmpty(artikel)}">Keine Artikel vorhanden!</p>
 		</div>
@@ -91,6 +96,43 @@
 			</div>
 		</tr>
 	</div>
+	<div class="row">
+		<h2>Artikel zum Verkauf</h2>
+		<div class="col-md-12" align="center">
+			<p th:if="${#lists.isEmpty(artikelKaufen)}">Keine Artikel vorhanden!</p>
+		</div>
+		<tr th:each="a: ${artikelKaufen}">
+			<div class="col-sm-3">
+				<div class="card mt-3 ml-4" style="width: 18rem; height: 21em" align="center">
+					<img class="card-img-top"
+						 src="https://raw.githubusercontent.com/hhu-propra2/abschlussprojekt-trawizards-of-java/master/src/main/resources/static/images/Leih24.png"
+						 alt="Bild fehlt">
+					<div class="card-body">
+						<h6 class="card-title" th:text="'Artikel: ' +${a.artikelName}"></h6>
+						<div class="card-text">
+							<div class="toptext">
+								<div class="card-deck ml-5">
+									<dl class="ml-4">
+										<dd th:text="'Verkäufer: ' +${a.verkaeufer}"></dd>
+									</dl>
+								</div>
+							</div>
+
+							<dd th:text="'Preis: ' +${a.preis} + '&euro;'"></dd>
+						</div>
+						<a th:href="@{/detail/{id} (id=${a.id})}">
+							<button type="button" class="btn btn-outline-dark bottomDistance">Details</button>
+						</a>
+						<div th:if="${isUser}">
+							<a th:href="@{/account/{benutzername}/aendereArtikel/{id} (id=${a.id}, benutzername=${name})}">
+								<button type="button" class="btn btn-outline-dark">Artikel bearbeiten</button>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</tr>
+	</div>
 
 
 	<script th:inline="javascript">
@@ -112,6 +154,19 @@
             }
 
         }
+
+        function neueNachricht() {
+
+            var nachricht = /*[[${nachricht}]]*/ 'default';
+			var textfeld = document.getElementById("nachricht");
+            textfeld.style.display = "none";
+
+            if (nachricht === 'true') {
+                textfeld.style.display = "block";
+            }
+
+        }
+
 	</script>
 </div>
 </body>

@@ -6,7 +6,7 @@
 </head>
 
 <body>
-<h1 layout:fragment="titel">Ihre bisherigen Transkationen bei Leih24:</h1>
+<h1 layout:fragment="titel">Ihre bisherigen Transaktionen bei Leih24:</h1>
 <div layout:fragment="inhalt">
 	<div class="card text-center">
 		<h5 class="card-header">
@@ -33,7 +33,7 @@
 			Habe ich ausgeliehen:
 		</h5>
 		<div class="card-body">
-			<p th:if="${#lists.isEmpty(artikelAusgeliehen)}">Sie haben noch keine Artikel ausgeliehene!</p>
+			<p th:if="${#lists.isEmpty(artikelAusgeliehen)}">Sie haben noch keine Artikel ausgeliehen!</p>
 			<tr th:each="a: ${artikelAusgeliehen}">
 				<li class="list-group-item">
 					<dl class="dl-horizontal">
@@ -46,9 +46,43 @@
 				</li>
 			</tr>
 		</div>
-
 	</div>
 
+	<div class="card text-center mt-3">
+		<h5 class="card-header">
+			Habe ich verkauft:
+		</h5>
+		<div class="card-body">
+			<p th:if="${#lists.isEmpty(verkauft)}">Sie haben noch keine Artikel verkauft!</p>
+			<tr th:each="k: ${verkauft}">
+				<li class="list-group-item">
+					<dl class="dl-horizontal">
+						<dt th:text="'Artikel: ' +${k.artikel.artikelName}"></dt>
+						<p th:text="'Gekauft von: ' +${k.kaeufer}"></p>
+						<p th:text="'Beschreibung: ' +${k.artikel.beschreibung}"></p>
+					</dl>
+				</li>
+			</tr>
+		</div>
+	</div>
+
+	<div class="card text-center mt-3">
+		<h5 class="card-header">
+			Habe ich gekauft:
+		</h5>
+		<div class="card-body">
+			<p th:if="${#lists.isEmpty(gekauft)}">Sie haben noch keine Artikel gekauft!</p>
+			<tr th:each="k: ${gekauft}">
+				<li class="list-group-item">
+					<dl class="dl-horizontal">
+						<dt th:text="'Artikel: ' +${k.artikel.artikelName}"></dt>
+						<p th:text="'Verkauft von: ' +${k.verkaeufer}"></p>
+						<p th:text="'Beschreibung: ' +${k.artikel.beschreibung}"></p>
+					</dl>
+				</li>
+			</tr>
+		</div>
+	</div>
 </div>
 </body>
 </html>

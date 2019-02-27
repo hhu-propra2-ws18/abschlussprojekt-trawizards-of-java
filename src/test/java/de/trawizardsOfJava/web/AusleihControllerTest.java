@@ -2,6 +2,7 @@ package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.ArtikelRepository;
 import de.trawizardsOfJava.data.AusleiheRepository;
+import de.trawizardsOfJava.data.KaufRepository;
 import de.trawizardsOfJava.proPay.IProPaySchnittstelle;
 import de.trawizardsOfJava.data.RueckgabeRepository;
 import de.trawizardsOfJava.mail.IMailService;
@@ -43,6 +44,9 @@ public class AusleihControllerTest {
 
 	@MockBean
 	ArtikelRepository artikelRepository;
+
+	@MockBean
+	KaufRepository kaufRepository;
 
 	@MockBean
 	RueckgabeRepository rueckgabeRepository;
@@ -109,11 +113,11 @@ public class AusleihControllerTest {
 
 		when(ausleiheRepository.findById(1L)).thenReturn(Optional.of(ausleihe));
 
-		mvc.perform(post("/account/bar/ausleihenuebersicht")
+		mvc.perform(post("/account/bar/anfragenuebersicht")
 				.accept(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("id", "" + 1L)
 				.param("art", "abgelehnt"))
-				.andExpect(view().name("ausleihenUebersicht"));
+				.andExpect(view().name("anfragenUebersicht"));
 		verify(ausleiheRepository).delete(ausleihe);
 	}
 
@@ -150,11 +154,11 @@ public class AusleihControllerTest {
 		when(proPaySchnittstelle.getEntity("bar")).thenReturn(proPay);
 		when(proPaySchnittstelle.ping()).thenReturn(true);
 
-		mvc.perform(post("/account/bar/ausleihenuebersicht")
+		mvc.perform(post("/account/bar/anfragenuebersicht")
 			.accept(MediaType.APPLICATION_FORM_URLENCODED)
 			.param("id", "" + 1L)
 			.param("art", "angenommen"))
-			.andExpect(view().name("ausleihenUebersicht"));
+			.andExpect(view().name("anfragenUebersicht"));
 		verify(ausleiheRepository).save(any(Ausleihe.class));
 	}
 

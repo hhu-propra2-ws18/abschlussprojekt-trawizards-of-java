@@ -1,7 +1,10 @@
 package de.trawizardsOfJava.web;
 
+import de.trawizardsOfJava.data.ArtikelKaufenRepository;
 import de.trawizardsOfJava.data.ArtikelRepository;
+import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.Artikel;
+import de.trawizardsOfJava.model.ArtikelKaufen;
 import de.trawizardsOfJava.model.Verfuegbarkeit;
 import de.trawizardsOfJava.security.SecurityPersonenService;
 import org.junit.Test;
@@ -17,8 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,11 +37,17 @@ public class ArtikelControllerTest {
 	ArtikelRepository artikelRepository;
 
 	@MockBean
+	ArtikelKaufenRepository artikelKaufenRepository;
+
+	@MockBean
+	MessageRepository messageRepository;
+
+	@MockBean
 	SecurityPersonenService securityPersonenService;
 
 	@Test
 	@WithMockUser(username = "foo")
-	public void erstelleArtikel() throws Exception{
+	public void erstelleArtikel_leihen() throws Exception{
 		Artikel test = new Artikel();
 		test.setVerleiherBenutzername("foo");
 		test.setArtikelName("Schaufel");
@@ -48,18 +56,19 @@ public class ArtikelControllerTest {
 		test.setVerfuegbarkeit(new Verfuegbarkeit("22/02/2019 - 22/02/2019"));
 		test.setBeschreibung("Schaufel");
 		test.setStandort("foo");
-		test.setFotos(new ArrayList<String>());
+		test.setFotos(new ArrayList<>());
 
-		mvc.perform(post("/account/foo/erstelleArtikel")
+		mvc.perform(post("/account/foo/erstelleArtikel/leihen")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("artikelName", test.getArtikelName())
 				.param("beschreibung", test.getBeschreibung())
 				.param("standort", test.getStandort())
 				.param("preis", "" + test.getPreis())
 				.param("kaution", "" + test.getKaution())
-				.param("daterange", "22/02/2019 - 22/02/2019"));
+				.param("verleiherBenutzername", test.getVerleiherBenutzername())
+				.param("daterange", "22/03/2019 - 22/03/2019"));
 
-		verify(artikelRepository).save(test);
+		verify(artikelRepository).save(any(Artikel.class));
 	}
 
 	@Test
@@ -106,5 +115,35 @@ public class ArtikelControllerTest {
 		when(artikelRepository.findById(1L)).thenReturn(Optional.of(test));
 
 		mvc.perform(get("/detail/" + 1L)).andExpect(status().isOk());
+	}
+
+	@Test
+	public void select() {
+
+	}
+
+	@Test
+	@WithMockUser(username = "foo")
+	public void erstelleArtikel_kaufen() throws Exception {
+		ArtikelKaufen test = new ArtikelKaufen();
+		test.setVerkaeufer("foo");
+		test.setArtikelName("Schaufel");
+		test.setPreis(10);
+		test.setBeschreibung("Schaufel");
+		test.setStandort("foo");
+
+		mvc.perform(post("/account/foo/erstelleArtikel/kaufen")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("artikelName", test.getArtikelName())
+				.param("beschreibung", test.getBeschreibung())
+				.param("standort", test.getStandort())
+				.param("preis", "" + test.getPreis())
+				.param("verkaeufer", test.getVerkaeufer()));
+
+		verify(artikelKaufenRepository).save(test);
+	}
+
+	@Test
+	public void artikelDetailFoto() {
 	}
 }

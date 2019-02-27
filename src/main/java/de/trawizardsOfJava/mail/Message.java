@@ -1,8 +1,6 @@
 package de.trawizardsOfJava.mail;
 
-import de.trawizardsOfJava.model.Ausleihe;
-import de.trawizardsOfJava.model.Konflikt;
-import de.trawizardsOfJava.model.Rueckgabe;
+import de.trawizardsOfJava.model.*;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -19,6 +17,19 @@ public class Message {
 	private String absender;
 	private String empfaenger;
 	private String nachricht;
+	private boolean neueNachricht = false;
+
+	public Message(Artikel artikel) {
+		this.nachricht = "Der Artikel " + artikel.getArtikelName() + " wurde erfolgreich eingestellt.";
+		this.absender = "System";
+		this.empfaenger = artikel.getVerleiherBenutzername();
+	}
+
+	public Message(ArtikelKaufen artikel) {
+		this.nachricht = "Der Artikel " + artikel.getArtikelName() + " wurde erfolgreich eingestellt.";
+		this.absender = "System";
+		this.empfaenger = artikel.getVerkaeufer();
+	}
 
 	public Message(Ausleihe ausleihe, String parameter) {
 		this.nachricht = "Anfrage von " + ausleihe.getAusleihender() + " um " + ausleihe.getArtikel().getArtikelName() + " auszuleihen, wurde " + parameter;
@@ -45,6 +56,19 @@ public class Message {
 		}
 	}
 
+	public Message(Kauf kauf, String parameter){
+		if("kaeufer".equals(parameter)){
+			this.absender = "System";
+			this.empfaenger = kauf.getKaeufer();
+			this.nachricht = "Der Artikel " + kauf.getArtikel().getArtikelName() + " wurde an erfolgreich gekauft";
+		}
+		else {
+			this.absender = "System";
+			this.empfaenger = kauf.getVerkaeufer();
+			this.nachricht = "Der Artikel " + kauf.getArtikel().getArtikelName() + " wurde an " + kauf.getKaeufer() + " verkauft.";
+		}
+	}
+
 	private Message(Konflikt konflikt, String parameter, String empfaenger) {
 		Rueckgabe rueckgabe = konflikt.getRueckgabe();
 		this.absender = "Admin";
@@ -64,5 +88,9 @@ public class Message {
 		messages[0] = new Message(konflikt, parameter, konflikt.getRueckgabe().getVerleiherName());
 		messages[1] = new Message(konflikt, parameter, konflikt.getRueckgabe().getAusleihender());
 		return messages;
+	}
+
+	public boolean schauenObNeueNachricht(){
+		return this.neueNachricht;
 	}
 }

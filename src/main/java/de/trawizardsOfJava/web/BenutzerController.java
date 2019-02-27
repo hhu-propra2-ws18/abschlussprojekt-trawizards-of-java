@@ -1,6 +1,7 @@
 package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.*;
+import de.trawizardsOfJava.mail.Message;
 import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.Artikel;
 import de.trawizardsOfJava.model.Ausleihe;
@@ -31,13 +32,15 @@ public class BenutzerController {
 	private BewertungRepository bewertungRepository;
 	private IProPaySchnittstelle proPaySchnittstelle;
 	//private IMailService iMailService;
+	private KaufRepository kaufRepository;
+	private ArtikelKaufenRepository artikelKaufenRepository;
 
 
 	@Autowired
 	public BenutzerController(BenutzerRepository benutzerRepository, ArtikelRepository artikelRepository,
 							  AusleiheRepository ausleiheRepository, RueckgabeRepository rueckgabeRepository,
-							  MessageRepository messageRepository, IProPaySchnittstelle proPaySchnittstelle, BewertungRepository bewertungRepository/*,
-							  IMailService iMailService*/) {
+							  MessageRepository messageRepository, IProPaySchnittstelle proPaySchnittstelle/*,
+							  IMailService iMailService*/, KaufRepository kaufRepository, ArtikelKaufenRepository artikelKaufenRepository) {
 		this.benutzerRepository = benutzerRepository;
 		this.artikelRepository = artikelRepository;
 		this.ausleiheRepository = ausleiheRepository;
@@ -46,6 +49,8 @@ public class BenutzerController {
 		this.proPaySchnittstelle = proPaySchnittstelle;
 		this.bewertungRepository = bewertungRepository;
 		//this.iMailService = iMailService;
+		this.kaufRepository = kaufRepository;
+		this.artikelKaufenRepository = artikelKaufenRepository;
 	}
 
 	@ModelAttribute
@@ -59,6 +64,7 @@ public class BenutzerController {
 	public String profilAnsicht(Model model, @PathVariable String benutzername, Principal principal) {
 		model.addAttribute("person", benutzerRepository.findByBenutzername(benutzername).get());
 		model.addAttribute("artikel", artikelRepository.findByVerleiherBenutzername(benutzername));
+		model.addAttribute("artikelKaufen", artikelKaufenRepository.findByVerkaeufer(benutzername));
 		model.addAttribute("isUser", benutzername.equals(principal.getName()));
 		ProPay proPay = proPaySchnittstelle.getEntity(benutzername);
 		model.addAttribute("proPayError", !proPaySchnittstelle.ping());
@@ -67,6 +73,7 @@ public class BenutzerController {
 		model.addAttribute("aktuelleSeite", "Profil");
 		model.addAttribute("empfaenger", benutzername);
 		findeFaelligeAusleihe(model, ausleiheRepository.findByAusleihender(benutzername));
+		neueNachricht(model, messageRepository.findByEmpfaenger(benutzername), principal, benutzername);
 		return "profilAnsicht";
 	}
 
@@ -80,6 +87,16 @@ public class BenutzerController {
 				model.addAttribute("verleiherName", ausleihe.getVerleiherName());
 			}
 		}
+	}
+
+
+	private void neueNachricht(Model model, ArrayList<Message> nachrichten, Principal principal, String name) {
+		for (Message message : nachrichten) {
+			if(principal.getName().equals(name)){
+				model.addAttribute("nachricht", "true");
+			}
+		}
+
 	}
 
 	@PostMapping("/account/{benutzername}")
@@ -139,6 +156,8 @@ public class BenutzerController {
 	public String transaktionen(Model model, @PathVariable String benutzername) {
 		model.addAttribute("artikel", rueckgabeRepository.findByVerleiherName(benutzername));
 		model.addAttribute("artikelAusgeliehen", rueckgabeRepository.findByAusleihender(benutzername));
+		model.addAttribute("gekauft", kaufRepository.findByKaeufer(benutzername));
+		model.addAttribute("verkauft", kaufRepository.findByVerkaeufer(benutzername));
 		return "transaktionenUebersicht";
 	}
 

@@ -59,8 +59,8 @@
 	</div>
 	<hr>
 	<div class="row">
-		<h2>Artikel zum Verleihen</h2>
 		<div class="col-md-12" align="center">
+			<h2>Artikel zum Verleihen</h2>
 			<p th:if="${#lists.isEmpty(artikel)}">Keine Artikel vorhanden!</p>
 		</div>
 		<tr th:each="a: ${artikel}">
@@ -97,8 +97,8 @@
 		</tr>
 	</div>
 	<div class="row">
-		<h2>Artikel zum Verkauf</h2>
 		<div class="col-md-12" align="center">
+			<h2>Artikel zum Verkauf</h2>
 			<p th:if="${#lists.isEmpty(artikelKaufen)}">Keine Artikel vorhanden!</p>
 		</div>
 		<tr th:each="a: ${artikelKaufen}">

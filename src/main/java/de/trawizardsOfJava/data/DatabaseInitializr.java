@@ -1,5 +1,8 @@
 package de.trawizardsOfJava.data;
 
+import de.trawizardsOfJava.messenger.data.SessionRepo;
+import de.trawizardsOfJava.messenger.model.Session;
+import de.trawizardsOfJava.messenger.model.Teilnehmer;
 import de.trawizardsOfJava.model.*;
 import de.trawizardsOfJava.proPay.IProPaySchnittstelle;
 import de.trawizardsOfJava.security.SecurityConfig;
@@ -9,6 +12,7 @@ import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 @Component
 public class DatabaseInitializr implements ServletContextInitializer {
@@ -23,10 +27,12 @@ public class DatabaseInitializr implements ServletContextInitializer {
 	@Autowired
 	RueckgabeRepository rueckgabeRepository;
 	@Autowired
+	SessionRepo sessionRepo;
+	@Autowired
 	IProPaySchnittstelle proPaySchnittstelle;
 
 	@Override
-	public void onStartup(ServletContext servletContext) {
+	public void onStartup(ServletContext servletContext) throws ServletException {
 		System.out.println("Populating the database");
 
 		Person person1 = new Person();
@@ -52,26 +58,13 @@ public class DatabaseInitializr implements ServletContextInitializer {
 		artikel.setBeschreibung("Dies ist ein Schaufelbagger");
 		artikel.setKaution(2999);
 		artikel.setPreis(149);
-		artikel.setStandort("Mainz");
+		artikel.setStandort("Universitätsstraße 1, Düsseldorf");
 		String s = "01/02/2018 - 31/05/2019";
 		Verfuegbarkeit verfuegbarkeit = new Verfuegbarkeit(s);
 		artikel.setVerfuegbarkeit(verfuegbarkeit);
 		artikelRepository.save(artikel);
 
-		Artikel artikel1 = new Artikel();
-		artikel1.setVerleiherBenutzername(person1.getBenutzername());
-		artikel1.setArtikelName("Flasche");
-		artikel1.setBeschreibung("Dies ist eine Flasche");
-		artikel1.setKaution(2);
-		artikel1.setPreis(20);
-		artikel1.setVerleihen(false);
-		artikel1.setStandort("Universitätsstraße 1, Düsseldorf");
-		String s1 = "01/02/2018 - 31/05/2019";
-		Verfuegbarkeit verfuegbarkeit1 = new Verfuegbarkeit(s1);
-		artikel1.setVerfuegbarkeit(verfuegbarkeit1);
-		artikelRepository.save(artikel1);
-
-		/*Ausleihe ausleihe = new Ausleihe();
+		Ausleihe ausleihe = new Ausleihe();
 		ausleihe.setArtikel(artikel);
 		ausleihe.setAusleihender(person2.getBenutzername());
 		Verfuegbarkeit neues = new Verfuegbarkeit("14/02/2019 - 16/02/2019");
@@ -84,8 +77,24 @@ public class DatabaseInitializr implements ServletContextInitializer {
 		Konflikt konflikt = new Konflikt();
 		konflikt.setAbsenderMail(person1.getEmail());
 		konflikt.setVerursacherMail(person2.getEmail());
-		konflikt.setRueckgabe(rueckgabeRepository.findByVerleiherName("root").get(0));
+		konflikt.setRueckgabe(rueckgabeRepository.findAll().get(0));
 		konflikt.setBeschreibung("kaputt");
-		konfliktRepository.save(konflikt);*/
+		konfliktRepository.save(konflikt);
+
+		Person person3 = new Person();
+		person3.setBenutzername("deineMum");
+		person3.setEmail("deineMum@mail.com");
+		person3.setName("deineMum");
+		person3.setPasswort(SecurityConfig.encoder().encode("1234"));
+		person3.setRolle("ROLE_ADMIN");
+		benutzerRepository.save(person3);
+
+		Person person4 = new Person();
+		person4.setBenutzername("aydin");
+		person4.setEmail("aydin@mail.com");
+		person4.setName("Aydin");
+		person4.setPasswort(SecurityConfig.encoder().encode("1234"));
+		person4.setRolle("ROLE_ADMIN");
+		benutzerRepository.save(person4);
 	}
 }

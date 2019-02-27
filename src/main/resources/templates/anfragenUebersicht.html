@@ -19,6 +19,7 @@
 					<p th:text="|Ausleihender: ${ausleihe.ausleihender}|">Ausleihender</p>
 					<p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
 					<p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
+					<p th:if="${proPayError}" style="color: red">ProPay ist derzeit nicht erreichbar. Versuchen Sie es später noch mal.</p>
 					<form method="post">
 						<input type="hidden" th:value="${ausleihe.id}" name="id">
 						<button class="btn btn-outline-success" type="submit" name="art" value="angenommen">Annehmen</button>
@@ -35,6 +36,7 @@
 						<button class="btn btn-outline-success" type="submit" name="accepted" value="angenommen">Annehmen</button>
 						<button class="btn btn-outline-danger" type="submit" name="accepted" value="abgelehnt">Ablehnen</button>
 					</form>
+
 				</li>
 			</div>
 

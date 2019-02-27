@@ -60,7 +60,7 @@ public class Message {
 		if("kaeufer".equals(parameter)){
 			this.absender = "System";
 			this.empfaenger = kauf.getKaeufer();
-			this.nachricht = "Der Artikel " + kauf.getArtikel().getArtikelName() + " wurde an erfolgreich gekauft";
+			this.nachricht = "Der Artikel " + kauf.getArtikel().getArtikelName() + " wurde erfolgreich gekauft.";
 		}
 		else {
 			this.absender = "System";

@@ -53,6 +53,9 @@
 	</div>
 	<div th:unless="${isUser}">
 		<button class="btn btn-outline-dark" onclick="openchatin()">Chatten</button>
+		<a th:href="@{/account/{benutzername}/bewerten (benutzername=${person.benutzername})}">
+			<button class="btn btn-outline-dark">Bewertungen</button>
+		</a>
 	</div>
 	<hr>
 	<div class="row">

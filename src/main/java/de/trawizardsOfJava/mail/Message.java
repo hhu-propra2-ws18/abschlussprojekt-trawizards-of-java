@@ -21,6 +21,12 @@ public class Message {
 	private String nachricht;
 	private boolean neueNachricht = false;
 
+	public Message(String empfaenger, String parameter) {
+		this.nachricht = "Der Artikel wurde erfolgreich " + parameter;
+		this.absender = "System";
+		this.empfaenger = empfaenger;
+	}
+
 	public Message(Ausleihe ausleihe, String parameter) {
 		this.nachricht = "Anfrage von " + ausleihe.getAusleihender() + " um " + ausleihe.getArtikel().getArtikelName() + " auszuleihen, wurde " + parameter;
 		if("angefragt".equals(parameter)) {

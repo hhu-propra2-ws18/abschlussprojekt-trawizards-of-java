@@ -57,12 +57,6 @@
 					<p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
 				</li>
 			</div>
-			<div th:each="kauf : ${kaufen}" th:if="${kauf.accepted}">
-				<li class="list-group-item">
-					<p th:text="|Name des Artikels: ${kauf.artikel.artikelName}|">Artikelname</p>
-					<p th:text="|Käufer: ${kauf.kaeufer}|">Käufer</p>
-				</li>
-			</div>
 		</div>
 	</div>
 </div>

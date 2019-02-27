@@ -2,7 +2,6 @@ package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.ArtikelRepository;
 import de.trawizardsOfJava.data.AusleiheRepository;
-import de.trawizardsOfJava.data.KaufRepository;
 import de.trawizardsOfJava.proPay.IProPaySchnittstelle;
 import de.trawizardsOfJava.data.RueckgabeRepository;
 import de.trawizardsOfJava.mail.Message;
@@ -30,18 +29,16 @@ public class AusleihController {
 	private RueckgabeRepository rueckgabeRepository;
 	private MessageRepository messageRepository;
 	private IProPaySchnittstelle proPaySchnittstelle;
-	private KaufRepository kaufRepository;
 
 	@Autowired
 	public AusleihController(ArtikelRepository artikelRepository, AusleiheRepository ausleiheRepository,
 							 RueckgabeRepository rueckgabeRepository, MessageRepository messageRepository,
-							 IProPaySchnittstelle proPaySchnittstelle, KaufRepository kaufRepository) {
+							 IProPaySchnittstelle proPaySchnittstelle) {
 		this.artikelRepository = artikelRepository;
 		this.ausleiheRepository = ausleiheRepository;
 		this.messageRepository = messageRepository;
 		this.rueckgabeRepository = rueckgabeRepository;
 		this.proPaySchnittstelle = proPaySchnittstelle;
-		this.kaufRepository = kaufRepository;
 	}
 
 	@ModelAttribute
@@ -91,7 +88,6 @@ public class AusleihController {
 	@GetMapping("/account/{benutzername}/anfragenuebersicht")
 	@PreAuthorize("#benutzername == authentication.name")
 	public String ausleihenUebersicht(Model model, @PathVariable String benutzername) {
-		model.addAttribute("kaufen", kaufRepository.findByVerkaeufer(benutzername));
 		model.addAttribute("ausleihen", ausleiheRepository.findByVerleiherName(benutzername));
 		return "anfragenUebersicht";
 	}

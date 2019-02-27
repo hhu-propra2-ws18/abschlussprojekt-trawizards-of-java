@@ -124,7 +124,6 @@ public class BenutzerController {
 
 	@GetMapping("/account/{benutzername}/bewerten")
 	public String bewertungen(Model model, @PathVariable String benutzername) {
-		//System.out.println("alle Bewertungen " + bewertungRepository.findAll());
 		model.addAttribute("person", benutzerRepository.findByBenutzername(benutzername).get());
 		model.addAttribute("bewertung", bewertungRepository.findByBewertungFuer(benutzername));
 		return "bewertungen";
@@ -138,13 +137,9 @@ public class BenutzerController {
 
 	@PostMapping("/account/{benutzername}/bewerten/verfassen")
 	public String speichereBewertungen(@PathVariable String benutzername, Bewertung bewertung, Principal principal) {
-
 		bewertung.setBewertungFuer(benutzername);
 		bewertung.setBewertungVon(principal.getName());
 		bewertungRepository.save(bewertung);
-
-		System.out.println("BewertungenSpeichern " +  bewertung);
-
 		return "redirect:/account/{benutzername}/bewerten";
 	}
 

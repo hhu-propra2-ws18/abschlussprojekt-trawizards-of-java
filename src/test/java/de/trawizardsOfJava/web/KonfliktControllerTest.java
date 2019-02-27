@@ -155,6 +155,7 @@ public class KonfliktControllerTest {
 
 		when(konfliktRepository.findById(konflikt.getId())).thenReturn(Optional.of(konflikt));
 		when(proPaySchnittstelle.getEntity("root")).thenReturn(proPay);
+		when(proPaySchnittstelle.ping()).thenReturn(true);
 
 		mvc.perform(post("/admin/konflikte/" + 1L)
 				.param("benutzer", "Verleihender"));
@@ -194,6 +195,7 @@ public class KonfliktControllerTest {
 
 		when(konfliktRepository.findById(konflikt.getId())).thenReturn(Optional.of(konflikt));
 		when(proPaySchnittstelle.getEntity("root")).thenReturn(proPay);
+		when(proPaySchnittstelle.ping()).thenReturn(true);
 
 		mvc.perform(post("/admin/konflikte/" + 1L)
 				.param("benutzer", "Ausleihender"));

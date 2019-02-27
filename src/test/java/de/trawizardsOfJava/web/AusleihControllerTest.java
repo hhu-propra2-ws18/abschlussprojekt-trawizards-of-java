@@ -77,6 +77,7 @@ public class AusleihControllerTest {
 		proPay.setReservations(new ArrayList<>());
 
 		when(artikelRepository.findById(1L)).thenReturn(Optional.of(artikel));
+		when(proPaySchnittstelle.ping()).thenReturn(true);
 		when(proPaySchnittstelle.getEntity("bar")).thenReturn(proPay);
 
 		mvc.perform(post("/account/bar/artikel/" + 1L + "/anfrage")
@@ -147,6 +148,7 @@ public class AusleihControllerTest {
 
 		when(ausleiheRepository.findById(1L)).thenReturn(Optional.of(ausleihe));
 		when(proPaySchnittstelle.getEntity("bar")).thenReturn(proPay);
+		when(proPaySchnittstelle.ping()).thenReturn(true);
 
 		mvc.perform(post("/account/bar/ausleihenuebersicht")
 			.accept(MediaType.APPLICATION_FORM_URLENCODED)
@@ -213,6 +215,7 @@ public class AusleihControllerTest {
 		proPay.setAmount(1L);
 		when(rueckgabeRepository.findById(rueckgabe.getId())).thenReturn(Optional.of(rueckgabe));
 		when(proPaySchnittstelle.getEntity("foo")).thenReturn(proPay);
+		when(proPaySchnittstelle.ping()).thenReturn(true);
 
 		mvc.perform(post("/account/foo/zurueckgegebeneartikel").accept(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("id", "" + rueckgabe.getId()))

@@ -31,7 +31,7 @@ public class UploadController {
 	}
 
 	@GetMapping("/fotoupload/{id}")
-	public String index(Model model, @PathVariable long id) {
+	public String index(Model model, @PathVariable Long id) {
 		model.addAttribute("id", id);
 		return "fotos_upload";
 	}

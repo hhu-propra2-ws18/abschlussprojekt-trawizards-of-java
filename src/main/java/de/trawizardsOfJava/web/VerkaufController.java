@@ -29,7 +29,7 @@ public class VerkaufController {
     private ArtikelKaufenRepository artikelKaufenRepository;
 
     @Autowired
-    public VerkaufController(MessageRepository messageRepository, ProPaySchnittstelle proPaySchnittstelle, AusleiheRepository ausleiheRepository, KaufRepository kaufRepository, ArtikelKaufenRepository artikelKaufenRepository) {
+    public VerkaufController(MessageRepository messageRepository, IProPaySchnittstelle proPaySchnittstelle, AusleiheRepository ausleiheRepository, KaufRepository kaufRepository, ArtikelKaufenRepository artikelKaufenRepository) {
         this.proPaySchnittstelle = proPaySchnittstelle;
         this.ausleiheRepository = ausleiheRepository;
         this.kaufRepository = kaufRepository;

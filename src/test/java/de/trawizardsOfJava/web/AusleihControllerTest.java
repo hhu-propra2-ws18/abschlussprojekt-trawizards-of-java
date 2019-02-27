@@ -2,6 +2,7 @@ package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.ArtikelRepository;
 import de.trawizardsOfJava.data.AusleiheRepository;
+import de.trawizardsOfJava.data.KaufRepository;
 import de.trawizardsOfJava.proPay.IProPaySchnittstelle;
 import de.trawizardsOfJava.data.RueckgabeRepository;
 import de.trawizardsOfJava.mail.IMailService;
@@ -43,6 +44,9 @@ public class AusleihControllerTest {
 
 	@MockBean
 	ArtikelRepository artikelRepository;
+
+	@MockBean
+	KaufRepository kaufRepository;
 
 	@MockBean
 	RueckgabeRepository rueckgabeRepository;

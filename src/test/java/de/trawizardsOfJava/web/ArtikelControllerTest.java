@@ -1,5 +1,6 @@
 package de.trawizardsOfJava.web;
 
+import de.trawizardsOfJava.data.ArtikelKaufenRepository;
 import de.trawizardsOfJava.data.ArtikelRepository;
 import de.trawizardsOfJava.model.Artikel;
 import de.trawizardsOfJava.model.Verfuegbarkeit;
@@ -16,8 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Optional;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -32,6 +32,9 @@ public class ArtikelControllerTest {
 
 	@MockBean
 	ArtikelRepository artikelRepository;
+
+	@MockBean
+	ArtikelKaufenRepository artikelKaufenRepository;
 
 	@MockBean
 	SecurityPersonenService securityPersonenService;
@@ -55,9 +58,10 @@ public class ArtikelControllerTest {
 				.param("standort", test.getStandort())
 				.param("preis", "" + test.getPreis())
 				.param("kaution", "" + test.getKaution())
+				.param("verleiherBenutzername", test.getVerleiherBenutzername())
 				.param("daterange", "22/02/2019 - 22/02/2019"));
 
-		verify(artikelRepository).save(test);
+		verify(artikelRepository).save(any(Artikel.class));
 	}
 
 	@Test
@@ -83,7 +87,7 @@ public class ArtikelControllerTest {
 				.param("preis", "" + test.getPreis())
 				.param("kaution", "" + test.getKaution())
 				.param("daterange", "22/02/2019 - 22/02/2019")
-				.param("verkaeufer", test.getVerleiherBenutzername())
+				.param("verleiherBenutzername", test.getVerleiherBenutzername())
 				.param("id", ""+ 1L));
 
 		verify(artikelRepository).save(test);

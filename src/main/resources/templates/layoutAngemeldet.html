@@ -16,6 +16,8 @@
 			border-radius: 50%;
 		}
 	</style>
+	<link rel="shortcut icon" type="image/x-icon"
+		  href="https://www.cs.hhu.de/fileadmin/redaktion/Fakultaeten/Mathematisch-Naturwissenschaftliche_Fakultaet/Informatik/Softwaretechnik_Programmiersprachen/250px-Team-Bendisposto.jpg">
 	<title layout:title-pattern="$CONTENT_TITLE">Leih24</title>
 </head>
 
@@ -49,7 +51,7 @@
 		</li>
 		<li class="nav-item">
 			<img id="post" class="messages" src="../static/images/post.png" th:src="@{/images/post.png}"
-			height="25" width="auto" onmouseover="onHover();" onmouseout="offHover();" onclick="openchat()"/>
+				 height="25" width="auto" onmouseover="onHover();" onmouseout="offHover();" onclick="openchat()"/>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link" href='/logout'>Abmelden</a>
@@ -69,18 +71,19 @@
     function gimmeTitle() {
         document.getElementById("titel").innerHTML = document.title;
     }
-    function onHover()
-	{
-	    $("#post").attr('src', '/images/post_hover.png');
-	}
-    function offHover()
-    {
+
+    function onHover() {
+        $("#post").attr('src', '/images/post_hover.png');
+    }
+
+    function offHover() {
         $("#post").attr('src', '/images/post.png');
     }
+
     function openchat() {
         /*<![CDATA[*/
         var benutzername = /*[[${name}]]*/ 'default';
-        window.open("http://localhost:8080/messenger/" + benutzername,"_blank", "toolbar=0,location=0,directories=0,scrollbars=0,resizable=0,top=400,left=500,width=425,height=500");
+        window.open("http://localhost:8080/messenger/" + benutzername, "_blank", "toolbar=0,location=0,directories=0,scrollbars=0,resizable=0,top=400,left=500,width=425,height=500");
         /*]]>*/
     }
 </script>

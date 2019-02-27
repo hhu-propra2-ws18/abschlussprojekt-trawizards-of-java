@@ -40,7 +40,7 @@ public class ChatController {
 
 	@GetMapping("/messenger/{benutzername}/{empfaenger}/start")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String uebersicht(Model model, @PathVariable("benutzername") String benutzername, @PathVariable("empfaenger") String empfaenger) {
+	public String uebersicht(Model model, @PathVariable String benutzername, @PathVariable String empfaenger) {
 		String benutzerName = benutzername.toLowerCase();
 		String empfaengerName = empfaenger.toLowerCase();
 		Teilnehmer teilnehmer = new Teilnehmer(benutzerName, empfaengerName);
@@ -56,7 +56,7 @@ public class ChatController {
 
 	@GetMapping("/messenger/{benutzername}/{sessionId}")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String sessionChat(Model model, @PathVariable("sessionId") Long sessionId, @PathVariable("benutzername") String benutzername) {
+	public String sessionChat(Model model, @PathVariable Long sessionId, @PathVariable String benutzername) {
 		Session session = sessionRepo.findById(sessionId).get();
 		Nachricht nachricht = new Nachricht(benutzerRepository.findByBenutzername(benutzername).get(), session);
 		model.addAttribute("nachricht", nachricht);
@@ -68,7 +68,7 @@ public class ChatController {
 
 	@GetMapping("/messenger/{benutzername}")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String allChats(Model model, @PathVariable("benutzername") String benutzername) {
+	public String allChats(Model model, @PathVariable String benutzername) {
 		model.addAttribute("sessions", sessionRepo.findByTeilnehmer_PersonEinsOrTeilnehmer_PersonZwei(benutzername, benutzername));
 		model.addAttribute("hide", true);
 		model.addAttribute("sessions", sessionRepo.findByTeilnehmer_PersonEinsOrTeilnehmer_PersonZwei(benutzername, benutzername));
@@ -77,14 +77,14 @@ public class ChatController {
 
 	@GetMapping("/messenger/{benutzername}/{sessionId}/reload")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String reloadChat(Model model, @PathVariable("sessionId") Long sessionId, @PathVariable("benutzername") String benutzername) {
+	public String reloadChat(Model model, @PathVariable Long sessionId, @PathVariable String benutzername) {
 		Session session = sessionRepo.findById(sessionId).get();
 		model.addAttribute("nachrichten", nachrichtenRepo.findBySession(session));
 		return "Chat/reloadChat";
 	}
 
 	@PostMapping("/messenger/{benutzername}/{sessionId}")
-	public String sendMessage(Model model, @PathVariable("sessionId") Long sessionId, Nachricht nachricht, @PathVariable("benutzername") String benutzername){
+	public String sendMessage(Model model, @PathVariable Long sessionId, Nachricht nachricht, @PathVariable String benutzername){
 		nachricht.setGesendet(now());
 		nachrichtenRepo.save(nachricht);
 

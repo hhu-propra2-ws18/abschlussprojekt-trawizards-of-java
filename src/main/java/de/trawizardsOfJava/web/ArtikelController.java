@@ -45,19 +45,19 @@ public class ArtikelController {
 	@PreAuthorize("#benutzername == authentication.name")
 	public String postSelect(Model model, @PathVariable String benutzername, String select){
 		if("Verkaufen".equals(select)){
-			model.addAttribute("artikel", new ArtikelKaufen());
-			model.addAttribute("verkaufen", true);
-			return erstelleArtikel(model, benutzername);
+			model.addAttribute("link", "account/" + benutzername + "/erstelleArtikel/kaufen");
+			return "backToTheFuture";
 		}
-		model.addAttribute("artikel", new Artikel());
-		model.addAttribute("verkaufen", false);
-		return erstelleArtikel(model, benutzername);
+		model.addAttribute("link", "account/" + benutzername + "/erstelleArtikel/leihen");
+		return "backToTheFuture";
 	}
 
 
-	@GetMapping("/account/{benutzername}/erstelleArtikel")
+	@GetMapping("/account/{benutzername}/erstelleArtikel/leihen")
 	@PreAuthorize("#benutzername == authentication.name")
-	public String erstelleArtikel(Model model, @PathVariable String benutzername) {
+	public String erstelleArtikel_leihen(Model model, @PathVariable String benutzername) {
+		model.addAttribute("artikel", new Artikel());
+		model.addAttribute("verkaufen", false);
 		return "artikelErstellung";
 	}
 
@@ -69,6 +69,14 @@ public class ArtikelController {
 		artikelRepository.save(artikel);
 		model.addAttribute("link", "account/" + benutzername);
 		return "backToTheFuture";
+	}
+
+	@GetMapping("/account/{benutzername}/erstelleArtikel/kaufen")
+	@PreAuthorize("#benutzername == authentication.name")
+	public String erstelleArtikel_kaufen(Model model, @PathVariable String benutzername) {
+		model.addAttribute("artikel", new ArtikelKaufen());
+		model.addAttribute("verkaufen", true);
+		return "artikelErstellung";
 	}
 
 	@PostMapping("/account/{benutzername}/erstelleArtikel/kaufen")
@@ -98,7 +106,14 @@ public class ArtikelController {
 
 	@GetMapping("/detail/{id}")
 	public String artikelDetail(Model model, @PathVariable Long id, Principal principal) {
-		model.addAttribute("artikelDetail", artikelRepository.findById(id).get());
+		if (artikelRepository.findById(id).isPresent()) {
+			model.addAttribute("artikelDetail", artikelRepository.findById(id).get());
+			model.addAttribute("verkaufen", false);
+		}
+		else {
+			model.addAttribute("artikelDetail", artikelKaufenRepository.findById(id).get());
+			model.addAttribute("verkaufen", true);
+		}
 		model.addAttribute("aktuelleSeite", "Artikelansicht");
 		model.addAttribute("angemeldet", principal != null);
 		return "artikelDetail";

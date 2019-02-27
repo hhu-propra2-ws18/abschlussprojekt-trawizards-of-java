@@ -17,9 +17,7 @@ public class Kauf {
     private boolean accepted = false;
     private Long proPayId;
 
-    public Kauf(){
-
-    }
+    public Kauf(){}
 
     public Kauf(ArtikelKaufen artikel, String kaeufer){
         this.artikel = artikel;

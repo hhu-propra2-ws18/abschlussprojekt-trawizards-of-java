@@ -63,7 +63,7 @@ public class BenutzerController {
 		model.addAttribute("aktuelleSeite", "Profil");
 		model.addAttribute("empfaenger", benutzername);
 		findeFaelligeAusleihe(model, ausleiheRepository.findByAusleihender(benutzername));
-		neueNachricht(model, messageRepository.findByEmpfaenger(benutzername));
+		neueNachricht(model, messageRepository.findByEmpfaenger(benutzername), principal, benutzername);
 		return "profilAnsicht";
 	}
 
@@ -80,9 +80,11 @@ public class BenutzerController {
 	}
 
 
-	private void neueNachricht(Model model, ArrayList<Message> nachrichten) {
+	private void neueNachricht(Model model, ArrayList<Message> nachrichten, Principal principal, String name) {
 		for (Message message : nachrichten) {
+			if(principal.getName().equals(name)){
 				model.addAttribute("nachricht", "true");
+			}
 		}
 
 	}

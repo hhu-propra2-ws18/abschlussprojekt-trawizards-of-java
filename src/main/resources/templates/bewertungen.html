@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<a th:href="@{/account/{benutzername}/bewerten/verfassen (benutzername=${person.benutzername})}">
+	<button class="btn btn-outline-dark">Bewertung verfassen</button>
+</a>
+
+<div class="row">
+	<tr th:each="a: ${bewertung}">
+		<div class="col-sm-3">
+			<div class="card mt-3 ml-4" style="width: 18rem; height: 19rem" align="center">
+				<div class="card-body">
+					<div class="card-text">
+						<dd th:text="'Überschrift: ' + ${a.ueberschrift}"></dd>
+						<dd th:text="'Bewertung: ' + ${a.text}"></dd>
+						<dd th:text="'Bewertung verfasst von: ' + ${a.bewertungVon}"></dd>
+					</div>
+				</div>
+			</div>
+		</div>
+	</tr>
+</div>
+</body>
+</html>

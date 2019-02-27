@@ -52,6 +52,7 @@ public class ArtikelController {
 		artikel.setVerleiherBenutzername(benutzername);
 		artikel.setFotos(new ArrayList<String>());
 		artikelRepository.save(artikel);
+		System.out.println("SPeichereArtikel" + artikel);
 		model.addAttribute("link", "account/" + benutzername);
 
 		return "redirect:/fotoupload/"+artikel.getId();

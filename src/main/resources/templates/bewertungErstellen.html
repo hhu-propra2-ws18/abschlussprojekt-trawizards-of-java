@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+
+<form method="post" th:object="${bewertung}">
+	<div class="group">
+		<label class="col-sm-2 col-form-label mr-5">Überschrift: </label>
+		<input type="text" class="form-control ml-5"  th:field="*{ueberschrift}" placeholder="Überschrift" required style="display:inline-block;"><br>
+	</div>
+	<div class="group">
+		<label class="col-sm-2 col-form-label mr-5">Bewertung:</label>
+		<textarea class="autoExpand form-control ml-5" cols="50" maxlength="255" type="text" th:field="*{text}"
+				   placeholder="Beschreibung" }></textarea>
+	</div>
+
+	<input type="submit" value="Bestätigen" class="btn btn-outline-success"/>
+</form>
+</body>
+</html>

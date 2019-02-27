@@ -22,7 +22,7 @@ public class UploadController {
 	private ArtikelRepository artikelRepository;
 
 	@GetMapping("/fotoupload/{id}")
-	public String index(Model model, @PathVariable long id) {
+	public String index(Model model, @PathVariable Long id) {
 		model.addAttribute("id", id);
 		return "fotos_upload";
 	}

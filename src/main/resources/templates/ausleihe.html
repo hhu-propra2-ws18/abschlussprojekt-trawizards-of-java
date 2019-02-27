@@ -3,7 +3,8 @@
 	  xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
 	<title>Accountverwaltung</title>
-	
+
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="../static/css/daterange.css" th:href="@{/css/daterange.css}"/>
@@ -19,10 +20,11 @@
 			<div class="col-md-4">
 				<form name="f" method="post">
 					<p th:if="${error}" style="color: red">Sie haben nicht genügend Geld auf Ihrem ProPay-Konto!</p>
-					<p th:if="${proPayError}" style="color: red">ProPay ist derzeit nicht erreichbar. Versuchen sie es später erneut.</p>
+					<p th:if="${proPayError}" style="color: red">ProPay ist derzeit nicht erreichbar. Versuchen sie es
+						später erneut.</p>
 					<input type="text" class="form-control" name="daterange" min="#today"/> <br>
 					<br>
-					<input type="submit" value="Bestätigen" class="btn btn-outline-success"/>
+					<button id="subBut" type="submit" class="btn btn-outline-success">Bestätigen</button>
 				</form>
 			</div>
 		</div>
@@ -32,34 +34,47 @@
 			</a>
 		</div>
 
-	<script th:inline="javascript">
-        $(function () {
-            $('input[name="daterange"]').daterangepicker({
-                "autoApply": true,
-                minDate: 0,
-                disabledDates: [moment('19/02/2019', 'DD/MM/YYYY')],
-                locale: {
-                    format: 'DD/MM/YYYY'
-                },
-                isInvalidDate: function (date) {
-                    /*<![CDATA[*/
-						/*[# th:each="datum : ${daten}"]*/
-							var von = moment(/*[[${datum.startDate.toString()}]]*/, 'YYYY/MM/DD');
-							var bis = moment(/*[[${datum.endDate.toString()}]]*/, 'YYYY/MM/DD');
-							var gestern = new Date();
-							gestern.setDate(gestern.getDate() - 1);
-							if (date.isBefore(gestern) || date.isSame(von) || date.isAfter(von) && date.isBefore(bis) || date.isSame(bis)) return true;
-						/*[/]*/
+		<script th:inline="javascript">
+            $(function () {
+                $('input[name="daterange"]').daterangepicker({
+                    "autoApply": true,
+                    minDate: 0,
+                    disabledDates: [moment('19/02/2019', 'DD/MM/YYYY')],
+                    locale: {
+                        format: 'DD/MM/YYYY'
+                    },
+                    isInvalidDate: function (date) {
+                        /*<![CDATA[*/
+                        /*[# th:each="datum : ${daten}"]*/
+                        var von = moment(/*[[${datum.startDate.toString()}]]*/, 'YYYY/MM/DD');
+                        var bis = moment(/*[[${datum.endDate.toString()}]]*/, 'YYYY/MM/DD');
+                        var gestern = new Date();
+                        gestern.setDate(gestern.getDate() - 1);
+                        if (date.isBefore(gestern) || date.isSame(von) || date.isAfter(von) && date.isBefore(bis) || date.isSame(bis)) return true;
+                        /*[/]*/
 
-						var start = moment(/*[[${verfuegbar.getStartDate().toString()}]]*/, 'YYYY/MM/DD');
-						var ende = moment(/*[[${verfuegbar.getEndDate().toString()}]]*/, 'YYYY/MM/DD');
-						if (date.isAfter(ende) || date.isBefore(start)) return true;
-					/*]]>*/
-					return false;
-                }
-            })
-        });
-	</script>
-</div>
+                        var start = moment(/*[[${verfuegbar.getStartDate().toString()}]]*/, 'YYYY/MM/DD');
+                        var ende = moment(/*[[${verfuegbar.getEndDate().toString()}]]*/, 'YYYY/MM/DD');
+                        if (date.isAfter(ende) || date.isBefore(start)) return true;
+                        /*]]>*/
+                        return false;
+                    }
+                }, function (start, end, label) {
+                    console.log("Loggen");
+                    /*<![CDATA[*/
+                    /*[# th:each="datum : ${daten}"]*/
+                    var von = moment(/*[[${datum.startDate.toString()}]]*/, 'YYYY/MM/DD');
+                    var bis = moment(/*[[${datum.endDate.toString()}]]*/, 'YYYY/MM/DD');
+                    console.log(start.isBefore(von) && end.isAfter(bis));
+                    document.getElementById("subBut").disabled = (start.isBefore(von) && end.isAfter(bis));
+                    /*[/]*/
+                    /*]]>*/
+                });
+            });
+            $(document).ready(function () {
+                document.getElementById("subBut").disabled = true;
+            });
+		</script>
+	</div>
 </body>
 </html>

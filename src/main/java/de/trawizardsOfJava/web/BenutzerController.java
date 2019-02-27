@@ -40,7 +40,7 @@ public class BenutzerController {
 	public BenutzerController(BenutzerRepository benutzerRepository, ArtikelRepository artikelRepository,
 							  AusleiheRepository ausleiheRepository, RueckgabeRepository rueckgabeRepository,
 							  MessageRepository messageRepository, IProPaySchnittstelle proPaySchnittstelle/*,
-							  IMailService iMailService*/, KaufRepository kaufRepository, ArtikelKaufenRepository artikelKaufenRepository) {
+							  IMailService iMailService*/, KaufRepository kaufRepository, ArtikelKaufenRepository artikelKaufenRepository, BewertungRepository bewertungRepository) {
 		this.benutzerRepository = benutzerRepository;
 		this.artikelRepository = artikelRepository;
 		this.ausleiheRepository = ausleiheRepository;
@@ -133,7 +133,6 @@ public class BenutzerController {
 	@GetMapping("/account/{benutzername}/bewerten/verfassen")
 	public String bewertungenVerfassen(Model model, @PathVariable String benutzername) {
 		model.addAttribute("bewertung", new Bewertung());
-		//System.out.println("alle Bewertungen " + bewertungRepository.findAll());
 		return "bewertungErstellen";
 	}
 

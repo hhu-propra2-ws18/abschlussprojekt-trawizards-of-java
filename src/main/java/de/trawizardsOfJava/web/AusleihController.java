@@ -155,7 +155,6 @@ public class AusleihController {
 		if (!proPaySchnittstelle.ping()){
 			model.addAttribute("proPayError", true);
 			return rueckgabenUebersicht(model, benutzername);
-
 		}
 		Rueckgabe rueckgabe = rueckgabeRepository.findById(id).get();
 		rueckgabe.setAngenommen(true);

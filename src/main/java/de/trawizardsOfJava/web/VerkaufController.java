@@ -46,37 +46,34 @@ public class VerkaufController {
 
     @GetMapping("/account/{benutzername}/artikel/{id}/kaufen")
     @PreAuthorize("#benutzername == authentication.name")
-    public String kaufen(Model model, @PathVariable("benutzername") String benutzername, @PathVariable("id") Long id){
+    public String kaufen(Model model, @PathVariable String benutzername, @PathVariable Long id){
+        return "kauf";
+    }
+
+    @PostMapping("/account/{benutzername}/artikel/{id}/kaufen")
+    @PreAuthorize("#benutzername == authentication.name")
+    public String bestaetigeKauf(Model model, @PathVariable String benutzername, @PathVariable Long id){
+        if (!proPaySchnittstelle.ping()){
+            model.addAttribute("proPayError", true);
+            return kaufen(model, benutzername, id);
+        }
         Kauf kauf = new Kauf(artikelKaufenRepository.findById(id).get(), benutzername);
-        /*if (!proPaySchnittstelle.getEntity(benutzername).genuegendGeld(Long.valueOf(kauf.getArtikel().getPreis()), ausleiheRepository.findByAusleihenderAndAccepted(benutzername, false))) {
+        if (!proPaySchnittstelle.getEntity(benutzername).genuegendGeld((long) kauf.getArtikel().getPreis(), ausleiheRepository.findByAusleihenderAndAccepted(benutzername, false))) {
             model.addAttribute("error", true);
-            return "/"; //Bei zu wenig Geld
-        }*/
+            return kaufen(model, benutzername, id);
+        }
         kaufRepository.save(kauf);
-        messageRepository.save(new Message(kauf, "angefragt"));
-        messageRepository.save(new Message(kauf, "angefragtVerkäufer"));
+        bezahlvorgang(kauf);
+        artikelKaufenRepository.delete(kauf.getArtikel());
+        messageRepository.save(new Message(kauf, "kaeufer"));
+        messageRepository.save(new Message(kauf, "verkaeufer"));
         model.addAttribute("link", "");
         return "backToTheFuture";
     }
 
-    /*private void bezahlvorgang(Kauf kauf) {
-        kauf.setAccepted(true);
+    private void bezahlvorgang(Kauf kauf) {
         if(!kauf.getVerkaeufer().equals(kauf.getKaeufer())) {
-            Long tage = kauf.getVerfuegbarkeit().berechneZwischenTage();
-            proPaySchnittstelle.post("account/" + ausleihe.getAusleihender() + "/transfer/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getPreis() * tage);
-            proPaySchnittstelle.post("reservation/reserve/" + ausleihe.getAusleihender() + "/" + ausleihe.getVerleiherName() + "?amount=" + ausleihe.getArtikel().getKaution());
-            ausleihe.setProPayId(proPaySchnittstelle.getEntity(ausleihe.getAusleihender()).letzteReservierung());
+            proPaySchnittstelle.post("account/" + kauf.getKaeufer() + "/transfer/" + kauf.getVerkaeufer() + "?amount=" + kauf.getArtikel().getPreis());
         }
-    }*/
-
-    @PostMapping("/account/{benutzername}/kaufanfragen")
-    @PreAuthorize("#benutzername == authentication.name")
-    public String kaufAkzeptiert(Model model, @PathVariable String benutzername, Long id, String accepted) {
-        Kauf kauf = kaufRepository.findById(id).get();
-        if("angenommen".equals(accepted)) kauf.setAccepted(true);
-        if("abgelehnt".equals(accepted)) kauf.setAccepted(false);
-        messageRepository.save(new Message(kauf, accepted));
-        model.addAttribute("link", "account/" + benutzername + "/anfragenuebersicht");
-        return "backToTheFuture";
     }
 }

@@ -14,7 +14,6 @@ public class Kauf {
     @OneToOne
     private ArtikelKaufen artikel;
     private String verkaeufer;
-    private boolean accepted = false;
     private Long proPayId;
 
     public Kauf(){}

@@ -1,6 +1,8 @@
 package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.ArtikelRepository;
+import de.trawizardsOfJava.mail.Message;
+import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.Artikel;
 import de.trawizardsOfJava.model.Verfuegbarkeit;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +26,13 @@ import java.util.ArrayList;
 @Controller
 public class ArtikelController {
 	private ArtikelRepository artikelRepository;
+	private MessageRepository messageRepository;
 	private static final String ALTERNATIVE_PHOTO = "kein-bild-vorhanden.jpg";
 
 	@Autowired
-	public ArtikelController(ArtikelRepository artikelRepository) {
+	public ArtikelController(ArtikelRepository artikelRepository, MessageRepository messageRepository) {
 		this.artikelRepository = artikelRepository;
+		this.messageRepository = messageRepository;
 	}
 
 	@ModelAttribute
@@ -42,6 +46,7 @@ public class ArtikelController {
 	@PreAuthorize("#benutzername == authentication.name")
 	public String erstelleArtikel(Model model, @PathVariable String benutzername) {
 		model.addAttribute("artikel", new Artikel());
+		messageRepository.save(new Message(benutzername, "eingestellt"));
 		return "artikelErstellung";
 	}
 

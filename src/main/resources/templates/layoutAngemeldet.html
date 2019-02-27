@@ -15,6 +15,10 @@
 		.profil-pic {
 			border-radius: 50%;
 		}
+
+		.img-top {
+			margin-top: 8px;
+		}
 	</style>
 	<title layout:title-pattern="$CONTENT_TITLE">Leih24</title>
 </head>
@@ -48,7 +52,7 @@
 			</div>
 		</li>
 		<li class="nav-item">
-			<img id="post" class="messages" src="../static/images/post.png" th:src="@{/images/post.png}"
+			<img id="post" class="messages img-top" src="../static/images/post.png" th:src="@{/images/post.png}"
 			height="25" width="auto" onmouseover="onHover();" onmouseout="offHover();" onclick="openchat()"/>
 		</li>
 		<li class="nav-item">

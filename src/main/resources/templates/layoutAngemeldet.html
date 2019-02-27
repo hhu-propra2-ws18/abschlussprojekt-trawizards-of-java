@@ -15,6 +15,10 @@
 		.profil-pic {
 			border-radius: 50%;
 		}
+
+		.img-top {
+			margin-top: 8px;
+		}
 	</style>
 	<link rel="shortcut icon" type="image/x-icon"
 		  href="https://www.cs.hhu.de/fileadmin/redaktion/Fakultaeten/Mathematisch-Naturwissenschaftliche_Fakultaet/Informatik/Softwaretechnik_Programmiersprachen/250px-Team-Bendisposto.jpg">
@@ -50,8 +54,8 @@
 			</div>
 		</li>
 		<li class="nav-item">
-			<img id="post" class="messages" src="../static/images/post.png" th:src="@{/images/post.png}"
-				 height="25" width="auto" onmouseover="onHover();" onmouseout="offHover();" onclick="openchat()"/>
+			<img id="post" class="messages img-top" src="../static/images/post.png" th:src="@{/images/post.png}"
+			height="25" width="auto" onmouseover="onHover();" onmouseout="offHover();" onclick="openchat()"/>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link" href='/logout'>Abmelden</a>

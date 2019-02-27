@@ -1,6 +1,7 @@
 package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.ArtikelRepository;
+import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.Artikel;
 import de.trawizardsOfJava.model.Verfuegbarkeit;
 import de.trawizardsOfJava.security.SecurityPersonenService;
@@ -33,6 +34,9 @@ public class ArtikelControllerTest {
 
 	@MockBean
 	ArtikelRepository artikelRepository;
+
+	@MockBean
+	MessageRepository messageRepository;
 
 	@MockBean
 	SecurityPersonenService securityPersonenService;

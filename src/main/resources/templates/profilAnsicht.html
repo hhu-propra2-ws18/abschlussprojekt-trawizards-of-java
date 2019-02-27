@@ -10,6 +10,9 @@
 <body onload="callAlert(), neueNachricht(), gimmeTitle()">
 <h1 layout:fragment="titel" th:text="'Profil von ' +${person.benutzername}"></h1>
 <div layout:fragment="inhalt">
+	<div class="alert alert-info" role="alert" id="nachricht">
+		Sie haben Nachrichten in Ihrem Postfach!
+	</div>
 	<div id="topButton" th:if="${isUser}">
 		<a th:href="@{/account/{benutzername}/bearbeitung (benutzername=${person.benutzername})}">
 			<button type="button" class="btn btn-outline-dark">Profil bearbeiten</button>
@@ -50,7 +53,6 @@
 		<button class="btn btn-outline-dark" onclick="openchatin()">Chatten</button>
 	</div>
 	<hr>
-
 	<div class="row">
 		<div class="col-md-12" align="center">
 			<p th:if="${#lists.isEmpty(artikel)}">Keine Artikel vorhanden!</p>
@@ -113,9 +115,11 @@
         function neueNachricht() {
 
             var nachricht = /*[[${nachricht}]]*/ 'default';
+			var textfeld = document.getElementById("nachricht");
+            textfeld.style.display = "none";
 
             if (nachricht === 'true') {
-                alert('Sie haben Nachrichten in Ihrem Postfach!');
+                textfeld.style.display = "block";
             }
 
         }

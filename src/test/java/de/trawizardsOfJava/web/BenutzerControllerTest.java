@@ -65,6 +65,9 @@ public class BenutzerControllerTest {
 	@MockBean
 	SecurityPersonenService securityPersonenService;
 
+	@MockBean
+	BewertungRepository bewertungRepository;
+
 	@Test
 	@WithMockUser(username = "foo", authorities = "ROLE_USER")
 	public void benutzerprofil() throws Exception {

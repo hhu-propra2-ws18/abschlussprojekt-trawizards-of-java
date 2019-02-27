@@ -47,7 +47,9 @@
 				<button type=submit class="btn btn-outline-success">Bestätigen</button>
 			</form>
 		</div>
-		<p th:if="${proPayError}" style="color: red">ProPay ist zurzeit nicht erreichbar. Versuchen Sie es später nochmal.</p>
+		<div th:if="${proPayError}" class="alert alert-danger" role="alert">
+			ProPay ist zurzeit nicht erreichbar. Versuchen Sie es später nochmal.
+		</div>
 	</div>
 	<div th:unless="${isUser}">
 		<button class="btn btn-outline-dark" onclick="openchatin()">Chatten</button>

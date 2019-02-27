@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="de" layout:decorate="~{layoutAngemeldet}" xmlns:th="http://www.w3.org/1999/xhtml"
+	  xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<title>Bewertung abgeben</title>
+
+	<link rel="stylesheet" type="text/css" href="../static/css/design.css" th:href="@{/css/design.css}"/>
+</head>
+<body>
+<div layout:fragment="inhalt">
+	<div class="card text-center">
+		<h5 class="card-header">
+			Geben Sie Ihre Bewertung ab:
+		</h5>
+		<div class="card-body">
+			<div class="col-md-12">
+				<form method="post" th:object="${bewertung}">
+				<div class="group">
+					<label class="col-sm-2 col-form-label mr-5">Überschrift: </label>
+					<input type="text" class="form-control ml-5"  th:field="*{ueberschrift}" placeholder="Überschrift" required style="display:inline-block;"><br>
+				</div>
+				<div class="group">
+					<label class="col-sm-2 col-form-label mr-5">Bewertung:</label>
+					<textarea class="autoExpand form-control ml-5" cols="50" maxlength="255" type="text" th:field="*{text}"
+				   		placeholder="Beschreibung" }></textarea>
+				</div>
+					<input type="submit" value="Bestätigen" class="btn btn-outline-success"/>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

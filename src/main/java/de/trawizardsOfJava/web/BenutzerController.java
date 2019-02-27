@@ -3,7 +3,9 @@ package de.trawizardsOfJava.web;
 import de.trawizardsOfJava.data.*;
 import de.trawizardsOfJava.mail.Message;
 import de.trawizardsOfJava.mail.MessageRepository;
+import de.trawizardsOfJava.model.Artikel;
 import de.trawizardsOfJava.model.Ausleihe;
+import de.trawizardsOfJava.model.Bewertung;
 import de.trawizardsOfJava.model.Person;
 import de.trawizardsOfJava.proPay.IProPaySchnittstelle;
 import de.trawizardsOfJava.proPay.ProPay;
@@ -27,10 +29,12 @@ public class BenutzerController {
 	private AusleiheRepository ausleiheRepository;
 	private RueckgabeRepository rueckgabeRepository;
 	private MessageRepository messageRepository;
+	private BewertungRepository bewertungRepository;
 	private IProPaySchnittstelle proPaySchnittstelle;
 	//private IMailService iMailService;
 	private KaufRepository kaufRepository;
 	private ArtikelKaufenRepository artikelKaufenRepository;
+
 
 	@Autowired
 	public BenutzerController(BenutzerRepository benutzerRepository, ArtikelRepository artikelRepository,
@@ -43,6 +47,7 @@ public class BenutzerController {
 		this.rueckgabeRepository = rueckgabeRepository;
 		this.messageRepository = messageRepository;
 		this.proPaySchnittstelle = proPaySchnittstelle;
+		this.bewertungRepository = bewertungRepository;
 		//this.iMailService = iMailService;
 		this.kaufRepository = kaufRepository;
 		this.artikelKaufenRepository = artikelKaufenRepository;
@@ -115,6 +120,36 @@ public class BenutzerController {
 		model.addAttribute("link", "account/" + person.getBenutzername());
 		return "backToTheFuture";
 	}
+
+
+	@GetMapping("/account/{benutzername}/bewerten")
+	public String bewertungen(Model model, @PathVariable String benutzername) {
+		//System.out.println("alle Bewertungen " + bewertungRepository.findAll());
+		model.addAttribute("person", benutzerRepository.findByBenutzername(benutzername).get());
+		model.addAttribute("bewertung", bewertungRepository.findByBewertungFuer(benutzername));
+		return "bewertungen";
+	}
+
+	@GetMapping("/account/{benutzername}/bewerten/verfassen")
+	public String bewertungenVerfassen(Model model, @PathVariable String benutzername) {
+		model.addAttribute("bewertung", new Bewertung());
+		//System.out.println("alle Bewertungen " + bewertungRepository.findAll());
+		return "bewertungErstellen";
+	}
+
+	@PostMapping("/account/{benutzername}/bewerten/verfassen")
+	public String speichereBewertungen(@PathVariable String benutzername, Bewertung bewertung, Principal principal) {
+
+		bewertung.setBewertungFuer(benutzername);
+		bewertung.setBewertungVon(principal.getName());
+		bewertungRepository.save(bewertung);
+
+		System.out.println("BewertungenSpeichern " +  bewertung);
+
+		return "redirect:/account/{benutzername}/bewerten";
+	}
+
+
 
 	@GetMapping("/account/{benutzername}/transaktionUebersicht")
 	@PreAuthorize("#benutzername == authentication.name")

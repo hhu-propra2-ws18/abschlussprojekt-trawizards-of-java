@@ -2,6 +2,7 @@ package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.ArtikelRepository;
 import de.trawizardsOfJava.data.AusleiheRepository;
+import de.trawizardsOfJava.data.KaufRepository;
 import de.trawizardsOfJava.proPay.IProPaySchnittstelle;
 import de.trawizardsOfJava.data.RueckgabeRepository;
 import de.trawizardsOfJava.mail.Message;
@@ -29,16 +30,18 @@ public class AusleihController {
 	private RueckgabeRepository rueckgabeRepository;
 	private MessageRepository messageRepository;
 	private IProPaySchnittstelle proPaySchnittstelle;
+	private KaufRepository kaufRepository;
 
 	@Autowired
 	public AusleihController(ArtikelRepository artikelRepository, AusleiheRepository ausleiheRepository,
 							 RueckgabeRepository rueckgabeRepository, MessageRepository messageRepository,
-							 IProPaySchnittstelle proPaySchnittstelle) {
+							 IProPaySchnittstelle proPaySchnittstelle, KaufRepository kaufRepository) {
 		this.artikelRepository = artikelRepository;
 		this.ausleiheRepository = ausleiheRepository;
 		this.messageRepository = messageRepository;
 		this.rueckgabeRepository = rueckgabeRepository;
 		this.proPaySchnittstelle = proPaySchnittstelle;
+		this.kaufRepository = kaufRepository;
 	}
 
 	@ModelAttribute
@@ -85,14 +88,15 @@ public class AusleihController {
 		return "backToTheFuture";
 	}
 
-	@GetMapping("/account/{benutzername}/ausleihenuebersicht")
+	@GetMapping("/account/{benutzername}/anfragenuebersicht")
 	@PreAuthorize("#benutzername == authentication.name")
 	public String ausleihenUebersicht(Model model, @PathVariable String benutzername) {
+		model.addAttribute("kaufen", kaufRepository.findByVerkaeufer(benutzername));
 		model.addAttribute("ausleihen", ausleiheRepository.findByVerleiherName(benutzername));
-		return "ausleihenUebersicht";
+		return "anfragenUebersicht";
 	}
 
-	@PostMapping("/account/{benutzername}/ausleihenuebersicht")
+	@PostMapping("/account/{benutzername}/anfragenuebersicht")
 	@PreAuthorize("#benutzername == authentication.name")
 	public String verwalteAusleihen(Model model, @PathVariable String benutzername, String art, Long id) {
 		Ausleihe ausleihe = ausleiheRepository.findById(id).get();
@@ -151,7 +155,6 @@ public class AusleihController {
 		if (!proPaySchnittstelle.ping()){
 			model.addAttribute("proPayError", true);
 			return rueckgabenUebersicht(model, benutzername);
-
 		}
 		Rueckgabe rueckgabe = rueckgabeRepository.findById(id).get();
 		rueckgabe.setAngenommen(true);

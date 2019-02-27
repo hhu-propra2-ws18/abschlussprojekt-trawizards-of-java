@@ -24,7 +24,7 @@
 
 <body>
 <div layout:fragment="inhalt">
-	<div class="card text-center">
+	<div class="card text-center" th:if="${!verkaufen}">
 		<h5 class="card-header" th:text="'Artikel: ' +${artikelDetail.artikelName}"></h5>
 
 		<div class="card-body">
@@ -52,6 +52,30 @@
 			</a>
 			<br>
 		</div>
+	</div>
+	<div class="card text-center" th:if="${verkaufen}">
+		<h5 class="card-header" th:text="'Artikel: ' +${artikelDetail.artikelName}"></h5>
+		<div class="card-body">
+			<p style="display:inline-block;">Verkäufer:&nbsp;</p>
+			<a th:href="@{/account/{benutzername} (benutzername=${artikelDetail.verkaeufer})}"
+			   style="display:inline-block;">
+				<p th:text="${artikelDetail.verkaeufer}"></p>
+			</a>
+			<p th:text="'Beschreibung: ' +${artikelDetail.beschreibung}"></p>
+			<p th:text="'Standort: ' +${artikelDetail.standort}"></p>
+			<p th:text="'Preis: ' +${artikelDetail.preis} + '&euro;'"></p>
+			<a th:href="@{/detail/{id}/foto (id=${photoId})}">
+				<button type="button" class="btn btn-outline-success">Foto</button>
+			</a>
+			<a th:if="${angemeldet}"
+			   th:href="@{/account/{benutzername}/artikel/{id}/kaufen (id=${artikelDetail.id},benutzername=${name})}">
+				<button type="button" class="btn btn-outline-success">Kaufen</button>
+			</a>
+			<iframe th:src="@{http://maps.google.com/maps?q={loc}&output=embed (loc=${artikelDetail.standort})}"
+					width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+			<br>
+		</div>
+	</div>
 		<div class="card-footer">
 			<a href='/'>
 				<button type="button" class="btn btn-outline-danger">Zurück</button>

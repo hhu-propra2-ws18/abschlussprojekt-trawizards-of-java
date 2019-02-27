@@ -10,16 +10,14 @@ import java.util.ArrayList;
 
 @Data
 @Entity
-public class Artikel {
+public class ArtikelKaufen {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private String verleiherBenutzername;
+	private String verkaeufer;
 	private String artikelName;
 	private String beschreibung;
 	private String standort;
 	private int preis;
-	private int kaution;
-	private Verfuegbarkeit verfuegbarkeit;
 	private ArrayList<String> fotos;
 }

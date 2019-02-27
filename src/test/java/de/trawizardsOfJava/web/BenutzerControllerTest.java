@@ -54,6 +54,12 @@ public class BenutzerControllerTest {
 	IProPaySchnittstelle proPaySchnittstelle;
 
 	@MockBean
+	KaufRepository kaufRepository;
+
+	@MockBean
+	ArtikelKaufenRepository artikelKaufenRepository;
+
+	@MockBean
 	IMailService iMailService;
 
 	@MockBean

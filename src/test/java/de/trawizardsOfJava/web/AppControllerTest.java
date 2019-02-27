@@ -37,6 +37,9 @@ public class AppControllerTest {
 	ArtikelRepository artikelRepository;
 
 	@MockBean
+	ArtikelKaufenRepository artikelKaufenRepository;
+
+	@MockBean
 	SecurityPersonenService securityPersonenService;
 
 	@Test

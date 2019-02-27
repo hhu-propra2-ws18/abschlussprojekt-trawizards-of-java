@@ -6,28 +6,44 @@
 </head>
 
 <body>
-<h1 layout:fragment="titel">Konflikte in meiner Bearbeitung:</h1>
 <div layout:fragment="inhalt">
-	<p th:if="${#lists.isEmpty(meineKonflikte)}">Keine Konflikte vorhanden!</p>
-	<div th:each="konflikt : ${meineKonflikte}">
-		<p th:text="|Absender: ${konflikt.rueckgabe.verleiherName}|"></p>
-		<p th:text="|Verursacher: ${konflikt.rueckgabe.ausleihender}|"></p>
-		<p th:text="|Beschreibung: ${konflikt.beschreibung}|"></p>
-		<p th:text="|Artikel: ${konflikt.rueckgabe.artikel.artikelName}|"></p>
-		<a th:href="@{/admin/konflikte/{id} (id=${konflikt.id})}">
-			<button name="button" class="btn btn-outline-success">Details</button>
-		</a>
+	<div class="card text-center">
+		<h5 class="card-header">
+			Konflikte in meiner Bearbeitung:
+		</h5>
+		<div class="card-body">
+			<p th:if="${#lists.isEmpty(meineKonflikte)}">Keine Konflikte vorhanden!</p>
+			<div th:each="konflikt : ${meineKonflikte}">
+				<li class="list-group-item">
+					<p th:text="|Absender: ${konflikt.rueckgabe.verleiherName}|"></p>
+					<p th:text="|Verursacher: ${konflikt.rueckgabe.ausleihender}|"></p>
+					<p th:text="|Beschreibung: ${konflikt.beschreibung}|"></p>
+					<p th:text="|Artikel: ${konflikt.rueckgabe.artikel.artikelName}|"></p>
+					<a th:href="@{/admin/konflikte/{id} (id=${konflikt.id})}">
+						<button name="button" class="btn btn-outline-success">Details</button>
+					</a>
+				</li>
+			</div>
+		</div>
 	</div>
-	<h1 align="center">Offene Konflikte:</h1>
-	<p th:if="${#lists.isEmpty(offeneKonflikte)}">Keine Konflikte vorhanden!</p>
-	<div th:each="konflikt : ${offeneKonflikte}">
-		<p th:text="|Absender: ${konflikt.rueckgabe.verleiherName}|"></p>
-		<p th:text="|Verursacher: ${konflikt.rueckgabe.ausleihender}|"></p>
-		<p th:text="|Beschreibung: ${konflikt.beschreibung}|"></p>
-		<p th:text="|Artikel: ${konflikt.rueckgabe.artikel.artikelName}|"></p>
-		<a th:href="@{/admin/konflikte/{id} (id=${konflikt.id})}">
-			<button name="button" class="btn btn-outline-success">Konflikt bearbeiten</button>
-		</a>
+	<div class="card text-center mt-3">
+		<h5 class="card-header">
+			Offene Konflikte:
+		</h5>
+		<div class="card-body">
+			<p th:if="${#lists.isEmpty(offeneKonflikte)}">Keine Konflikte vorhanden!</p>
+			<div th:each="konflikt : ${offeneKonflikte}">
+				<li class="list-group-item">
+					<p th:text="|Absender: ${konflikt.rueckgabe.verleiherName}|"></p>
+					<p th:text="|Verursacher: ${konflikt.rueckgabe.ausleihender}|"></p>
+					<p th:text="|Beschreibung: ${konflikt.beschreibung}|"></p>
+					<p th:text="|Artikel: ${konflikt.rueckgabe.artikel.artikelName}|"></p>
+					<a th:href="@{/admin/konflikte/{id} (id=${konflikt.id})}">
+						<button name="button" class="btn btn-outline-success">Konflikt bearbeiten</button>
+					</a>
+				</li>
+			</div>
+		</div>
 	</div>
 </div>
 </body>

@@ -6,12 +6,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.ArrayList;
 
 @Data
 @Entity
 public class Artikel {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String verleiherBenutzername;
 	private String artikelName;
@@ -20,5 +21,5 @@ public class Artikel {
 	private int preis;
 	private int kaution;
 	private Verfuegbarkeit verfuegbarkeit;
-	private boolean verleihen = true;
+	private ArrayList<String> fotos;
 }

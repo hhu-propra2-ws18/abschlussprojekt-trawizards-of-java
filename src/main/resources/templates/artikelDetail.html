@@ -3,13 +3,32 @@
 	  xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
 	<title th:text="'Artikel: ' +${artikelDetail.artikelName}"></title>
+
+
+	<style>
+		div.gallery {
+			margin: 5px;
+			border: 1px solid #ccc;
+			float: left;
+			width: 180px;
+		}
+		div.gallery:hover {
+			border: 2px solid #777;
+		}
+		div.gallery img {
+			width: 100%;
+			height: auto;
+		}
+	</style>
 </head>
 
 <body>
 <div layout:fragment="inhalt">
-	<div class="card text-center">
+	<div class="card text-center" th:if="${!verkaufen}">
 		<h5 class="card-header" th:text="'Artikel: ' +${artikelDetail.artikelName}"></h5>
+
 		<div class="card-body">
+
 			<p style="display:inline-block;">Verleiher:&nbsp;</p>
 			<a th:href="@{/account/{benutzername} (benutzername=${artikelDetail.verleiherBenutzername})}" style="display:inline-block;">
 				<p th:text="${artikelDetail.verleiherBenutzername}"></p>
@@ -20,19 +39,43 @@
 			<p th:text="'Kaution: ' +${artikelDetail.kaution} + '&euro;'"></p>
 			<p th:text="'Verfügbar von: ' +${artikelDetail.verfuegbarkeit.startDate}"></p>
 			<p th:text="'Verfügbar bis: ' +${artikelDetail.verfuegbarkeit.endDate}"></p>
+			<a th:href="@{/detail/{id}/foto (id=${photoId})}">
+				<button type="button" class="btn btn-outline-success">Foto</button>
+			</a>
 			<a th:unless="${angemeldet}" th:href="@{/anmeldung}">
 				<button type="button" class="btn btn-outline-success">Ausleihen</button>
 			</a>
-			<a th:if="${angemeldet && artikelDetail.verleihen}"
+			<iframe th:src="@{http://maps.google.com/maps?q={loc}&output=embed (loc=${artikelDetail.standort})}" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+			<a th:if="${angemeldet}"
 			   th:href="@{/account/{benutzername}/artikel/{id}/anfrage (id=${artikelDetail.id},benutzername=${name})}">
 				<button type="button" class="btn btn-outline-success">Ausleihen</button>
 			</a>
-			<a th:if="${angemeldet && !artikelDetail.verleihen}" th:href="@{/account/{benutzername}/artikel/{id}/kaufen (id=${artikelDetail.id},benutzername=${name})}">
-				<button type="button" class="btn btn-outline-success">Kaufen</button>
-			</a>
-			<iframe th:src="@{http://maps.google.com/maps?q={loc}&output=embed (loc=${artikelDetail.standort})}" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
 			<br>
 		</div>
+	</div>
+	<div class="card text-center" th:if="${verkaufen}">
+		<h5 class="card-header" th:text="'Artikel: ' +${artikelDetail.artikelName}"></h5>
+		<div class="card-body">
+			<p style="display:inline-block;">Verkäufer:&nbsp;</p>
+			<a th:href="@{/account/{benutzername} (benutzername=${artikelDetail.verkaeufer})}"
+			   style="display:inline-block;">
+				<p th:text="${artikelDetail.verkaeufer}"></p>
+			</a>
+			<p th:text="'Beschreibung: ' +${artikelDetail.beschreibung}"></p>
+			<p th:text="'Standort: ' +${artikelDetail.standort}"></p>
+			<p th:text="'Preis: ' +${artikelDetail.preis} + '&euro;'"></p>
+			<a th:href="@{/detail/{id}/foto (id=${photoId})}">
+				<button type="button" class="btn btn-outline-success">Foto</button>
+			</a>
+			<a th:if="${angemeldet}"
+			   th:href="@{/account/{benutzername}/artikel/{id}/kaufen (id=${artikelDetail.id},benutzername=${name})}">
+				<button type="button" class="btn btn-outline-success">Kaufen</button>
+			</a>
+			<iframe th:src="@{http://maps.google.com/maps?q={loc}&output=embed (loc=${artikelDetail.standort})}"
+					width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+			<br>
+		</div>
+	</div>
 		<div class="card-footer">
 			<a href='/'>
 				<button type="button" class="btn btn-outline-danger">Zurück</button>

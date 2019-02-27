@@ -1,10 +1,12 @@
 package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.*;
+import de.trawizardsOfJava.mail.Message;
 import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.Ausleihe;
 import de.trawizardsOfJava.model.Person;
 import de.trawizardsOfJava.proPay.IProPaySchnittstelle;
+import de.trawizardsOfJava.proPay.ProPay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -59,10 +61,14 @@ public class BenutzerController {
 		model.addAttribute("artikel", artikelRepository.findByVerleiherBenutzername(benutzername));
 		model.addAttribute("artikelKaufen", artikelKaufenRepository.findByVerkaeufer(benutzername));
 		model.addAttribute("isUser", benutzername.equals(principal.getName()));
-		model.addAttribute("proPay", proPaySchnittstelle.getEntity(benutzername));
+		ProPay proPay = proPaySchnittstelle.getEntity(benutzername);
+		model.addAttribute("proPayError", !proPaySchnittstelle.ping());
+		model.addAttribute("proPay", proPay);
 		model.addAttribute("angemeldet", true);
 		model.addAttribute("aktuelleSeite", "Profil");
+		model.addAttribute("empfaenger", benutzername);
 		findeFaelligeAusleihe(model, ausleiheRepository.findByAusleihender(benutzername));
+		neueNachricht(model, messageRepository.findByEmpfaenger(benutzername));
 		return "profilAnsicht";
 	}
 
@@ -76,6 +82,14 @@ public class BenutzerController {
 				model.addAttribute("verleiherName", ausleihe.getVerleiherName());
 			}
 		}
+	}
+
+
+	private void neueNachricht(Model model, ArrayList<Message> nachrichten) {
+		for (Message message : nachrichten) {
+				model.addAttribute("nachricht", "true");
+		}
+
 	}
 
 	@PostMapping("/account/{benutzername}")

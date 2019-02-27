@@ -2,6 +2,7 @@ package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.ArtikelKaufenRepository;
 import de.trawizardsOfJava.data.ArtikelRepository;
+import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.Artikel;
 import de.trawizardsOfJava.model.Verfuegbarkeit;
 import de.trawizardsOfJava.security.SecurityPersonenService;
@@ -15,6 +16,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -35,6 +37,7 @@ public class ArtikelControllerTest {
 
 	@MockBean
 	ArtikelKaufenRepository artikelKaufenRepository;
+	MessageRepository messageRepository;
 
 	@MockBean
 	SecurityPersonenService securityPersonenService;
@@ -50,6 +53,7 @@ public class ArtikelControllerTest {
 		test.setVerfuegbarkeit(new Verfuegbarkeit("22/02/2019 - 22/02/2019"));
 		test.setBeschreibung("Schaufel");
 		test.setStandort("foo");
+		test.setFotos(new ArrayList<String>());
 
 		mvc.perform(post("/account/foo/erstelleArtikel")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)

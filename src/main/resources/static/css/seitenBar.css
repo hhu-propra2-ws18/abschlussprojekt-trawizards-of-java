@@ -1,0 +1,45 @@
+.bar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #43464b;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 20px;
+}
+
+.bar a{
+    padding: 4px 4px 4px 4px;
+    color: #f0f0f0;
+    display: block;
+    transition: 0.3s;
+    border-radius: 20px;
+    font-size: 25px;
+    margin-left: 5px;
+    margin-right: 5px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.bar a:hover{
+    color: #5d636c;
+    background-color: #c8c8c8;
+}
+
+.bar .schliessen{
+    position: absolute;
+    top: 2px;
+    right: 10px;
+    margin-left: 30px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.bar .schliessen:hover{
+    background-color: #c8c8c8;
+    color: black;
+}

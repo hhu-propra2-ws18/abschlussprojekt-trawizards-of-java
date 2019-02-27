@@ -10,19 +10,27 @@
 </head>
 
 <body>
-<h1 layout:fragment="titel">Für welchen Zeitraum möchten Sie den Artikel ausleihen?</h1>
 <div layout:fragment="inhalt">
-	<div class="col-md-4">
-		<form name="f" method="post">
-			<p th:if="${error}">Sie haben nicht genügend Geld auf Ihrem ProPay-Konto!</p>
-			<input type="text" class="form-control" name="daterange" min="#today"/> <br>
-			<br>
-			<input type="submit" value="Bestätigen" class="btn btn-outline-success"/>
-		</form>
-		<a href='/'>
-			<button name="button" class="btn btn-outline-danger">Abbrechen</button>
-		</a>
-	</div>
+	<div class="card text-center">
+		<h5 class="card-header">
+			Für welchen Zeitraum möchten Sie den Artikel ausleihen?
+		</h5>
+		<div class="card-body" align="center">
+			<div class="col-md-4">
+				<form name="f" method="post">
+					<p th:if="${error}" style="color: red">Sie haben nicht genügend Geld auf Ihrem ProPay-Konto!</p>
+					<p th:if="${proPayError}" style="color: red">ProPay ist derzeit nicht erreichbar. Versuchen sie es später erneut.</p>
+					<input type="text" class="form-control" name="daterange" min="#today"/> <br>
+					<br>
+					<input type="submit" value="Bestätigen" class="btn btn-outline-success"/>
+				</form>
+			</div>
+		</div>
+		<div class="card-footer text-muted">
+			<a th:href="@{/detail/{id} (id=${id})}">
+				<button name="button" class="btn btn-outline-danger">Abbrechen</button>
+			</a>
+		</div>
 
 	<script th:inline="javascript">
         $(function () {

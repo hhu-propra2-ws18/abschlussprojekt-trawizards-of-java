@@ -48,10 +48,10 @@ public class VerkaufController {
     @PreAuthorize("#benutzername == authentication.name")
     public String kaufen(Model model, @PathVariable("benutzername") String benutzername, @PathVariable("id") Long id){
         Kauf kauf = new Kauf(artikelKaufenRepository.findById(id).get(), benutzername);
-        if (!proPaySchnittstelle.getEntity(benutzername).genuegendGeld(Long.valueOf(kauf.getArtikel().getPreis()), ausleiheRepository.findByAusleihenderAndAccepted(benutzername, false))) {
+        /*if (!proPaySchnittstelle.getEntity(benutzername).genuegendGeld(Long.valueOf(kauf.getArtikel().getPreis()), ausleiheRepository.findByAusleihenderAndAccepted(benutzername, false))) {
             model.addAttribute("error", true);
             return "/"; //Bei zu wenig Geld
-        }
+        }*/
         kaufRepository.save(kauf);
         messageRepository.save(new Message(kauf, "angefragt"));
         messageRepository.save(new Message(kauf, "angefragtVerkäufer"));

@@ -33,8 +33,7 @@ public class ArtikelController {
 	private static final String ALTERNATIVE_PHOTO = "kein-bild-vorhanden.jpg";
 
 	@Autowired
-	public ArtikelController(ArtikelRepository artikelRepository, ArtikelKaufenRepository artikelKaufenRepository) {
-	public ArtikelController(ArtikelRepository artikelRepository, MessageRepository messageRepository) {
+	public ArtikelController(ArtikelRepository artikelRepository, MessageRepository messageRepository, ArtikelKaufenRepository artikelKaufenRepository) {
 		this.artikelRepository = artikelRepository;
 		this.artikelKaufenRepository = artikelKaufenRepository;
 		this.messageRepository = messageRepository;

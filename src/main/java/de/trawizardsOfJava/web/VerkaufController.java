@@ -22,58 +22,58 @@ import java.security.Principal;
 
 @Controller
 public class VerkaufController {
-    private IProPaySchnittstelle proPaySchnittstelle;
-    private AusleiheRepository ausleiheRepository;
-    private KaufRepository kaufRepository;
-    private MessageRepository messageRepository;
-    private ArtikelKaufenRepository artikelKaufenRepository;
+	private IProPaySchnittstelle proPaySchnittstelle;
+	private AusleiheRepository ausleiheRepository;
+	private KaufRepository kaufRepository;
+	private MessageRepository messageRepository;
+	private ArtikelKaufenRepository artikelKaufenRepository;
 
-    @Autowired
-    public VerkaufController(MessageRepository messageRepository, ProPaySchnittstelle proPaySchnittstelle, AusleiheRepository ausleiheRepository, KaufRepository kaufRepository, ArtikelKaufenRepository artikelKaufenRepository) {
-        this.proPaySchnittstelle = proPaySchnittstelle;
-        this.ausleiheRepository = ausleiheRepository;
-        this.kaufRepository = kaufRepository;
-        this.messageRepository = messageRepository;
-        this.artikelKaufenRepository = artikelKaufenRepository;
-    }
+	@Autowired
+	public VerkaufController(MessageRepository messageRepository, ProPaySchnittstelle proPaySchnittstelle, AusleiheRepository ausleiheRepository, KaufRepository kaufRepository, ArtikelKaufenRepository artikelKaufenRepository) {
+		this.proPaySchnittstelle = proPaySchnittstelle;
+		this.ausleiheRepository = ausleiheRepository;
+		this.kaufRepository = kaufRepository;
+		this.messageRepository = messageRepository;
+		this.artikelKaufenRepository = artikelKaufenRepository;
+	}
 
-    @ModelAttribute
-    public void benutzername(Model model, Principal principal) {
-        if (principal != null) {
-            model.addAttribute("name", principal.getName());
-        }
-    }
+	@ModelAttribute
+	public void benutzername(Model model, Principal principal) {
+		if (principal != null) {
+			model.addAttribute("name", principal.getName());
+		}
+	}
 
-    @GetMapping("/account/{benutzername}/artikel/{id}/kaufen")
-    @PreAuthorize("#benutzername == authentication.name")
-    public String kaufen(Model model, @PathVariable String benutzername, @PathVariable Long id){
-        return "kauf";
-    }
+	@GetMapping("/account/{benutzername}/artikel/{id}/kaufen")
+	@PreAuthorize("#benutzername == authentication.name")
+	public String kaufen(Model model, @PathVariable String benutzername, @PathVariable Long id){
+		return "kauf";
+	}
 
-    @PostMapping("/account/{benutzername}/artikel/{id}/kaufen")
-    @PreAuthorize("#benutzername == authentication.name")
-    public String bestaetigeKauf(Model model, @PathVariable String benutzername, @PathVariable Long id){
-        if (!proPaySchnittstelle.ping()){
-            model.addAttribute("proPayError", true);
-            return kaufen(model, benutzername, id);
-        }
-        Kauf kauf = new Kauf(artikelKaufenRepository.findById(id).get(), benutzername);
-        if (!proPaySchnittstelle.getEntity(benutzername).genuegendGeld((long) kauf.getArtikel().getPreis(), ausleiheRepository.findByAusleihenderAndAccepted(benutzername, false))) {
-            model.addAttribute("error", true);
-            return kaufen(model, benutzername, id);
-        }
-        kaufRepository.save(kauf);
-        bezahlvorgang(kauf);
-        artikelKaufenRepository.delete(kauf.getArtikel());
-        messageRepository.save(new Message(kauf, "kaeufer"));
-        messageRepository.save(new Message(kauf, "verkaeufer"));
-        model.addAttribute("link", "");
-        return "backToTheFuture";
-    }
+	@PostMapping("/account/{benutzername}/artikel/{id}/kaufen")
+	@PreAuthorize("#benutzername == authentication.name")
+	public String bestaetigeKauf(Model model, @PathVariable String benutzername, @PathVariable Long id){
+		if (!proPaySchnittstelle.ping()){
+			model.addAttribute("proPayError", true);
+			return kaufen(model, benutzername, id);
+		}
+		Kauf kauf = new Kauf(artikelKaufenRepository.findById(id).get(), benutzername);
+		if (!proPaySchnittstelle.getEntity(benutzername).genuegendGeld((long) kauf.getArtikel().getPreis(), ausleiheRepository.findByAusleihenderAndAccepted(benutzername, false))) {
+			model.addAttribute("error", true);
+			return kaufen(model, benutzername, id);
+		}
+		kaufRepository.save(kauf);
+		bezahlvorgang(kauf);
+		artikelKaufenRepository.delete(kauf.getArtikel());
+		messageRepository.save(new Message(kauf, "kaeufer"));
+		messageRepository.save(new Message(kauf, "verkaeufer"));
+		model.addAttribute("link", "");
+		return "backToTheFuture";
+	}
 
-    private void bezahlvorgang(Kauf kauf) {
-        if(!kauf.getVerkaeufer().equals(kauf.getKaeufer())) {
-            proPaySchnittstelle.post("account/" + kauf.getKaeufer() + "/transfer/" + kauf.getVerkaeufer() + "?amount=" + kauf.getArtikel().getPreis());
-        }
-    }
+	private void bezahlvorgang(Kauf kauf) {
+		if(!kauf.getVerkaeufer().equals(kauf.getKaeufer())) {
+			proPaySchnittstelle.post("account/" + kauf.getKaeufer() + "/transfer/" + kauf.getVerkaeufer() + "?amount=" + kauf.getArtikel().getPreis());
+		}
+	}
 }

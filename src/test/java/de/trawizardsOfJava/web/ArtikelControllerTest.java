@@ -37,7 +37,6 @@ public class ArtikelControllerTest {
 
 	@MockBean
 	ArtikelKaufenRepository artikelKaufenRepository;
-	MessageRepository messageRepository;
 
 	@MockBean
 	SecurityPersonenService securityPersonenService;

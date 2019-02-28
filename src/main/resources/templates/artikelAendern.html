@@ -19,7 +19,7 @@
 			Geben Sie die veränderten Daten des Artikels ein:
 		</h5>
 		<div class="card-body">
-			<div class="col-md-12">
+			<div class="col-md-12" th:if="${!verkaufen}">
 				<form method="post" th:object="${artikel}">
 					<div class="group">
 						<label class="col-sm-2 col-form-label mr-5">Name:</label>
@@ -48,6 +48,33 @@
 					</div>
 
 					<input type="hidden" th:field="*{verleiherBenutzername}">
+					<input type="hidden" th:field="*{id}">
+
+					<input type="submit" value="Bestätigen" class="btn btn-outline-success"/>
+				</form>
+
+			</div>
+			<div class="col-md-12" th:if="${verkaufen}">
+				<form method="post" th:object="${artikel}">
+					<div class="group">
+						<label class="col-sm-2 col-form-label mr-5">Name:</label>
+						<input type="text" class="form-control ml-5" th:field="*{artikelName}" placeholder="Artikelname" required><br>
+					</div>
+					<div class="group">
+						<label class="col-sm-2 col-form-label mr-5">Beschreibung:</label>
+						<textarea class="autoExpand form-control ml-5" cols="50" maxlength="255" type="text" th:field="*{beschreibung}"
+								  placeholder="Beschreibung" }></textarea>
+					</div>
+					<div class="group">
+						<label class="col-sm-2 col-form-label mr-5">Abholort:</label>
+						<input type="text" class="form-control ml-5" th:field="*{standort}" placeholder="Abholort" required/><br>
+					</div>
+					<div class="group">
+						<label class="col-sm-2 col-form-label mr-5">Preis:</label>
+						<input type="number" class="form-control ml-5" th:field="*{preis}" placeholder="Preis" required/><br>
+					</div>
+
+					<input type="hidden" th:field="*{verkaeufer}">
 					<input type="hidden" th:field="*{id}">
 
 					<input type="submit" value="Bestätigen" class="btn btn-outline-success"/>

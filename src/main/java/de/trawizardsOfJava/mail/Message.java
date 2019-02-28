@@ -31,6 +31,18 @@ public class Message {
 		this.empfaenger = artikel.getVerkaeufer();
 	}
 
+	public Message(Artikel artikel, String parameter) {
+		this.nachricht = "Der Artikel " + artikel.getArtikelName() + " wurde erfolgreich " + parameter;
+		this.absender = "System";
+		this.empfaenger = artikel.getVerleiherBenutzername();
+	}
+
+	public Message(ArtikelKaufen artikel, String parameter) {
+		this.nachricht = "Der Artikel " + artikel.getArtikelName() + " wurde erfolgreich " + parameter;
+		this.absender = "System";
+		this.empfaenger = artikel.getVerkaeufer();
+	}
+
 	public Message(Ausleihe ausleihe, String parameter) {
 		this.nachricht = "Anfrage von " + ausleihe.getAusleihender() + " um " + ausleihe.getArtikel().getArtikelName() + " auszuleihen, wurde " + parameter;
 		if("angefragt".equals(parameter)) {

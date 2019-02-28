@@ -13,7 +13,7 @@
 			<a class="schliessen" onclick="schliesseBar()">&times</a>
 			<div th:each="sitzung: ${sessions}">
 				<a th:href="@{/messenger/{benutzername}/{teilnehmer} (benutzername=${name},teilnehmer=${sitzung.id})}"
-				   th:text="${sitzung.toString()}"></a>
+				   th:text="${sitzung.toString(name)}"></a>
 			</div>
 		</div>
 

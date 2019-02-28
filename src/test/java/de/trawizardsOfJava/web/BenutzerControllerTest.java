@@ -4,6 +4,7 @@ import de.trawizardsOfJava.data.*;
 import de.trawizardsOfJava.mail.IMailService;
 import de.trawizardsOfJava.mail.Message;
 import de.trawizardsOfJava.mail.MessageRepository;
+import de.trawizardsOfJava.model.Bewertung;
 import de.trawizardsOfJava.model.Person;
 import de.trawizardsOfJava.proPay.IProPaySchnittstelle;
 import de.trawizardsOfJava.proPay.ProPay;
@@ -17,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -155,5 +155,25 @@ public class BenutzerControllerTest {
 		mvc.perform(post("/account/foo/nachrichten").contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("id", "" + message.getId()));
 		verify(messageRepository).delete(any(Message.class));
+	}
+
+	@Test
+	@WithMockUser(username = "foo")
+	public void bewertungSpeichern() throws Exception{
+		Bewertung bewertung = new Bewertung();
+		bewertung.setBewertungFuer("Peter");
+		bewertung.setBewertungVon("Hans");
+		bewertung.setText("Dies ist eine Testbewertung");
+		bewertung.setUeberschrift("Test-Bewertung");
+		bewertung.setId(1L);
+
+		when(bewertungRepository.findById(bewertung.getId())).thenReturn(Optional.of(bewertung));
+
+		mvc.perform(post("/account/foo/bewerten/verfassen").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("ueberschrift",bewertung.getUeberschrift())
+				.param("text",bewertung.getText()))
+				.andExpect(view().name("redirect:/account/{benutzername}/bewerten"));
+
+		verify(bewertungRepository).save(any(Bewertung.class));
 	}
 }

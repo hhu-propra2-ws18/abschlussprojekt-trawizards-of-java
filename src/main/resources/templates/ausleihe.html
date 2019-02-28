@@ -37,9 +37,8 @@
 		<script th:inline="javascript">
             $(function () {
                 $('input[name="daterange"]').daterangepicker({
-                    "autoApply": true,
+					"autoApply": true,
                     minDate: 0,
-                    disabledDates: [moment('19/02/2019', 'DD/MM/YYYY')],
                     locale: {
                         format: 'DD/MM/YYYY'
                     },
@@ -60,18 +59,22 @@
                         return false;
                     }
                 }, function (start, end, label) {
-                    console.log("Loggen");
                     /*<![CDATA[*/
+                    var prodVon = moment(/*[[${verfuegbar.getStartDate().toString()}]]*/, 'YYYY/MM/DD');
+                    var prodBis = moment(/*[[${verfuegbar.getEndDate().toString()}]]*/, 'YYYY/MM/DD');
+                    if (/*[[${#lists.isEmpty(ausleihen)}]]*/){
+                        document.getElementById("subBut").disabled = (start.isBefore(prodVon) || end.isAfter(prodBis));
+                    }
                     /*[# th:each="datum : ${daten}"]*/
                     var von = moment(/*[[${datum.startDate.toString()}]]*/, 'YYYY/MM/DD');
                     var bis = moment(/*[[${datum.endDate.toString()}]]*/, 'YYYY/MM/DD');
-                    var gestern = new Date();
-                    gestern.setDate(gestern.getDate() - 1);
-                    if (start.isBefore(von) && end.isAfter(bis || start.isBefore(gestern)))
+
+                    if ((start.isBefore(von) && end.isAfter(bis)) || start.isBefore(prodVon) || end.isAfter(prodBis)){
                         alert("Da Sie es ANSCHEINEND nicht verstanden haben, dass man keinen Zeitraum auswählen kann," +
-                            " indem ein ROTER Bereich markiert ist, muss ich Ihnen LEIDER mitteilen, dass Sie den Kalender ein" +
+                            " indem ein ROTER Bereich markiert ist, muss ich Ihnen LEIDER mitteilen, dass Sie d	en Kalender ein" +
                             " weiteres mal öffnen müssen und einen neuen Zeitraum wählen müssen. \n LG Ihr Leih24-Team");
-                    document.getElementById("subBut").disabled = (start.isBefore(von) && end.isAfter(bis) || start.isBefore(gestern));
+					}
+                    document.getElementById("subBut").disabled = ((start.isBefore(von) && end.isAfter(bis)) || start.isBefore(prodVon) || end.isAfter(prodBis));
                     /*[/]*/
                     /*]]>*/
                 });

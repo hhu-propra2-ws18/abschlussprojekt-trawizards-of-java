@@ -16,7 +16,7 @@ Links zur Anmeldung, Registrierung und eine Suchfunktion in der Navigationsleist
 Die Detailansicht der Artikel ist auch für nicht angemeldete Nutzer sichtbar. Möchte man jedoch eine
 andere Seite sehen, oder beispielsweise einen Artikel ausleihen, so muss man sich mit seinem Benutzernamen
 und Passwort anmelden, bzw. sich registrieren. Meldet man sich an, findet man auch einen Link auf das
-eigene Profil, zu den Nachrichten, zum Erstellen eines Artikels und zum Chat(Briefumschlag-Symbol)
+eigene Profil, zu den Nachrichten, zum Erstellen eines Artikels und zum Chat (Briefumschlag-Symbol)
 in der Navigationsleiste auf jeder Seite.
 
 ### Detailansicht
@@ -26,7 +26,7 @@ Maps und ein Foto des Artikels ansehen. Außerdem enthält die Seite die Möglic
 zu verleihenden Artikel zu erstellen, bzw. den zum Verkauf stehenden Artikel zu kaufen.
 
 ### Ausleihen
-Auf dieser Seite kann man in einem Kalender den Zeitraum auswählen kann, für den man sich den Artikel
+Auf dieser Seite kann man in einem Kalender den Zeitraum auswählen, für den man sich den Artikel
 gerne ausleihen möchte, wobei der verfügbare Zeitraum grün markiert ist. Bestätigt man nun seine Auswahl,
 so wird eine Anfrage an den Besitzer des Artikels gesendet, falls man genug Geld auf seinem ProPay-Konto
 hat, um die Kaution und die Kosten für den angegebenen Zeitraum zu bezahlen.
@@ -38,7 +38,8 @@ alle von dieser Person angebotenen Artikel auf ihrer Profilseite angezeigt und l
 Wenn das angezeigte Profil nicht dem eingeloggten Nutzer gehört, werden nur die zum Profil gehörenden Artikel
 angezeigt, sowie ein Link um mit dem Besitzer des Profils zu chatten und ein Link um Bewertungen zum
 Verleiher/Verkäufer anzusehen, oder eine neue Bewertung zu erstellen. Hat man neue Nachrichten, oder vergessen
-einen Artikel zurückzugeben erhält man außerdem ein Pop-up zur Erinnerung.
+einen Artikel zurückzugeben erhält man außerdem ein Pop-up zur Erinnerung, sowie eine Mail im Falle
+eines nicht zurückgegebenen Artikel.
 
 .Hier können sie ihr Konto aufladen
 Über dieses Eingabefeld lässt sich das eigene ProPay-Konto mit der eingegebenen Menge Geld aufladen.
@@ -79,7 +80,7 @@ die Konfliktlösungsstelle schicken kann.
 Nachrichten lassen sich über das Profil und den Knopf "Nachrichten ansehen" abrufen, wo sie vom Empfänger
 gelesen und gelöscht werden können. Hier werden Nachrichten angezeigt, die automatisch erstellt werden,
 wenn man einen Artikel erstellt, wenn ein eigener Artikel ausgeliehen/gekauft wurde, oder ähnliche
-Systemnachrichten. Wenn man sich mit einer gültigen E-Mail-Adresse angemeldet hat, so erhält man zusätlich
+Systemnachrichten. Wenn man sich mit einer gültigen E-Mail-Adresse angemeldet hat, so erhält man zusätzlich
 per E-Mail wichtige Benachrichtigungen.
 
 .Konflikte
@@ -94,8 +95,7 @@ tun. Das für die Kaution reservierte Geld wird je nach Entscheidung entweder wi
 den Verleiher überwiesen.
 
 ### Transaktionen Übersicht
-Hier lassen sich die Leihen von bereits zurückgegebenen Artikeln ansehen.
-
+Hier sieht man selbst ausgeliehene wie verliehene Artikel und gekaufte bzw. verkaufte Artikel, mit allen wichtigen Informationen.
 
 ## Chat
 Beim Aufruf des Chats öffnet sich ein kleineres Fenster, dass sich je nachdem, von wo es aufgerufen wurde wie
@@ -103,13 +103,26 @@ folgt verhält:
 
 ### Übersicht
 Ruft man den Chat über das Briefumschlag-Symbol in der Navigationsleiste auf, ist die Sidebar geöffnet, über
-die sich eine bestehende Chat-Session auswählen lässt, wodurch diese Session(s.u.) geöffnet wird.
+die sich eine bestehende Chat-Session auswählen lässt, wodurch diese Session (s.u.) geöffnet wird.
 
 ### Session
-Ruft man den Chat über das Profil eines anderen Benutzers auf, oder wählt auf der Übersicht(s.o.) eine bestehende Session
+Ruft man den Chat über das Profil eines anderen Benutzers auf, oder wählt auf der Übersicht (s.o.) eine bestehende Session
 aus, so ist Sidebar minimiert und der Chat mit dem Benutzer ist sichtbar, öffnet man die Sidebar, lassen sich auch
-die in Übersicht(s.o.) beschriebenen Funktionen nutzen.
+die in Übersicht (s.o.) beschriebenen Funktionen nutzen.
 
+### Anpassung an neue Minimalanforderung
+Die Implementierung der neuen Anforderungen ging relativ zügig.
+Wir haben zunächst überlegt die Klasse Artikel um einen Flag zu erweitern, der anzeigt, ob
+ein Artikel zum Verleihen oder Verkauf zur Verfügung steht, jedoch würde man dabei viel unnötige Information mitspeichern,
+wie die Verfügbarkeit und Kaution. Außerdem wären Feldnamen irreführend, da ein Verkäufername so Verleihername hieße.
+Deswegen haben wir eine neue Entity ArtikelKaufen hinzugefügt, die die nötigen Informationen enthält.
+(Damit einhergehend natürlich auch ein ArtikelKaufenRepository).
+Beim Erstellen eines Artikels auf der Seite wird man nun zunächst auf eine Seite weitergeleitet, wo man auswählt, ob der Artikel zum
+Verleihen oder zum Verkaufen ist. Danach wird man entsprechend seiner vorher getätigten Wahl auf eine neue Seite weitergeleitet,
+wo man Artikelinformationen einträgt. Genau wie bei Ausleihe haben wir auch eine Entity Kauf mit entsprechendem Repository hinzugefügt.
+Darin werden alle nötigen Informationen zu einem Kauf abgespeichert.
+Die restliche Anpassung ging gut, wir mussten lediglich die HTMLs anpassen mit zusätzlichen Knöpfen und neuen "Abschnitten" auf den Seiten,
+um z.B. auf der Startseite alle zum Kauf verfügbaren Artikel anzuzeigen.
 
 ## Klassen
 Diese Skizze sollte wohl am besten veranschaulichen können, wie die Klassen zusammenhängen:

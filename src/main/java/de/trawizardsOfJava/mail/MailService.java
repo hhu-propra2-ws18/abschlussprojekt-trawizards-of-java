@@ -38,6 +38,6 @@ public class MailService implements IMailService {
 		mail.setText("Sehr geehrter Herr "+name+",\n\nwir möchten Sie erinnern, "+
 			"diesen ausgeliehenen Artikel bitte zügig zurückzugeben: "
 			+artikel+"\n\nVielen Dank, Ihr Leihe24 Team!");
-		javaMailSender.send(mail); //später wieder hinzufügen
+		javaMailSender.send(mail);
 	}
 }

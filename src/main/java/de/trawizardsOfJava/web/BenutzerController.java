@@ -1,9 +1,9 @@
 package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.*;
+import de.trawizardsOfJava.mail.IMailService;
 import de.trawizardsOfJava.mail.Message;
 import de.trawizardsOfJava.mail.MessageRepository;
-import de.trawizardsOfJava.model.Artikel;
 import de.trawizardsOfJava.model.Ausleihe;
 import de.trawizardsOfJava.model.Bewertung;
 import de.trawizardsOfJava.model.Person;
@@ -31,7 +31,7 @@ public class BenutzerController {
 	private MessageRepository messageRepository;
 	private BewertungRepository bewertungRepository;
 	private IProPaySchnittstelle proPaySchnittstelle;
-	//private IMailService iMailService;
+	private IMailService iMailService;
 	private KaufRepository kaufRepository;
 	private ArtikelKaufenRepository artikelKaufenRepository;
 
@@ -39,8 +39,8 @@ public class BenutzerController {
 	@Autowired
 	public BenutzerController(BenutzerRepository benutzerRepository, ArtikelRepository artikelRepository,
 							  AusleiheRepository ausleiheRepository, RueckgabeRepository rueckgabeRepository,
-							  MessageRepository messageRepository, IProPaySchnittstelle proPaySchnittstelle/*,
-							  IMailService iMailService*/, KaufRepository kaufRepository, ArtikelKaufenRepository artikelKaufenRepository, BewertungRepository bewertungRepository) {
+							  MessageRepository messageRepository, IProPaySchnittstelle proPaySchnittstelle,
+							  IMailService iMailService, KaufRepository kaufRepository, ArtikelKaufenRepository artikelKaufenRepository, BewertungRepository bewertungRepository) {
 		this.benutzerRepository = benutzerRepository;
 		this.artikelRepository = artikelRepository;
 		this.ausleiheRepository = ausleiheRepository;
@@ -48,7 +48,7 @@ public class BenutzerController {
 		this.messageRepository = messageRepository;
 		this.proPaySchnittstelle = proPaySchnittstelle;
 		this.bewertungRepository = bewertungRepository;
-		//this.iMailService = iMailService;
+		this.iMailService = iMailService;
 		this.kaufRepository = kaufRepository;
 		this.artikelKaufenRepository = artikelKaufenRepository;
 	}
@@ -80,8 +80,8 @@ public class BenutzerController {
 	private void findeFaelligeAusleihe(Model model, ArrayList<Ausleihe> ausleihen) {
 		for (Ausleihe ausleihe : ausleihen) {
 			if (ausleihe.faelligeAusleihe()) {
-				//Person person = benutzerRepository.findByBenutzername(ausleihe.getAusleihender()).get();
-				//iMailService.sendReminder(person.getEmail(),person.getName(), ausleihe.getArtikel().getArtikelName());
+				Person person = benutzerRepository.findByBenutzername(ausleihe.getAusleihender()).get();
+				iMailService.sendReminder(person.getEmail(),person.getName(), ausleihe.getArtikel().getArtikelName());
 				model.addAttribute("message", "true");
 				model.addAttribute("artikelName", ausleihe.getArtikel().getArtikelName());
 				model.addAttribute("verleiherName", ausleihe.getVerleiherName());

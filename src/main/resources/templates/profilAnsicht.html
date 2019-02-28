@@ -124,7 +124,7 @@
 							<button type="button" class="btn btn-outline-dark bottomDistance">Details</button>
 						</a>
 						<div th:if="${isUser}">
-							<a th:href="@{/account/{benutzername}/aendereArtikel/{id} (id=${a.id}, benutzername=${name})}">
+							<a th:href="@{/account/{benutzername}/aendereArtikel/kaufen/{id} (id=${a.id}, benutzername=${name})}">
 								<button type="button" class="btn btn-outline-dark">Artikel bearbeiten</button>
 							</a>
 						</div>

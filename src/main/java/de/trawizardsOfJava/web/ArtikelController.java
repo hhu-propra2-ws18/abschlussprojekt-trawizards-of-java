@@ -106,6 +106,7 @@ public class ArtikelController {
 	@PreAuthorize("#benutzername == authentication.name")
 	public String artikelAendern(Model model, @PathVariable String benutzername, @PathVariable Long id) {
 		model.addAttribute("artikel", artikelRepository.findById(id).get());
+		model.addAttribute("verkaufen", false);
 		return "artikelAendern";
 	}
 
@@ -114,6 +115,24 @@ public class ArtikelController {
 	public String speicherArtikelAenderung(Model model, @PathVariable String benutzername, Artikel artikel, String daterange) {
 		artikel.setVerfuegbarkeit(new Verfuegbarkeit(daterange));
 		artikelRepository.save(artikel);
+		messageRepository.save(new Message(artikel, "verändert."));
+		model.addAttribute("link", "detail/" + artikel.getId());
+		return "backToTheFuture";
+	}
+
+	@GetMapping("/account/{benutzername}/aendereArtikel/kaufen/{id}")
+	@PreAuthorize("#benutzername == authentication.name")
+	public String artikelAendernKaufen(Model model, @PathVariable String benutzername, @PathVariable Long id) {
+		model.addAttribute("artikel", artikelKaufenRepository.findById(id).get());
+		model.addAttribute("verkaufen", true);
+		return "artikelAendern";
+	}
+
+	@PostMapping("/account/{benutzername}/aendereArtikel/kaufen/{id}")
+	@PreAuthorize("#benutzername == authentication.name")
+	public String speicherArtikelAenderungKaufen(Model model, @PathVariable String benutzername, ArtikelKaufen artikel, String daterange) {
+		artikelKaufenRepository.save(artikel);
+		messageRepository.save(new Message(artikel, "verändert."));
 		model.addAttribute("link", "detail/" + artikel.getId());
 		return "backToTheFuture";
 	}

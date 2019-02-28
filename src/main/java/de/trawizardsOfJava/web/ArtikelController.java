@@ -136,16 +136,24 @@ public class ArtikelController {
 	@ResponseBody
 	@RequestMapping(value = "/detail/{id}/foto", method = GET, produces = MediaType.IMAGE_JPEG_VALUE)
 	public FileSystemResource artikelDetailFoto(Model model, @PathVariable Long id, Principal principal) {
-		model.addAttribute("artikelDetail", artikelRepository.findById(id).get());
+		if (artikelRepository.findById(id).isPresent()){
+			Artikel artikelLeihen = artikelRepository.findById(id).get();
+			model.addAttribute("artikelDetail", artikelLeihen);
+			if (!(artikelLeihen.getFotos().get(0).equals("fotos"))) {
+				String photoUrl = artikelLeihen.getFotos().get(0);
+				return new FileSystemResource("src/main/resources/fotos/" + photoUrl);
+			}
+		}
+		else {
+			ArtikelKaufen artikelKaufen = artikelKaufenRepository.findById(id).get();
+			model.addAttribute("artikelDetail", artikelKaufen);
+			if (!(artikelKaufen.getFotos().get(0).equals("fotos"))) {
+				String photoUrl = artikelKaufen.getFotos().get(0);
+				return new FileSystemResource("src/main/resources/fotos/" + photoUrl);
+			}
+		}
 		model.addAttribute("aktuelleSeite", "Artikelansicht");
 		model.addAttribute("angemeldet", principal != null);
-
-		if (!(artikelRepository.findById(id).get().getFotos().get(0).equals("fotos"))) {
-
-			String photoUrl = artikelRepository.findById(id).get().getFotos().get(0);
-			return new FileSystemResource("src/main/resources/fotos/" + photoUrl);
-		}
-
 		return new FileSystemResource("src/main/resources/fotos/" + ALTERNATIVE_PHOTO);
 	}
 }

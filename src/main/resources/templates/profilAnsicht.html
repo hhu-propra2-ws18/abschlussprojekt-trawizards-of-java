@@ -40,8 +40,8 @@
 	<div th:unless="${isUser}">
 		<div class="sidebar bg-dark">
 			<a>Filler</a>
-			<button class="btn btn-outline-light" onclick="openchatin()">Chatten</button>
-			<a th:href="@{/account/{benutzername}/bewerten (benutzername=${person.benutzername})}">
+			<a class="text-secondary cursor" onclick="openchatin()">Chatten</a>
+			<a class="text-secondary" th:href="@{/account/{benutzername}/bewerten (benutzername=${person.benutzername})}">
 				Bewertungen
 			</a>
 		</div>

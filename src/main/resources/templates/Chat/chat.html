@@ -11,6 +11,7 @@
 	<body>
 		<div id="seitenBar" class="bar">
 			<a class="schliessen" onclick="schliesseBar()">&times</a>
+			<p th:if="${#lists.isEmpty(sessions)}">Es sind noch keine Konversationen verfügbar.</p>
 			<div th:each="sitzung: ${sessions}">
 				<a th:href="@{/messenger/{benutzername}/{teilnehmer} (benutzername=${name},teilnehmer=${sitzung.id})}"
 				   th:text="${sitzung.toString(name)}"></a>

@@ -5,54 +5,64 @@ Violets are blue, +
 We know, you want to leih something, +
 and so do you.
 
+
 # Funktionsweise
+
 
 ## Startseite
 Beim Aufruf der Anwendung sieht man die Startseite, auf der bereits eine Übersicht über alle
-verfügbaren Artikel angezeigt wird, sowie Links zur Anmeldung, Registrierung und eine Suchfunktion
-in der Navigationsleiste am oberen Bildschirmrand. Möchte man eine andere Seite sehen, beispielsweise
-die Detailseite eines Artikels, so muss man sich mit seinem Benutzernamen und Passwort anmelden, bzw.
-sich registrieren. Meldet man sich an, findet man auch einen Link auf das eigene Profil in der
-Navigationsleiste auf jeder Seite.
+verfügbaren Artikel, unterteilt in zu verkaufende und zu verleihende Artikel, angezeigt wird, sowie
+Links zur Anmeldung, Registrierung und eine Suchfunktion in der Navigationsleiste am oberen Bildschirmrand.
+Die Detailansicht der Artikel ist auch für nicht angemeldete Nutzer sichtbar. Möchte man jedoch eine
+andere Seite sehen, oder beispielsweise einen Artikel ausleihen, so muss man sich mit seinem Benutzernamen
+und Passwort anmelden, bzw. sich registrieren. Meldet man sich an, findet man auch einen Link auf das
+eigene Profil, zu den Nachrichten, zum Erstellen eines Artikels und zum Chat(Briefumschlag-Symbol)
+in der Navigationsleiste auf jeder Seite.
 
-.Detailansicht
+### Detailansicht
 Ruft man die Detailansicht eines Artikels auf erhält man eine Übersicht über wichtige zusätzliche
-Informationen wie Beschreibung, Standort und Verfügbarkeit. Außerdem enthält die Seite die Möglichkeit
-eine Anfrage für den aufgerufenen Artikel zu erstellen.
+Informationen wie Beschreibung, Standort und Verfügbarkeit. Hier lässt sich der Standort auch über Google
+Maps und ein Foto des Artikels ansehen. Außerdem enthält die Seite die Möglichkeit eine Anfrage für den
+zu verleihenden Artikel zu erstellen, bzw. den zum Verkauf stehenden Artikel zu kaufen.
 
-.Ausleihen
+### Ausleihen
 Auf dieser Seite kann man in einem Kalender den Zeitraum auswählen kann, für den man sich den Artikel
 gerne ausleihen möchte, wobei der verfügbare Zeitraum grün markiert ist. Bestätigt man nun seine Auswahl,
 so wird eine Anfrage an den Besitzer des Artikels gesendet, falls man genug Geld auf seinem ProPay-Konto
-hat, um die Kaution und die Kosten für den angegebenen Zeitraum zu bezahlen und der Besitzer erhält eine
-Nachricht.
+hat, um die Kaution und die Kosten für den angegebenen Zeitraum zu bezahlen.
+
 
 ## Profil
 Alle folgenden Schritte des Ausleihvorgangs lassen sich über die Profilseite vornehmen. Außerdem werden
 alle von dieser Person angebotenen Artikel auf ihrer Profilseite angezeigt und lassen sich von ihr bearbeiten.
+Wenn das angezeigte Profil nicht dem eingeloggten Nutzer gehört, werden nur die zum Profil gehörenden Artikel
+angezeigt, sowie ein Link um mit dem Besitzer des Profils zu chatten und ein Link um Bewertungen zum
+Verleiher/Verkäufer anzusehen, oder eine neue Bewertung zu erstellen. Hat man neue Nachrichten, oder vergessen
+einen Artikel zurückzugeben erhält man außerdem ein Pop-up zur Erinnerung.
 
 .Hier können sie ihr Konto aufladen
-Über dieses Eingabefeld lässt sich das eigene ProPay-Konto mit der eingegebenen Menge aufladen.
+Über dieses Eingabefeld lässt sich das eigene ProPay-Konto mit der eingegebenen Menge Geld aufladen.
 
 ### Profil bearbeiten
 Über den Knopf "Profil bearbeiten" lassen sich der Name(Nicht der Benutzername) und die Mail-Adresse
 nachträglich ändern.
 
 ### Neuen Artikel erstellen
-Über den Knopf "Artikel erstellen" lassen sich neue Artikel erstellen.
+Über den Knopf "Artikel erstellen" lassen sich neue Artikel einstellen. Dabei muss man zunächst
+auswählen, ob man den Artikel verkaufen, oder nur verleihen möchte. Danach muss man alle notwendigen
+Informationen eingeben und hat die Möglichkeit ein Foto hinzuzufügen.
 
 ### Anfragen ansehen
 Möchte ein Verleiher nachsehen, ob es Anfragen für einen seiner Artikel gibt, dann klickt er
 auf seiner Profilseite auf "Anfragen ansehen". Dort kann er alle offenen und bereits angenommenen
-Anfragen einsehen und offene Anfragen entweder annehmen, oder ablehnen. Bei beiden Optionen wird
-eine Nachricht an den Ersteller der Anfrage geschickt, in der er über die Antwort auf seine Anfrage
-benachrichtigt wird. Wenn die Anfrage angenommen wurde, wird außerdem die Kaution reserviert und
-die Kosten für den Leihzeitraum werden an den Verleiher überwiesen.
+Anfragen einsehen und offene Anfragen entweder annehmen, oder ablehnen. Wenn die Anfrage angenommen
+wurde, wird außerdem die Kaution reserviert und die Kosten für den Leihzeitraum werden an den
+Verleiher überwiesen.
 
 ### Ausgeliehene Artikel ansehen
 Wurde die Anfrage angenommen, so kann der Leihende in seinem Profil über
 "Ausgeliehene Artikel ansehen" den entsprechenden Artikel sehen, mit der Möglichkeit den
-Artikel zurückzugeben. Wird der Artikel zurückgegeben, so erhält der Verleiher eine Nachricht.
+Artikel zurückzugeben.
 
 ### Rückgaben ansehen
 Der Verleiher findet in seinem Profil über "Rückgaben ansehen" eine Übersicht über alle an ihn
@@ -63,12 +73,14 @@ Konfliktlösungsstelle kontaktieren.
 
 .Mangelhafter Zustand
 Dieser Knopf leitet auf eine Seite weiter, auf der man eine Beschreibung des Problems eingeben und diesen an
-die Konfliktlösungsstelle schicken kann, wodurch außerdem der Leihende eine Nachricht erhält, die ihn darauf
-hinweist, dass es zu seiner Rückgabe eine Beschwerde gibt.
+die Konfliktlösungsstelle schicken kann.
 
 ### Nachrichten ansehen
-Nachrichten lassen sich über das Profil und den Knopf "Nachrichten ansehen" abrufen, wo sie
-vom Empfänger gelesen und gelöscht werden können.
+Nachrichten lassen sich über das Profil und den Knopf "Nachrichten ansehen" abrufen, wo sie vom Empfänger
+gelesen und gelöscht werden können. Hier werden Nachrichten angezeigt, die automatisch erstellt werden,
+wenn man einen Artikel erstellt, wenn ein eigener Artikel ausgeliehen/gekauft wurde, oder ähnliche
+Systemnachrichten. Wenn man sich mit einer gültigen E-Mail-Adresse angemeldet hat, so erhält man zusätlich
+per E-Mail wichtige Benachrichtigungen.
 
 .Konflikte
 Ein Admin kann über die Nachrichtenseite auf die Konfliktübersicht zugreifen,
@@ -78,12 +90,26 @@ bearbeiten wird. Die von ihm bearbeiteten Konflikte enthalten neben den Beteilig
 und dem Artikel auch die E-Mail-Adresse der Beteiligten, wodurch sich der Admin mit ihnen in Kontakt
 setzen kann, um diesen Konflikt zu lösen. Wenn er sich entschieden hat, ob die Beschwerde gerechtfertigt
 ist, kann er auswählen, wem die Kaution zusteht und kann dies über das Drücken des entsprechenden Knopfes
-tun. Beide Beteiligten erhalten eine Nachricht, in welcher sie über die Entscheidung des Admins benachrichtigt
-werden, außerdem wird das für die Kaution reservierte Geld je nach Entscheidung entweder wieder freigegeben,
-oder an den Verleiher überwiesen.
+tun. Das für die Kaution reservierte Geld wird je nach Entscheidung entweder wieder freigegeben, oder an
+den Verleiher überwiesen.
 
 ### Transaktionen Übersicht
 Hier lassen sich die Leihen von bereits zurückgegebenen Artikeln ansehen.
+
+
+## Chat
+Beim Aufruf des Chats öffnet sich ein kleineres Fenster, dass sich je nachdem, von wo es aufgerufen wurde wie
+folgt verhält:
+
+### Übersicht
+Ruft man den Chat über das Briefumschlag-Symbol in der Navigationsleiste auf, ist die Sidebar geöffnet, über
+die sich eine bestehende Chat-Session auswählen lässt, wodurch diese Session(s.u.) geöffnet wird.
+
+### Session
+Ruft man den Chat über das Profil eines anderen Benutzers auf, oder wählt auf der Übersicht(s.o.) eine bestehende Session
+aus, so ist Sidebar minimiert und der Chat mit dem Benutzer ist sichtbar, öffnet man die Sidebar, lassen sich auch
+die in Übersicht(s.o.) beschriebenen Funktionen nutzen.
+
 
 ## Klassen
 Diese Skizze sollte wohl am besten veranschaulichen können, wie die Klassen zusammenhängen:

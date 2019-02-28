@@ -72,17 +72,19 @@ public class BenutzerController {
 		model.addAttribute("angemeldet", true);
 		model.addAttribute("aktuelleSeite", "Profil");
 		model.addAttribute("empfaenger", benutzername);
-		findeFaelligeAusleihe(model, ausleiheRepository.findByAusleihender(benutzername));
+		findeFaelligeAusleihe(model, ausleiheRepository.findByAusleihender(benutzername), principal, benutzername);
 		neueNachricht(model, messageRepository.findByEmpfaenger(benutzername), principal, benutzername);
 		return "profilAnsicht";
 	}
 
-	private void findeFaelligeAusleihe(Model model, ArrayList<Ausleihe> ausleihen) {
+	private void findeFaelligeAusleihe(Model model, ArrayList<Ausleihe> ausleihen, Principal principal, String name) {
 		for (Ausleihe ausleihe : ausleihen) {
 			if (ausleihe.faelligeAusleihe()) {
 				Person person = benutzerRepository.findByBenutzername(ausleihe.getAusleihender()).get();
 				iMailService.sendReminder(person.getEmail(),person.getName(), ausleihe.getArtikel().getArtikelName());
-				model.addAttribute("message", "true");
+				if(principal.getName().equals(name)) {
+					model.addAttribute("message", "true");
+				}
 				model.addAttribute("artikelName", ausleihe.getArtikel().getArtikelName());
 				model.addAttribute("verleiherName", ausleihe.getVerleiherName());
 			}

@@ -34,7 +34,10 @@ public class Session{
 		return Long.valueOf(-1);
 	}
 
-	public String toString(){
-		return teilnehmer.getPersonEins() + " - " + teilnehmer.getPersonZwei();
+	public String toString(String user){
+		if (user.equalsIgnoreCase(teilnehmer.getPersonEins())){
+			return teilnehmer.getPersonZwei();
+		}
+		return teilnehmer.getPersonEins();
 	}
 }

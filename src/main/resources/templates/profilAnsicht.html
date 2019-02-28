@@ -11,7 +11,7 @@
 <div layout:fragment="inhalt">
 
 	<div th:if="${isUser}">
-		<div class="sidenav bg-dark">
+		<div class="sidebar bg-dark">
 			<a> Filller </a>
 			<a th:href="@{/account/{benutzername}/bearbeitung (benutzername=${person.benutzername})}">
 				Profil bearbeiten
@@ -38,7 +38,7 @@
 	</div>
 
 	<div th:unless="${isUser}">
-		<div class="sidenav bg-dark">
+		<div class="sidebar bg-dark">
 			<a>Filler</a>
 			<button class="btn btn-outline-light" onclick="openchatin()">Chatten</button>
 			<a th:href="@{/account/{benutzername}/bewerten (benutzername=${person.benutzername})}">
@@ -47,10 +47,10 @@
 		</div>
 	</div>
 
-	<div class="alert alert-info main" role="alert" id="nachricht">
+	<div class="alert alert-info remain" role="alert" id="nachricht">
 		Sie haben Nachrichten in Ihrem Postfach!
 	</div>
-	<div class="main" id="topButton" th:if="${isUser}">
+	<div class="remain" id="topButton" th:if="${isUser}">
 		<div class="col-md-4" th:if="${!proPayError}">
 			<p th:text="'Ihr aktueller ProPay-Kontostand: '+${proPay.amount}"></p>
 			<p th:if="${! #lists.isEmpty(proPay.reservations)}">Ihre aktuellen Reservierungen:</p>
@@ -67,8 +67,8 @@
 			ProPay ist zurzeit nicht erreichbar. Versuchen Sie es später nochmal.
 		</div>
 	</div>
-	<div class="main"><hr></div>
-	<div class="row main">
+	<div class="remain"><hr></div>
+	<div class="row remain">
 		<div class="col-md-12" align="center">
 			<h2>Artikel zum Verleihen</h2>
 			<p th:if="${#lists.isEmpty(artikel)}">Keine Artikel vorhanden!</p>
@@ -106,7 +106,7 @@
 			</div>
 		</tr>
 	</div>
-	<div class="row main">
+	<div class="row remain">
 		<div class="col-md-12" align="center">
 			<h2>Artikel zum Verkauf</h2>
 			<p th:if="${#lists.isEmpty(artikelKaufen)}">Keine Artikel vorhanden!</p>

@@ -1,4 +1,4 @@
-.sidenav {
+.sidebar {
     height: 100%;
     width: 160px;
     position: fixed;
@@ -10,7 +10,7 @@
     padding-top: 20px;
 }
 
-.sidenav a {
+.sidebar a {
     padding: 16px 18px 16px 26px;
     text-decoration: none;
     font-size: 15px;
@@ -18,16 +18,16 @@
     display: block;
 }
 
-.sidenav a:hover {
+.sidebar a:hover {
     color: #f1f1f1;
 }
 
-.main {
+.remain {
     margin-left: 160px;
     padding: 0px 10px;
 }
 
 @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
 }

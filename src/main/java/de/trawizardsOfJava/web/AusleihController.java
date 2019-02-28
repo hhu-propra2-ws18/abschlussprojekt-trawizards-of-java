@@ -128,6 +128,13 @@ public class AusleihController {
 		return "ausgelieheneUebersicht";
 	}
 
+	@GetMapping("/account/{benutzername}/ausgelieheneuebersicht/{id}")
+	@PreAuthorize("#benutzername == authentication.name")
+	public String ausleiheZurückziehen(Model model, @PathVariable("benutzername") String benutzername, @PathVariable("id") Long id) {
+		ausleiheRepository.delete(ausleiheRepository.findById(id).get());
+		return leihenUebersicht(model, benutzername);
+	}
+
 	@PostMapping("/account/{benutzername}/ausgelieheneuebersicht")
 	@PreAuthorize("#benutzername == authentication.name")
 	public String verwalteRueckgabe(Model model, @PathVariable String benutzername, Long id) {

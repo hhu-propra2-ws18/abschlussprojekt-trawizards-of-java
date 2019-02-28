@@ -81,9 +81,9 @@ public class BenutzerController {
 		for (Ausleihe ausleihe : ausleihen) {
 			if (ausleihe.faelligeAusleihe()) {
 				Person person = benutzerRepository.findByBenutzername(ausleihe.getAusleihender()).get();
-				iMailService.sendReminder(person.getEmail(),person.getName(), ausleihe.getArtikel().getArtikelName());
 				if(principal.getName().equals(name)) {
 					model.addAttribute("message", "true");
+					iMailService.sendReminder(person.getEmail(),person.getName(), ausleihe.getArtikel().getArtikelName());
 				}
 				model.addAttribute("artikelName", ausleihe.getArtikel().getArtikelName());
 				model.addAttribute("verleiherName", ausleihe.getVerleiherName());

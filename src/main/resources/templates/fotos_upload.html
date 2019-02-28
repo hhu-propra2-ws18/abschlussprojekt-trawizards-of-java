@@ -1,38 +1,44 @@
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:form="http://www.w3.org/1999/xhtml">
+<html lang="de" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Upload Multiple Files</title>
+	<title>Foto Upload</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+		  integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-<div class="container h-100">
-	<div class="h-100">
-		<div class="row h-100 justify-content-center align-items-center">
-			<div class="col-sm-5">
-				<h3>Fotos Upload</h3>
-				<form  th:action="@{/fotoupload/{id} (id=${id})}" method="post" enctype="multipart/form-data">
-					<div class="form-group">
-						<label class="control-label" for="files">Nur JPG und 1 Foto!</label>
-						<input type="file" class="form-control" id="files"
-							   placeholder="Upload Multiple Files"  name="files" multiple></input>
-					</div>
-					<button type="submit" class="btn btn-default" id="btnSubmit">Speichern</button>
-				</form>
-				<div th:if="${message}">
-					<strong><span th:text="${message}"/></strong>
-					<hr>
-				</div>
-				<ul th:each="filename: ${files}">
-					<li><span th:text="${filename}"/></li>
-				</ul>
+
+<div class="card text-center">
+	<h5 class="card-header">
+		Fotos Upload - Nur JPG, 1 Foto und höchstens 1MB groß!
+	</h5>
+	<div class="card-body">
+		<form  th:action="@{/fotoupload/{id} (id=${id})}" method="post" enctype="multipart/form-data">
+			<div class="form-group">
+				<input type="file" class="form-control" id="files"
+					   placeholder="Foto Upload"  name="files" multiple>
 			</div>
+			<button type="submit" class="btn btn-outline-success" id="btnSubmit">Speichern</button>
+		</form>
+		<div th:if="${message}">
+			<strong><span th:text="${message}"/></strong>
+			<hr>
 		</div>
+		<ul th:each="filename: ${files}">
+			<li><span th:text="${filename}"/></li>
+		</ul>
+	</div>
+	<div class="card-footer text-muted">
+		<a href='/'>
+			<button name="button" class="btn btn-outline-danger"> Abbrechen</button>
+		</a>
 	</div>
 </div>
+
 </body>
 </html>

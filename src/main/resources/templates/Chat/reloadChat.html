@@ -9,12 +9,12 @@
 <div th:each="nachricht: ${nachrichten}">
 	<div th:if="${name} eq ${nachricht.absender.benutzername}" class="chat dunkler">
 		<span class="name-links" th:text="${nachricht.absender.benutzername}"></span>
-		<p th:text="${nachricht.chat}"></p>
+		<p class="text-links" th:text="${nachricht.chat}"></p>
 		<span class="zeit-links" th:text="${nachricht.dateToString()}"></span>
 	</div>
 	<div th:unless="${name} eq ${nachricht.absender.benutzername}" class="chat">
 		<span class="name-rechts" th:text="${nachricht.absender.benutzername}"></span>
-		<p th:text="${nachricht.chat}"></p>
+		<p class="text-rechts" th:text="${nachricht.chat}"></p>
 		<span class="zeit-rechts" th:text="${nachricht.dateToString()}"></span>
 	</div>
 </div>

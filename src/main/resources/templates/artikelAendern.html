@@ -36,11 +36,11 @@
 					</div>
 					<div class="group">
 						<label class="col-sm-2 col-form-label mr-5">Preis:</label>
-						<input type="number" class="form-control ml-5" th:field="*{preis}" placeholder="Preis" required/><br>
+						<input type="number" class="form-control ml-5" th:field="*{preis}" placeholder="Preis" min="0" required/><br>
 					</div>
 					<div class="group">
 						<label class="col-sm-2 col-form-label mr-5">Kaution:</label>
-						<input type="number" class="form-control ml-5" th:field="*{kaution}" placeholder="Kaution" required/><br>
+						<input type="number" class="form-control ml-5" th:field="*{kaution}" placeholder="Kaution" min="0" required/><br>
 					</div>
 					<div class="group">
 						<label class="col-sm-2 col-form-label mr-5">Verfügbarkeit:</label>
@@ -71,7 +71,7 @@
 					</div>
 					<div class="group">
 						<label class="col-sm-2 col-form-label mr-5">Preis:</label>
-						<input type="number" class="form-control ml-5" th:field="*{preis}" placeholder="Preis" required/><br>
+						<input type="number" class="form-control ml-5" th:field="*{preis}" placeholder="Preis" min="0" required/><br>
 					</div>
 
 					<input type="hidden" th:field="*{verkaeufer}">

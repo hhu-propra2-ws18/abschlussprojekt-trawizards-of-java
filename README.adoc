@@ -1,3 +1,8 @@
+= Informationen zum Start der Anwendung
+
+Die Anwendung kann mit 'docker-compose up' gestartet werden. +
+Die Startseite ist dann unter 'localhost:8080' erreichbar. +
+
 = Softwareentwicklung im Team: Blockpraktikum
 WS18/19
 :icons: font
@@ -68,7 +73,7 @@ der Universität] gelten insbesondere folgende Regeln:
 
 * In den Praktikumsräumen ist das Essen verboten.
 * Sie dürfen Getränke zu sich nehmen, aber nicht in der Nähe von Computern.
-* Musik darf nur leise per Kopfhörer gehört werden, sofern niemand belästigt 
+* Musik darf nur leise per Kopfhörer gehört werden, sofern niemand belästigt
   wird.
 * Den Anweisungen der Aufsicht ist Folge zu leisten.
 

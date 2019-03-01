@@ -25,18 +25,16 @@ public class KonfliktController {
 	private KonfliktRepository konfliktRepository;
 	private MessageRepository messageRepository;
 	private IProPaySchnittstelle proPaySchnittstelle;
-	//private IMailService iMailService;
 
 	@Autowired
 	public KonfliktController(BenutzerRepository benutzerRepository, RueckgabeRepository rueckgabeRepository,
 							  KonfliktRepository konfliktRepository, MessageRepository messageRepository,
-							  IProPaySchnittstelle proPaySchnittstelle/*, IMailService iMailService*/) {
+							  IProPaySchnittstelle proPaySchnittstelle) {
 		this.benutzerRepository = benutzerRepository;
 		this.rueckgabeRepository = rueckgabeRepository;
 		this.konfliktRepository = konfliktRepository;
 		this.messageRepository = messageRepository;
 		this.proPaySchnittstelle = proPaySchnittstelle;
-		//this.iMailService = iMailService;
 	}
 
 	@ModelAttribute
@@ -60,7 +58,6 @@ public class KonfliktController {
 		konflikt.setKonflikt(rueckgabe, benutzerRepository.findByBenutzername(rueckgabe.getAusleihender()).get().getEmail(), benutzerRepository.findByBenutzername(benutzername).get().getEmail());
 		konfliktRepository.save(konflikt);
 		messageRepository.save(new Message(rueckgabe, "abgelehnt"));
-		//iMailService.sendEmailToKonfliktLoeseStelle(benutzername,konflikt.getBeschreibung(),id);
 		model.addAttribute("link", "account/" + benutzername + "/nachrichten");
 		return "backToTheFuture";
 	}

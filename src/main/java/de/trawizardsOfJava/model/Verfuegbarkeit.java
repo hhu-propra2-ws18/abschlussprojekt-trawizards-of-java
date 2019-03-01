@@ -20,10 +20,6 @@ public class Verfuegbarkeit implements Serializable {
 		this.endDate = LocalDate.parse(arr[1].trim(), formatter);
 	}
 
-	public boolean inTimeSpan(LocalDate date) {
-		return (date.isAfter(this.startDate) && date.isBefore(this.endDate));
-	}
-	
 	public Long berechneZwischenTage() {
 		return DAYS.between(this.startDate, this.endDate)+1;
 	}

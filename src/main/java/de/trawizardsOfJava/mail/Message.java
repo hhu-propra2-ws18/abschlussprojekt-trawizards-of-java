@@ -101,8 +101,4 @@ public class Message {
 		messages[1] = new Message(konflikt, parameter, konflikt.getRueckgabe().getAusleihender());
 		return messages;
 	}
-
-	public boolean schauenObNeueNachricht(){
-		return this.neueNachricht;
-	}
 }

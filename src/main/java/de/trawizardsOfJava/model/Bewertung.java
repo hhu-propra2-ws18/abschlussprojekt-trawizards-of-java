@@ -12,7 +12,7 @@ import javax.persistence.Id;
 public class Bewertung {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String ueberschrift;
 	private String text;

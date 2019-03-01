@@ -33,7 +33,7 @@ public class AppController {
 	@GetMapping("/")
 	public String startseite(Model model, Principal principal) {
 		model.addAttribute("artikel", artikelRepository.findAll());
-		model.addAttribute("artikelKaufen", artikelKaufenRepository.findAll());
+		model.addAttribute("artikelKaufen", artikelKaufenRepository.findAllByVerkauftFalse());
 		model.addAttribute("aktuelleSeite", "Startseite");
 		model.addAttribute("angemeldet", principal != null);
 		return "startseite";
@@ -42,7 +42,7 @@ public class AppController {
 	@GetMapping("/search")
 	public String suche(Model model, @RequestParam final String q, Principal principal) {
 		model.addAttribute("artikel", artikelRepository.findAllByArtikelNameContaining(q));
-		model.addAttribute("artikelKaufen", artikelKaufenRepository.findAllByArtikelNameContaining(q));
+		model.addAttribute("artikelKaufen", artikelKaufenRepository.findAllByArtikelNameContainingAndVerkauftFalse(q));
 		model.addAttribute("query", q);
 		model.addAttribute("aktuelleSeite", "Suche");
 		model.addAttribute("angemeldet", principal != null);

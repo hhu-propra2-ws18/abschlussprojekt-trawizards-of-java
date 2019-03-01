@@ -98,7 +98,6 @@ public class BenutzerController {
 				model.addAttribute("nachricht", "true");
 			}
 		}
-
 	}
 
 	@PostMapping("/account/{benutzername}")

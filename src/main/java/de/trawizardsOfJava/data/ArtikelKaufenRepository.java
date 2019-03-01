@@ -7,6 +7,6 @@ import java.util.ArrayList;
 
 public interface ArtikelKaufenRepository extends CrudRepository<ArtikelKaufen, Long> {
 	ArrayList<ArtikelKaufen> findByVerkaeufer(String benutzername);
-
-	ArrayList<ArtikelKaufen> findAllByArtikelNameContaining(String q);
+	ArrayList<ArtikelKaufen> findAllByArtikelNameContainingAndVerkauftFalse(String q);
+	ArrayList<ArtikelKaufen> findAllByVerkauftFalse();
 }

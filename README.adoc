@@ -2,6 +2,9 @@
 
 Die Anwendung kann mit 'docker-compose up' gestartet werden. +
 Die Startseite ist dann unter 'localhost:8080' erreichbar. +
+Der einzige bereits existente Benutzer ist ein Admin mit folgenden Anmeldedaten: +
+Benutzername: 'root' Passwort:'1234' +
+Weitere Nutzer ohne Admin-Rechte lassen sich über die Registrieren-Schaltfläche hinzufügen. +
 
 = Softwareentwicklung im Team: Blockpraktikum
 WS18/19

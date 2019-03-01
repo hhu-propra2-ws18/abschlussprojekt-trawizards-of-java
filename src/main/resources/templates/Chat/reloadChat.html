@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="de" xmlns:th="http://www.thymeleaf.com">
 <head>
-    <meta charset="UTF-8">
-    <title>Chat</title>
-    <link href="../../static/css/chat.css" th:href="@{/css/chat.css}" rel="stylesheet" />
+	<meta charset="UTF-8">
+	<title>Chat</title>
+	<link href="../../static/css/chat.css" th:href="@{/css/chat.css}" rel="stylesheet"/>
 </head>
 <body>
 <div th:each="nachricht: ${nachrichten}">
-    <div th:if="${name} eq ${nachricht.absender.benutzername}" class="chat dunkler">
-        <span class="name-links" th:text="${nachricht.absender.benutzername}"></span>
-        <p th:text="${nachricht.chat}"></p>
-        <span class="zeit-links" th:text="${nachricht.dateToString()}"></span>
-    </div>
-    <div th:unless="${name} eq ${nachricht.absender.benutzername}" class="chat">
-        <span class="name-rechts" th:text="${nachricht.absender.benutzername}"></span>
-        <p th:text="${nachricht.chat}"></p>
-        <span class="zeit-rechts" th:text="${nachricht.dateToString()}"></span>
-    </div>
+	<div th:if="${name} eq ${nachricht.absender.benutzername}" class="chat dunkler">
+		<span class="name-links" th:text="${nachricht.absender.benutzername}"></span>
+		<p th:text="${nachricht.chat}"></p>
+		<span class="zeit-links" th:text="${nachricht.dateToString()}"></span>
+	</div>
+	<div th:unless="${name} eq ${nachricht.absender.benutzername}" class="chat">
+		<span class="name-rechts" th:text="${nachricht.absender.benutzername}"></span>
+		<p th:text="${nachricht.chat}"></p>
+		<span class="zeit-rechts" th:text="${nachricht.dateToString()}"></span>
+	</div>
 </div>
 </body>
 </html>

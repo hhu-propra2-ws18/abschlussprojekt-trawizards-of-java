@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public interface KaufRepository extends CrudRepository<Kauf, Long> {
 
-    ArrayList<Kauf> findByVerkaeufer(String benutzername);
+	ArrayList<Kauf> findByVerkaeufer(String benutzername);
 
-    ArrayList<Kauf> findByKaeufer(String benutzername);
+	ArrayList<Kauf> findByKaeufer(String benutzername);
 }

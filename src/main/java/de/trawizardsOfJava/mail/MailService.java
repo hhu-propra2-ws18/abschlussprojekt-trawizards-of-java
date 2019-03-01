@@ -25,7 +25,7 @@ public class MailService implements IMailService {
 		mail.setTo(email);
 		mail.setSubject("Willkommen bei Leihe24!");
 		mail.setText("Herzlich Willkommen bei Leihe24!\n\nStöbern Sie auf unserer Seite " +
-				"nach Artikeln, die Sie ausleihen oder kaufen möchten, oder stellen Sie Ihre eigenen" +
+				"nach Artikeln, die Sie ausleihen oder kaufen möchten, oder stellen Sie Ihre eigenen " +
 				"Artikel zum Verkauf hoch!\n\nViel Spaß, Ihr Leihe24-Team");
 		javaMailSender.send(mail);
 	}

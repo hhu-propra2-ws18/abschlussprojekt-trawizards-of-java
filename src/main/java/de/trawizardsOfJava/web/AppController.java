@@ -1,6 +1,7 @@
 package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.*;
+import de.trawizardsOfJava.mail.IMailService;
 import de.trawizardsOfJava.model.*;
 import de.trawizardsOfJava.security.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,15 @@ public class AppController {
 	private BenutzerRepository benutzerRepository;
 	private ArtikelRepository artikelRepository;
 	private ArtikelKaufenRepository artikelKaufenRepository;
+	private IMailService iMailservice;
 
 	@Autowired
-	public AppController(BenutzerRepository benutzerRepository, ArtikelRepository artikelRepository, ArtikelKaufenRepository artikelKaufenRepository) {
+	public AppController(BenutzerRepository benutzerRepository, ArtikelRepository artikelRepository,
+	                     ArtikelKaufenRepository artikelKaufenRepository,IMailService iMailservice) {
 		this.benutzerRepository = benutzerRepository;
 		this.artikelRepository = artikelRepository;
 		this.artikelKaufenRepository = artikelKaufenRepository;
+		this.iMailservice = iMailservice;
 	}
 
 	@ModelAttribute
@@ -66,6 +70,7 @@ public class AppController {
 		person.setPasswort(SecurityConfig.encoder().encode(person.getPasswort()));
 		benutzerRepository.save((person));
 		model.addAttribute("link", "anmeldung");
+		iMailservice.willkommensMail(person.getEmail());
 		return "backToTheFuture";
 	}
 

@@ -20,4 +20,5 @@ public class ArtikelKaufen {
 	private String standort;
 	private int preis;
 	private ArrayList<String> fotos;
+	boolean verkauft = false;
 }

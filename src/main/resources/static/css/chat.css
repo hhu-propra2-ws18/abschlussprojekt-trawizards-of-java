@@ -10,10 +10,12 @@
 }
 
 .text-links{
-    float: left;
+    text-align: left;
+    color: #000000;
 }
 .text-rechts{
-    float: right;
+    text-align: right;
+    color: #000000;
 }
 
 .chat {
@@ -53,12 +55,4 @@
 .zeit-links {
     float: left;
     color: #999;
-}
-
-.type {
-
-}
-
-.messageForm {
-
 }

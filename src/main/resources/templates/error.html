@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de" layout:decorate="~{layoutAngemeldet}" xmlns:th="http://www.thymeleaf.com"
+	  xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Title</title>
+	<title>ERROR</title>
 	<meta http-equiv="refresh" content="5; url=http://localhost:8080/" />
 </head>
+
 <body>
-<p>Es ist ein Fehler aufgetreten. Wir wollen einfach mal niemanden Beschuldigen, und leiten Sie in 5 Sekunden auf unsere Startseite weiter</p>
+<div layout:fragment="inhalt">
+<p>Es ist ein Fehler aufgetreten. Wir wollen einfach mal Niemanden beschuldigen, und leiten Sie in 5 Sekunden auf unsere Startseite weiter...</p>
+</div>
 </body>
 </html>

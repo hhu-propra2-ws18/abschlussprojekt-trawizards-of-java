@@ -6,6 +6,7 @@ import de.trawizardsOfJava.data.AusleiheRepository;
 import de.trawizardsOfJava.data.KaufRepository;
 import de.trawizardsOfJava.mail.Message;
 import de.trawizardsOfJava.mail.MessageRepository;
+import de.trawizardsOfJava.model.ArtikelKaufen;
 import de.trawizardsOfJava.model.Kauf;
 import de.trawizardsOfJava.proPay.IProPaySchnittstelle;
 import de.trawizardsOfJava.proPay.ProPaySchnittstelle;
@@ -57,14 +58,16 @@ public class VerkaufController {
 			model.addAttribute("proPayError", true);
 			return kaufen(model, benutzername, id);
 		}
-		Kauf kauf = new Kauf(artikelKaufenRepository.findById(id).get(), benutzername);
+		ArtikelKaufen artikel = artikelKaufenRepository.findById(id).get();
+		Kauf kauf = new Kauf(artikel, benutzername);
 		if (!proPaySchnittstelle.getEntity(benutzername).genuegendGeld((long) kauf.getArtikel().getPreis(), ausleiheRepository.findByAusleihenderAndAccepted(benutzername, false))) {
 			model.addAttribute("error", true);
 			return kaufen(model, benutzername, id);
 		}
 		kaufRepository.save(kauf);
 		bezahlvorgang(kauf);
-		artikelKaufenRepository.delete(kauf.getArtikel());
+		artikel.setVerkauft(true);
+		artikelKaufenRepository.save(artikel);
 		messageRepository.save(new Message(kauf, "kaeufer"));
 		messageRepository.save(new Message(kauf, "verkaeufer"));
 		model.addAttribute("link", "");

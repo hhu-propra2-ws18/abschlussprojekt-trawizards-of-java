@@ -19,27 +19,17 @@
 					<p th:text="|Ausleihender: ${ausleihe.ausleihender}|">Ausleihender</p>
 					<p th:text="|Startdatum: ${ausleihe.verfuegbarkeit.startDate}|">Startdatum</p>
 					<p th:text="|Enddatum: ${ausleihe.verfuegbarkeit.endDate}|">Enddatum</p>
-					<p th:if="${proPayError}" style="color: red">ProPay ist derzeit nicht erreichbar. Versuchen Sie es später noch mal.</p>
+					<p th:if="${proPayError}" style="color: red">ProPay ist derzeit nicht erreichbar. Versuchen Sie es
+						später noch mal.</p>
 					<form method="post">
 						<input type="hidden" th:value="${ausleihe.id}" name="id">
-						<button class="btn btn-outline-success" type="submit" name="art" value="angenommen">Annehmen</button>
-						<button class="btn btn-outline-danger" type="submit" name="art" value="abgelehnt">Ablehnen</button>
+						<button class="btn btn-outline-success" type="submit" name="art" value="angenommen">Annehmen
+						</button>
+						<button class="btn btn-outline-danger" type="submit" name="art" value="abgelehnt">Ablehnen
+						</button>
 					</form>
 				</li>
 			</div>
-			<div th:each="kauf : ${kaufen}" th:if="${!kauf.accepted}">
-				<li class="list-group-item">
-					<p th:text="|Name des Artikels: ${kauf.artikel.artikelName}|">Artikelname</p>
-					<p th:text="|Käufer: ${kauf.kaeufer}|">Käufer</p>
-					<form method="post" th:action="@{/account/{benutzername}/kaufanfragen (benutzername=${name})}">
-						<input type="hidden" th:value="${kauf.id}" name="id">
-						<button class="btn btn-outline-success" type="submit" name="accepted" value="angenommen">Annehmen</button>
-						<button class="btn btn-outline-danger" type="submit" name="accepted" value="abgelehnt">Ablehnen</button>
-					</form>
-
-				</li>
-			</div>
-
 		</div>
 	</div>
 

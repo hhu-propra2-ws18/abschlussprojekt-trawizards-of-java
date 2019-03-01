@@ -1,7 +1,6 @@
 package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.ArtikelKaufenRepository;
-import de.trawizardsOfJava.data.ArtikelRepository;
 import de.trawizardsOfJava.data.AusleiheRepository;
 import de.trawizardsOfJava.data.KaufRepository;
 import de.trawizardsOfJava.mail.Message;
@@ -9,7 +8,6 @@ import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.ArtikelKaufen;
 import de.trawizardsOfJava.model.Kauf;
 import de.trawizardsOfJava.proPay.IProPaySchnittstelle;
-import de.trawizardsOfJava.proPay.ProPaySchnittstelle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;

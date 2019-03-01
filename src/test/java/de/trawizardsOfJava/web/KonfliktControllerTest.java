@@ -2,7 +2,6 @@ package de.trawizardsOfJava.web;
 
 import de.trawizardsOfJava.data.*;
 import de.trawizardsOfJava.mail.IMailService;
-import de.trawizardsOfJava.mail.Message;
 import de.trawizardsOfJava.mail.MessageRepository;
 import de.trawizardsOfJava.model.*;
 import de.trawizardsOfJava.proPay.IProPaySchnittstelle;

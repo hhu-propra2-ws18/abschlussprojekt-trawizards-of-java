@@ -1,5 +1,6 @@
 = Informationen zum Start der Anwendung
 
+E-Mails zu versenden funktioniert im ProPra2-Netzwerk nicht, es ist eine funktionierende Internetverbindung erforderlich.
 Die Anwendung kann mit 'docker-compose up' gestartet werden. +
 Die Startseite ist dann unter 'localhost:8080' erreichbar. +
 Der einzige bereits existente Benutzer ist ein Admin mit folgenden Anmeldedaten: +

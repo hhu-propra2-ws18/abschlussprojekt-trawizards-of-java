@@ -19,14 +19,14 @@ public class MailService implements IMailService {
 		this.javaMailSender = javaMailSender;
 	}
 
-	public void sendEmailToKonfliktLoeseStelle(String name, String beschreibung, Long id) throws MailException {
+	public void willkommensMail(String email){
 		SimpleMailMessage mail = new SimpleMailMessage();
-		mail.setTo(benutzerRepository.findByBenutzername(name).get().getEmail());
 		mail.setFrom(leihe24Mail);
-		mail.setText("Sehr geehrte Damen und Herren,"+"\n\n"+"wir bitten um Auflösung des Konfliktes"+
-			" der ID: "+id+"\n\n"+"Die Beschreibung des Geschädigten ist:\n\n"+beschreibung+
-			"\nWir bitten um zügige Bearbeitung. \nVielen Dank.");
-		mail.setSubject("Konflikt bei Ausleihe: "+id);
+		mail.setTo(email);
+		mail.setSubject("Willkommen bei Leihe24!");
+		mail.setText("Herzlich Willkommen bei Leihe24!\n\nStöbern Sie auf unserer Seite " +
+				"nach Artikeln, die Sie ausleihen oder kaufen möchten, oder stellen Sie Ihre eigenen" +
+				"Artikel zum Verkauf hoch!\n\nViel Spaß, Ihr Leihe24-Team");
 		javaMailSender.send(mail);
 	}
 
@@ -35,9 +35,9 @@ public class MailService implements IMailService {
 		mail.setFrom(leihe24Mail);
 		mail.setTo(email);
 		mail.setSubject("Erinnerung: "+artikel+" zurückgeben!");
-		mail.setText("Sehr geehrter Herr "+name+",\n\nwir möchten Sie erinnern, "+
+		mail.setText("Hallo "+name+",\n\nwir möchten Sie erinnern, "+
 			"diesen ausgeliehenen Artikel bitte zügig zurückzugeben: "
-			+artikel+"\n\nVielen Dank, Ihr Leihe24 Team!");
+			+artikel+"\n\nVielen Dank, Ihr Leihe24-Team!");
 		javaMailSender.send(mail);
 	}
 }

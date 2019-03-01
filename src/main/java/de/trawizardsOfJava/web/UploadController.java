@@ -22,7 +22,6 @@ public class UploadController {
 	private static final String uploadDirectory = System.getProperty("user.dir") + "/src/main/resources/fotos";
 	private ArtikelRepository artikelRepository;
 	private ArtikelKaufenRepository artikelKaufenRepository;
-	private static final String ALTERNATIVE_PHOTO = "kein-bild-vorhanden.jpg";
 
 	@Autowired
 	public UploadController(ArtikelRepository artikelRepository, ArtikelKaufenRepository artikelKaufenRepository) {

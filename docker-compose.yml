@@ -1,16 +1,14 @@
 version: "3.7"
 services:
-  #anwendung:
-  #build: .
-  #ports:
-  #- "8080:8080"
-  #volumes:
-  #- ./src/main/resources/static/fotos:/app/fotos
+  anwendung:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./src/main/resources/static/fotos:/app/fotos
 
   datenbank:
     image: mariadb
-    ports:
-      - "3306:3306"
     environment:
       MYSQL_USER: admin
       MYSQL_PASSWORD: root
@@ -23,6 +21,5 @@ services:
     image: propra/propay
     ports:
       - "8888:8888"
-    # Optional
-    #volumes:
-    #  - ./data:/code/data
+    volumes:
+      - ./data:/code/data

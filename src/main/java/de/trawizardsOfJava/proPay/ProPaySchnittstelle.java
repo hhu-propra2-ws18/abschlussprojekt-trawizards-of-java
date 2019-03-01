@@ -19,7 +19,7 @@ public class ProPaySchnittstelle implements IProPaySchnittstelle {
 				HttpClient httpClient = HttpClient.create().tcpConfiguration(client -> client.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000));
 				WebClient webClient = WebClient.builder().clientConnector(new ReactorClientHttpConnector(httpClient)).build();
 				ProPay proPay = webClient.get()
-						.uri("localhost:8888/account/" + benutzername)
+						.uri("propay:8888/account/" + benutzername)
 						.accept(MediaType.APPLICATION_JSON_UTF8)
 						.retrieve().bodyToMono(ProPay.class)
 						.block();
@@ -39,7 +39,7 @@ public class ProPaySchnittstelle implements IProPaySchnittstelle {
 			try {
 				HttpClient httpClient = HttpClient.create().tcpConfiguration(client -> client.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000));
 				WebClient webClient = WebClient.builder().clientConnector(new ReactorClientHttpConnector(httpClient)).build();
-				webClient.post().uri("localhost:8888/" + url)
+				webClient.post().uri("propay:8888/" + url)
 						.retrieve()
 						.bodyToMono(Object.class)
 						.block();
@@ -55,7 +55,7 @@ public class ProPaySchnittstelle implements IProPaySchnittstelle {
 	public boolean ping() {
 		Socket socket = new Socket();
 		try {
-			socket.connect(new InetSocketAddress("localhost", 8888), 5000);
+			socket.connect(new InetSocketAddress("propay", 8888), 5000);
 			return true;
 		} catch(IOException e) {
 			e.printStackTrace();

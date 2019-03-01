@@ -125,12 +125,6 @@ Die restliche Anpassung ging gut, wir mussten lediglich die HTMLs anpassen mit z
 um z.B. auf der Startseite alle zum Kauf verfügbaren Artikel anzuzeigen.
 
 ## Klassen
-Die folgenden Skizzen sollten wohl am besten veranschaulichen können, wie die Klassen zusammenhängen. +
-
-Der erste Graph stellt eine frühere Entwicklungsphase dar: +
-
-image::Klassen.png[Klassen]
-
-Der zweite Graph stellt die Klassenstruktur zu Fertigstellung des Projekts dar: +
+Die folgenden Skizzen sollten wohl am besten veranschaulichen können, wie die Klassenstruktur aussieht. +
 
 image::KlassenUpdated.png[KlassenUpdated]

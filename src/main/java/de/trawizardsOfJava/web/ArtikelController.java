@@ -30,7 +30,7 @@ public class ArtikelController {
 	private ArtikelRepository artikelRepository;
 	private ArtikelKaufenRepository artikelKaufenRepository;
 	private MessageRepository messageRepository;
-	private static final String ALTERNATIVE_PHOTO = "kein-bild-vorhanden.jpg";
+	private static final String ALTERNATIVE_PHOTO = "kein_bild_vorhanden.jpg";
 
 	@Autowired
 	public ArtikelController(ArtikelRepository artikelRepository, MessageRepository messageRepository, ArtikelKaufenRepository artikelKaufenRepository) {

@@ -23,10 +23,10 @@ public class MailService implements IMailService {
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setFrom(leihe24Mail);
 		mail.setTo(email);
-		mail.setSubject("Willkommen bei Leihe24!");
-		mail.setText("Herzlich Willkommen bei Leihe24!\n\nStöbern Sie auf unserer Seite " +
+		mail.setSubject("Willkommen bei Leih24!");
+		mail.setText("Herzlich Willkommen bei Leih24!\n\nStöbern Sie auf unserer Seite " +
 				"nach Artikeln, die Sie ausleihen oder kaufen möchten, oder stellen Sie Ihre eigenen " +
-				"Artikel zum Verkauf hoch!\n\nViel Spaß, Ihr Leihe24-Team");
+				"Artikel zum Verkauf hoch!\n\nViel Spaß, Ihr Leih24-Team");
 		javaMailSender.send(mail);
 	}
 
@@ -37,7 +37,7 @@ public class MailService implements IMailService {
 		mail.setSubject("Erinnerung: "+artikel+" zurückgeben!");
 		mail.setText("Hallo "+name+",\n\nwir möchten Sie erinnern, "+
 			"diesen ausgeliehenen Artikel bitte zügig zurückzugeben: "
-			+artikel+"\n\nVielen Dank, Ihr Leihe24-Team!");
+			+artikel+"\n\nVielen Dank, Ihr Leih24-Team!");
 		javaMailSender.send(mail);
 	}
 }

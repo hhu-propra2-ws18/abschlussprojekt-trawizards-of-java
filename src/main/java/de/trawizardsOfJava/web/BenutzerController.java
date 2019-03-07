@@ -137,11 +137,12 @@ public class BenutzerController {
 	}
 
 	@PostMapping("/account/{benutzername}/bewerten/verfassen")
-	public String speichereBewertungen(@PathVariable String benutzername, Bewertung bewertung, Principal principal) {
+	public String speichereBewertungen(Model model, @PathVariable String benutzername, Bewertung bewertung, Principal principal) {
 		bewertung.setBewertungFuer(benutzername);
 		bewertung.setBewertungVon(principal.getName());
 		bewertungRepository.save(bewertung);
-		return "redirect:/account/{benutzername}/bewerten";
+		model.addAttribute("link", "account/" + benutzername + "/bewerten");
+		return "backToTheFuture";
 	}
 
 

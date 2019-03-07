@@ -2,6 +2,7 @@
 /build/
 /data/
 !gradle/wrapper/gradle-wrapper.jar
+/src/main/resources/fotos
 
 ### STS ###
 .apt_generated

@@ -172,7 +172,7 @@ public class BenutzerControllerTest {
 		mvc.perform(post("/account/foo/bewerten/verfassen").contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("ueberschrift",bewertung.getUeberschrift())
 				.param("text",bewertung.getText()))
-				.andExpect(view().name("redirect:/account/{benutzername}/bewerten"));
+				.andExpect(view().name("backToTheFuture"));
 
 		verify(bewertungRepository).save(any(Bewertung.class));
 	}

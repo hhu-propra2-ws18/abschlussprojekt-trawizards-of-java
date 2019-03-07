@@ -5,7 +5,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./src/main/resources/static/fotos:/app/fotos
+      - ./src/main/resources/fotos:/app/src/main/resources/fotos
 
   datenbank:
     image: mariadb

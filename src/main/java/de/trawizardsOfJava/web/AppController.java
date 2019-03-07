@@ -69,8 +69,8 @@ public class AppController {
 		}
 		person.setPasswort(SecurityConfig.encoder().encode(person.getPasswort()));
 		benutzerRepository.save((person));
-		model.addAttribute("link", "anmeldung");
 		iMailservice.willkommensMail(person.getEmail());
+		model.addAttribute("link", "anmeldung");
 		return "backToTheFuture";
 	}
 

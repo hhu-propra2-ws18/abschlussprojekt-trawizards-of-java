@@ -80,8 +80,8 @@ public class ArtikelController {
 		artikel.setFotos(new ArrayList<>());
 		artikelRepository.save(artikel);
 		messageRepository.save(new Message(artikel));
-		model.addAttribute("link", "account/" + benutzername);
-		return "redirect:/fotoupload/" + artikel.getId();
+		model.addAttribute("link", "fotoupload/" + artikel.getId());
+		return "backToTheFuture";
 	}
 
 	@GetMapping("/account/{benutzername}/erstelleArtikel/kaufen")
@@ -96,10 +96,11 @@ public class ArtikelController {
 	@PreAuthorize("#benutzername == authentication.name")
 	public String speicherArtikelKaufen(Model model, @PathVariable String benutzername, ArtikelKaufen artikel) {
 		artikel.setVerkaeufer(benutzername);
+		artikel.setFotos(new ArrayList<>());
 		artikelKaufenRepository.save(artikel);
 		messageRepository.save(new Message(artikel));
-		model.addAttribute("link", "account/" + benutzername);
-		return "redirect:/fotoupload/" + artikel.getId();
+		model.addAttribute("link", "fotoupload/" + artikel.getId());
+		return "backToTheFuture";
 	}
 
 	@GetMapping("/account/{benutzername}/aendereArtikel/{id}")
@@ -155,22 +156,23 @@ public class ArtikelController {
 	@ResponseBody
 	@RequestMapping(value = "/detail/{id}/foto", method = GET, produces = MediaType.IMAGE_JPEG_VALUE)
 	public FileSystemResource artikelDetailFoto(Model model, @PathVariable Long id, Principal principal) {
-		if (artikelRepository.findById(id).isPresent()){
-			Artikel artikelLeihen = artikelRepository.findById(id).get();
-			model.addAttribute("artikelDetail", artikelLeihen);
-			if (!(artikelLeihen.getFotos().get(0).equals("fotos"))) {
-				String photoUrl = artikelLeihen.getFotos().get(0);
-				return new FileSystemResource("src/main/resources/fotos/" + photoUrl);
+		try {
+			if(artikelRepository.findById(id).isPresent()) {
+				Artikel artikelLeihen = artikelRepository.findById(id).get();
+				model.addAttribute("artikelDetail", artikelLeihen);
+				if(!(artikelLeihen.getFotos().get(0).equals("fotos"))) {
+					String photoUrl = artikelLeihen.getFotos().get(0);
+					return new FileSystemResource("src/main/resources/fotos/" + photoUrl);
+				}
+			} else if(artikelKaufenRepository.findById(id).isPresent()) {
+				ArtikelKaufen artikelKaufen = artikelKaufenRepository.findById(id).get();
+				model.addAttribute("artikelDetail", artikelKaufen);
+				if(!(artikelKaufen.getFotos().get(0).equals("fotos"))) {
+					String photoUrl = artikelKaufen.getFotos().get(0);
+					return new FileSystemResource("src/main/resources/fotos/" + photoUrl);
+				}
 			}
-		}
-		else {
-			ArtikelKaufen artikelKaufen = artikelKaufenRepository.findById(id).get();
-			model.addAttribute("artikelDetail", artikelKaufen);
-			if (!(artikelKaufen.getFotos().get(0).equals("fotos"))) {
-				String photoUrl = artikelKaufen.getFotos().get(0);
-				return new FileSystemResource("src/main/resources/fotos/" + photoUrl);
-			}
-		}
+		} catch(IndexOutOfBoundsException ignored) {}
 		model.addAttribute("aktuelleSeite", "Artikelansicht");
 		model.addAttribute("angemeldet", principal != null);
 		return new FileSystemResource("src/main/resources/fotos/" + ALTERNATIVE_PHOTO);

@@ -131,6 +131,7 @@ public class ArtikelControllerTest {
 		test.setPreis(10);
 		test.setBeschreibung("Schaufel");
 		test.setStandort("foo");
+		test.setFotos(new ArrayList<>());
 
 		mvc.perform(post("/account/foo/erstelleArtikel/kaufen")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)

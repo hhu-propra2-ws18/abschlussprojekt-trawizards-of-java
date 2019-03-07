@@ -34,37 +34,34 @@ public class UploadController {
 		return "fotos_upload";
 	}
 
-	@RequestMapping("/fotoupload/{id}")
-	public String uploadMultipartFile(@RequestParam("files") MultipartFile[] files, @PathVariable Long id) {
-		try {
-			for (MultipartFile file : files) {
-				Path fileNameAndPath = Paths.get(uploadDirectory, file.getOriginalFilename());
+	@PostMapping("/fotoupload/{id}")
+	public String uploadMultipartFile(Model model, @RequestParam MultipartFile[] files, @PathVariable Long id) {
+		for(MultipartFile file : files) {
+			Path fileNameAndPath = Paths.get(uploadDirectory, file.getOriginalFilename());
 
-				if (artikelRepository.findById(id).isPresent()) {
-					Artikel artikel = artikelRepository.findById(id).get();
-					ArrayList<String> photoList = new ArrayList<>();
-					photoList.add(fileNameAndPath.getFileName().toString());
-					artikel.setFotos(photoList);
+			if(artikelRepository.findById(id).isPresent()) {
+				Artikel artikel = artikelRepository.findById(id).get();
+				ArrayList<String> photoList = new ArrayList<>();
+				photoList.add(fileNameAndPath.getFileName()+"");
+				artikel.setFotos(photoList);
 
-					artikelRepository.save(artikel);
-				} else {
-					ArtikelKaufen artikel = artikelKaufenRepository.findById(id).get();
-					ArrayList<String> photoList = new ArrayList<>();
-					photoList.add(fileNameAndPath.getFileName().toString());
-					artikel.setFotos(photoList);
+				artikelRepository.save(artikel);
+			} else if(artikelKaufenRepository.findById(id).isPresent()) {
+				ArtikelKaufen artikel = artikelKaufenRepository.findById(id).get();
+				ArrayList<String> photoList = new ArrayList<>();
+				photoList.add(fileNameAndPath.getFileName()+"");
+				artikel.setFotos(photoList);
 
-					artikelKaufenRepository.save(artikel);
-				}
-				try {
-					Files.write(fileNameAndPath, file.getBytes());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				artikelKaufenRepository.save(artikel);
 			}
-		} catch (NullPointerException exc) {
-			exc.printStackTrace();
+			try {
+				Files.write(fileNameAndPath, file.getBytes());
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
 		}
-		return "redirect:/";
+		model.addAttribute("link", "");
+		return "backToTheFuture";
 	}
 
 }
